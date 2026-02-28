@@ -107,7 +107,8 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
         const conv = await createConversation(generateTitle(text));
         convId = conv.id;
         setConversationId(convId);
-        router.replace(`/chat/${convId}`);
+        // Update URL without triggering Next.js navigation (which would remount and lose state)
+        window.history.replaceState(null, '', `/chat/${convId}`);
       }
 
       // Calculate sequence number (count only persisted messages + this one)
@@ -190,7 +191,7 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
     } finally {
       stopTyping();
     }
-  }, [inputMessage, isTyping, conversationId, conversationHistory, messages, router, startTyping, stopTyping]);
+  }, [inputMessage, isTyping, conversationId, conversationHistory, messages, startTyping, stopTyping]);
 
   const startNewConversation = useCallback(() => {
     setMessages([]);
