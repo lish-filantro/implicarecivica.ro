@@ -52,7 +52,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protected routes - require authentication
-  const protectedRoutes = ['/chat', '/dashboard', '/requests', '/emails', '/calendar', '/settings', '/feedback']
+  const protectedRoutes = ['/chat', '/dashboard', '/requests', '/emails', '/settings', '/feedback']
   const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route))
 
   // Auth routes - redirect to dashboard if already logged in

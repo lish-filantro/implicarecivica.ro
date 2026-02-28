@@ -7,7 +7,6 @@ import {
   MessageSquare,
   FileText,
   Mail,
-  CalendarDays,
   MessageCircle,
 } from 'lucide-react';
 import { DarkModeToggle } from '@/components/shared/DarkModeToggle';
@@ -19,7 +18,6 @@ const NAV_ITEMS = [
   { href: '/chat', label: 'Asistent 544', icon: MessageSquare },
   { href: '/requests', label: 'Cereri', icon: FileText },
   { href: '/emails', label: 'Emailuri', icon: Mail },
-  { href: '/calendar', label: 'Calendar', icon: CalendarDays },
   { href: '/feedback', label: 'Feedback', icon: MessageCircle },
 ];
 

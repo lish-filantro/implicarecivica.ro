@@ -3,6 +3,7 @@
 import { useAuth } from '@/components/auth/AuthProvider';
 import { TopNavbar } from '@/components/navigation/TopNavbar';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
+import { FeedbackWidget } from '@/components/feedback/FeedbackWidget';
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -24,6 +25,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
       <main className="pt-14 min-h-screen bg-gray-50 dark:bg-gray-900">
         {children}
       </main>
+      <FeedbackWidget />
     </>
   );
 }
