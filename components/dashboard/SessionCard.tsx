@@ -19,6 +19,7 @@ import {
 
 interface SessionCardProps {
   session: RequestSessionWithRequests;
+  onOpenDetail?: (session: RequestSessionWithRequests) => void;
 }
 
 function RequestRow({ request }: { request: Request }) {
@@ -89,7 +90,7 @@ function RequestRow({ request }: { request: Request }) {
   );
 }
 
-export function SessionCard({ session }: SessionCardProps) {
+export function SessionCard({ session, onOpenDetail }: SessionCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const statusColor = getSessionStatusColor(session.cached_status);
@@ -103,33 +104,38 @@ export function SessionCard({ session }: SessionCardProps) {
         ? 'ring-2 ring-primary/30 border-primary/30'
         : 'border-gray-200/80 dark:border-gray-700/50 hover:border-gray-300 dark:hover:border-gray-600'
     }`}>
-      {/* HEADER — always visible, clickable to expand */}
-      <button
-        type="button"
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full text-left"
-      >
-        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-900/30 rounded-t-xl">
-          <div className="flex items-center gap-3 min-w-0 flex-1">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-sm shrink-0">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-              </svg>
-            </div>
-
-            <h3 className="font-semibold text-gray-900 dark:text-white truncate">
-              {session.institution_name}
-            </h3>
-
-            <span className={`text-xs px-2.5 py-1 rounded-full shrink-0 ring-1 ${statusColor.bg} ${statusColor.text} ${statusColor.ring}`}>
-              {getSessionStatusLabel(session.cached_status)}
-            </span>
+      {/* HEADER */}
+      <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-900/30 rounded-t-xl">
+        <button
+          type="button"
+          onClick={() => onOpenDetail?.(session)}
+          className="flex items-center gap-3 min-w-0 flex-1 text-left"
+        >
+          <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-sm shrink-0">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+            </svg>
           </div>
 
-          {/* Expand/collapse chevron */}
-          {isMultiRequest && (
+          <h3 className="font-semibold text-gray-900 dark:text-white truncate">
+            {session.institution_name}
+          </h3>
+
+          <span className={`text-xs px-2.5 py-1 rounded-full shrink-0 ring-1 ${statusColor.bg} ${statusColor.text} ${statusColor.ring}`}>
+            {getSessionStatusLabel(session.cached_status)}
+          </span>
+        </button>
+
+        {/* Expand/collapse chevron */}
+        {isMultiRequest && (
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="p-1.5 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors shrink-0 ml-3"
+            aria-label={isExpanded ? 'Restrânge' : 'Expandează'}
+          >
             <svg
-              className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-200 shrink-0 ml-3 ${
+              className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${
                 isExpanded ? 'rotate-180' : ''
               }`}
               fill="none"
@@ -138,10 +144,16 @@ export function SessionCard({ session }: SessionCardProps) {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>
-          )}
-        </div>
+          </button>
+        )}
+      </div>
 
-        {/* BODY — summary info */}
+      {/* BODY — summary info, click opens modal */}
+      <button
+        type="button"
+        onClick={() => onOpenDetail?.(session)}
+        className="w-full text-left"
+      >
         <div className="flex items-center justify-between px-5 py-4">
           {/* Left: subject + request count */}
           <div className="min-w-0 flex-1">

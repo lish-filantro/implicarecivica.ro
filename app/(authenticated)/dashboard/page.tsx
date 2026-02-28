@@ -14,6 +14,7 @@
 import { useState, useMemo } from 'react';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { SessionCard } from '@/components/dashboard/SessionCard';
+import { SessionDetailModal } from '@/components/dashboard/SessionDetailModal';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import type { Request, DashboardStats } from '@/lib/types/request';
 import type { RequestSessionWithRequests, SessionStatus } from '@/lib/types/session';
@@ -165,6 +166,7 @@ const MOCK_SESSIONS: RequestSessionWithRequests[] = [
 
 export default function DashboardPage() {
   const [statusFilter, setStatusFilter] = useState<SessionStatus | 'all'>('all');
+  const [detailSession, setDetailSession] = useState<RequestSessionWithRequests | null>(null);
 
   // Mock user data - Replace with actual auth
   const userName = 'Ion';
@@ -549,7 +551,7 @@ export default function DashboardPage() {
                   className="animate-slide-in"
                   style={{ animationDelay: `${(index + 6) * 50}ms` }}
                 >
-                  <SessionCard session={session} />
+                  <SessionCard session={session} onOpenDetail={setDetailSession} />
                 </div>
               ))}
             </div>
@@ -599,6 +601,14 @@ export default function DashboardPage() {
             </div>
           )}
         </section>
+
+        {/* Session Detail Modal */}
+        {detailSession && (
+          <SessionDetailModal
+            session={detailSession}
+            onClose={() => setDetailSession(null)}
+          />
+        )}
     </div>
   );
 }
