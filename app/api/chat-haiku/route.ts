@@ -29,7 +29,14 @@ import {
   sanitizeOutput,
   getFallbackResponse,
 } from '@/lib/output-validation';
-import { ChromaVectorStore, type SearchResult } from '@/lib/rag/vector-store';
+import {
+  ChromaVectorStore,
+  SupabaseVectorStore,
+  type VectorStore,
+  type SearchResult,
+} from '@/lib/rag/vector-store';
+import { createClient } from '@supabase/supabase-js';
+import OpenAI from 'openai';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // CONFIG
@@ -38,6 +45,11 @@ import { ChromaVectorStore, type SearchResult } from '@/lib/rag/vector-store';
 const HAIKU_MODEL = 'claude-haiku-4-5-20251001';
 const CHROMA_COLLECTION = process.env.CHROMA_COLLECTION || 'institutii_publice';
 const CHROMA_URL = process.env.CHROMA_URL || 'http://localhost:8000';
+
+// Use Supabase pgvector in production, ChromaDB locally
+const USE_SUPABASE_RAG =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ||
+  process.env.USE_SUPABASE_RAG === 'true';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // CLIENT
@@ -96,7 +108,31 @@ function buildTools(localitate?: string): Anthropic.Tool[] {
 // RAG EXECUTOR (only custom tool — web search is automatic)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const vectorStore = new ChromaVectorStore(CHROMA_COLLECTION, CHROMA_URL);
+function createVectorStore(): VectorStore {
+  if (USE_SUPABASE_RAG) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+
+    const embedFn = async (text: string): Promise<number[]> => {
+      const res = await openai.embeddings.create({
+        model: 'text-embedding-ada-002',
+        input: text,
+      });
+      return res.data[0].embedding;
+    };
+
+    console.log('RAG: Using Supabase pgvector');
+    return new SupabaseVectorStore(supabase, embedFn);
+  }
+
+  console.log('RAG: Using ChromaDB (local)');
+  return new ChromaVectorStore(CHROMA_COLLECTION, CHROMA_URL);
+}
+
+const vectorStore = createVectorStore();
 
 async function executeRagSearch(
   query: string,
@@ -585,8 +621,10 @@ export async function GET() {
     status: 'online',
     model: HAIKU_MODEL,
     anthropicConfigured: anthropicOk,
-    chromaUrl: CHROMA_URL,
-    chromaCollection: CHROMA_COLLECTION,
+    ragBackend: USE_SUPABASE_RAG ? 'supabase-pgvector' : 'chromadb-local',
+    ...(USE_SUPABASE_RAG
+      ? { supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL }
+      : { chromaUrl: CHROMA_URL, chromaCollection: CHROMA_COLLECTION }),
     tools: ['rag_search (custom)', 'web_search (server-side Anthropic/Brave)'],
     guardrailsEnabled: true,
     webSearchProvider: 'Anthropic native (Brave Search)',

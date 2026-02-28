@@ -1,10 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
   images: {
-    domains: ['supabase.co'], // For Supabase Storage images
     remotePatterns: [
       {
         protocol: 'https',
@@ -12,6 +10,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Exclude chromadb from serverless bundles (local dev only)
+  serverExternalPackages: ['chromadb', '@chroma-core/default-embed'],
 };
 
 export default nextConfig;
