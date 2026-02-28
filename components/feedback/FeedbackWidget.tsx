@@ -55,24 +55,25 @@ export function FeedbackWidget() {
 
   return (
     <>
-      {/* Floating trigger button */}
+      {/* Floating trigger tab */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-6 z-50
-                     h-12 w-12 rounded-full
+                     px-4 py-2.5 rounded-lg
                      bg-civic-blue-600 hover:bg-civic-blue-700
                      dark:bg-civic-blue-500 dark:hover:bg-civic-blue-600
-                     text-white shadow-lg hover:shadow-xl
+                     text-white text-sm font-medium
+                     shadow-lg hover:shadow-xl
                      transition-all duration-200
-                     flex items-center justify-center
+                     flex items-center gap-2
                      focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50"
-          aria-label="Trimite feedback"
         >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
               d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
+          Feedback
         </button>
       )}
 
