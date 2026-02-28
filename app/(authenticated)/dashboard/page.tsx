@@ -49,6 +49,11 @@ const MOCK_SESSIONS: RequestSessionWithRequests[] = [
         status: 'answered', registration_number: '1001/2026',
         date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:05:00Z',
         deadline_date: '2026-02-20T23:59:59Z',
+        response_received_date: '2026-02-18T14:00:00Z',
+        answer_summary: {
+          type: 'text',
+          content: 'Bugetul total alocat pentru reparația și întreținerea drumurilor în anul 2024 a fost de 42.350.000 lei, din care 38.100.000 lei pentru lucrări de asfaltare și 4.250.000 lei pentru semnalistică rutieră și marcaje.',
+        },
         created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-18T14:00:00Z',
       },
       {
@@ -59,6 +64,16 @@ const MOCK_SESSIONS: RequestSessionWithRequests[] = [
         status: 'answered', registration_number: '1002/2026',
         date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:06:00Z',
         deadline_date: '2026-02-20T23:59:59Z',
+        response_received_date: '2026-02-19T11:00:00Z',
+        answer_summary: {
+          type: 'table',
+          headers: ['Nr.', 'Firmă', 'Valoare contract', 'Sector acoperit'],
+          rows: [
+            ['1', 'SC Drumuri Moderne SRL', '12.500.000 lei', 'Zone rezidențiale nord'],
+            ['2', 'Asfalt Pro SA', '15.800.000 lei', 'Bulevarde principale'],
+            ['3', 'Construct Infra SRL', '9.800.000 lei', 'Străzi secundare'],
+          ],
+        },
         created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-19T11:00:00Z',
       },
       {
@@ -69,6 +84,16 @@ const MOCK_SESSIONS: RequestSessionWithRequests[] = [
         status: 'answered', registration_number: '1003/2026',
         date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:07:00Z',
         deadline_date: '2026-02-20T23:59:59Z',
+        response_received_date: '2026-02-20T09:00:00Z',
+        answer_summary: {
+          type: 'list',
+          content: [
+            'Gradul de execuție total: 89,7% din bugetul alocat',
+            'Lucrări finalizate: 34 din 41 de străzi programate',
+            'Lucrări în desfășurare: 5 străzi (estimare finalizare: martie 2025)',
+            'Lucrări neinițiate: 2 străzi (din cauza condițiilor meteo)',
+          ],
+        },
         created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-20T09:00:00Z',
       },
       {
