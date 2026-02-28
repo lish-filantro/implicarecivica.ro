@@ -53,7 +53,9 @@ export default function ChatView({
     }
   };
 
-  const handleSendEmail = () => {
+  const [isSending, setIsSending] = React.useState(false);
+
+  const handleSendEmail = async () => {
     const emailBody = getEmailBody();
     if (!emailBody.trim()) {
       alert('Te rog completează cel puțin o secțiune din template');
@@ -63,9 +65,33 @@ export default function ChatView({
       alert('Te rog completează adresa de email a destinatarului');
       return;
     }
-    console.log('Email to send:', { to: emailForm.to, subject: emailForm.subject, body: emailBody });
-    alert('✅ Email trimis cu succes! (demo mode)');
-    clearForNewEmail();
+
+    setIsSending(true);
+    try {
+      const response = await fetch('/api/emails/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: emailForm.to,
+          subject: emailForm.subject,
+          body: emailBody,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(`Eroare: ${data.error || 'Nu s-a putut trimite emailul'}`);
+        return;
+      }
+
+      alert('Email trimis cu succes!');
+      clearForNewEmail();
+    } catch {
+      alert('Eroare de rețea. Verifică conexiunea și încearcă din nou.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleClearForm = () => {
@@ -271,9 +297,10 @@ export default function ChatView({
             <div className="flex space-x-2 pt-2">
               <button
                 onClick={handleSendEmail}
-                className="bg-gradient-to-r from-civic-blue-600 to-civic-blue-700 hover:from-civic-blue-700 hover:to-civic-blue-800 text-white font-semibold flex-1 text-sm h-9 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                disabled={isSending}
+                className="bg-gradient-to-r from-civic-blue-600 to-civic-blue-700 hover:from-civic-blue-700 hover:to-civic-blue-800 text-white font-semibold flex-1 text-sm h-9 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:scale-100"
               >
-                Trimite Email
+                {isSending ? 'Se trimite...' : 'Trimite Email'}
               </button>
               <button
                 onClick={handleClearForm}

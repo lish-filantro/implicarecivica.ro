@@ -12,6 +12,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 export default function RegisterPage() {
   const router = useRouter()
 
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -21,6 +23,11 @@ export default function RegisterPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    if (!firstName.trim() || !lastName.trim()) {
+      setError('Prenumele și numele sunt obligatorii.')
+      return
+    }
 
     if (password !== confirmPassword) {
       setError('Parolele nu se potrivesc.')
@@ -38,6 +45,12 @@ export default function RegisterPage() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+        },
+      },
     })
 
     if (error) {
@@ -65,8 +78,34 @@ export default function RegisterPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="firstName">Prenume</Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="Ion"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  autoComplete="given-name"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Nume</Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="Popescu"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  autoComplete="family-name"
+                />
+              </div>
+            </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email personal</Label>
               <Input
                 id="email"
                 type="email"
