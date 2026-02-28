@@ -10,8 +10,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Exclude chromadb from serverless bundles (local dev only)
-  serverExternalPackages: ['chromadb', '@chroma-core/default-embed'],
 };
 
 export default nextConfig;
