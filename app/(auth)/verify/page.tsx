@@ -13,7 +13,7 @@ export default function VerifyPage() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || ''
 
-  const [code, setCode] = useState(['', '', '', '', '', ''])
+  const [code, setCode] = useState(['', '', '', '', '', '', '', ''])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [resendLoading, setResendLoading] = useState(false)
@@ -34,7 +34,7 @@ export default function VerifyPage() {
     setCode(newCode)
 
     // Auto-advance to next input
-    if (value && index < 5) {
+    if (value && index < 7) {
       inputRefs.current[index + 1]?.focus()
     }
   }
@@ -48,17 +48,17 @@ export default function VerifyPage() {
 
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault()
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 8)
     if (pasted.length === 0) return
 
     const newCode = [...code]
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       newCode[i] = pasted[i] || ''
     }
     setCode(newCode)
 
     // Focus last filled input or submit if all filled
-    const lastIndex = Math.min(pasted.length, 6) - 1
+    const lastIndex = Math.min(pasted.length, 8) - 1
     inputRefs.current[lastIndex]?.focus()
   }
 
@@ -66,8 +66,8 @@ export default function VerifyPage() {
     e.preventDefault()
     const token = code.join('')
 
-    if (token.length !== 6) {
-      setError('Introdu toate cele 6 cifre.')
+    if (token.length !== 8) {
+      setError('Introdu toate cele 8 cifre.')
       return
     }
 
@@ -137,7 +137,7 @@ export default function VerifyPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Verifică emailul</CardTitle>
           <CardDescription>
-            Am trimis un cod de 6 cifre la<br />
+            Am trimis un cod de 8 cifre la<br />
             <span className="font-medium text-foreground">{email}</span>
           </CardDescription>
         </CardHeader>
@@ -155,7 +155,7 @@ export default function VerifyPage() {
                   value={digit}
                   onChange={(e) => handleChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-14 text-center text-xl font-bold"
+                  className="w-10 h-12 text-center text-lg font-bold p-0"
                   autoComplete="one-time-code"
                 />
               ))}
