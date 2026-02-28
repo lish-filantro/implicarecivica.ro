@@ -2,20 +2,7 @@
 
 import React from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
-
-interface WebSource {
-  url: string;
-  title: string;
-  description?: string;
-}
-
-interface Message {
-  sender: 'user' | 'bot';
-  text: string;
-  time: string;
-  webSources?: WebSource[];
-  webSearches?: string[];
-}
+import type { Message } from '@/lib/types/chat';
 
 interface MessageBubbleProps {
   message: Message;

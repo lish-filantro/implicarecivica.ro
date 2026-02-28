@@ -1,0 +1,45 @@
+'use client';
+
+import { use } from 'react';
+import { useConversation } from '@/lib/hooks/useConversation';
+import ChatView from '@/components/chat/ChatView';
+
+export default function ConversationPage({
+  params,
+}: {
+  params: Promise<{ conversationId: string }>;
+}) {
+  const { conversationId } = use(params);
+
+  const {
+    messages,
+    inputMessage,
+    setInputMessage,
+    sendMessage,
+    isTyping,
+    aiStatus,
+    isLoading,
+  } = useConversation({ conversationId });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full bg-white dark:bg-gray-800">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-civic-blue-600 mx-auto mb-3" />
+          <p className="text-sm text-gray-500 dark:text-gray-400">Se încarcă conversația...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <ChatView
+      messages={messages}
+      inputMessage={inputMessage}
+      setInputMessage={setInputMessage}
+      onSendMessage={sendMessage}
+      isTyping={isTyping}
+      aiStatus={aiStatus}
+    />
+  );
+}

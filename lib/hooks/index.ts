@@ -2,3 +2,4 @@
 export { useAutoScroll } from './useAutoScroll';
 export { useTypingIndicator } from './useTypingIndicator';
 export { useEmailFields } from './useEmailFields';
+export { useConversation } from './useConversation';
