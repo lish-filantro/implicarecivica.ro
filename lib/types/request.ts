@@ -55,6 +55,9 @@ export interface Request {
   // Answer (when status='answered')
   answer_summary?: AnswerSummary;
 
+  // Session grouping
+  session_id?: string;
+
   // Metadata
   created_at: string;
   updated_at: string;

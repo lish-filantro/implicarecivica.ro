@@ -11,101 +11,176 @@
 
 'use client';
 
-import { useState, useMemo, Suspense } from 'react';
+import { useState, useMemo } from 'react';
 import { KPICard } from '@/components/dashboard/KPICard';
-import { RequestCard } from '@/components/dashboard/RequestCard';
+import { SessionCard } from '@/components/dashboard/SessionCard';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton';
 import type { Request, DashboardStats } from '@/lib/types/request';
+import type { RequestSessionWithRequests, SessionStatus } from '@/lib/types/session';
 import {
   getEffectiveDeadline,
   getDaysUntilDeadline,
   getDaysSinceSent,
   isCriticalRequest,
 } from '@/lib/utils/requestUtils';
+import { computeSessionStats } from '@/lib/utils/sessionUtils';
 
-// Mock data - Replace with actual API call
-const MOCK_REQUESTS: Request[] = [
+// Mock data - Replace with listSessionsWithRequests() call
+const MOCK_SESSIONS: RequestSessionWithRequests[] = [
   {
-    id: '1',
+    id: 'session-1',
     user_id: 'user1',
-    institution_name: 'Primăria Sector 1',
-    subject: 'Solicitare listă contracte 2024',
-    request_body: `Bună ziua,
-
-Solicitare:
-Vă rog să îmi furnizați lista tuturor contractelor de achiziție publică încheiate în anul 2024, inclusiv valoarea și obiectul fiecărui contract.
-
-Aștept cu interes răspunsul dumneavoastră.
-Cu stimă,
-Ion Popescu`,
-    status: 'answered',
-    registration_number: '12345/2026',
-    date_initiated: '2026-02-01T10:00:00Z',
-    date_sent: '2026-02-01T10:05:00Z',
-    date_received: '2026-02-03T14:30:00Z',
-    deadline_date: '2026-02-13T23:59:59Z',
-    response_received_date: '2026-02-10T16:00:00Z',
-    answer_summary: {
-      type: 'list',
-      content: [
-        '45 contracte de servicii (total: 2.5M lei)',
-        '75 contracte de achiziții (total: 8.2M lei)',
-        'Documentele complete sunt disponibile pe portalul de achiziții publice'
-      ]
-    },
-    created_at: '2026-02-01T10:00:00Z',
-    updated_at: '2026-02-10T16:00:00Z',
+    subject: 'Cheltuieli infrastructură rutieră 2024',
+    institution_name: 'Primăria Sectorului 3',
+    institution_email: 'registratura@ps3.ro',
+    cached_status: 'partial_answered',
+    total_requests: 5,
+    answered_requests: 3,
+    nearest_deadline: '2026-03-05T23:59:59Z',
+    created_at: '2026-02-10T10:00:00Z',
+    updated_at: '2026-02-25T16:00:00Z',
+    requests: [
+      {
+        id: 'r1', user_id: 'user1', session_id: 'session-1',
+        institution_name: 'Primăria Sectorului 3',
+        subject: 'Cheltuieli infrastructură rutieră 2024',
+        request_body: 'Care este bugetul total alocat pentru reparația drumurilor în 2024?',
+        status: 'answered', registration_number: '1001/2026',
+        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:05:00Z',
+        deadline_date: '2026-02-20T23:59:59Z',
+        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-18T14:00:00Z',
+      },
+      {
+        id: 'r2', user_id: 'user1', session_id: 'session-1',
+        institution_name: 'Primăria Sectorului 3',
+        subject: 'Cheltuieli infrastructură rutieră 2024',
+        request_body: 'Câte contracte de asfaltare au fost semnate în 2024 și cu ce firme?',
+        status: 'answered', registration_number: '1002/2026',
+        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:06:00Z',
+        deadline_date: '2026-02-20T23:59:59Z',
+        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-19T11:00:00Z',
+      },
+      {
+        id: 'r3', user_id: 'user1', session_id: 'session-1',
+        institution_name: 'Primăria Sectorului 3',
+        subject: 'Cheltuieli infrastructură rutieră 2024',
+        request_body: 'Care este gradul de execuție al bugetului alocat pentru drumuri?',
+        status: 'answered', registration_number: '1003/2026',
+        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:07:00Z',
+        deadline_date: '2026-02-20T23:59:59Z',
+        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-20T09:00:00Z',
+      },
+      {
+        id: 'r4', user_id: 'user1', session_id: 'session-1',
+        institution_name: 'Primăria Sectorului 3',
+        subject: 'Cheltuieli infrastructură rutieră 2024',
+        request_body: 'Există rapoarte de monitorizare a calității lucrărilor de asfaltare?',
+        status: 'received', registration_number: '1004/2026',
+        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:08:00Z',
+        deadline_date: '2026-03-05T23:59:59Z',
+        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-12T15:00:00Z',
+      },
+      {
+        id: 'r5', user_id: 'user1', session_id: 'session-1',
+        institution_name: 'Primăria Sectorului 3',
+        subject: 'Cheltuieli infrastructură rutieră 2024',
+        request_body: 'Ce sancțiuni au fost aplicate firmelor care nu au respectat termenele?',
+        status: 'pending',
+        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:09:00Z',
+        deadline_date: '2026-03-05T23:59:59Z',
+        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-10T10:09:00Z',
+      },
+    ],
   },
   {
-    id: '2',
+    id: 'session-2',
     user_id: 'user1',
+    subject: 'Informații despre bugetul educației 2024',
     institution_name: 'Ministerul Educației',
-    subject: 'Informații despre bugetul alocat 2024',
-    request_body: `Bună ziua,
-
-În baza Legii 544/2001 privind liberul acces la informațiile de interes public:
-
-Vă solicit următoarele informații:
-- Bugetul total alocat pentru educație în 2024?
-- Numărul de angajări efectuate în 2024?
-- Lista proiectelor de infrastructură școlară?
-
-Aștept cu interes răspunsul.
-Cu stimă`,
-    status: 'received',
-    registration_number: '67890/2026',
-    date_initiated: '2026-02-05T09:00:00Z',
-    date_sent: '2026-02-05T09:15:00Z',
-    date_received: '2026-02-06T11:20:00Z',
-    deadline_date: '2026-02-16T23:59:59Z',
-    created_at: '2026-02-05T09:00:00Z',
-    updated_at: '2026-02-06T11:20:00Z',
+    institution_email: 'registratura@edu.gov.ro',
+    cached_status: 'in_progress',
+    total_requests: 3,
+    answered_requests: 0,
+    nearest_deadline: '2026-03-08T23:59:59Z',
+    created_at: '2026-02-15T09:00:00Z',
+    updated_at: '2026-02-17T11:20:00Z',
+    requests: [
+      {
+        id: 'r6', user_id: 'user1', session_id: 'session-2',
+        institution_name: 'Ministerul Educației',
+        subject: 'Informații despre bugetul educației 2024',
+        request_body: 'Care este bugetul total alocat pentru educație în 2024?',
+        status: 'received', registration_number: '67890/2026',
+        date_initiated: '2026-02-15T09:00:00Z', date_sent: '2026-02-15T09:15:00Z',
+        deadline_date: '2026-03-08T23:59:59Z',
+        created_at: '2026-02-15T09:00:00Z', updated_at: '2026-02-17T11:20:00Z',
+      },
+      {
+        id: 'r7', user_id: 'user1', session_id: 'session-2',
+        institution_name: 'Ministerul Educației',
+        subject: 'Informații despre bugetul educației 2024',
+        request_body: 'Câte posturi noi de profesori au fost create în 2024?',
+        status: 'received', registration_number: '67891/2026',
+        date_initiated: '2026-02-15T09:00:00Z', date_sent: '2026-02-15T09:16:00Z',
+        deadline_date: '2026-03-08T23:59:59Z',
+        created_at: '2026-02-15T09:00:00Z', updated_at: '2026-02-17T11:21:00Z',
+      },
+      {
+        id: 'r8', user_id: 'user1', session_id: 'session-2',
+        institution_name: 'Ministerul Educației',
+        subject: 'Informații despre bugetul educației 2024',
+        request_body: 'Care sunt proiectele de infrastructură școlară finanțate în 2024?',
+        status: 'received', registration_number: '67892/2026',
+        date_initiated: '2026-02-15T09:00:00Z', date_sent: '2026-02-15T09:17:00Z',
+        deadline_date: '2026-03-08T23:59:59Z',
+        created_at: '2026-02-15T09:00:00Z', updated_at: '2026-02-17T11:22:00Z',
+      },
+    ],
   },
   {
-    id: '3',
+    id: 'session-3',
     user_id: 'user1',
-    institution_name: 'ANAF',
     subject: 'Solicitare decizie fiscală',
-    request_body: 'Vă rog să îmi comunicați decizia fiscală nr. 123/2024.',
-    status: 'pending',
-    date_initiated: '2026-02-08T14:00:00Z',
-    date_sent: '2026-02-08T14:10:00Z',
-    created_at: '2026-02-08T14:00:00Z',
-    updated_at: '2026-02-08T14:10:00Z',
+    institution_name: 'ANAF',
+    institution_email: 'registratura@anaf.ro',
+    cached_status: 'pending',
+    total_requests: 1,
+    answered_requests: 0,
+    nearest_deadline: undefined,
+    created_at: '2026-02-20T14:00:00Z',
+    updated_at: '2026-02-20T14:10:00Z',
+    requests: [
+      {
+        id: 'r9', user_id: 'user1', session_id: 'session-3',
+        institution_name: 'ANAF',
+        subject: 'Solicitare decizie fiscală',
+        request_body: 'Vă rog să îmi comunicați decizia fiscală nr. 123/2024.',
+        status: 'pending',
+        date_initiated: '2026-02-20T14:00:00Z', date_sent: '2026-02-20T14:10:00Z',
+        created_at: '2026-02-20T14:00:00Z', updated_at: '2026-02-20T14:10:00Z',
+      },
+    ],
   },
 ];
 
 export default function DashboardPage() {
-  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<SessionStatus | 'all'>('all');
 
   // Mock user data - Replace with actual auth
   const userName = 'Ion';
 
-  // Calculate statistics
+  // All requests flattened from sessions (for KPI stats)
+  const allRequests = useMemo(() => {
+    return MOCK_SESSIONS.flatMap((s) => s.requests);
+  }, []);
+
+  // Session stats
+  const sessionStats = useMemo(() => computeSessionStats(MOCK_SESSIONS), []);
+
+  // Calculate request-level statistics (for KPI cards)
   const requestStats = useMemo<DashboardStats>(() => {
     const stats: DashboardStats = {
-      total: MOCK_REQUESTS.length,
+      total: allRequests.length,
       this_month: 0,
       registered: 0,
       waiting: 0,
@@ -121,10 +196,9 @@ export default function DashboardPage() {
     const now = new Date();
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    MOCK_REQUESTS.forEach((request) => {
+    allRequests.forEach((request) => {
       let status = request.status;
 
-      // Check if deadline exceeded (auto-flag as delayed)
       const effectiveDeadline = getEffectiveDeadline(request);
       const daysLeft = effectiveDeadline ? getDaysUntilDeadline(effectiveDeadline) : null;
 
@@ -132,7 +206,6 @@ export default function DashboardPage() {
         status = 'delayed';
       }
 
-      // Count by status
       if (status === 'delayed') {
         stats.by_status.delayed += 1;
       } else if (status === 'pending') {
@@ -148,13 +221,11 @@ export default function DashboardPage() {
         stats.by_status[status] += 1;
       }
 
-      // Count waiting for registration
       const daysSinceSent = getDaysSinceSent(request);
       if (!request.registration_number && daysSinceSent >= 3) {
         stats.waiting += 1;
       }
 
-      // Count this month
       const initiated = request.date_initiated ? new Date(request.date_initiated) : null;
       if (initiated && initiated >= monthStart) {
         stats.this_month += 1;
@@ -162,24 +233,24 @@ export default function DashboardPage() {
     });
 
     return stats;
-  }, []);
+  }, [allRequests]);
 
   // Calculate alerts
   const criticalRequests = useMemo(() => {
-    return MOCK_REQUESTS.filter(isCriticalRequest).sort((a, b) => {
+    return allRequests.filter(isCriticalRequest).sort((a, b) => {
       const daysA = getDaysUntilDeadline(getEffectiveDeadline(a));
       const daysB = getDaysUntilDeadline(getEffectiveDeadline(b));
       return (daysA ?? Infinity) - (daysB ?? Infinity);
     });
-  }, []);
+  }, [allRequests]);
 
   const awaitingRegistration = useMemo(() => {
-    return MOCK_REQUESTS.filter((request) => {
+    return allRequests.filter((request) => {
       if (request.registration_number) return false;
       const daysSinceSent = getDaysSinceSent(request);
       return daysSinceSent >= 3;
     });
-  }, []);
+  }, [allRequests]);
 
   // KPI Cards configuration
   const statCards = useMemo(() => {
@@ -312,14 +383,16 @@ export default function DashboardPage() {
     return list;
   }, [criticalRequests, awaitingRegistration]);
 
-  // Sort requests by date (newest first)
-  const sortedRequests = useMemo(() => {
-    return [...MOCK_REQUESTS].sort((a, b) => {
-      const dateA = new Date(a.date_initiated || a.created_at);
-      const dateB = new Date(b.date_initiated || b.created_at);
-      return dateB.getTime() - dateA.getTime();
+  // Filtered and sorted sessions
+  const filteredSessions = useMemo(() => {
+    const sessions = statusFilter === 'all'
+      ? MOCK_SESSIONS
+      : MOCK_SESSIONS.filter((s) => s.cached_status === statusFilter);
+
+    return [...sessions].sort((a, b) => {
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
-  }, []);
+  }, [statusFilter]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -427,60 +500,56 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Requests List with Enhanced Design */}
+        {/* Sessions List */}
         <section className="mt-12">
           <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Cererile tale
+                Sesiunile tale de cereri
               </h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Vizualizare rapidă a tuturor cererilor trimise în baza Legii 544/2001
+                {sessionStats.total_sessions} sesiuni · {sessionStats.total_requests} cereri trimise în baza Legii 544/2001
               </p>
             </div>
 
-            {/* Quick filters (Progressive disclosure) */}
-            {sortedRequests.length > 0 && (
-              <div className="flex items-center gap-2">
-                <button
-                  className="px-3 py-1.5 text-xs font-medium rounded-lg
-                           bg-gray-100 dark:bg-gray-800
-                           text-gray-700 dark:text-gray-300
-                           border border-gray-200 dark:border-gray-700
-                           hover:bg-gray-200 dark:hover:bg-gray-700
-                           transition-colors duration-200
-                           focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50"
-                >
-                  Toate ({sortedRequests.length})
-                </button>
-                <button
-                  className="px-3 py-1.5 text-xs font-medium rounded-lg
-                           bg-white dark:bg-gray-900
-                           text-gray-600 dark:text-gray-400
-                           border border-gray-200 dark:border-gray-700
-                           hover:bg-gray-50 dark:hover:bg-gray-800
-                           transition-colors duration-200
-                           focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50"
-                >
-                  În așteptare
-                </button>
+            {/* Status filters */}
+            {MOCK_SESSIONS.length > 0 && (
+              <div className="flex items-center gap-2 flex-wrap">
+                {([
+                  { key: 'all' as const, label: 'Toate', count: MOCK_SESSIONS.length },
+                  { key: 'pending' as const, label: 'În așteptare', count: sessionStats.by_status.pending },
+                  { key: 'in_progress' as const, label: 'În curs', count: sessionStats.by_status.in_progress },
+                  { key: 'partial_answered' as const, label: 'Parțial', count: sessionStats.by_status.partial_answered },
+                  { key: 'completed' as const, label: 'Finalizate', count: sessionStats.by_status.completed },
+                  { key: 'overdue' as const, label: 'Întârziate', count: sessionStats.by_status.overdue },
+                ] as const).filter((f) => f.key === 'all' || f.count > 0).map((filter) => (
+                  <button
+                    key={filter.key}
+                    onClick={() => setStatusFilter(filter.key)}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg
+                             border transition-colors duration-200
+                             focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50
+                             ${statusFilter === filter.key
+                               ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700'
+                               : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                             }`}
+                  >
+                    {filter.label} ({filter.count})
+                  </button>
+                ))}
               </div>
             )}
           </div>
 
-          {sortedRequests.length > 0 ? (
+          {filteredSessions.length > 0 ? (
             <div className="space-y-4">
-              {sortedRequests.map((request, index) => (
+              {filteredSessions.map((session, index) => (
                 <div
-                  key={request.id}
+                  key={session.id}
                   className="animate-slide-in"
                   style={{ animationDelay: `${(index + 6) * 50}ms` }}
                 >
-                  <RequestCard
-                    request={request}
-                    onClick={() => setSelectedRequestId(request.id)}
-                    isSelected={selectedRequestId === request.id}
-                  />
+                  <SessionCard session={session} />
                 </div>
               ))}
             </div>
@@ -505,22 +574,27 @@ export default function DashboardPage() {
                   />
                 </svg>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">
-                  Nu există cereri încă
+                  {statusFilter === 'all' ? 'Nu există cereri încă' : 'Nu există sesiuni cu acest status'}
                 </h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
-                  Creează prima cerere din chatbot pentru a începe procesul de solicitare a informațiilor publice
+                  {statusFilter === 'all'
+                    ? 'Creează prima cerere din chatbot pentru a începe procesul de solicitare a informațiilor publice'
+                    : 'Încearcă un alt filtru pentru a vedea sesiunile tale'
+                  }
                 </p>
-                <button
-                  className="mt-6 px-6 py-2.5 bg-activist-orange-500 hover:bg-activist-orange-600
-                           text-white font-bold uppercase tracking-wide
-                           rounded-lg transition-all duration-200
-                           hover:shadow-lg hover:scale-105
-                           focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50
-                           active:scale-95"
-                  onClick={() => {/* Navigate to chatbot */}}
-                >
-                  Creează Cerere
-                </button>
+                {statusFilter === 'all' && (
+                  <button
+                    className="mt-6 px-6 py-2.5 bg-activist-orange-500 hover:bg-activist-orange-600
+                             text-white font-bold uppercase tracking-wide
+                             rounded-lg transition-all duration-200
+                             hover:shadow-lg hover:scale-105
+                             focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50
+                             active:scale-95"
+                    onClick={() => {/* Navigate to chatbot */}}
+                  >
+                    Creează Cerere
+                  </button>
+                )}
               </div>
             </div>
           )}
