@@ -1,0 +1,453 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --primary: 209 100% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 25 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 17% 95%;
+    --muted-foreground: 215 13% 34%;
+
+    --accent: 210 17% 95%;
+    --accent-foreground: 222 47% 11%;
+
+    --border: 214 20% 85%;
+    --input: 214 20% 85%;
+    --ring: 25 100% 50%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --primary: 209 100% 60%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 25 100% 60%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 25 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Romanian diacritics support */
+  @supports (font-variation-settings: normal) {
+    body {
+      font-family: 'Inter var', 'Inter', -apple-system, sans-serif;
+    }
+  }
+}
+
+@layer components {
+  /* ========================================
+     MODERN ACTIVIST DESIGN SYSTEM
+     Buttons, Cards, Alerts, Typography
+     ======================================== */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     BUTTONS - Modern Activist Style
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .btn-activist {
+    @apply px-6 py-3 text-white font-bold uppercase tracking-wide
+           transition-all duration-200 font-activist
+           bg-activist-orange-500 hover:bg-activist-orange-600
+           border-2 border-black dark:border-white
+           shadow-activist hover:shadow-activist-hover
+           hover:translate-x-[2px] hover:translate-y-[2px]
+           active:translate-x-[3px] active:translate-y-[3px]
+           active:shadow-none;
+  }
+
+  .dark .btn-activist {
+    @apply shadow-activist-dark hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.7)];
+  }
+
+  .btn-civic {
+    @apply px-6 py-3 text-white font-bold uppercase tracking-wide
+           transition-colors duration-200 font-activist
+           bg-civic-blue-500 hover:bg-civic-blue-600
+           border-2 border-civic-blue-700 dark:border-civic-blue-400
+           rounded-sm;
+  }
+
+  .btn-ghost-activist {
+    @apply px-6 py-3 font-bold uppercase tracking-wide
+           transition-all duration-200 font-activist
+           bg-transparent hover:bg-civic-blue-500 hover:text-white
+           text-civic-blue-700 dark:text-civic-blue-400
+           border-2 border-current rounded-none;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     CARDS - Modern Poster Style
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .card-poster {
+    @apply p-6 transition-all duration-300 bg-white dark:bg-gray-800
+           border-2 border-black dark:border-white
+           shadow-activist-lg hover:shadow-activist
+           hover:-translate-y-1;
+  }
+
+  .card-modern {
+    @apply p-6 rounded-lg transition-all duration-300
+           bg-white dark:bg-gray-800
+           border border-gray-200 dark:border-gray-700
+           shadow-md hover:shadow-xl;
+  }
+
+  .card-poster-title {
+    @apply text-2xl font-black uppercase mb-4 pl-4
+           text-civic-blue-700 dark:text-civic-blue-400
+           border-l-4 border-activist-orange-500
+           font-activist tracking-wider leading-tight;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ALERTS - Modern Urgent Design
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .alert-urgent {
+    @apply flex gap-3 p-4 rounded-lg
+           bg-gradient-to-r from-activist-orange-50 to-transparent
+           dark:from-activist-orange-900/20 dark:to-transparent
+           border-l-4 border-activist-orange-500
+           shadow-md;
+  }
+
+  .alert-urgent-icon {
+    @apply w-10 h-10 rounded-full flex items-center justify-center
+           font-black text-xl flex-shrink-0
+           bg-activist-orange-500 text-white
+           shadow-md;
+  }
+
+  .alert-urgent-title {
+    @apply font-bold uppercase text-sm tracking-wide
+           text-activist-orange-700 dark:text-activist-orange-400
+           font-activist;
+  }
+
+  .alert-success {
+    @apply p-4 rounded-lg
+           bg-gradient-to-r from-grassroots-green-500/10 to-transparent
+           dark:from-grassroots-green-500/20 dark:to-transparent
+           border-l-4 border-grassroots-green-500;
+  }
+
+  .alert-info {
+    @apply p-4 rounded-lg
+           bg-gradient-to-r from-civic-blue-50 to-transparent
+           dark:from-civic-blue-900/20 dark:to-transparent
+           border-l-4 border-civic-blue-500;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     BADGES - Modern Status Indicators
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .badge-urgent {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5
+           font-bold uppercase text-xs tracking-wide
+           bg-activist-orange-500 text-white
+           shadow-md transform -rotate-1
+           font-activist;
+  }
+
+  .badge-status {
+    @apply inline-flex items-center gap-1 px-2.5 py-1
+           rounded-full text-xs font-semibold border;
+  }
+
+  .badge-status-green {
+    @apply bg-grassroots-green-100 dark:bg-grassroots-green-900/30
+           text-grassroots-green-800 dark:text-grassroots-green-200
+           border-grassroots-green-300 dark:border-grassroots-green-700;
+  }
+
+  .badge-status-yellow {
+    @apply bg-warning-yellow-100 dark:bg-warning-yellow-900/30
+           text-warning-yellow-800 dark:text-warning-yellow-300
+           border-warning-yellow-300 dark:border-warning-yellow-700;
+  }
+
+  .badge-status-red {
+    @apply bg-protest-red-100 dark:bg-protest-red-900/30
+           text-protest-red-800 dark:text-protest-red-200
+           border-protest-red-300 dark:border-protest-red-700;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     TYPOGRAPHY - Modern Activist Headers
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .text-activist {
+    @apply font-bold uppercase tracking-wide font-activist leading-tight;
+  }
+
+  .heading-protest {
+    @apply uppercase font-activist tracking-wider leading-none
+           bg-gradient-to-r from-activist-orange-500 to-activist-orange-600
+           bg-clip-text text-transparent
+           dark:from-activist-orange-400 dark:to-activist-orange-500;
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem);
+  }
+
+  .heading-civic {
+    @apply text-3xl md:text-4xl lg:text-5xl font-black
+           text-civic-blue-700 dark:text-civic-blue-400
+           font-activist uppercase tracking-tight leading-tight;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     INPUTS - Modern Form Elements
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .input-modern {
+    @apply w-full px-4 py-2.5 rounded-lg
+           bg-white dark:bg-gray-800
+           text-gray-900 dark:text-gray-100
+           placeholder-gray-500 dark:placeholder-gray-400
+           border-2 border-gray-300 dark:border-gray-600
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50
+           focus:border-activist-orange-500;
+  }
+
+  .input-activist {
+    @apply w-full px-4 py-2.5 rounded-none
+           bg-white dark:bg-gray-800
+           text-gray-900 dark:text-gray-100
+           border-2 border-black dark:border-white
+           transition-all duration-200
+           focus:outline-none focus:shadow-activist
+           focus:translate-x-[1px] focus:translate-y-[1px];
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     FORM FIELDS - Chat Email Template
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .form-section {
+    @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl
+           border border-gray-200/60 dark:border-gray-700/60 p-4
+           shadow-sm hover:shadow-md transition-all duration-200;
+  }
+
+  .label-muted {
+    @apply block text-xs font-medium text-gray-700 dark:text-gray-100 mb-1;
+  }
+
+  .field-input {
+    @apply w-full px-3 py-2 h-8 rounded-lg
+           bg-white/60 dark:bg-gray-700/50
+           text-gray-900 dark:text-gray-100
+           placeholder-gray-500 dark:placeholder-gray-400
+           border border-urban-gray-100 dark:border-urban-gray-700
+           transition-all duration-200
+           hover:border-urban-gray-300 dark:hover:border-urban-gray-700
+           focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50
+           focus:border-civic-blue-500;
+  }
+
+  .inline-token {
+    @apply inline-block align-baseline px-1.5 py-0.5
+           bg-transparent text-gray-900 dark:text-gray-100
+           placeholder-gray-500 dark:placeholder-gray-400
+           rounded-none border-0 border-b-2
+           border-urban-gray-100 dark:border-urban-gray-700
+           min-w-28 transition-all duration-200
+           hover:border-urban-gray-300 dark:hover:border-urban-gray-500
+           focus:outline-none focus:ring-0 focus:border-b-civic-blue-500;
+  }
+
+  .inline-token:focus {
+    box-shadow: 0 2px 0 0 #1a66cc;
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANIMATIONS - Chat & Interactions
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MARKDOWN CONTENT STYLING
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.markdown-content {
+  line-height: 1.6;
+}
+
+.markdown-content > *:first-child {
+  margin-top: 0;
+}
+
+.markdown-content > *:last-child {
+  margin-bottom: 0;
+}
+
+@layer utilities {
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     CUSTOM SCROLLBAR - Modern & Clean
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .scrollbar-modern {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(156 163 175) rgb(243 244 246);
+  }
+
+  .scrollbar-modern::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-track {
+    background: rgb(243 244 246);
+    border-radius: 4px;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb {
+    background: rgb(156 163 175);
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+  }
+
+  .dark .scrollbar-modern {
+    scrollbar-color: rgb(75 85 99) rgb(31 41 55);
+  }
+
+  .dark .scrollbar-modern::-webkit-scrollbar-track {
+    background: rgb(31 41 55);
+  }
+
+  .dark .scrollbar-modern::-webkit-scrollbar-thumb {
+    background: rgb(75 85 99);
+  }
+
+  .dark .scrollbar-modern::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     GRADIENT TEXT UTILITIES
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .text-gradient-orange {
+    @apply bg-gradient-to-r from-activist-orange-500 to-activist-orange-600
+           bg-clip-text text-transparent;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-civic-blue-500 to-civic-blue-700
+           bg-clip-text text-transparent;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HOVER GLOW EFFECTS
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .hover-glow-orange {
+    @apply transition-all duration-300
+           hover:shadow-glow-orange;
+  }
+
+  .hover-glow-blue {
+    @apply transition-all duration-300
+           hover:shadow-glow-blue;
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     CUSTOM SCROLLBAR (thin version for cards)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(203 213 225) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(203 213 225);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(148 163 184);
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: rgb(71 85 105) transparent;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(71 85 105);
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139);
+  }
+}
