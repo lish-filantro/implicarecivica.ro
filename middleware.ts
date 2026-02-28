@@ -44,8 +44,15 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Redirect /chatbot to /chat
+  if (request.nextUrl.pathname.startsWith('/chatbot')) {
+    const url = request.nextUrl.clone()
+    url.pathname = request.nextUrl.pathname.replace('/chatbot', '/chat')
+    return NextResponse.redirect(url)
+  }
+
   // Protected routes - require authentication
-  const protectedRoutes = ['/chat', '/dashboard', '/requests', '/emails', '/calendar', '/chatbot', '/settings', '/feedback']
+  const protectedRoutes = ['/chat', '/dashboard', '/requests', '/emails', '/calendar', '/settings', '/feedback']
   const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route))
 
   // Auth routes - redirect to dashboard if already logged in
