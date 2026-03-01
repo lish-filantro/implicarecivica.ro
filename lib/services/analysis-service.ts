@@ -39,7 +39,7 @@ export interface AnalysisResult {
  * Validate that a registration number actually appears in the source text.
  * Prevents hallucinated registration numbers.
  */
-function validateRegistrationNumber(
+export function validateRegistrationNumber(
   candidate: string | null,
   fullText: string,
 ): string | null {

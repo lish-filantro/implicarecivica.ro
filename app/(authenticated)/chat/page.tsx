@@ -11,6 +11,7 @@ export default function NewChatPage() {
     sendMessage,
     isTyping,
     aiStatus,
+    conversationId,
   } = useConversation();
 
   return (
@@ -21,6 +22,7 @@ export default function NewChatPage() {
       onSendMessage={sendMessage}
       isTyping={isTyping}
       aiStatus={aiStatus}
+      conversationId={conversationId}
     />
   );
 }

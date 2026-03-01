@@ -21,9 +21,21 @@ function getServiceClient() {
 }
 
 /**
+ * Extract the numeric core from a registration number.
+ * "29702/14.11.2025" → "29702"
+ * "Nr. 31884 / 01.12.2025" → "31884"
+ * "4500/2024" → "4500"
+ */
+export function extractRegNumberCore(reg: string): string | null {
+  const cleaned = reg.replace(/^nr\.?\s*/i, '').trim();
+  const match = cleaned.match(/^(\d+)/);
+  return match && match[1].length >= 3 ? match[1] : null;
+}
+
+/**
  * Normalize email subject — strip Re:/Fwd:/Fw: prefixes for comparison.
  */
-function normalizeSubject(subject: string): string {
+export function normalizeSubject(subject: string): string {
   return subject
     .replace(/^(re|fwd?|răspuns)\s*:\s*/gi, '')
     .replace(/^(re|fwd?|răspuns)\s*:\s*/gi, '') // Handle nested Re: Re:
@@ -35,7 +47,7 @@ function normalizeSubject(subject: string): string {
  * Extract raw email address from RFC 5322 format.
  * "Ion Popescu <ion@domain.ro>" → "ion@domain.ro"
  */
-function extractEmailAddr(raw: string): string {
+export function extractEmailAddr(raw: string): string {
   const match = raw.match(/<([^>]+)>/);
   return (match ? match[1] : raw).trim().toLowerCase();
 }
@@ -104,7 +116,7 @@ export async function matchEmailToRequest(
       };
     }
 
-    // 2b. Fuzzy match — check if extracted number is contained in DB value or vice versa
+    // 2b. Fuzzy + core match
     const { data: candidates } = await supabase
       .from('requests')
       .select('id, registration_number')
@@ -112,6 +124,7 @@ export async function matchEmailToRequest(
       .not('registration_number', 'is', null);
 
     if (candidates) {
+      // 2b-i. Substring match
       for (const cand of candidates) {
         if (!cand.registration_number) continue;
         if (
@@ -124,6 +137,24 @@ export async function matchEmailToRequest(
             strategy: 'registration',
             confidence: 'medium',
           };
+        }
+      }
+
+      // 2b-ii. Core numeric match — same base number, different dates
+      // e.g. DB: "29702/14.11.2025", extracted: "29702/22.11.2025" → core "29702" matches
+      const extractedCore = extractRegNumberCore(reg);
+      if (extractedCore) {
+        for (const cand of candidates) {
+          if (!cand.registration_number) continue;
+          const candCore = extractRegNumberCore(cand.registration_number);
+          if (candCore && candCore === extractedCore) {
+            console.log(`[Match] Registration core: found request ${cand.id} (core: ${extractedCore})`);
+            return {
+              requestId: cand.id,
+              strategy: 'registration',
+              confidence: 'high',
+            };
+          }
         }
       }
     }

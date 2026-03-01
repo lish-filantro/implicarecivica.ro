@@ -1,0 +1,150 @@
+{
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\1_confirmare_inregistrare.pdf": {
+    "markdown": "ROMANIA\n\nINSTITUTIA PUBLICA DE TESTARE\n\nNr. inregistrare: 9680/RP din 04.12.2025\n\n# CATRE: PETENTUL ANONIM\n\nUrmare a cererii dumneavoastra, transmisa prin e-mail si inregistrata la institutia noastra cu numarul 9680/RP din data de 04.12.2025, va comunicam ca aceasta a fost luata in evidenta.\n\nVeti primi un raspuns in termenul legal prevazut de Legea nr. 544/2001 privind liberul acces la informatiile de interes public.\n\nCu stima,\n\nServiciul Relatii cu Publicul\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\2_notificare_prelungire.pdf": {
+    "markdown": "ROMANIA\n\nINSTITUTIA PUBLICA DE TESTARE\n\nNr. 3442/RP / 04.12.2025\n\nNOTIFICARE\n\nReferitor la solicitarea dumneavoastra de informatii de interes public, va aducem la cunostinta ca, datorita complexitatii informatiilor solicitate, termenul de raspuns se prelungeste la 30 de zile, conform art. 7 alin. (1) din Legea nr. 544/2001.\n\nVa asiguram ca depunem toate eforturile pentru a va transmite informatiile in cel mai scurt timp posibil.\n\nCu deosebita consideratie,\n\nDirector General\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\3_raspuns_favorabil.pdf": {
+    "markdown": "ROMANIA\n\nINSTITUTIA PUBLICA DE TESTARE\n\nNr. 4876/RP / 04.12.2025\n\nCa raspuns la solicitarea dumneavoastra inregistrata cu numarul de mai sus, va comunicam urmatoarele informatii:\n\n1. Bugetul alocat pentru anul 2024 pentru proiecte de digitalizare este de 1.500.000 RON.\n2. Numarul de angajati care lucreaza in departamentul IT este de 12 persoane.\n3. Lista contractelor de achizitii publice pe anul in curs este disponibila si pe site-ul nostru www.institutie-test.ro.\n\nSperam ca aceste informatii va sunt utile.\n\nCu stima,\n\nBiroul de Presa\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\4_raspuns_refuz_partial.pdf": {
+    "markdown": "ROMANIA\n\nINSTITUTIA PUBLICA DE TESTARE\n\nNr. 5362/RP / 04.12.2025\n\nReferitor la cererea dumneavoastra, va comunicam ca informatiile solicitate la punctul 2 se incadreaza in categoria informatiilor exceptate de la accesul liber al cetatenilor, conform art. 12 alin. (1) lit. d) din Legea nr. 544/2001 (informatii cu privire la datele personale).\n\nDin acest motiv, nu putem da curs solicitarii dumneavoastra pentru acest punct specific.\n\nCu stima,\n\nDepartamentul Juridic\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\5_redirectionare.pdf": {
+    "markdown": "ROMANIA\n\nINSTITUTIA PUBLICA DE TESTARE\n\nNr. 3893/RP / 04.12.2025\n\nVa informam ca institutia noastra nu detine informatiile solicitate de dumneavoastra.\n\nConform competentelor legale, cererea dumneavoastra a fost redirectionata catre Ministerul Transporturilor, institutie care este abilitata sa va raspunda la intrebarile formulate.\n\nVeti primi raspuns direct de la institutia mentionata.\n\nCu stima,\n\nSecretariat General\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Happy_Path_Parcuri\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\nPRIMARIA MUNICIPIULUI TEST\n\nNr. 36493 / 29.11.2025\n\nCatre Petent,\n\nVa confirmam inregistrarea cererii dvs. privind situatia spatiilor verzi, cu numarul 36493.\n\nCu stima,\n\nRegistratura.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Happy_Path_Parcuri\\2_raspuns_final.pdf": {
+    "markdown": "ROMANIA\nPRIMARIA MUNICIPIULUI TEST\n\nNr. 36493 / 04.12.2025\n\nReferitor la solicitarea dvs., va comunicam urmatoarele:\n\n1. Suprafata totala de spatiu verde este de 450 hectare.\n2. Bugetul alocat intretinerii in 2024 este de 2.000.000 RON.\n\nCu stima,\n\nDirectia Spatii Verzi\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\0_cerere_initiala.pdf": {
+    "markdown": "# CERERE DE INFORMATII PUBLICE\n\nconform Legii 544/2001\n\nSubject: Lista contractelor de achizitii publice 2020-2024\n\nSubsemnatul, in baza Legii 544/2001, solicit urmatoarele informatii:\n\nLista tuturor contractelor de achizitii publice incheiate in perioada 2020-2024, incluzand: numarul contractului, obiectul, valoarea si furnizorul.\n\nVa multumesc.\n\nData: 05.12.2025",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\nCONSILIUL JUDETEAN PRAHOVA\nNr. 12345 / 11.11.2025\n\nStimate petent,\n\nConfirmam primirea cererii dvs. privind lista contractelor de achizitii publice.\n\nNumar de inregistrare: 12345\nData inregistrarii: 11.11.2025\n\nVeti primi raspuns in termenul legal de 10 zile.\n\nCu stima,\nRegistratura\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\2_amanare.pdf": {
+    "markdown": "ROMANIA\nCONSILIUL JUDETEAN PRAHOVA\nNr. 12345 / 18.11.2025\n\nReferitor la cererea inregistrata cu nr. 12345,\n\nVa informam ca, datorita volumului mare de documente necesare pentru formularea raspunsului, termenul de raspuns se prelungeste cu 30 de zile, conform art. 7 alin. 2 din Legea 544/2001.\n\nNoul termen de raspuns: 18.12.2025\n\nCu stima,\n\nServiciul Achizitii Publice\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\3_raspuns.pdf": {
+    "markdown": "ROMANIA\nCONSILIUL JUDETEAN PRAHOVA\nNr. 12345 / 05.12.2025\n\nReferitor la cererea nr. 12345, va transmitem lista contractelor solicitate:\n\n- Contract 1/2020: Furnizare papetarie - 10.000 RON - SC Papetaria SRL\n- Contract 5/2021: Servicii curatenie - 50.000 RON - SC Clean SRL\n- Contract 12/2022: Achizitie mobilier - 75.000 RON - SC Mobila SA\n- Contract 3/2023: Servicii IT - 120.000 RON - SC Tech Solutions SRL\n- Contract 8/2024: Reparatii curente - 35.000 RON - SC Constructii SRL\n\nCu stima,\n\nServiciul Achizitii Publice\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Delayed_Achizitii\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nCONSILIUL JUDETEAN TEST\n\nNr. 29702 / 14.11.2025\n\nConfirmam primirea solicitarii dvs. privind achizitiile publice.\n\nNr. inregistrare: 29702.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Delayed_Achizitii\\2_notificare_prelungire.pdf": {
+    "markdown": "ROMANIA\n\nCONSILIUL JUDETEAN TEST\n\nNr. 29702 / 22.11.2025\n\nVa informam ca, datorita volumului mare de documente necesare pentru raspuns (contracte 2020-2024), termenul de raspuns se prelungeste la 30 de zile conform legii 544/2001.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Delayed_Achizitii\\3_raspuns_final.pdf": {
+    "markdown": "ROMANIA\n\nCONSILIUL JUDETEAN TEST\n\nNr. 29702 / 04.12.2025\n\nUrmare a notificarii de prelungire, va transmitem atasat lista contractelor solicitate:\n\n- Contract 1/2020: Furnizare papetarie - 10.000 RON\n- Contract 5/2021: Servicii curatenie - 50.000 RON\n\n...\n\n(Lista completa este disponibila la sediu).\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\0_cerere_initiala.pdf": {
+    "markdown": "# CERERE DE INFORMATII PUBLICE\n\nconform Legii 544/2001\n\nSubiect: Salariile functionarilor publici pe functii\n\nIn baza Legii 544/2001, solicit comunicarea grilei de salarizare pentru functionarii publici din cadrul primariei, pe categorii de functii.\n\nNu solicit date cu caracter personal, ci doar grila generala.\n\nData: 05.12.2025",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nPRIMARIA MUNICIPIULUI PLOIESTI\n\nNr. 54321 / 16.11.2025\n\nConfirmare inregistrare cerere nr. 54321.\n\nVeti primi raspuns in termenul legal.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\2_amanare.pdf": {
+    "markdown": "ROMANIA\n\nPRIMARIA MUNICIPIULUI PLOIESTI\n\nNr. 54321 / 20.11.2025\n\nRef. cerere nr. 54321,\n\nPentru centralizarea datelor solicitate, prelungim termenul cu 30 zile conform legii.\n\nCu stima,\n\nResurse Umane\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\3_raspuns.pdf": {
+    "markdown": "ROMANIA\nPRIMARIA MUNICIPIULUI PLOIESTI\nNr. 54321 / 05.12.2025\n\nRef. cerere nr. 54321, va comunicam grila de salarizare:\n\n|  Functie | Grad | Salariu brut | Nr. posturi  |\n| --- | --- | --- | --- |\n|  Director executiv | II | 12.500 RON | 3  |\n|  Sef serviciu | II | 9.800 RON | 8  |\n|  Consilier superior | I | 7.200 RON | 25  |\n|  Consilier principal | I | 6.100 RON | 42  |\n|  Referent | III | 4.500 RON | 15  |\n\nCu stima,\n\nServiciul Resurse Umane\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\1_confirmare.pdf": {
+    "markdown": "Pagina 1\n\nROMANIA\n\nAGENTIA NATIONALA DE INTEGRITATE\n\nNr. ANI-2024-789 / 19.11.2025\n\nCererea dvs. a fost inregistrata cu nr. ANI-2024-789.",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\2_amanare.pdf": {
+    "markdown": "Pagina 1\n\n# ROMANIA\n\n# AGENTIA NATIONALA DE INTEGRITATE\n\nNr. ANI-2024-789 / 24.11.2025\n\nPrelungim termenul pentru cererea ANI-2024-789 cu 30 de zile.",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\3_raspuns.pdf": {
+    "markdown": "ROMANIA\nAGENTIA NATIONALA DE INTEGRITATE\nNr. ANI-2024-789 / 05.12.2025\n\nRef. ANI-2024-789,\n\nTotalul cheltuielilor cu deplasarile externe in anul 2023 a fost de 45.320 EUR.\n\nAceasta suma include transport, cazare si diurna pentru 12 deplasari oficiale.\n\nCu stima,\n\nServiciul Financiar\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Refusal_Salarii\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nSPITALUL MUNICIPAL TEST\n\nNr. 31884 / 01.12.2025\n\nAm inregistrat cererea dvs. referitoare la salariile nominale ale medicilor.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Refusal_Salarii\\2_refuz.pdf": {
+    "markdown": "ROMANIA\n\nSPITALUL MUNICIPAL TEST\n\nNr. 31884 / 04.12.2025\n\nReferitor la solicitarea dvs., va comunicam ca nu va putem transmite lista nominala cu salariile angajatilor.\n\nAceste date sunt exceptate de la accesul liber conform art. 12 din Legea 544/2001 si intra sub incidenta GDPR.\n\nVa putem comunica doar grila generala de salarizare, fara nume si prenume.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\0_cerere_initiala.pdf": {
+    "markdown": "# CERERE DE INFORMATII PUBLICE\n\nconform Legii 544/2001\n\nSubject: Proiecte de investitii in infrastructura 2024\n\nSolicit lista proiectelor de investitii in infrastructura pentru anul 2024, cu stadiul de executie si valorile alocate.\n\nData: 05.12.2025",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nCONSILIUL LOCAL SECTOR 3\n\nNr. INV/2024/456 / 14.11.2025\n\nInregistrat cu nr. INV/2024/456. Raspuns in 10 zile.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\2_amanare.pdf": {
+    "markdown": "ROMANIA\n\nCONSILIUL LOCAL SECTOR 3\n\nNr. INV/2024/456 / 19.11.2025\n\nCererea INV/2024/456 necesita 30 zile suplimentare pentru centralizare.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\3_raspuns.pdf": {
+    "markdown": "ROMANIA\n\nCONSILIUL LOCAL SECTOR 3\n\nNr. INV/2024/456 / 05.12.2025\n\nRef. INV/2024/456, situatia proiectelor de investitii:\n\n|  Proiect | Valoare | Stadiu | Termen  |\n| --- | --- | --- | --- |\n|  Reabilitare Str. Unirii | 2.5 mil RON | In executie 45% | Dec 2024  |\n|  Parc Titan Etapa II | 1.8 mil RON | Finalizat | Recep. Oct 2024  |\n|  Modernizare Piata Muncii | 3.2 mil RON | In licitatie | 2025  |\n|  Piste biciclete | 800.000 RON | In executie 80% | Nov 2024  |\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Redirection_Metro\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nPRIMARIA SECTOR 1 TEST\n\nNr. 43759 / 30.11.2025\n\nConfirmare inregistrare cerere privind lucrarile la Magistrala 6 de metrou.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Redirection_Metro\\2_redirectionare.pdf": {
+    "markdown": "ROMANIA\n\nPRIMARIA SECTOR 1 TEST\n\nNr. 43759 / 04.12.2025\n\nVa informam ca institutia noastra nu are competente in gestionarea lucrarilor de metrou.\n\nCererea dvs. a fost redirectionata catre METROREX S.A. si Ministerul Transporturilor, care sunt abilitate sa va raspunda.\n\nVeti primi raspuns direct de la aceste institutii.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\0_cerere_initiala.pdf": {
+    "markdown": "# CERERE DE INFORMATII PUBLICE\n\nconform Legii 544/2001\n\nSubject: Numarul de angajari in 2024\n\nSolicit numarul de angajari efectuate in anul 2024, defalcat pe categorii de personal.\n\nData: 05.12.2025",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nMINISTERUL EDUCATIEI\n\nNr. ME/544/2024/1234 / 21.11.2025\n\nCerere inregistrata: ME/544/2024/1234\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\2_amanare.pdf": {
+    "markdown": "ROMANIA\n\nMINISTERUL EDUCATIEI\n\nNr. ME/544/2024/1234 / 25.11.2025\n\nRef. ME/544/2024/1234: termen prelungit 30 zile pentru centralizare date.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\3_raspuns.pdf": {
+    "markdown": "ROMANIA\nMINISTERUL EDUCATIEI\n\nNr. ME/544/2024/1234 / 05.12.2025\n\nRef. ME/544/2024/1234, situatia angajarilor in 2024:\n\n- Personal didactic: 1.250 posturi\n- Personal didactic auxiliar: 380 posturi\n- Personal nedidactic: 210 posturi\n- Functii de conducere: 45 posturi\n\nTotal angajari 2024: 1.885 posturi\n\nCu stima,\n\nDirectia Resurse Umane\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Clarification_Scoli\\1_confirmare.pdf": {
+    "markdown": "ROMANIA\n\nINSPECTORATUL SCOLAR TEST\n\nNr. 54455 / 19.11.2025\n\nConfirmare inregistrare cerere privind bugetul de reparatii scoli.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Clarification_Scoli\\2_cerere_clarificari.pdf": {
+    "markdown": "ROMANIA\n\nINSPECTORATUL SCOLAR TEST\n\nNr. 54455 / 22.11.2025\n\nPentru a va putea raspunde la solicitare, va rugam sa precizati pentru care unitati de invatamant doriti situatia bugetului de reparatii, sau daca va referiti la totalul pe judet.\n\nAsteptam precizarile dvs.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Clarification_Scoli\\3_raspuns_final.pdf": {
+    "markdown": "ROMANIA\nINSPECTORATUL SCOLAR TEST\n\nNr. 54455 / 04.12.2025\n\nUrmare a precizarilor dvs. prin care ati solicitat totalul pe judet:\n\nBugetul total pentru reparatii curente in anul 2024 este de 5.000.000 RON.\nAu fost efectuate lucrari in 15 unitati de invatamant pana la aceasta data.\n\nPagina 1",
+    "pages": 1
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\0_cerere_initiala.pdf": {
+    "markdown": "# CERERE DE INFORMATII PUBLICE\n\nconform Legii 544/2001\n\nSubiect: Cheltuieli deplasari externe 2023\n\nSolicit totalul cheltuielilor cu deplasarile externe ale conducerii institutiei in anul 2023.\n\nData: 05.12.2025",
+    "pages": 1
+  }
+}

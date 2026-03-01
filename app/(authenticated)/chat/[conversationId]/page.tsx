@@ -19,6 +19,7 @@ export default function ConversationPage({
     isTyping,
     aiStatus,
     isLoading,
+    conversationId: activeConversationId,
   } = useConversation({ conversationId });
 
   if (isLoading) {
@@ -40,6 +41,7 @@ export default function ConversationPage({
       onSendMessage={sendMessage}
       isTyping={isTyping}
       aiStatus={aiStatus}
+      conversationId={activeConversationId}
     />
   );
 }

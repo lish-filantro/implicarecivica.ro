@@ -34,7 +34,7 @@ function getServiceClient() {
 /**
  * Strip HTML tags and decode entities for plain text analysis.
  */
-function htmlToText(html: string): string {
+export function htmlToText(html: string): string {
   return html
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/p>/gi, '\n\n')

@@ -26,7 +26,7 @@ function getServiceClient() {
 /**
  * Add calendar days to a date, returning ISO date string (YYYY-MM-DD format as timestamptz).
  */
-function addDays(dateStr: string, days: number): string {
+export function addDays(dateStr: string, days: number): string {
   const d = new Date(dateStr);
   d.setDate(d.getDate() + days);
   return d.toISOString();

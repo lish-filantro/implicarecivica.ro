@@ -17,6 +17,7 @@ interface ChatViewProps {
   onSendMessage: () => void;
   isTyping: boolean;
   aiStatus: 'loading' | 'configured' | 'mock';
+  conversationId?: string | null;
 }
 
 export default function ChatView({
@@ -26,6 +27,7 @@ export default function ChatView({
   onSendMessage,
   isTyping,
   aiStatus,
+  conversationId,
 }: ChatViewProps) {
   const {
     messagesEndRef,
@@ -68,6 +70,29 @@ export default function ChatView({
 
     setIsSending(true);
     try {
+      // Step 1: Create session + request for tracking
+      const sessionResponse = await fetch('/api/sessions/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: emailForm.subject,
+          institution_name: fields.greeting.institution || emailForm.to,
+          institution_email: emailForm.to,
+          conversation_id: conversationId || undefined,
+          questions: [fields.request.content || emailForm.subject],
+        }),
+      });
+
+      const sessionData = await sessionResponse.json();
+
+      if (!sessionResponse.ok) {
+        alert(`Eroare la crearea cererii: ${sessionData.error || 'Eroare necunoscută'}`);
+        return;
+      }
+
+      const requestId = sessionData.requests?.[0]?.id;
+
+      // Step 2: Send email linked to the request
       const response = await fetch('/api/emails/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -75,6 +100,7 @@ export default function ChatView({
           to: emailForm.to,
           subject: emailForm.subject,
           body: emailBody,
+          request_id: requestId || undefined,
         }),
       });
 

@@ -8,7 +8,17 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "setup:mistral": "tsx scripts/setup-mistral-agent.ts"
+    "setup:mistral": "tsx scripts/setup-mistral-agent.ts",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "vitest run tests/e2e",
+    "test:ocr": "vitest run tests/integration/ocr.test.ts",
+    "test:classify": "vitest run tests/integration/classification.test.ts",
+    "test:matching": "vitest run tests/integration/matching.test.ts",
+    "test:watch": "vitest watch",
+    "test:ui": "vitest --ui",
+    "test:fresh": "FRESH_OCR=1 vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
@@ -43,6 +53,7 @@
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.6",
     "@types/react-dom": "^19.0.2",
+    "@vitest/ui": "^4.0.18",
     "autoprefixer": "^10.4.20",
     "dotenv": "^17.3.1",
     "eslint": "^9.18.0",
@@ -51,6 +62,7 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.21.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^4.0.18"
   }
 }
