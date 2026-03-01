@@ -77,6 +77,22 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Campanii admin routes - require authentication
+  const isCampaniiAdmin = request.nextUrl.pathname.startsWith('/campanii/admin') &&
+    !request.nextUrl.pathname.startsWith('/campanii/admin/login')
+
+  if (isCampaniiAdmin && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/campanii/admin/login'
+    url.searchParams.set('redirectedFrom', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
+  }
+
+  // Redirect logged-in users away from campanii login
+  if (request.nextUrl.pathname === '/campanii/admin/login' && user) {
+    return NextResponse.redirect(new URL('/campanii/admin', request.url))
+  }
+
   return supabaseResponse
 }
 
