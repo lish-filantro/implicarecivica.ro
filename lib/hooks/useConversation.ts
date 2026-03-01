@@ -13,6 +13,7 @@ import {
   generateTitle,
 } from '@/lib/supabase/chat-queries';
 import { extractProblemContext } from '@/lib/guardrails';
+import { extractEmails } from '@/lib/email-validation';
 
 interface InstitutionData {
   institutionName: string;
@@ -216,11 +217,10 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
     );
     const institutionName = nameMatch ? nameMatch[1].replace(/\*+/g, '').trim() : '';
 
-    // Extract email
-    const emailMatch = institutionMsg.text.match(
-      /Email identificat:\*?\*?\s*([^\s\n]+@[^\s\n]+)/i,
-    );
-    const institutionEmail = emailMatch ? emailMatch[1].trim() : '';
+    // Extract email — bot uses varying formats ("Email identificat:", "Email pentru cereri:", etc.)
+    // Use generic email extractor to find the first institutional email in the message
+    const foundEmails = extractEmails(institutionMsg.text);
+    const institutionEmail = foundEmails.length > 0 ? foundEmails[0] : '';
 
     if (!institutionName) return null;
 
