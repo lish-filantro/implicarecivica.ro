@@ -7,7 +7,7 @@
 import { describe, it, expect } from 'vitest';
 import { normalizeSubject, extractEmailAddr, extractRegNumberCore } from '@/lib/services/request-matching';
 import { validateRegistrationNumber } from '@/lib/services/analysis-service';
-import { htmlToText } from '@/app/api/emails/process/route';
+import { htmlToText } from '@/lib/utils/html-to-text';
 import { addDays } from '@/lib/services/status-updater';
 
 // ═══════════════════════════════════════════════════════════
