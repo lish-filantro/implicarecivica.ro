@@ -13,11 +13,8 @@ function extractEmail(raw: string): string {
 
 /**
  * Resend Webhook Handler
- * - email.received: fetches full email content via Resend API, saves to DB
+ * - email.received: saves email directly from webhook payload to DB
  * - email.delivered/bounced/complained: updates delivery status
- *
- * IMPORTANT: Resend webhooks only send metadata, NOT email body.
- * We must call GET /emails/receiving/{id} to get the full content.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +27,6 @@ export async function POST(request: NextRequest) {
       if (!signature) {
         return NextResponse.json({ error: 'Missing signature' }, { status: 401 });
       }
-      // TODO: Implement full Svix signature verification when webhook secret is set
     }
 
     // Use service role to bypass RLS (webhook has no user session)
@@ -44,39 +40,17 @@ export async function POST(request: NextRequest) {
 
     switch (type) {
       case 'email.received': {
-        // Resend docs: webhook payload has data.email_id
-        const emailId = data?.email_id;
-        if (!emailId) {
-          console.error('email.received webhook missing email_id:', JSON.stringify(data));
-          return NextResponse.json({ error: 'Missing email_id' }, { status: 400 });
+        if (!data) {
+          console.error('email.received webhook missing data');
+          return NextResponse.json({ error: 'Missing data' }, { status: 400 });
         }
 
-        // Fetch full email content from Resend API
-        const resendApiKey = process.env.RESEND_API_KEY;
-        if (!resendApiKey) {
-          console.error('RESEND_API_KEY not configured');
-          return NextResponse.json({ error: 'Server config error' }, { status: 500 });
-        }
-
-        const emailResponse = await fetch(`https://api.resend.com/emails/receiving/${emailId}`, {
-          headers: { 'Authorization': `Bearer ${resendApiKey}` },
-        });
-
-        if (!emailResponse.ok) {
-          console.error('Failed to fetch email from Resend:', emailResponse.status, await emailResponse.text());
-          return NextResponse.json({ error: 'Failed to fetch email content' }, { status: 502 });
-        }
-
-        const email = await emailResponse.json();
-
-        // Parse "to" — extract raw email address for user matching
-        const rawTo = Array.isArray(email.to) ? email.to[0] : email.to;
+        // Use data directly from webhook payload — no separate API call needed
+        const rawTo = Array.isArray(data.to) ? data.to[0] : data.to;
         const toEmail = extractEmail(rawTo);
+        const rawFrom = data.from || '';
 
-        // Parse "from" — keep full string (with display name) for storage
-        const rawFrom = typeof email.from === 'string' ? email.from : email.from?.email || String(email.from);
-
-        // 1) Find user by matching "to" address to profile's mailcow_email
+        // Find user by matching "to" address to profile's mailcow_email
         const { data: matchedProfile } = await supabase
           .from('profiles')
           .select('id')
@@ -85,7 +59,7 @@ export async function POST(request: NextRequest) {
 
         let userId = matchedProfile?.[0]?.id;
 
-        // 2) Fallback: match by sent emails from_email
+        // Fallback: match by sent emails from_email
         if (!userId) {
           const { data: matchedEmails } = await supabase
             .from('emails')
@@ -102,28 +76,27 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ received: true, matched: false });
         }
 
-        // Save the received email with full content
+        // Save directly from webhook payload
         const { error: insertError } = await supabase
           .from('emails')
           .insert({
             user_id: userId,
-            message_id: email.message_id || emailId,
+            message_id: data.message_id || data.email_id,
             type: 'received',
             from_email: rawFrom,
             to_email: toEmail,
-            subject: email.subject || '(fără subiect)',
-            body: email.html || email.text || '',
-            attachments: email.attachments?.map((a: { filename: string; content_type: string }) => ({
+            subject: data.subject || '(fără subiect)',
+            body: data.html || data.text || '',
+            attachments: data.attachments?.map((a: { filename: string; content_type: string }) => ({
               name: a.filename,
               type: a.content_type,
             })) || [],
             processing_status: 'completed',
             is_read: false,
-            received_at: email.created_at || new Date().toISOString(),
+            received_at: data.created_at || new Date().toISOString(),
           });
 
         if (insertError) {
-          // Handle duplicate (already processed)
           if (insertError.code === '23505') {
             return NextResponse.json({ received: true, duplicate: true });
           }
