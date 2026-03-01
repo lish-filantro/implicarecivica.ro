@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
 import type { Message } from '@/lib/types/chat';
 
@@ -8,15 +8,28 @@ interface MessageBubbleProps {
   message: Message;
   index: number;
   isLast?: boolean;
+  onConfirmInstitution?: () => void;
+  onManualEntry?: () => void;
 }
 
 /**
  * Message bubble component with smooth animations
- * Handles user and bot messages with different styles
+ * Shows confirmation buttons after STEP_2 institution identification
  */
-const MessageBubble: React.FC<MessageBubbleProps> = ({ message, index, isLast = false }) => {
+const MessageBubble: React.FC<MessageBubbleProps> = ({
+  message,
+  index,
+  isLast = false,
+  onConfirmInstitution,
+  onManualEntry,
+}) => {
   const isUser = message.sender === 'user';
   const isBot = message.sender === 'bot';
+  const [showRejectOptions, setShowRejectOptions] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
+
+  const hasInstitution = isBot && message.text.includes('INSTITUȚIE_IDENTIFICATĂ');
+  const showConfirmation = hasInstitution && isLast && !confirmed;
 
   return (
     <div
@@ -90,6 +103,58 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, index, isLast = 
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {/* STEP_2 Confirmation buttons */}
+          {showConfirmation && (
+            <div className="mt-4 pt-3 border-t border-gray-200/50 dark:border-gray-700/50">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                Confirmă instituția identificată:
+              </p>
+
+              {!showRejectOptions ? (
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => {
+                      setConfirmed(true);
+                      onConfirmInstitution?.();
+                    }}
+                    className="px-4 py-2 text-sm font-medium bg-grassroots-green-500 hover:bg-grassroots-green-600 text-white rounded-lg transition-colors shadow-sm"
+                  >
+                    Da, e corect
+                  </button>
+                  <button
+                    onClick={() => setShowRejectOptions(true)}
+                    className="px-4 py-2 text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors"
+                  >
+                    Nu
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Ce dorești să faci?
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => setShowRejectOptions(false)}
+                      className="px-4 py-2 text-sm font-medium bg-civic-blue-100 dark:bg-civic-blue-900/20 hover:bg-civic-blue-200 dark:hover:bg-civic-blue-900/30 text-civic-blue-700 dark:text-civic-blue-300 rounded-lg transition-colors"
+                    >
+                      Caută din nou
+                    </button>
+                    <button
+                      onClick={() => {
+                        setConfirmed(true);
+                        onManualEntry?.();
+                      }}
+                      className="px-4 py-2 text-sm font-medium bg-activist-orange-100 dark:bg-activist-orange-900/20 hover:bg-activist-orange-200 dark:hover:bg-activist-orange-900/30 text-activist-orange-700 dark:text-activist-orange-300 rounded-lg transition-colors"
+                    >
+                      Introducere manuală
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

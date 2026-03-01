@@ -1,6 +1,7 @@
 'use client';
 
-import { use } from 'react';
+import { use, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useConversation } from '@/lib/hooks/useConversation';
 import ChatView from '@/components/chat/ChatView';
 
@@ -10,6 +11,7 @@ export default function ConversationPage({
   params: Promise<{ conversationId: string }>;
 }) {
   const { conversationId } = use(params);
+  const router = useRouter();
 
   const {
     messages,
@@ -19,8 +21,20 @@ export default function ConversationPage({
     isTyping,
     aiStatus,
     isLoading,
-    conversationId: activeConversationId,
+    extractInstitutionData,
   } = useConversation({ conversationId });
+
+  const handleConfirmInstitution = useCallback(() => {
+    const data = extractInstitutionData();
+    if (data) {
+      sessionStorage.setItem('requestWizardData', JSON.stringify(data));
+      router.push('/requests/new?from=chat');
+    }
+  }, [extractInstitutionData, router]);
+
+  const handleManualEntry = useCallback(() => {
+    router.push('/requests/new');
+  }, [router]);
 
   if (isLoading) {
     return (
@@ -41,7 +55,8 @@ export default function ConversationPage({
       onSendMessage={sendMessage}
       isTyping={isTyping}
       aiStatus={aiStatus}
-      conversationId={activeConversationId}
+      onConfirmInstitution={handleConfirmInstitution}
+      onManualEntry={handleManualEntry}
     />
   );
 }

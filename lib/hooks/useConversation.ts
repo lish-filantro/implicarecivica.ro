@@ -12,6 +12,14 @@ import {
   updateConversationStep,
   generateTitle,
 } from '@/lib/supabase/chat-queries';
+import { extractProblemContext } from '@/lib/guardrails';
+
+interface InstitutionData {
+  institutionName: string;
+  institutionEmail: string;
+  problemContext: { ce: string; unde: string; cand: string };
+  conversationId: string | null;
+}
 
 interface UseConversationOptions {
   conversationId?: string | null;
@@ -193,6 +201,42 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
     }
   }, [inputMessage, isTyping, conversationId, conversationHistory, messages, startTyping, stopTyping]);
 
+  const extractInstitutionData = useCallback((): InstitutionData | null => {
+    // Find the last bot message with INSTITUȚIE_IDENTIFICATĂ
+    const institutionMsg = [...messages].reverse().find(
+      (m) => m.sender === 'bot' && m.text.includes('INSTITUȚIE_IDENTIFICATĂ'),
+    );
+    if (!institutionMsg) return null;
+
+    // Extract institution name
+    const nameMatch = institutionMsg.text.match(
+      /INSTITUȚIE_IDENTIFICATĂ[:\s]+(?:Tip:)?\s*(.+?)(?:\n|📧|🔗|\/\s|$)/i,
+    );
+    const institutionName = nameMatch ? nameMatch[1].replace(/\*+/g, '').trim() : '';
+
+    // Extract email
+    const emailMatch = institutionMsg.text.match(
+      /Email identificat:\*?\*?\s*([^\s\n]+@[^\s\n]+)/i,
+    );
+    const institutionEmail = emailMatch ? emailMatch[1].trim() : '';
+
+    if (!institutionName) return null;
+
+    // Extract problem context from conversation history
+    const ctx = extractProblemContext(conversationHistory);
+
+    return {
+      institutionName,
+      institutionEmail,
+      problemContext: {
+        ce: ctx.ce || '',
+        unde: ctx.unde || '',
+        cand: ctx.cand || '',
+      },
+      conversationId,
+    };
+  }, [messages, conversationHistory, conversationId]);
+
   const startNewConversation = useCallback(() => {
     setMessages([]);
     setConversationId(null);
@@ -210,5 +254,6 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
     isLoading,
     conversationId,
     startNewConversation,
+    extractInstitutionData,
   };
 }

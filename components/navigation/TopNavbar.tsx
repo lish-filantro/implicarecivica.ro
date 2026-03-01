@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   MessageSquare,
-  FileText,
+  Send,
   Mail,
   MessageCircle,
 } from 'lucide-react';
@@ -16,7 +16,7 @@ import { MobileMenu } from './MobileMenu';
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Panou', icon: LayoutDashboard },
   { href: '/chat', label: 'Asistent 544', icon: MessageSquare },
-  { href: '/requests', label: 'Cereri', icon: FileText },
+  { href: '/requests/new', label: 'Trimite Cereri', icon: Send },
   { href: '/emails', label: 'Emailuri', icon: Mail },
   { href: '/feedback', label: 'Feedback', icon: MessageCircle },
 ];

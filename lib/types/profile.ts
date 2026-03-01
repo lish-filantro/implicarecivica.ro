@@ -4,6 +4,7 @@ export interface Profile {
   last_name: string | null;
   display_name: string | null;
   mailcow_email: string | null;
+  address: string | null;
   avatar_url: string | null;
   notification_email: boolean;
   notification_deadline_days: number;
@@ -14,6 +15,7 @@ export interface Profile {
 
 export interface ProfileUpdate {
   display_name?: string | null;
+  address?: string | null;
   avatar_url?: string | null;
   notification_email?: boolean;
   notification_deadline_days?: number;
