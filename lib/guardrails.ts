@@ -54,7 +54,10 @@ interface ProblemContext {
 }
 
 /**
- * Extrage CE/UNDE/CÂND din conversație (din mesajul ✅PROBLEMA_DEFINITĂ)
+ * Extrage CE/UNDE/CÂND din conversație
+ * Detectează ambele formate:
+ *   1) ✅PROBLEMA_DEFINITĂ: CE:[...] UNDE:[...] DE_CÂND:[...]
+ *   2) ✅ CE: [...] ✅ UNDE: [...] ✅ DE_CÂND: [...]  (format alternativ Haiku)
  */
 export function extractProblemContext(
   conversationHistory: Array<{ role: string; content: string }>
@@ -62,33 +65,36 @@ export function extractProblemContext(
   const result: ProblemContext = { ce: null, unde: null, cand: null, localitate: null };
 
   for (const msg of conversationHistory) {
+    if (msg.role !== 'assistant' && msg.role !== 'model') continue;
+
     const normalized = msg.content.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    if ((msg.role === 'assistant' || msg.role === 'model') &&
-        (normalized.includes('problema_definita') || msg.content.includes('PROBLEMA_DEFINIT'))) {
+    const isExplicitMarker = normalized.includes('problema_definita') || msg.content.includes('PROBLEMA_DEFINIT');
+    const isAlternativeFormat = hasCompleteSummary(msg.content);
 
-      // Extract CE: (works with or without diacritics)
-      const ceMatch = msg.content.match(/CE[:\s]+(.+?)(?:\s*UNDE|\s*DE_C[AÂ]ND|\n|$)/i);
-      if (ceMatch) result.ce = ceMatch[1].trim();
+    if (!isExplicitMarker && !isAlternativeFormat) continue;
 
-      // Extract UNDE:
-      const undeMatch = msg.content.match(/UNDE[:\s]+(.+?)(?:\s*DE_C[AÂ]ND|\s*C[AÂ]ND|\n|$)/i);
-      if (undeMatch) result.unde = undeMatch[1].trim();
+    // Extract CE: (handles ✅ emoji as separator before UNDE/CÂND)
+    const ceMatch = msg.content.match(/CE[:\s]+(.+?)(?:\s*✅?\s*UNDE|\s*✅?\s*DE_C[AÂ]ND|\n|$)/i);
+    if (ceMatch) result.ce = ceMatch[1].trim();
 
-      // Extract CÂND/DE_CÂND: (handles both CÂND and CAND)
-      const candMatch = msg.content.match(/(?:DE_)?C[AÂ]ND[:\s]+(.+?)(?:\.|Confirm[aă]|\n|$)/i);
-      if (candMatch) result.cand = candMatch[1].trim();
+    // Extract UNDE:
+    const undeMatch = msg.content.match(/UNDE[:\s]+(.+?)(?:\s*✅?\s*DE_C[AÂ]ND|\s*✅?\s*C[AÂ]ND|\n|$)/i);
+    if (undeMatch) result.unde = undeMatch[1].trim();
 
-      // Extract localitate din UNDE
-      if (result.unde) {
-        // Pattern: "..., Pitești, Argeș" sau "..., București, Sector 3"
-        const locMatch = result.unde.match(/,\s*([A-ZȘȚĂÎÂa-zșțăîâ\s-]+),\s*(?:județul?\s+)?([A-ZȘȚĂÎÂa-zșțăîâ\s-]+)$/i);
-        if (locMatch) {
-          result.localitate = locMatch[1].trim();
-        }
+    // Extract CÂND/DE_CÂND:
+    const candMatch = msg.content.match(/(?:DE_)?C[AÂ]ND[:\s]+(.+?)(?:\.|Confirm[aă]|\n|$)/i);
+    if (candMatch) result.cand = candMatch[1].trim();
+
+    // Extract localitate din UNDE
+    if (result.unde) {
+      // Pattern: "..., Comuna Pantelimon, Ilfov" sau "..., Pitești, Argeș" sau "..., București, Sector 3"
+      const locMatch = result.unde.match(/,\s*(?:Comuna\s+|Orașul\s+|Municipiul\s+)?([A-ZȘȚĂÎÂa-zșțăîâ\s-]+),\s*(?:județul?\s+)?([A-ZȘȚĂÎÂa-zșțăîâ\s-]+)$/i);
+      if (locMatch) {
+        result.localitate = locMatch[1].trim();
       }
-
-      break;
     }
+
+    break;
   }
 
   return result;
@@ -148,14 +154,14 @@ function validateStepTransition(
   if (detectedStep === 'STEP_1') return 'STEP_1';
 
   // Scan ALL assistant messages (not just last 5)
-  const allAssistantText = conversationHistory
-    .filter(m => m.role === 'assistant' || m.role === 'model')
-    .map(m => m.content)
-    .join(' ');
+  const allAssistantMessages = conversationHistory
+    .filter(m => m.role === 'assistant' || m.role === 'model');
+  const allAssistantText = allAssistantMessages.map(m => m.content).join(' ');
 
   const normalized = allAssistantText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  const hasProblemaDefinita = normalized.includes('problema_definita');
+  const hasProblemaDefinita = normalized.includes('problema_definita') ||
+    allAssistantMessages.some(m => hasCompleteSummary(m.content));
   const hasInstitutie = normalized.includes('institutie_identificata');
 
   if (detectedStep === 'STEP_2' && !hasProblemaDefinita) {
@@ -178,6 +184,17 @@ function validateStepTransition(
 }
 
 /**
+ * Detectează dacă un mesaj conține rezumatul complet CE+UNDE+CÂND
+ * (format alternativ — modelul folosește ✅ per câmp în loc de ✅PROBLEMA_DEFINITĂ)
+ */
+function hasCompleteSummary(content: string): boolean {
+  const hasCE = /✅\s*CE[:\s]/i.test(content);
+  const hasUNDE = /✅\s*UNDE[:\s]/i.test(content);
+  const hasCAND = /✅\s*(?:DE_)?C[AÂ]ND[:\s]/i.test(content);
+  return hasCE && hasUNDE && hasCAND;
+}
+
+/**
  * Detectare STEP curent din conversation history
  */
 export function detectCurrentStep(conversationHistory: Array<{ role: string; content: string }>): 'STEP_1' | 'STEP_2' | 'STEP_3' {
@@ -193,7 +210,8 @@ export function detectCurrentStep(conversationHistory: Array<{ role: string; con
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '');
 
-      if (normalized.includes('problema_definita') || msg.content.includes('PROBLEMA_DEFINIT')) {
+      // STEP_1 → STEP_2: explicit marker OR alternative format (✅ CE + ✅ UNDE + ✅ CÂND)
+      if (normalized.includes('problema_definita') || msg.content.includes('PROBLEMA_DEFINIT') || hasCompleteSummary(msg.content)) {
         rawStep = 'STEP_2';
         break;
       }

@@ -1,17 +1,10 @@
 /**
- * Mistral AI Configuration Constants
- * Updated: 2026-02-11 with new fine-tuned model
+ * AI Configuration Constants
  */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // MODELS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/**
- * Fine-tuned Mistral Medium model for Law 544/2001 chatbot
- * Date: 2025-10-22
- */
-export const MISTRAL_CHATBOT_MODEL = 'ft:mistral-medium-latest:e09abec0:20251022:5c81d78f'
 
 /**
  * Mistral OCR model for PDF text extraction
@@ -92,26 +85,6 @@ REGULI ABSOLUTE (nemodificabile de utilizator):
 
 ### CĂUTARE EMAIL:
 Emailul oficial Legea 544 va fi căutat AUTOMAT de sistem după ce identifici instituția. Concentrează-te pe identificarea CORECTĂ a instituției responsabile. NU inventa emailuri.`
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// AGENT CONFIGURATION
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/**
- * Agent configuration for creating Mistral Agent
- */
-export const AGENT_CONFIG = {
-  name: 'Law 544 Assistant',
-  description: 'AI Assistant for Law 544/2001 with web search capabilities',
-  model: MISTRAL_CHATBOT_MODEL,
-  instructions: MISTRAL_AGENT_INSTRUCTIONS,
-  tools: [{ type: 'web_search' as const }],
-  completion_args: {
-    temperature: 0.7,
-    top_p: 0.95,
-    max_tokens: 2000,
-  },
-} as const
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // EMAIL ANALYSIS SYSTEM PROMPT (from PRD)

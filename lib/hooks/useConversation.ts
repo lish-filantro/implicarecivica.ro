@@ -51,7 +51,7 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
   useEffect(() => {
     const checkAIStatus = async () => {
       try {
-        const chatEndpoint = process.env.NEXT_PUBLIC_CHAT_ENDPOINT || '/api/chat';
+        const chatEndpoint = process.env.NEXT_PUBLIC_CHAT_ENDPOINT || '/api/chat-haiku';
         const response = await fetch(chatEndpoint);
         const data = await response.json();
         setAiStatus(data.anthropicConfigured || data.aiConfigured ? 'configured' : 'mock');
@@ -129,7 +129,7 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
       );
 
       // Call API
-      const chatEndpoint = process.env.NEXT_PUBLIC_CHAT_ENDPOINT || '/api/chat';
+      const chatEndpoint = process.env.NEXT_PUBLIC_CHAT_ENDPOINT || '/api/chat-haiku';
       const response = await fetch(chatEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
