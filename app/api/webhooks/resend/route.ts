@@ -73,9 +73,8 @@ export async function POST(request: NextRequest) {
         const rawTo = Array.isArray(email.to) ? email.to[0] : email.to;
         const toEmail = extractEmail(rawTo);
 
-        // Parse "from" — keep display name for storage, extract email for matching
+        // Parse "from" — keep full string (with display name) for storage
         const rawFrom = typeof email.from === 'string' ? email.from : email.from?.email || String(email.from);
-        const fromEmailAddress = extractEmail(rawFrom);
 
         // 1) Find user by matching "to" address to profile's mailcow_email
         const { data: matchedProfile } = await supabase
@@ -103,35 +102,13 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ received: true, matched: false });
         }
 
-        // 3) Try to link this reply to the original request
-        //    Find the most recent sent email from this user to this institution
-        let requestId: string | null = null;
-        let parentEmailId: string | null = null;
-
-        const { data: relatedSent } = await supabase
-          .from('emails')
-          .select('id, request_id')
-          .eq('user_id', userId)
-          .eq('to_email', fromEmailAddress)
-          .eq('type', 'sent')
-          .order('created_at', { ascending: false })
-          .limit(1);
-
-        if (relatedSent?.[0]) {
-          requestId = relatedSent[0].request_id || null;
-          parentEmailId = relatedSent[0].id;
-        }
-
         // Save the received email with full content
         const { error: insertError } = await supabase
           .from('emails')
           .insert({
             user_id: userId,
-            request_id: requestId,
-            parent_email_id: parentEmailId,
             message_id: email.message_id || emailId,
             type: 'received',
-            category: requestId ? 'raspunse' : null,
             from_email: rawFrom,
             to_email: toEmail,
             subject: email.subject || '(fără subiect)',
@@ -140,7 +117,7 @@ export async function POST(request: NextRequest) {
               name: a.filename,
               type: a.content_type,
             })) || [],
-            processing_status: 'pending',
+            processing_status: 'completed',
             is_read: false,
             received_at: email.created_at || new Date().toISOString(),
           });
@@ -154,19 +131,7 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'DB insert failed' }, { status: 500 });
         }
 
-        // If linked to a request, update request status to 'raspuns_primit'
-        if (requestId) {
-          await supabase
-            .from('requests')
-            .update({
-              status: 'answered',
-              response_received_date: new Date().toISOString(),
-            })
-            .eq('id', requestId)
-            .eq('user_id', userId);
-        }
-
-        return NextResponse.json({ received: true, matched: true, request_linked: !!requestId });
+        return NextResponse.json({ received: true, matched: true });
       }
 
       case 'email.delivered':
