@@ -35,15 +35,17 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
 
   const { isTyping, startTyping, stopTyping } = useTypingIndicator();
 
-  // Derive conversationHistory from messages (skip welcome message which has no id)
+  // Derive conversationHistory from messages
+  // Skip only the initial welcome message (first bot message in a new conversation)
   const conversationHistory = useMemo(
-    () =>
-      messages
-        .filter((m) => m.id) // only persisted messages
-        .map((m) => ({
-          role: m.sender === 'user' ? 'user' : ('assistant' as string),
-          content: m.text,
-        })),
+    () => {
+      const startIdx =
+        messages.length > 0 && messages[0].sender === 'bot' && !messages[0].id ? 1 : 0;
+      return messages.slice(startIdx).map((m) => ({
+        role: m.sender === 'user' ? 'user' : ('assistant' as string),
+        content: m.text,
+      }));
+    },
     [messages],
   );
 
