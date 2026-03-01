@@ -286,7 +286,7 @@ export async function POST(request: NextRequest) {
                   type: a.content_type,
                 })) || [],
             pdf_file_path: pdfFilePath,
-            processing_status: 'completed',
+            processing_status: 'pending',
             is_read: false,
             received_at: data.created_at || new Date().toISOString(),
           });
@@ -304,6 +304,22 @@ export async function POST(request: NextRequest) {
           `attachments=${savedAttachments.length}`,
         );
 
+        // Fire-and-forget: trigger processing pipeline immediately.
+        // We don't await — the webhook responds 200 to Resend right away,
+        // while processing runs in the background on Vercel.
+        const processUrl = new URL('/api/emails/process', request.url);
+        const cronSecret = process.env.CRON_SECRET;
+        fetch(processUrl.toString(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(cronSecret && cronSecret !== 'placeholder' ? { Authorization: `Bearer ${cronSecret}` } : {}),
+          },
+          body: JSON.stringify({ email_id: emailId }),
+        }).catch((err) => {
+          console.error(`[Webhook] Fire-and-forget process failed for ${emailId}:`, err);
+        });
+
         return NextResponse.json({
           received: true,
           matched: true,
@@ -311,6 +327,7 @@ export async function POST(request: NextRequest) {
           has_body: !!body,
           attachments: savedAttachments.length,
           has_parent: !!parentEmailId,
+          processing: 'triggered',
         });
       }
 

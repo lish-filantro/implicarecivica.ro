@@ -1,10 +1,14 @@
 /**
  * GET /api/cron/process-emails
  *
- * Vercel Cron Job — runs every minute to process pending received emails.
+ * Vercel Cron Job — daily fallback to catch any emails that weren't
+ * processed by the webhook fire-and-forget trigger.
  * Pipeline: OCR → AI Analysis → Match to Request → Update Status
  *
- * Schedule: * * * * * (every minute)
+ * Primary processing happens instantly via webhook → fire-and-forget.
+ * This cron is a safety net for retries and missed emails.
+ *
+ * Schedule: 0 3 * * * (daily at 3 AM UTC)
  * Configured in vercel.json
  */
 
@@ -33,7 +37,7 @@ export async function GET(request: NextRequest) {
         'Content-Type': 'application/json',
         ...(cronSecret ? { Authorization: `Bearer ${cronSecret}` } : {}),
       },
-      body: JSON.stringify({ batch: true, limit: 3 }), // 3 emails per run (~15s each = ~45s total)
+      body: JSON.stringify({ batch: true, limit: 5 }), // Daily fallback — process up to 5 missed emails
     });
 
     const result = await response.json();
