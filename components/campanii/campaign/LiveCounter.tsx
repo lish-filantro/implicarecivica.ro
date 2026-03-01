@@ -23,10 +23,10 @@ export function LiveCounter({ count, label = "persoane au trimis emailul" }: Liv
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-4xl md:text-5xl font-activist font-black text-activist-orange-500">
+      <span className="text-4xl md:text-5xl font-bold text-activist-orange-500">
         {displayed}
       </span>
-      <span className="text-lg text-urban-gray-600">{label}</span>
+      <span className="text-lg text-gray-600 dark:text-gray-400">{label}</span>
     </div>
   );
 }

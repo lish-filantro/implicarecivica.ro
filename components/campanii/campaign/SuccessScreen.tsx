@@ -24,10 +24,10 @@ export function SuccessScreen({
       <CheckCircle className="w-16 h-16 text-grassroots-green-500 mx-auto" />
 
       <div>
-        <h2 className="text-2xl font-activist uppercase text-civic-blue-700 mb-2">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
           Mulțumim!
         </h2>
-        <p className="text-lg text-urban-gray-600">{message}</p>
+        <p className="text-lg text-gray-600 dark:text-gray-400">{message}</p>
       </div>
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -55,7 +55,7 @@ export function SuccessScreen({
       {redirectUrl && (
         <a
           href={redirectUrl}
-          className="inline-flex items-center gap-2 text-civic-blue-500 hover:underline"
+          className="inline-flex items-center gap-2 text-civic-blue-500 dark:text-civic-blue-400 hover:underline"
         >
           Continuă <ArrowRight className="w-4 h-4" />
         </a>

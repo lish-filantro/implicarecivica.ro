@@ -6,6 +6,7 @@ import { AdminAuthGuard } from "@/components/campanii/admin/AdminAuthGuard";
 import { RecipientTable } from "@/components/campanii/admin/RecipientTable";
 import type { Campaign, CampaignRecipient } from "@/lib/campanii/types/campaign";
 import { ArrowLeft } from "lucide-react";
+import { LoadingSpinner } from "@/components/shared/loading-spinner";
 
 function RecipientsContent() {
   const params = useParams();
@@ -26,23 +27,31 @@ function RecipientsContent() {
   }, [slug]);
 
   if (loading) {
-    return <div className="text-center py-12 text-urban-gray-400">Se încarcă...</div>;
+    return (
+      <div className="flex items-center justify-center py-16">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
   }
 
   if (!campaign) {
-    return <div className="text-center py-12 text-protest-red-500">Campanie negăsită</div>;
+    return (
+      <div className="text-center py-12">
+        <p className="text-protest-red-500 dark:text-protest-red-400">Campanie negăsită</p>
+      </div>
+    );
   }
 
   return (
     <div>
       <a
         href={`/campanii/admin/campanii/${slug}/edit`}
-        className="inline-flex items-center gap-1 text-sm text-civic-blue-500 hover:underline mb-4"
+        className="inline-flex items-center gap-1 text-sm text-civic-blue-500 dark:text-civic-blue-400 hover:underline mb-4"
       >
         <ArrowLeft className="w-4 h-4" /> Înapoi la campanie
       </a>
 
-      <h1 className="heading-civic text-2xl mb-8">
+      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">
         Destinatari: {campaign.title}
       </h1>
 

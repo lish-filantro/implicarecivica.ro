@@ -32,13 +32,13 @@ export function MailtoButton({
         <ExternalLink className="w-4 h-4" />
       </a>
 
-      <p className="text-sm text-urban-gray-500 text-center">
+      <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
         Se va deschide aplicația ta de email (Gmail, Outlook, etc.) cu emailul deja completat.
         Trebuie doar să apeși <strong>Send / Trimite</strong>.
       </p>
 
       {tooLong && (
-        <p className="text-xs text-warning-yellow-700 bg-warning-yellow-100 p-2 rounded">
+        <p className="text-xs text-warning-yellow-700 dark:text-warning-yellow-400 bg-warning-yellow-100 dark:bg-warning-yellow-900/20 p-2 rounded-lg">
           Emailul are mulți destinatari. Dacă clientul tău de email nu îi încarcă pe toți,
           copiază adresele manual.
         </p>

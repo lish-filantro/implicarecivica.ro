@@ -95,55 +95,55 @@ export function CampaignForm({ campaign }: CampaignFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 max-w-3xl">
       {/* Basic Info */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-activist uppercase text-civic-blue-700 border-b-2 border-civic-blue-700 pb-2">
+      <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white pb-3 border-b border-gray-200 dark:border-gray-700">
           Informații de bază
         </h2>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Titlu campanie *</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Titlu campanie *</label>
           <input
             {...register("title", { onChange: handleTitleChange })}
             className="input-modern"
             placeholder='ex: "Mărirea amenzii pentru tăiere ilegală copaci"'
           />
-          {errors.title && <p className="text-sm text-protest-red-500 mt-1">{errors.title.message}</p>}
+          {errors.title && <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.title.message}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Slug URL *</label>
-          <div className="flex items-center gap-1 text-sm text-urban-gray-500 mb-1">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Slug URL *</label>
+          <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mb-1">
             <span>implicarecivica.ro/campanii/</span>
-            <span className="font-mono text-civic-blue-500">{watch("slug") || "..."}</span>
+            <span className="font-mono text-civic-blue-500 dark:text-civic-blue-400">{watch("slug") || "..."}</span>
           </div>
           <input {...register("slug")} className="input-modern font-mono" />
-          {errors.slug && <p className="text-sm text-protest-red-500 mt-1">{errors.slug.message}</p>}
+          {errors.slug && <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.slug.message}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Descriere scurtă (max 300 caractere)</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Descriere scurtă (max 300 caractere)</label>
           <input {...register("short_description")} className="input-modern" maxLength={300} />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Descriere lungă / Context</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Descriere lungă / Context</label>
           <textarea {...register("long_description")} className="input-modern min-h-[150px]" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold mb-1">Imagine cover (URL)</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Imagine cover (URL)</label>
             <input {...register("cover_image_url")} className="input-modern" type="url" />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1">Organizație inițiatoare</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Organizație inițiatoare</label>
             <input {...register("organization")} className="input-modern" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold mb-1">Status</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Status</label>
             <select {...register("status")} className="input-modern">
               <option value="draft">Draft</option>
               <option value="active">Activ</option>
@@ -151,54 +151,55 @@ export function CampaignForm({ campaign }: CampaignFormProps) {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1">Expiră la (opțional)</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Expiră la (opțional)</label>
             <input {...register("expires_at")} className="input-modern" type="datetime-local" />
+            {errors.expires_at && <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.expires_at.message}</p>}
           </div>
         </div>
       </section>
 
       {/* Email Template */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-activist uppercase text-civic-blue-700 border-b-2 border-civic-blue-700 pb-2">
+      <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white pb-3 border-b border-gray-200 dark:border-gray-700">
           Template Email
         </h2>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Subiect email *</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Subiect email *</label>
           <input {...register("email_subject")} className="input-modern" />
           {errors.email_subject && (
-            <p className="text-sm text-protest-red-500 mt-1">{errors.email_subject.message}</p>
+            <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.email_subject.message}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Corp email *</label>
-          <p className="text-xs text-urban-gray-400 mb-1">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Corp email *</label>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">
             Variabile disponibile: {"{nume_participant}"}, {"{oras_participant}"}, {"{data}"},{" "}
             {"{organizatie}"}
           </p>
           <textarea {...register("email_body")} className="input-modern min-h-[200px] font-mono text-sm" />
           {errors.email_body && (
-            <p className="text-sm text-protest-red-500 mt-1">{errors.email_body.message}</p>
+            <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.email_body.message}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Semnătură (opțional)</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Semnătură (opțional)</label>
           <textarea {...register("email_signature")} className="input-modern min-h-[80px] font-mono text-sm" />
         </div>
       </section>
 
       {/* Form Settings */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-activist uppercase text-civic-blue-700 border-b-2 border-civic-blue-700 pb-2">
+      <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm space-y-4">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white pb-3 border-b border-gray-200 dark:border-gray-700">
           Setări formular
         </h2>
 
         <div className="space-y-2">
           <label className="flex items-center gap-2">
             <input type="checkbox" {...register("form_fields.city")} className="w-4 h-4 accent-civic-blue-500" />
-            <span className="text-sm">Cere orașul / sectorul</span>
+            <span className="text-sm text-gray-700 dark:text-gray-300">Cere orașul / sectorul</span>
           </label>
           <label className="flex items-center gap-2">
             <input
@@ -206,34 +207,34 @@ export function CampaignForm({ campaign }: CampaignFormProps) {
               {...register("form_fields.postal_code")}
               className="w-4 h-4 accent-civic-blue-500"
             />
-            <span className="text-sm">Cere codul poștal</span>
+            <span className="text-sm text-gray-700 dark:text-gray-300">Cere codul poștal</span>
           </label>
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Text buton submit</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Text buton submit</label>
           <input {...register("submit_button_text")} className="input-modern" />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Mesaj de succes</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Mesaj de succes</label>
           <input {...register("success_message")} className="input-modern" />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">Text GDPR</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Text GDPR</label>
           <textarea {...register("gdpr_text")} className="input-modern min-h-[60px]" />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold mb-1">URL redirect după trimitere (opțional)</label>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">URL redirect după trimitere (opțional)</label>
           <input {...register("redirect_url")} className="input-modern" type="url" />
         </div>
       </section>
 
       {/* Error & Submit */}
       {error && (
-        <div className="bg-protest-red-100 border border-protest-red-300 p-3 rounded text-sm text-protest-red-700">
+        <div className="bg-protest-red-100 dark:bg-protest-red-900/20 border border-protest-red-300 dark:border-protest-red-700 p-3 rounded-lg text-sm text-protest-red-700 dark:text-protest-red-400">
           {error}
         </div>
       )}

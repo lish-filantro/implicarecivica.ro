@@ -93,12 +93,12 @@ export function ParticipationForm({
   if (submitResult) {
     return (
       <div className="space-y-6 animate-fade-in">
-        <div className="bg-grassroots-green-100 border-2 border-grassroots-green-500 p-6 text-center">
+        <div className="bg-grassroots-green-100 dark:bg-grassroots-green-900/20 border border-grassroots-green-300 dark:border-grassroots-green-700 rounded-xl p-6 text-center">
           <CheckCircle className="w-12 h-12 text-grassroots-green-500 mx-auto mb-3" />
-          <h3 className="text-xl font-activist uppercase text-grassroots-green-700 mb-2">
+          <h3 className="text-xl font-semibold text-grassroots-green-700 dark:text-grassroots-green-300 mb-2">
             Participarea ta a fost înregistrată!
           </h3>
-          <p className="text-urban-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             {submitResult.campaign.success_message || "Acum trebuie doar să trimiți emailul."}
           </p>
         </div>
@@ -111,7 +111,7 @@ export function ParticipationForm({
           buttonText={campaign.submit_button_text || "Deschide emailul în clientul tău"}
         />
 
-        <p className="text-sm text-urban-gray-500 text-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
           Emailul va ajunge la toți cei {recipientCount} destinatari.
         </p>
       </div>
@@ -121,7 +121,7 @@ export function ParticipationForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div>
-        <label htmlFor="participant_name" className="block text-sm font-semibold text-urban-gray-700 mb-1">
+        <label htmlFor="participant_name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
           Nume complet *
         </label>
         <input
@@ -131,12 +131,12 @@ export function ParticipationForm({
           placeholder="Ion Popescu"
         />
         {errors.participant_name && (
-          <p className="text-sm text-protest-red-500 mt-1">{errors.participant_name.message}</p>
+          <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.participant_name.message}</p>
         )}
       </div>
 
       <div>
-        <label htmlFor="participant_email" className="block text-sm font-semibold text-urban-gray-700 mb-1">
+        <label htmlFor="participant_email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
           Adresa de email *
         </label>
         <input
@@ -147,13 +147,13 @@ export function ParticipationForm({
           placeholder="ion@exemplu.ro"
         />
         {errors.participant_email && (
-          <p className="text-sm text-protest-red-500 mt-1">{errors.participant_email.message}</p>
+          <p className="text-sm text-protest-red-500 dark:text-protest-red-400 mt-1">{errors.participant_email.message}</p>
         )}
       </div>
 
       {campaign.form_fields?.city && (
         <div>
-          <label htmlFor="participant_city" className="block text-sm font-semibold text-urban-gray-700 mb-1">
+          <label htmlFor="participant_city" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Oraș / Sector
           </label>
           <input
@@ -167,7 +167,7 @@ export function ParticipationForm({
 
       {campaign.form_fields?.custom_field && (
         <div>
-          <label htmlFor="custom_field_value" className="block text-sm font-semibold text-urban-gray-700 mb-1">
+          <label htmlFor="custom_field_value" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
             {campaign.form_fields.custom_field}
           </label>
           <input
@@ -191,16 +191,16 @@ export function ParticipationForm({
           {...register("gdpr_consent")}
           className="mt-1 w-4 h-4 accent-civic-blue-500"
         />
-        <label htmlFor="gdpr_consent" className="text-sm text-urban-gray-600">
+        <label htmlFor="gdpr_consent" className="text-sm text-gray-600 dark:text-gray-400">
           {campaign.gdpr_text || "Accept prelucrarea datelor conform GDPR pentru scopul acestei campanii."}
         </label>
       </div>
       {errors.gdpr_consent && (
-        <p className="text-sm text-protest-red-500">{errors.gdpr_consent.message}</p>
+        <p className="text-sm text-protest-red-500 dark:text-protest-red-400">{errors.gdpr_consent.message}</p>
       )}
 
       {error && (
-        <div className="bg-protest-red-100 border border-protest-red-300 p-3 rounded-lg text-sm text-protest-red-700">
+        <div className="bg-protest-red-100 dark:bg-protest-red-900/20 border border-protest-red-300 dark:border-protest-red-700 p-3 rounded-lg text-sm text-protest-red-700 dark:text-protest-red-400">
           {error}
         </div>
       )}
@@ -220,7 +220,7 @@ export function ParticipationForm({
         )}
       </button>
 
-      <p className="text-xs text-urban-gray-400 text-center">
+      <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
         Emailul va ajunge la toți cei {recipientCount} destinatari
       </p>
     </form>

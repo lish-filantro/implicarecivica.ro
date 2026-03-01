@@ -4,10 +4,11 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Lock } from "lucide-react";
+import { LoadingSpinner } from "@/components/shared/loading-spinner";
 
 export default function AdminLoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><div className="animate-pulse text-urban-gray-400">Se încarcă...</div></div>}>
+    <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center"><LoadingSpinner size="lg" /></div>}>
       <LoginForm />
     </Suspense>
   );
@@ -46,20 +47,22 @@ function LoginForm() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="w-full max-w-sm">
-        <div className="bg-white border-2 border-black p-8 shadow-activist-lg">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-8 shadow-md">
           <div className="text-center mb-6">
-            <Lock className="w-10 h-10 text-civic-blue-500 mx-auto mb-2" />
-            <h1 className="text-xl font-activist uppercase text-civic-blue-700">
+            <div className="p-3 rounded-lg bg-civic-blue-50 dark:bg-civic-blue-900/20 inline-block mb-3">
+              <Lock className="w-8 h-8 text-civic-blue-500 dark:text-civic-blue-400" />
+            </div>
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
               Admin Campanii
             </h1>
-            <p className="text-sm text-urban-gray-500 mt-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Folosește contul tău de pe implicarecivica.ro
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold mb-1">
+              <label htmlFor="email" className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">
                 Email
               </label>
               <input
@@ -74,7 +77,7 @@ function LoginForm() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold mb-1">
+              <label htmlFor="password" className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">
                 Parolă
               </label>
               <input
@@ -88,7 +91,9 @@ function LoginForm() {
             </div>
 
             {error && (
-              <p className="text-sm text-protest-red-500">{error}</p>
+              <div className="bg-protest-red-100 dark:bg-protest-red-900/20 border border-protest-red-200 dark:border-protest-red-800 rounded-lg p-3 text-sm text-protest-red-700 dark:text-protest-red-400">
+                {error}
+              </div>
             )}
 
             <button

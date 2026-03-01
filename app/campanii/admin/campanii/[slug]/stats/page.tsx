@@ -7,6 +7,7 @@ import { StatsCards } from "@/components/campanii/admin/StatsCards";
 import { ParticipationTable } from "@/components/campanii/admin/ParticipationTable";
 import type { CampaignParticipation } from "@/lib/campanii/types/campaign";
 import { ArrowLeft, Download } from "lucide-react";
+import { LoadingSpinner } from "@/components/shared/loading-spinner";
 
 interface StatsData {
   campaign: {
@@ -42,11 +43,19 @@ function StatsContent() {
   }, [slug]);
 
   if (loading) {
-    return <div className="text-center py-12 text-urban-gray-400">Se încarcă...</div>;
+    return (
+      <div className="flex items-center justify-center py-16">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
   }
 
   if (!data?.campaign) {
-    return <div className="text-center py-12 text-protest-red-500">Campanie negăsită</div>;
+    return (
+      <div className="text-center py-12">
+        <p className="text-protest-red-500 dark:text-protest-red-400">Campanie negăsită</p>
+      </div>
+    );
   }
 
   const { campaign, participations, total, stats } = data;
@@ -59,11 +68,11 @@ function StatsContent() {
       <div>
         <a
           href={`/campanii/admin/campanii/${slug}/edit`}
-          className="inline-flex items-center gap-1 text-sm text-civic-blue-500 hover:underline mb-4"
+          className="inline-flex items-center gap-1 text-sm text-civic-blue-500 dark:text-civic-blue-400 hover:underline mb-4"
         >
           <ArrowLeft className="w-4 h-4" /> Înapoi la campanie
         </a>
-        <h1 className="heading-civic text-2xl">Statistici: {campaign.title}</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Statistici: {campaign.title}</h1>
       </div>
 
       <StatsCards
@@ -73,8 +82,8 @@ function StatsContent() {
       />
 
       {dailyEntries.length > 0 && (
-        <div className="card-modern">
-          <h3 className="text-sm font-activist uppercase text-urban-gray-500 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
             Participări pe zi (ultimele 30 zile)
           </h3>
           <div className="flex items-end gap-1 h-32">
@@ -85,13 +94,13 @@ function StatsContent() {
                 style={{ height: `${(count / maxDaily) * 100}%`, minHeight: "4px" }}
                 title={`${day}: ${count} participări`}
               >
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-urban-gray-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                   {count}
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-[10px] text-urban-gray-400 mt-1">
+          <div className="flex justify-between text-[10px] text-gray-400 dark:text-gray-500 mt-1">
             <span>{dailyEntries[0]?.[0]?.slice(5)}</span>
             <span>{dailyEntries[dailyEntries.length - 1]?.[0]?.slice(5)}</span>
           </div>
@@ -99,8 +108,8 @@ function StatsContent() {
       )}
 
       {Object.keys(stats.cityCounts).length > 0 && (
-        <div className="card-modern">
-          <h3 className="text-sm font-activist uppercase text-urban-gray-500 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
             Pe orașe
           </h3>
           <div className="space-y-2">
@@ -109,26 +118,26 @@ function StatsContent() {
               .slice(0, 10)
               .map(([city, count]) => (
                 <div key={city} className="flex items-center gap-3">
-                  <span className="text-sm w-32 truncate">{city}</span>
-                  <div className="flex-1 bg-urban-gray-100 rounded-full h-4">
+                  <span className="text-sm w-32 truncate text-gray-700 dark:text-gray-300">{city}</span>
+                  <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full h-4">
                     <div
                       className="bg-activist-orange-500 h-4 rounded-full"
                       style={{ width: `${(count / total) * 100}%`, minWidth: "8px" }}
                     />
                   </div>
-                  <span className="text-sm font-semibold w-8 text-right">{count}</span>
+                  <span className="text-sm font-semibold w-8 text-right text-gray-900 dark:text-white">{count}</span>
                 </div>
               ))}
           </div>
         </div>
       )}
 
-      <div className="card-modern">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-activist uppercase text-urban-gray-500">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
             Participări recente
           </h3>
-          <button className="text-sm text-civic-blue-500 hover:underline flex items-center gap-1">
+          <button className="text-sm text-civic-blue-500 dark:text-civic-blue-400 hover:underline flex items-center gap-1">
             <Download className="w-3 h-3" /> Export CSV
           </button>
         </div>

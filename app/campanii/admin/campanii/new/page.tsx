@@ -10,12 +10,12 @@ export default function NewCampaignPage() {
       <div>
         <a
           href="/campanii/admin"
-          className="inline-flex items-center gap-1 text-sm text-civic-blue-500 hover:underline mb-6"
+          className="inline-flex items-center gap-1 text-sm text-civic-blue-500 dark:text-civic-blue-400 hover:underline mb-6"
         >
           <ArrowLeft className="w-4 h-4" /> Înapoi la campanii
         </a>
 
-        <h1 className="heading-civic text-2xl mb-8">Campanie nouă</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">Campanie nouă</h1>
 
         <CampaignForm />
       </div>

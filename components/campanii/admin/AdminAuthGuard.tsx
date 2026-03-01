@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { LoadingSpinner } from "@/components/shared/loading-spinner";
 
 export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
@@ -23,7 +24,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   if (authenticated === null) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-pulse text-urban-gray-400">Se verifică accesul...</div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }

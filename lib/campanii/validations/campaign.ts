@@ -27,7 +27,7 @@ export const campaignSchema = z.object({
     .optional(),
   gdpr_text: z.string().max(1000).optional().nullable(),
   status: z.enum(["draft", "active", "archived"]).default("draft"),
-  expires_at: z.string().datetime().optional().nullable(),
+  expires_at: z.string().optional().nullable().transform((val) => val || null),
 });
 
 export type CampaignFormData = z.infer<typeof campaignSchema>;

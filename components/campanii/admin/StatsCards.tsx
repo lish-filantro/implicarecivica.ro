@@ -18,36 +18,44 @@ export function StatsCards({ participationCount, confirmedCount, createdAt }: St
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div className="card-modern">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
-          <Users className="w-5 h-5 text-civic-blue-500" />
-          <span className="text-xs font-semibold uppercase text-urban-gray-500">Participări</span>
+          <div className="p-1.5 rounded-lg bg-civic-blue-50 dark:bg-civic-blue-900/20">
+            <Users className="w-4 h-4 text-civic-blue-500 dark:text-civic-blue-400" />
+          </div>
+          <span className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Participări</span>
         </div>
-        <p className="text-3xl font-activist font-black text-civic-blue-700">{participationCount}</p>
+        <p className="text-3xl font-bold text-civic-blue-700 dark:text-civic-blue-400">{participationCount}</p>
       </div>
 
-      <div className="card-modern">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
-          <CheckCircle className="w-5 h-5 text-grassroots-green-500" />
-          <span className="text-xs font-semibold uppercase text-urban-gray-500">Confirmate</span>
+          <div className="p-1.5 rounded-lg bg-grassroots-green-50 dark:bg-grassroots-green-900/20">
+            <CheckCircle className="w-4 h-4 text-grassroots-green-500 dark:text-grassroots-green-400" />
+          </div>
+          <span className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Confirmate</span>
         </div>
-        <p className="text-3xl font-activist font-black text-grassroots-green-600">{confirmedCount}</p>
+        <p className="text-3xl font-bold text-grassroots-green-600 dark:text-grassroots-green-400">{confirmedCount}</p>
       </div>
 
-      <div className="card-modern">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
-          <TrendingUp className="w-5 h-5 text-activist-orange-500" />
-          <span className="text-xs font-semibold uppercase text-urban-gray-500">Rată confirmare</span>
+          <div className="p-1.5 rounded-lg bg-activist-orange-50 dark:bg-activist-orange-900/20">
+            <TrendingUp className="w-4 h-4 text-activist-orange-500 dark:text-activist-orange-400" />
+          </div>
+          <span className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Rată confirmare</span>
         </div>
-        <p className="text-3xl font-activist font-black text-activist-orange-600">{confirmRate}%</p>
+        <p className="text-3xl font-bold text-activist-orange-600 dark:text-activist-orange-400">{confirmRate}%</p>
       </div>
 
-      <div className="card-modern">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-2">
-          <Clock className="w-5 h-5 text-urban-gray-500" />
-          <span className="text-xs font-semibold uppercase text-urban-gray-500">Zile active</span>
+          <div className="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-700">
+            <Clock className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+          </div>
+          <span className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Zile active</span>
         </div>
-        <p className="text-3xl font-activist font-black text-urban-gray-700">{daysSinceCreation}</p>
+        <p className="text-3xl font-bold text-gray-700 dark:text-gray-300">{daysSinceCreation}</p>
       </div>
     </div>
   );
