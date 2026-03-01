@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 
 /**
+ * Extract raw email address from RFC 5322 format.
+ * "Ion Popescu <ion.popescu@domain.ro>" → "ion.popescu@domain.ro"
+ * "email@domain.ro" → "email@domain.ro"
+ */
+function extractEmail(raw: string): string {
+  const match = raw.match(/<([^>]+)>/);
+  return (match ? match[1] : raw).trim().toLowerCase();
+}
+
+/**
  * Resend Webhook Handler
  * - email.received: fetches full email content via Resend API, saves to DB
  * - email.delivered/bounced/complained: updates delivery status
@@ -34,10 +44,11 @@ export async function POST(request: NextRequest) {
 
     switch (type) {
       case 'email.received': {
-        const emailId = data?.id;
+        // Resend docs: webhook payload has data.email_id
+        const emailId = data?.email_id;
         if (!emailId) {
-          console.error('email.received webhook missing id');
-          return NextResponse.json({ error: 'Missing email id' }, { status: 400 });
+          console.error('email.received webhook missing email_id:', JSON.stringify(data));
+          return NextResponse.json({ error: 'Missing email_id' }, { status: 400 });
         }
 
         // Fetch full email content from Resend API
@@ -58,10 +69,15 @@ export async function POST(request: NextRequest) {
 
         const email = await emailResponse.json();
 
-        const toEmail = Array.isArray(email.to) ? email.to[0] : email.to;
-        const fromEmail = typeof email.from === 'string' ? email.from : email.from?.email || email.from;
+        // Parse "to" — extract raw email address for user matching
+        const rawTo = Array.isArray(email.to) ? email.to[0] : email.to;
+        const toEmail = extractEmail(rawTo);
 
-        // Find user by matching "to" address to a platform email (sent emails from_email)
+        // Parse "from" — keep display name for storage, extract email for matching
+        const rawFrom = typeof email.from === 'string' ? email.from : email.from?.email || String(email.from);
+        const fromEmailAddress = extractEmail(rawFrom);
+
+        // 1) Find user by matching "to" address to profile's mailcow_email
         const { data: matchedProfile } = await supabase
           .from('profiles')
           .select('id')
@@ -70,7 +86,7 @@ export async function POST(request: NextRequest) {
 
         let userId = matchedProfile?.[0]?.id;
 
-        // Fallback: match by sent emails
+        // 2) Fallback: match by sent emails from_email
         if (!userId) {
           const { data: matchedEmails } = await supabase
             .from('emails')
@@ -87,14 +103,36 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ received: true, matched: false });
         }
 
+        // 3) Try to link this reply to the original request
+        //    Find the most recent sent email from this user to this institution
+        let requestId: string | null = null;
+        let parentEmailId: string | null = null;
+
+        const { data: relatedSent } = await supabase
+          .from('emails')
+          .select('id, request_id')
+          .eq('user_id', userId)
+          .eq('to_email', fromEmailAddress)
+          .eq('type', 'sent')
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (relatedSent?.[0]) {
+          requestId = relatedSent[0].request_id || null;
+          parentEmailId = relatedSent[0].id;
+        }
+
         // Save the received email with full content
         const { error: insertError } = await supabase
           .from('emails')
           .insert({
             user_id: userId,
+            request_id: requestId,
+            parent_email_id: parentEmailId,
             message_id: email.message_id || emailId,
             type: 'received',
-            from_email: fromEmail,
+            category: requestId ? 'raspunse' : null,
+            from_email: rawFrom,
             to_email: toEmail,
             subject: email.subject || '(fără subiect)',
             body: email.html || email.text || '',
@@ -116,7 +154,19 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'DB insert failed' }, { status: 500 });
         }
 
-        return NextResponse.json({ received: true, matched: true });
+        // If linked to a request, update request status to 'raspuns_primit'
+        if (requestId) {
+          await supabase
+            .from('requests')
+            .update({
+              status: 'answered',
+              response_received_date: new Date().toISOString(),
+            })
+            .eq('id', requestId)
+            .eq('user_id', userId);
+        }
+
+        return NextResponse.json({ received: true, matched: true, request_linked: !!requestId });
       }
 
       case 'email.delivered':
