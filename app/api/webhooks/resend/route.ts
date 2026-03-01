@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 
 /**
@@ -304,20 +304,27 @@ export async function POST(request: NextRequest) {
           `attachments=${savedAttachments.length}`,
         );
 
-        // Fire-and-forget: trigger processing pipeline immediately.
-        // We don't await — the webhook responds 200 to Resend right away,
-        // while processing runs in the background on Vercel.
-        const processUrl = new URL('/api/emails/process', request.url);
+        // Trigger processing pipeline after the response is sent.
+        // next/server after() keeps the function alive on Vercel until done.
+        const processUrl = new URL('/api/emails/process', request.url).toString();
         const cronSecret = process.env.CRON_SECRET;
-        fetch(processUrl.toString(), {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(cronSecret && cronSecret !== 'placeholder' ? { Authorization: `Bearer ${cronSecret}` } : {}),
-          },
-          body: JSON.stringify({ email_id: emailId }),
-        }).catch((err) => {
-          console.error(`[Webhook] Fire-and-forget process failed for ${emailId}:`, err);
+        after(async () => {
+          try {
+            const res = await fetch(processUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                ...(cronSecret && cronSecret !== 'placeholder' ? { Authorization: `Bearer ${cronSecret}` } : {}),
+              },
+              body: JSON.stringify({ email_id: emailId }),
+            });
+            if (!res.ok) {
+              const text = await res.text();
+              console.error(`[Webhook] Process trigger failed for ${emailId}: ${res.status} ${text}`);
+            }
+          } catch (err) {
+            console.error(`[Webhook] Process trigger error for ${emailId}:`, err);
+          }
         });
 
         return NextResponse.json({
