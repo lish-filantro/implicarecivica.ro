@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Mail, ArrowLeft, Reply, Trash2 } from 'lucide-react';
+import { Mail, ArrowLeft, Reply, Trash2, Paperclip, Download, FileText } from 'lucide-react';
 import EmailSidebar from '@/components/emails/EmailSidebar';
 import EmailList from '@/components/emails/EmailList';
 import ComposeModal from '@/components/emails/ComposeModal';
@@ -182,9 +182,41 @@ export default function EmailsPage() {
           <div className="flex flex-col h-full animate-fade-in">
             {/* Detail header */}
             <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                {selectedEmail.subject}
-              </h2>
+              <div className="flex items-start justify-between gap-3">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {selectedEmail.subject}
+                </h2>
+                {selectedEmail.type === 'received' && (
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {selectedEmail.category && (
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                        selectedEmail.category === 'inregistrate' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
+                        selectedEmail.category === 'amanate' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' :
+                        selectedEmail.category === 'raspunse' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
+                        selectedEmail.category === 'intarziate' ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' :
+                        'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-400'
+                      }`}>
+                        {selectedEmail.category === 'inregistrate' ? 'Confirmare înregistrare' :
+                         selectedEmail.category === 'amanate' ? 'Cerere de prelungire' :
+                         selectedEmail.category === 'raspunse' ? 'Răspuns final' :
+                         selectedEmail.category === 'intarziate' ? 'Răspuns întârziat' :
+                         selectedEmail.category}
+                      </span>
+                    )}
+                    {selectedEmail.processing_status !== 'completed' && (
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        selectedEmail.processing_status === 'processing' ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400 animate-pulse' :
+                        selectedEmail.processing_status === 'failed' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
+                        'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'
+                      }`}>
+                        {selectedEmail.processing_status === 'processing' ? 'Se procesează...' :
+                         selectedEmail.processing_status === 'failed' ? 'Procesare eșuată' :
+                         'Neprocesar'}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
               <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
                 <span>
                   <span className="font-medium text-gray-700 dark:text-gray-300">De la:</span>{' '}
@@ -195,6 +227,11 @@ export default function EmailsPage() {
                   {selectedEmail.to_email}
                 </span>
                 <span>{formatDate(selectedEmail.created_at, 'long')}</span>
+                {selectedEmail.registration_number && (
+                  <span className="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
+                    Nr. {selectedEmail.registration_number}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -207,6 +244,53 @@ export default function EmailsPage() {
                 />
               ) : (
                 <p className="text-sm text-gray-400 italic">Fără conținut</p>
+              )}
+
+              {/* Attachments */}
+              {selectedEmail.attachments && selectedEmail.attachments.length > 0 && (
+                <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Paperclip className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Atașamente ({selectedEmail.attachments.length})
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedEmail.attachments.map((att: { name: string; type: string; size?: number; path?: string }, idx: number) => (
+                      <button
+                        key={idx}
+                        onClick={async () => {
+                          if (!att.path) return;
+                          try {
+                            const res = await fetch(`/api/emails/attachments?path=${encodeURIComponent(att.path)}`);
+                            const data = await res.json();
+                            if (data.url) {
+                              window.open(data.url, '_blank');
+                            }
+                          } catch (err) {
+                            console.error('Failed to download attachment:', err);
+                          }
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-colors
+                          ${att.path
+                            ? 'border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer'
+                            : 'border-gray-100 dark:border-gray-700 opacity-50 cursor-default'
+                          }`}
+                      >
+                        <FileText className="h-4 w-4 text-civic-blue-500 flex-shrink-0" />
+                        <span className="truncate max-w-[200px]">{att.name}</span>
+                        {att.size && (
+                          <span className="text-xs text-gray-400">
+                            {att.size > 1024 * 1024
+                              ? `${(att.size / (1024 * 1024)).toFixed(1)} MB`
+                              : `${Math.round(att.size / 1024)} KB`}
+                          </span>
+                        )}
+                        {att.path && <Download className="h-3.5 w-3.5 text-gray-400" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 

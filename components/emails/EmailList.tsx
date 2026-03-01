@@ -3,7 +3,8 @@
 import { Search, Mail } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
-import type { Email } from '@/lib/types/email';
+import type { Email, ProcessingStatus } from '@/lib/types/email';
+import type { EmailCategory } from '@/lib/types/request';
 import type { EmailFolder } from './EmailSidebar';
 
 interface EmailListProps {
@@ -18,6 +19,26 @@ interface EmailListProps {
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+const CATEGORY_LABELS: Record<EmailCategory, { label: string; className: string }> = {
+  trimise: { label: 'Trimis', className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+  inregistrate: { label: 'Înregistrat', className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' },
+  amanate: { label: 'Amânat', className: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' },
+  raspunse: { label: 'Răspuns', className: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' },
+  intarziate: { label: 'Întârziat', className: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' },
+};
+
+function ProcessingBadge({ status }: { status: ProcessingStatus }) {
+  if (status === 'completed') return null;
+  const config: Record<string, { label: string; className: string }> = {
+    pending: { label: 'Neprocesar', className: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' },
+    processing: { label: 'Se procesează...', className: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400 animate-pulse' },
+    failed: { label: 'Eșuat', className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
+  };
+  const c = config[status];
+  if (!c) return null;
+  return <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${c.className}`}>{c.label}</span>;
 }
 
 export default function EmailList({
@@ -106,6 +127,22 @@ export default function EmailList({
                   <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">
                     {preview}
                   </p>
+                )}
+                {/* Category badge + processing status */}
+                {email.type === 'received' && (
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    {email.category && CATEGORY_LABELS[email.category] && (
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium ${CATEGORY_LABELS[email.category].className}`}>
+                        {CATEGORY_LABELS[email.category].label}
+                      </span>
+                    )}
+                    <ProcessingBadge status={email.processing_status} />
+                    {email.request_id && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400">
+                        Asociat
+                      </span>
+                    )}
+                  </div>
                 )}
               </button>
             );

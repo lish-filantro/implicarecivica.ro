@@ -52,6 +52,18 @@ export async function deleteEmail(id: string): Promise<void> {
   if (error) throw error;
 }
 
+export async function listEmailsByRequestId(requestId: string): Promise<Email[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('emails')
+    .select('*')
+    .eq('request_id', requestId)
+    .order('created_at', { ascending: true });
+
+  if (error) throw error;
+  return data || [];
+}
+
 export async function getUnreadCount(): Promise<number> {
   const supabase = createClient();
   const { count, error } = await supabase

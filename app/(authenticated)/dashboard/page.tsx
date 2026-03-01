@@ -1,22 +1,15 @@
-/**
- * Dashboard Page - Enhanced 2026 Edition
- * Implements modern dashboard best practices:
- * - F-pattern layout for visual hierarchy
- * - Progressive loading with skeleton states
- * - Micro-interactions for enhanced UX
- * - Dark mode support with smooth transitions
- * - Responsive design (mobile-first)
- * - Accessibility (WCAG 2.1 AA compliant)
- */
-
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { SessionCard } from '@/components/dashboard/SessionCard';
 import { SessionDetailModal } from '@/components/dashboard/SessionDetailModal';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import type { Request, DashboardStats } from '@/lib/types/request';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
+import { listSessionsWithRequests } from '@/lib/supabase/session-queries';
+import { getUnreadCount } from '@/lib/supabase/email-queries';
+import { getProfile } from '@/lib/supabase/profile-queries';
+import type { DashboardStats } from '@/lib/types/request';
 import type { RequestSessionWithRequests, SessionStatus } from '@/lib/types/session';
 import {
   getEffectiveDeadline,
@@ -26,183 +19,47 @@ import {
 } from '@/lib/utils/requestUtils';
 import { computeSessionStats } from '@/lib/utils/sessionUtils';
 
-// Mock data - Replace with listSessionsWithRequests() call
-const MOCK_SESSIONS: RequestSessionWithRequests[] = [
-  {
-    id: 'session-1',
-    user_id: 'user1',
-    subject: 'Cheltuieli infrastructură rutieră 2024',
-    institution_name: 'Primăria Sectorului 3',
-    institution_email: 'registratura@ps3.ro',
-    cached_status: 'partial_answered',
-    total_requests: 5,
-    answered_requests: 3,
-    nearest_deadline: '2026-03-05T23:59:59Z',
-    created_at: '2026-02-10T10:00:00Z',
-    updated_at: '2026-02-25T16:00:00Z',
-    requests: [
-      {
-        id: 'r1', user_id: 'user1', session_id: 'session-1',
-        institution_name: 'Primăria Sectorului 3',
-        subject: 'Cheltuieli infrastructură rutieră 2024',
-        request_body: 'Care este bugetul total alocat pentru reparația drumurilor în 2024?',
-        status: 'answered', registration_number: '1001/2026',
-        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:05:00Z',
-        deadline_date: '2026-02-20T23:59:59Z',
-        response_received_date: '2026-02-18T14:00:00Z',
-        answer_summary: {
-          type: 'text',
-          content: 'Bugetul total alocat pentru reparația și întreținerea drumurilor în anul 2024 a fost de 42.350.000 lei, din care 38.100.000 lei pentru lucrări de asfaltare și 4.250.000 lei pentru semnalistică rutieră și marcaje.',
-        },
-        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-18T14:00:00Z',
-      },
-      {
-        id: 'r2', user_id: 'user1', session_id: 'session-1',
-        institution_name: 'Primăria Sectorului 3',
-        subject: 'Cheltuieli infrastructură rutieră 2024',
-        request_body: 'Câte contracte de asfaltare au fost semnate în 2024 și cu ce firme?',
-        status: 'answered', registration_number: '1002/2026',
-        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:06:00Z',
-        deadline_date: '2026-02-20T23:59:59Z',
-        response_received_date: '2026-02-19T11:00:00Z',
-        answer_summary: {
-          type: 'table',
-          headers: ['Nr.', 'Firmă', 'Valoare contract', 'Sector acoperit'],
-          rows: [
-            ['1', 'SC Drumuri Moderne SRL', '12.500.000 lei', 'Zone rezidențiale nord'],
-            ['2', 'Asfalt Pro SA', '15.800.000 lei', 'Bulevarde principale'],
-            ['3', 'Construct Infra SRL', '9.800.000 lei', 'Străzi secundare'],
-          ],
-        },
-        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-19T11:00:00Z',
-      },
-      {
-        id: 'r3', user_id: 'user1', session_id: 'session-1',
-        institution_name: 'Primăria Sectorului 3',
-        subject: 'Cheltuieli infrastructură rutieră 2024',
-        request_body: 'Care este gradul de execuție al bugetului alocat pentru drumuri?',
-        status: 'answered', registration_number: '1003/2026',
-        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:07:00Z',
-        deadline_date: '2026-02-20T23:59:59Z',
-        response_received_date: '2026-02-20T09:00:00Z',
-        answer_summary: {
-          type: 'list',
-          content: [
-            'Gradul de execuție total: 89,7% din bugetul alocat',
-            'Lucrări finalizate: 34 din 41 de străzi programate',
-            'Lucrări în desfășurare: 5 străzi (estimare finalizare: martie 2025)',
-            'Lucrări neinițiate: 2 străzi (din cauza condițiilor meteo)',
-          ],
-        },
-        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-20T09:00:00Z',
-      },
-      {
-        id: 'r4', user_id: 'user1', session_id: 'session-1',
-        institution_name: 'Primăria Sectorului 3',
-        subject: 'Cheltuieli infrastructură rutieră 2024',
-        request_body: 'Există rapoarte de monitorizare a calității lucrărilor de asfaltare?',
-        status: 'received', registration_number: '1004/2026',
-        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:08:00Z',
-        deadline_date: '2026-03-05T23:59:59Z',
-        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-12T15:00:00Z',
-      },
-      {
-        id: 'r5', user_id: 'user1', session_id: 'session-1',
-        institution_name: 'Primăria Sectorului 3',
-        subject: 'Cheltuieli infrastructură rutieră 2024',
-        request_body: 'Ce sancțiuni au fost aplicate firmelor care nu au respectat termenele?',
-        status: 'pending',
-        date_initiated: '2026-02-10T10:00:00Z', date_sent: '2026-02-10T10:09:00Z',
-        deadline_date: '2026-03-05T23:59:59Z',
-        created_at: '2026-02-10T10:00:00Z', updated_at: '2026-02-10T10:09:00Z',
-      },
-    ],
-  },
-  {
-    id: 'session-2',
-    user_id: 'user1',
-    subject: 'Informații despre bugetul educației 2024',
-    institution_name: 'Ministerul Educației',
-    institution_email: 'registratura@edu.gov.ro',
-    cached_status: 'in_progress',
-    total_requests: 3,
-    answered_requests: 0,
-    nearest_deadline: '2026-03-08T23:59:59Z',
-    created_at: '2026-02-15T09:00:00Z',
-    updated_at: '2026-02-17T11:20:00Z',
-    requests: [
-      {
-        id: 'r6', user_id: 'user1', session_id: 'session-2',
-        institution_name: 'Ministerul Educației',
-        subject: 'Informații despre bugetul educației 2024',
-        request_body: 'Care este bugetul total alocat pentru educație în 2024?',
-        status: 'received', registration_number: '67890/2026',
-        date_initiated: '2026-02-15T09:00:00Z', date_sent: '2026-02-15T09:15:00Z',
-        deadline_date: '2026-03-08T23:59:59Z',
-        created_at: '2026-02-15T09:00:00Z', updated_at: '2026-02-17T11:20:00Z',
-      },
-      {
-        id: 'r7', user_id: 'user1', session_id: 'session-2',
-        institution_name: 'Ministerul Educației',
-        subject: 'Informații despre bugetul educației 2024',
-        request_body: 'Câte posturi noi de profesori au fost create în 2024?',
-        status: 'received', registration_number: '67891/2026',
-        date_initiated: '2026-02-15T09:00:00Z', date_sent: '2026-02-15T09:16:00Z',
-        deadline_date: '2026-03-08T23:59:59Z',
-        created_at: '2026-02-15T09:00:00Z', updated_at: '2026-02-17T11:21:00Z',
-      },
-      {
-        id: 'r8', user_id: 'user1', session_id: 'session-2',
-        institution_name: 'Ministerul Educației',
-        subject: 'Informații despre bugetul educației 2024',
-        request_body: 'Care sunt proiectele de infrastructură școlară finanțate în 2024?',
-        status: 'received', registration_number: '67892/2026',
-        date_initiated: '2026-02-15T09:00:00Z', date_sent: '2026-02-15T09:17:00Z',
-        deadline_date: '2026-03-08T23:59:59Z',
-        created_at: '2026-02-15T09:00:00Z', updated_at: '2026-02-17T11:22:00Z',
-      },
-    ],
-  },
-  {
-    id: 'session-3',
-    user_id: 'user1',
-    subject: 'Solicitare decizie fiscală',
-    institution_name: 'ANAF',
-    institution_email: 'registratura@anaf.ro',
-    cached_status: 'pending',
-    total_requests: 1,
-    answered_requests: 0,
-    nearest_deadline: undefined,
-    created_at: '2026-02-20T14:00:00Z',
-    updated_at: '2026-02-20T14:10:00Z',
-    requests: [
-      {
-        id: 'r9', user_id: 'user1', session_id: 'session-3',
-        institution_name: 'ANAF',
-        subject: 'Solicitare decizie fiscală',
-        request_body: 'Vă rog să îmi comunicați decizia fiscală nr. 123/2024.',
-        status: 'pending',
-        date_initiated: '2026-02-20T14:00:00Z', date_sent: '2026-02-20T14:10:00Z',
-        created_at: '2026-02-20T14:00:00Z', updated_at: '2026-02-20T14:10:00Z',
-      },
-    ],
-  },
-];
-
 export default function DashboardPage() {
+  const [sessions, setSessions] = useState<RequestSessionWithRequests[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>('');
+  const [unreadCount, setUnreadCount] = useState(0);
   const [statusFilter, setStatusFilter] = useState<SessionStatus | 'all'>('all');
   const [detailSession, setDetailSession] = useState<RequestSessionWithRequests | null>(null);
 
-  // Mock user data - Replace with actual auth
-  const userName = 'Ion';
+  useEffect(() => {
+    async function load() {
+      try {
+        const [sessionsData, profile, unread] = await Promise.all([
+          listSessionsWithRequests(),
+          getProfile(),
+          getUnreadCount(),
+        ]);
+        setSessions(sessionsData);
+        setUserName(
+          profile?.display_name
+          || profile?.first_name
+          || ''
+        );
+        setUnreadCount(unread);
+      } catch (err) {
+        console.error('Failed to load dashboard:', err);
+        setError('Nu am putut încărca datele.');
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
 
   // All requests flattened from sessions (for KPI stats)
   const allRequests = useMemo(() => {
-    return MOCK_SESSIONS.flatMap((s) => s.requests);
-  }, []);
+    return sessions.flatMap((s) => s.requests);
+  }, [sessions]);
 
   // Session stats
-  const sessionStats = useMemo(() => computeSessionStats(MOCK_SESSIONS), []);
+  const sessionStats = useMemo(() => computeSessionStats(sessions), [sessions]);
 
   // Calculate request-level statistics (for KPI cards)
   const requestStats = useMemo<DashboardStats>(() => {
@@ -412,21 +269,36 @@ export default function DashboardPage() {
 
   // Filtered and sorted sessions
   const filteredSessions = useMemo(() => {
-    const sessions = statusFilter === 'all'
-      ? MOCK_SESSIONS
-      : MOCK_SESSIONS.filter((s) => s.cached_status === statusFilter);
+    const filtered = statusFilter === 'all'
+      ? sessions
+      : sessions.filter((s) => s.cached_status === statusFilter);
 
-    return [...sessions].sort((a, b) => {
+    return [...filtered].sort((a, b) => {
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
-  }, [statusFilter]);
+  }, [sessions, statusFilter]);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex items-center justify-center min-h-[60vh]">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center min-h-[60vh] flex items-center justify-center">
+        <p className="text-red-600 dark:text-red-400">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Enhanced Header with Dark Mode Toggle */}
         <DashboardHeader
           userName={userName}
-          unreadNotifications={3}
+          unreadNotifications={unreadCount}
         />
 
         {/* Enhanced Alerts with Modern Design */}
@@ -540,10 +412,10 @@ export default function DashboardPage() {
             </div>
 
             {/* Status filters */}
-            {MOCK_SESSIONS.length > 0 && (
+            {sessions.length > 0 && (
               <div className="flex items-center gap-2 flex-wrap">
                 {([
-                  { key: 'all' as const, label: 'Toate', count: MOCK_SESSIONS.length },
+                  { key: 'all' as const, label: 'Toate', count: sessions.length },
                   { key: 'pending' as const, label: 'În așteptare', count: sessionStats.by_status.pending },
                   { key: 'in_progress' as const, label: 'În curs', count: sessionStats.by_status.in_progress },
                   { key: 'partial_answered' as const, label: 'Parțial', count: sessionStats.by_status.partial_answered },

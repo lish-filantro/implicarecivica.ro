@@ -40,8 +40,143 @@ async function fetchEmailContent(emailId: string, apiKey: string) {
 }
 
 /**
+ * Detect parent email via In-Reply-To / References headers.
+ * Returns the parent email's UUID from our DB, or null.
+ */
+async function detectParentEmail(
+  headers: Record<string, string> | undefined,
+  supabase: ReturnType<typeof createServerClient>,
+): Promise<string | null> {
+  if (!headers) return null;
+
+  // In-Reply-To is the most direct signal
+  const inReplyTo = headers['in-reply-to'] || headers['In-Reply-To'];
+  // References contains the full thread chain
+  const references = headers['references'] || headers['References'];
+
+  const messageIdsToCheck: string[] = [];
+
+  if (inReplyTo) {
+    // Clean angle brackets: <msg-id@domain> → msg-id@domain
+    const cleaned = inReplyTo.replace(/[<>]/g, '').trim();
+    if (cleaned) messageIdsToCheck.push(cleaned);
+  }
+
+  if (references) {
+    // References can contain multiple message IDs separated by spaces
+    const refs = references.split(/\s+/).map((r) => r.replace(/[<>]/g, '').trim()).filter(Boolean);
+    for (const ref of refs) {
+      if (!messageIdsToCheck.includes(ref)) {
+        messageIdsToCheck.push(ref);
+      }
+    }
+  }
+
+  if (messageIdsToCheck.length === 0) return null;
+
+  // Look for any of these message IDs in our DB
+  for (const msgId of messageIdsToCheck) {
+    const { data } = await supabase
+      .from('emails')
+      .select('id')
+      .eq('message_id', msgId)
+      .limit(1);
+
+    if (data && data.length > 0) {
+      console.log(`[Thread] Found parent email ${data[0].id} via message_id ${msgId}`);
+      return data[0].id;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Fetch attachments from Resend API, download them, and save to Supabase Storage.
+ * Returns array of saved attachment metadata (with storage paths).
+ */
+async function saveAttachments(
+  resendEmailId: string,
+  apiKey: string,
+  userId: string,
+  emailId: string,
+  supabase: ReturnType<typeof createServerClient>,
+): Promise<{ name: string; type: string; size: number; path: string }[]> {
+  const saved: { name: string; type: string; size: number; path: string }[] = [];
+
+  try {
+    // Fetch attachment list with download URLs from Resend
+    const res = await fetch(
+      `https://api.resend.com/emails/receiving/${resendEmailId}/attachments`,
+      { headers: { 'Authorization': `Bearer ${apiKey}` } },
+    );
+
+    if (!res.ok) {
+      console.warn(`[Attachments] API returned ${res.status}`);
+      return saved;
+    }
+
+    const attachmentList = await res.json();
+    const items = Array.isArray(attachmentList) ? attachmentList : attachmentList?.data || [];
+
+    if (items.length === 0) return saved;
+
+    console.log(`[Attachments] Found ${items.length} attachment(s)`);
+
+    for (const att of items) {
+      if (!att.download_url) continue;
+
+      try {
+        // Download file from signed CloudFront URL
+        const fileRes = await fetch(att.download_url);
+        if (!fileRes.ok) {
+          console.warn(`[Attachments] Download failed for ${att.filename}: ${fileRes.status}`);
+          continue;
+        }
+
+        const fileBuffer = Buffer.from(await fileRes.arrayBuffer());
+
+        // Max 50MB
+        if (fileBuffer.length > 50 * 1024 * 1024) {
+          console.warn(`[Attachments] ${att.filename} too large (${fileBuffer.length} bytes), skipping`);
+          continue;
+        }
+
+        const storagePath = `${userId}/${emailId}/${att.filename || 'attachment'}`;
+
+        const { error } = await supabase.storage
+          .from('email-attachments')
+          .upload(storagePath, fileBuffer, {
+            contentType: att.content_type || 'application/octet-stream',
+            upsert: true,
+          });
+
+        if (error) {
+          console.error(`[Attachments] Upload failed for ${att.filename}:`, error.message);
+          continue;
+        }
+
+        console.log(`[Attachments] Saved ${att.filename} (${fileBuffer.length} bytes)`);
+        saved.push({
+          name: att.filename || 'attachment',
+          type: att.content_type || 'application/octet-stream',
+          size: att.size || fileBuffer.length,
+          path: storagePath,
+        });
+      } catch (dlErr: any) {
+        console.error(`[Attachments] Error processing ${att.filename}:`, dlErr.message);
+      }
+    }
+  } catch (err: any) {
+    console.error('[Attachments] Fetch error:', err.message);
+  }
+
+  return saved;
+}
+
+/**
  * Resend Webhook Handler
- * - email.received: fetches full email via API, saves to DB
+ * - email.received: saves email + PDF attachments + thread detection, marks for processing
  * - email.delivered/bounced/complained: updates delivery status
  */
 export async function POST(request: NextRequest) {
@@ -72,9 +207,7 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'Missing data' }, { status: 400 });
         }
 
-        // Log webhook payload keys for debugging
         console.log('email.received payload keys:', Object.keys(data));
-        console.log('email.received has html:', !!data.html, 'has text:', !!data.text, 'has body:', !!data.body);
 
         const rawTo = Array.isArray(data.to) ? data.to[0] : data.to;
         const toEmail = extractEmail(rawTo);
@@ -119,20 +252,40 @@ export async function POST(request: NextRequest) {
           }
         }
 
+        // Thread detection — find parent email via In-Reply-To / References
+        const parentEmailId = await detectParentEmail(data.headers, supabase);
+
+        // Generate email ID upfront (needed for PDF storage path)
+        const emailId = crypto.randomUUID();
+
+        // Fetch and save attachments from Resend API to Supabase Storage
+        let savedAttachments: { name: string; type: string; size: number; path: string }[] = [];
+        const resendApiKey = process.env.RESEND_API_KEY;
+        if (data.email_id && resendApiKey && data.attachments?.length > 0) {
+          savedAttachments = await saveAttachments(data.email_id, resendApiKey, userId, emailId, supabase);
+        }
+
+        const pdfFilePath = savedAttachments.find(a => a.type === 'application/pdf')?.path || null;
+
         const { error: insertError } = await supabase
           .from('emails')
           .insert({
+            id: emailId,
             user_id: userId,
+            parent_email_id: parentEmailId,
             message_id: data.message_id || data.email_id,
             type: 'received',
             from_email: rawFrom,
             to_email: toEmail,
             subject,
             body,
-            attachments: data.attachments?.map((a: { filename: string; content_type: string }) => ({
-              name: a.filename,
-              type: a.content_type,
-            })) || [],
+            attachments: savedAttachments.length > 0
+              ? savedAttachments.map(a => ({ name: a.name, type: a.type, size: a.size, path: a.path }))
+              : data.attachments?.map((a: { filename: string; content_type: string }) => ({
+                  name: a.filename,
+                  type: a.content_type,
+                })) || [],
+            pdf_file_path: pdfFilePath,
             processing_status: 'completed',
             is_read: false,
             received_at: data.created_at || new Date().toISOString(),
@@ -146,7 +299,19 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'DB insert failed' }, { status: 500 });
         }
 
-        return NextResponse.json({ received: true, matched: true, has_body: !!body });
+        console.log(
+          `[Webhook] Email ${emailId} saved: parent=${parentEmailId || 'none'}, ` +
+          `attachments=${savedAttachments.length}`,
+        );
+
+        return NextResponse.json({
+          received: true,
+          matched: true,
+          email_id: emailId,
+          has_body: !!body,
+          attachments: savedAttachments.length,
+          has_parent: !!parentEmailId,
+        });
       }
 
       case 'email.delivered':
