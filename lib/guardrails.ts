@@ -73,16 +73,19 @@ export function extractProblemContext(
 
     if (!isExplicitMarker && !isAlternativeFormat) continue;
 
-    // Extract CE: (handles ✅ emoji as separator before UNDE/CÂND)
-    const ceMatch = msg.content.match(/CE[:\s]+(.+?)(?:\s*✅?\s*UNDE|\s*✅?\s*DE_C[AÂ]ND|\n|$)/i);
+    // Strip markdown bold before extraction (** around field names)
+    const clean = msg.content.replace(/\*{1,2}/g, '');
+
+    // Extract CE:
+    const ceMatch = clean.match(/CE[:\s]+(.+?)(?:\s*✅?\s*UNDE|\s*✅?\s*DE_C[AÂ]ND|\n|$)/i);
     if (ceMatch) result.ce = ceMatch[1].trim();
 
     // Extract UNDE:
-    const undeMatch = msg.content.match(/UNDE[:\s]+(.+?)(?:\s*✅?\s*DE_C[AÂ]ND|\s*✅?\s*C[AÂ]ND|\n|$)/i);
+    const undeMatch = clean.match(/UNDE[:\s]+(.+?)(?:\s*✅?\s*DE_C[AÂ]ND|\s*✅?\s*C[AÂ]ND|\n|$)/i);
     if (undeMatch) result.unde = undeMatch[1].trim();
 
     // Extract CÂND/DE_CÂND:
-    const candMatch = msg.content.match(/(?:DE_)?C[AÂ]ND[:\s]+(.+?)(?:\.|Confirm[aă]|\n|$)/i);
+    const candMatch = clean.match(/(?:DE_)?C[AÂ]ND[:\s]+(.+?)(?:\.|Confirm[aă]|\n|$)/i);
     if (candMatch) result.cand = candMatch[1].trim();
 
     // Extract localitate din UNDE
@@ -188,9 +191,10 @@ function validateStepTransition(
  * (format alternativ — modelul folosește ✅ per câmp în loc de ✅PROBLEMA_DEFINITĂ)
  */
 function hasCompleteSummary(content: string): boolean {
-  const hasCE = /✅\s*CE[:\s]/i.test(content);
-  const hasUNDE = /✅\s*UNDE[:\s]/i.test(content);
-  const hasCAND = /✅\s*(?:DE_)?C[AÂ]ND[:\s]/i.test(content);
+  // Handle optional bold markdown: ✅ CE:, ✅ **CE:**, ✅ **CE**:
+  const hasCE = /✅\s*\*{0,2}\s*CE\s*\*{0,2}\s*[:\s]/i.test(content);
+  const hasUNDE = /✅\s*\*{0,2}\s*UNDE\s*\*{0,2}\s*[:\s]/i.test(content);
+  const hasCAND = /✅\s*\*{0,2}\s*(?:DE_)?C[AÂ]ND\s*\*{0,2}\s*[:\s]/i.test(content);
   return hasCE && hasUNDE && hasCAND;
 }
 
