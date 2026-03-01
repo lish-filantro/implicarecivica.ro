@@ -326,6 +326,14 @@ export async function POST(request: NextRequest) {
       role: m.role,
       content: m.content,
     }));
+
+    // DEBUG: Log what history we received from frontend
+    console.log(`📨 History received: ${historyForDetection.length} messages`);
+    for (const m of historyForDetection) {
+      const preview = m.content.substring(0, 100).replace(/\n/g, ' ');
+      console.log(`  [${m.role}] ${preview}${m.content.length > 100 ? '...' : ''}`);
+    }
+
     const { step: currentStep, guardrail: stepGuardrail } =
       getStepGuardrail(historyForDetection);
 
@@ -334,8 +342,9 @@ export async function POST(request: NextRequest) {
     const localitate = context.localitate || '';
 
     console.log(
-      `Step: ${currentStep} | Model: ${HAIKU_MODEL} | Localitate: ${localitate || '(none)'}`,
+      `📍 Step: ${currentStep} | Context: CE=${context.ce ? 'YES' : 'NO'} UNDE=${context.unde ? 'YES' : 'NO'} CÂND=${context.cand ? 'YES' : 'NO'} | Localitate: ${localitate || '(none)'}`,
     );
+    console.log(`📋 Guardrail: ${stepGuardrail.substring(0, 80)}...`);
 
     // ━━━ Build tools with dynamic location ━━━
     const tools = buildTools(localitate || undefined);
@@ -556,6 +565,7 @@ export async function POST(request: NextRequest) {
       conversationId: conversationId || null,
       toolIterations: iterations,
       webSearchCount,
+      _debug: { step: currentStep, context: { ce: context.ce, unde: context.unde, localitate } },
     });
   } catch (error: any) {
     console.error('Chat Haiku Error:', error);
