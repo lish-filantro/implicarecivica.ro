@@ -15,7 +15,7 @@ interface MarkdownRendererProps {
  */
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className = '' }) => {
   return (
-    <div className={`markdown-content ${className}`}>
+    <div className={`markdown-content break-words ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -63,11 +63,11 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
           code: ({ children, className }) => {
             const isInline = !className;
             return isInline ? (
-              <code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-xs font-mono text-gray-800 dark:text-gray-200">
+              <code className="bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded text-xs font-mono text-gray-800 dark:text-gray-200 break-all">
                 {children}
               </code>
             ) : (
-              <code className="block bg-gray-100 dark:bg-gray-700 p-3 rounded text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto">
+              <code className="block bg-gray-100 dark:bg-gray-700 p-3 rounded text-xs font-mono text-gray-800 dark:text-gray-200 overflow-x-auto whitespace-pre-wrap break-words">
                 {children}
               </code>
             );

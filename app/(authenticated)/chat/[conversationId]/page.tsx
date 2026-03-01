@@ -3,6 +3,7 @@
 import { use, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useConversation } from '@/lib/hooks/useConversation';
+import { useChatSidebar } from '@/lib/hooks/useChatSidebar';
 import ChatView from '@/components/chat/ChatView';
 
 export default function ConversationPage({
@@ -12,6 +13,7 @@ export default function ConversationPage({
 }) {
   const { conversationId } = use(params);
   const router = useRouter();
+  const { toggle } = useChatSidebar();
 
   const {
     messages,
@@ -22,6 +24,8 @@ export default function ConversationPage({
     aiStatus,
     isLoading,
     extractInstitutionData,
+    failedMessage,
+    retryLastMessage,
   } = useConversation({ conversationId });
 
   const handleConfirmInstitution = useCallback(() => {
@@ -57,6 +61,9 @@ export default function ConversationPage({
       aiStatus={aiStatus}
       onConfirmInstitution={handleConfirmInstitution}
       onManualEntry={handleManualEntry}
+      onToggleSidebar={toggle}
+      failedMessage={failedMessage}
+      onRetry={retryLastMessage}
     />
   );
 }

@@ -29,7 +29,11 @@ const STEP_LABELS: Record<string, string> = {
   STEP_3: 'Întrebări',
 };
 
-export default function ConversationSidebar() {
+interface ConversationSidebarProps {
+  onNavigate?: () => void;
+}
+
+export default function ConversationSidebar({ onNavigate }: ConversationSidebarProps = {}) {
   const router = useRouter();
   const pathname = usePathname();
   const [conversations, setConversations] = useState<ConversationListItem[]>([]);
@@ -98,7 +102,7 @@ export default function ConversationSidebar() {
           </button>
         </div>
         <button
-          onClick={() => router.push('/chat')}
+          onClick={() => { router.push('/chat'); onNavigate?.(); }}
           className="w-full px-3 py-2 text-sm font-medium text-white bg-civic-blue-600 hover:bg-civic-blue-700 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +123,7 @@ export default function ConversationSidebar() {
             {conversations.map((conv) => (
               <button
                 key={conv.id}
-                onClick={() => router.push(`/chat/${conv.id}`)}
+                onClick={() => { router.push(`/chat/${conv.id}`); onNavigate?.(); }}
                 className={`w-full text-left px-4 py-3 group hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
                   activeId === conv.id
                     ? 'bg-civic-blue-50 dark:bg-civic-blue-900/20 border-r-2 border-civic-blue-600'

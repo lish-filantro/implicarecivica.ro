@@ -10,6 +10,7 @@ interface MessageBubbleProps {
   isLast?: boolean;
   onConfirmInstitution?: () => void;
   onManualEntry?: () => void;
+  onRetry?: () => void;
 }
 
 /**
@@ -22,6 +23,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   isLast = false,
   onConfirmInstitution,
   onManualEntry,
+  onRetry,
 }) => {
   const isUser = message.sender === 'user';
   const isBot = message.sender === 'bot';
@@ -34,20 +36,20 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   return (
     <div
       className={`flex items-start ${isUser ? 'justify-end' : ''} animate-fade-in`}
-      style={{ animationDelay: `${index * 100}ms` }}
+      style={{ animationDelay: `${Math.min(index, 5) * 100}ms` }}
     >
       {isBot && (
         <div className="flex-shrink-0">
-          <div className="h-10 w-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg ring-2 ring-blue-100 dark:ring-blue-900/30">
-            <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg ring-2 ring-blue-100 dark:ring-blue-900/30">
+            <svg className="h-4 w-4 sm:h-5 sm:w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
           </div>
         </div>
       )}
 
-      <div className={`max-w-xl ${isUser ? 'mr-3' : 'ml-3'}`}>
-        <div className={`rounded-2xl px-4 py-3 transition-all duration-300 hover:shadow-lg backdrop-blur-sm ${
+      <div className={`max-w-[85%] sm:max-w-xl ${isUser ? 'mr-2 sm:mr-3' : 'ml-2 sm:ml-3'}`}>
+        <div className={`rounded-2xl px-3 py-2.5 sm:px-4 sm:py-3 transition-all duration-300 sm:hover:shadow-lg backdrop-blur-sm ${
           isUser
             ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
             : 'bg-white/80 dark:bg-gray-800/80 border border-gray-200/50 dark:border-gray-700/50 shadow-md'
@@ -92,13 +94,13 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                       className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline font-medium flex items-start transition-colors"
                     >
                       <span className="mr-1">[{idx + 1}]</span>
-                      <span className="flex-1">{source.title}</span>
+                      <span className="flex-1 break-words">{source.title}</span>
                       <svg className="h-3 w-3 ml-1 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </a>
                     {source.description && (
-                      <p className="text-gray-600 dark:text-gray-400 ml-5 mt-1">{source.description}</p>
+                      <p className="text-gray-600 dark:text-gray-400 ml-5 mt-1 break-words">{source.description}</p>
                     )}
                   </li>
                 ))}
@@ -106,40 +108,50 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
             </div>
           )}
 
+          {/* Error retry button */}
+          {message.isError && onRetry && (
+            <button
+              onClick={onRetry}
+              className="mt-3 px-4 py-2 min-h-[44px] text-sm font-medium bg-civic-blue-100 dark:bg-civic-blue-900/20 hover:bg-civic-blue-200 dark:hover:bg-civic-blue-900/30 text-civic-blue-700 dark:text-civic-blue-300 rounded-lg transition-colors"
+            >
+              Reîncearcă
+            </button>
+          )}
+
           {/* STEP_2 Confirmation buttons */}
           {showConfirmation && (
             <div className="mt-4 pt-3 border-t border-gray-200/50 dark:border-gray-700/50">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3">
                 Confirmă instituția identificată:
               </p>
 
               {!showRejectOptions ? (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-2">
                   <button
                     onClick={() => {
                       setConfirmed(true);
                       onConfirmInstitution?.();
                     }}
-                    className="px-4 py-2 text-sm font-medium bg-grassroots-green-500 hover:bg-grassroots-green-600 text-white rounded-lg transition-colors shadow-sm"
+                    className="px-4 py-2.5 min-h-[44px] text-sm font-medium bg-grassroots-green-500 hover:bg-grassroots-green-600 text-white rounded-lg transition-colors shadow-sm"
                   >
                     Da, e corect
                   </button>
                   <button
                     onClick={() => setShowRejectOptions(true)}
-                    className="px-4 py-2 text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors"
+                    className="px-4 py-2.5 min-h-[44px] text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors"
                   >
                     Nu
                   </button>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     Ce dorești să faci?
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-2">
                     <button
                       onClick={() => setShowRejectOptions(false)}
-                      className="px-4 py-2 text-sm font-medium bg-civic-blue-100 dark:bg-civic-blue-900/20 hover:bg-civic-blue-200 dark:hover:bg-civic-blue-900/30 text-civic-blue-700 dark:text-civic-blue-300 rounded-lg transition-colors"
+                      className="px-4 py-2.5 min-h-[44px] text-sm font-medium bg-civic-blue-100 dark:bg-civic-blue-900/20 hover:bg-civic-blue-200 dark:hover:bg-civic-blue-900/30 text-civic-blue-700 dark:text-civic-blue-300 rounded-lg transition-colors"
                     >
                       Caută din nou
                     </button>
@@ -148,7 +160,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                         setConfirmed(true);
                         onManualEntry?.();
                       }}
-                      className="px-4 py-2 text-sm font-medium bg-activist-orange-100 dark:bg-activist-orange-900/20 hover:bg-activist-orange-200 dark:hover:bg-activist-orange-900/30 text-activist-orange-700 dark:text-activist-orange-300 rounded-lg transition-colors"
+                      className="px-4 py-2.5 min-h-[44px] text-sm font-medium bg-activist-orange-100 dark:bg-activist-orange-900/20 hover:bg-activist-orange-200 dark:hover:bg-activist-orange-900/30 text-activist-orange-700 dark:text-activist-orange-300 rounded-lg transition-colors"
                     >
                       Introducere manuală
                     </button>
@@ -168,8 +180,8 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
       </div>
 
       {isUser && (
-        <div className="ml-3">
-          <div className="h-10 w-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg ring-2 ring-gray-100 dark:ring-gray-800/30">
+        <div className="ml-2 sm:ml-3">
+          <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-semibold shadow-lg ring-2 ring-gray-100 dark:ring-gray-800/30">
             IP
           </div>
         </div>

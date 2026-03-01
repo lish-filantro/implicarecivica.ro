@@ -5,6 +5,7 @@ export interface Message {
   time: string;
   webSources?: Array<{ url: string; title: string; description?: string }>;
   webSearches?: string[];
+  isError?: boolean;
 }
 
 export interface ConversationRow {

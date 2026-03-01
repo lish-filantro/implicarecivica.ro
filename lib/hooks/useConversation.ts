@@ -33,6 +33,7 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
   const [conversationId, setConversationId] = useState<string | null>(initialConvId || null);
   const [aiStatus, setAiStatus] = useState<'loading' | 'configured' | 'mock'>('loading');
   const [isLoading, setIsLoading] = useState(false);
+  const [failedMessage, setFailedMessage] = useState<string | null>(null);
 
   const { isTyping, startTyping, stopTyping } = useTypingIndicator();
 
@@ -99,6 +100,7 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
 
     const text = inputMessage;
     setInputMessage('');
+    setFailedMessage(null);
 
     const now = new Date().toLocaleTimeString('ro-RO', {
       hour: '2-digit',
@@ -188,15 +190,17 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
       }
     } catch (error) {
       console.error('Error sending message:', error);
+      setFailedMessage(text);
       setMessages((prev) => [
         ...prev,
         {
           sender: 'bot',
-          text: '❌ Ne cerem scuze, a apărut o eroare la comunicarea cu serverul. Te rugăm să încerci din nou.',
+          text: '❌ Eroare la comunicarea cu serverul.',
           time: new Date().toLocaleTimeString('ro-RO', {
             hour: '2-digit',
             minute: '2-digit',
           }),
+          isError: true,
         },
       ]);
     } finally {
@@ -239,6 +243,14 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
     };
   }, [messages, conversationHistory, conversationId]);
 
+  const retryLastMessage = useCallback(() => {
+    if (!failedMessage) return;
+    // Remove the error message and the failed user message
+    setMessages((prev) => prev.filter((m) => !m.isError));
+    setInputMessage(failedMessage);
+    setFailedMessage(null);
+  }, [failedMessage]);
+
   const startNewConversation = useCallback(() => {
     setMessages([]);
     setConversationId(null);
@@ -257,5 +269,7 @@ export function useConversation({ conversationId: initialConvId }: UseConversati
     conversationId,
     startNewConversation,
     extractInstitutionData,
+    failedMessage,
+    retryLastMessage,
   };
 }

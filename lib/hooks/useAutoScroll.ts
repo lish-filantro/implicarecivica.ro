@@ -1,87 +1,55 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 /**
- * Custom hook for auto-scroll functionality in chat interfaces
- * Handles smooth scrolling, user interaction detection, and scroll state management
+ * Custom hook for auto-scroll functionality in chat interfaces.
+ * Scrolls to bottom when new content appears, but only if user was already at bottom.
+ * Uses requestAnimationFrame for smooth, immediate scrolling after DOM updates.
  */
 export const useAutoScroll = (dependencies: any[] = []) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
-  const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
-  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const wasAtBottomRef = useRef(true);
 
-  // Smooth scroll to bottom
-  const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({
-        behavior,
-        block: 'end',
-        inline: 'nearest'
-      });
-    }
-  };
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'auto') => {
+    messagesEndRef.current?.scrollIntoView({ behavior, block: 'end' });
+  }, []);
 
-  // Check if user is at bottom of scroll
-  const isAtBottom = () => {
+  const isAtBottom = useCallback(() => {
     if (!messagesContainerRef.current) return true;
-
     const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
-    const threshold = 5; // 5px threshold for "at bottom"
+    // 50px threshold — accommodates scroll inertia on mobile touch
+    return scrollHeight - scrollTop - clientHeight <= 50;
+  }, []);
 
-    return scrollHeight - scrollTop - clientHeight <= threshold;
-  };
+  // Track whether user was at bottom BEFORE content update
+  const handleScroll = useCallback(() => {
+    wasAtBottomRef.current = isAtBottom();
+  }, [isAtBottom]);
 
-  // Handle scroll events
-  const handleScroll = () => {
-    if (!messagesContainerRef.current) return;
-
-    const atBottom = isAtBottom();
-    setIsUserScrolling(!atBottom);
-
-    // Re-enable auto-scroll if user scrolls back to bottom
-    if (atBottom && !isAutoScrollEnabled) {
-      setIsAutoScrollEnabled(true);
-    }
-  };
-
-  // Auto-scroll when dependencies change
+  // Scroll on dependency change, ONLY if user was at bottom
   useEffect(() => {
-    if (isAutoScrollEnabled && !isUserScrolling) {
-      // Small delay to ensure DOM is updated
-      const timeoutId = setTimeout(() => {
-        scrollToBottom('smooth');
-      }, 100);
-
-      return () => clearTimeout(timeoutId);
+    if (wasAtBottomRef.current) {
+      requestAnimationFrame(() => scrollToBottom('auto'));
     }
-  }, dependencies);
+  }, dependencies); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Add scroll event listener
+  // Attach scroll listener
   useEffect(() => {
     const container = messagesContainerRef.current;
     if (!container) return;
-
     container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
-    return () => {
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Force scroll to bottom (for new chat, etc.)
-  const forceScrollToBottom = () => {
-    setIsAutoScrollEnabled(true);
-    setIsUserScrolling(false);
-    scrollToBottom('auto'); // Instant scroll
-  };
+  const forceScrollToBottom = useCallback(() => {
+    wasAtBottomRef.current = true;
+    scrollToBottom('auto');
+  }, [scrollToBottom]);
 
   return {
     messagesEndRef,
     messagesContainerRef,
-    isAutoScrollEnabled,
-    isUserScrolling,
-    scrollToBottom,
     forceScrollToBottom,
-    isAtBottom
+    isAtBottom,
   };
 };
