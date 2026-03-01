@@ -1,0 +1,10 @@
+name = "campanii-email-tracker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Environment variables (set via Cloudflare Dashboard or wrangler secret)
+# WEBHOOK_SECRET = "..." (use `wrangler secret put WEBHOOK_SECRET`)
+# API_URL = "https://campanii.implicarecivica.ro"
+
+[vars]
+API_URL = "https://campanii.implicarecivica.ro"
