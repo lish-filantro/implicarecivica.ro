@@ -12,8 +12,36 @@ function extractEmail(raw: string): string {
 }
 
 /**
+ * Try to fetch full email content from Resend API.
+ * Tries multiple endpoints since docs vary.
+ */
+async function fetchEmailContent(emailId: string, apiKey: string) {
+  const endpoints = [
+    `https://api.resend.com/emails/${emailId}`,
+    `https://api.resend.com/emails/receiving/${emailId}`,
+  ];
+
+  for (const url of endpoints) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'Authorization': `Bearer ${apiKey}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log(`Fetched email content from ${url}, keys:`, Object.keys(data));
+        return data;
+      }
+      console.warn(`${url} returned ${res.status}`);
+    } catch (err) {
+      console.warn(`${url} fetch error:`, err);
+    }
+  }
+  return null;
+}
+
+/**
  * Resend Webhook Handler
- * - email.received: saves email directly from webhook payload to DB
+ * - email.received: fetches full email via API, saves to DB
  * - email.delivered/bounced/complained: updates delivery status
  */
 export async function POST(request: NextRequest) {
@@ -41,16 +69,18 @@ export async function POST(request: NextRequest) {
     switch (type) {
       case 'email.received': {
         if (!data) {
-          console.error('email.received webhook missing data');
           return NextResponse.json({ error: 'Missing data' }, { status: 400 });
         }
 
-        // Use data directly from webhook payload — no separate API call needed
+        // Log webhook payload keys for debugging
+        console.log('email.received payload keys:', Object.keys(data));
+        console.log('email.received has html:', !!data.html, 'has text:', !!data.text, 'has body:', !!data.body);
+
         const rawTo = Array.isArray(data.to) ? data.to[0] : data.to;
         const toEmail = extractEmail(rawTo);
         const rawFrom = data.from || '';
 
-        // Find user by matching "to" address to profile's mailcow_email
+        // Find user by mailcow_email
         const { data: matchedProfile } = await supabase
           .from('profiles')
           .select('id')
@@ -59,7 +89,6 @@ export async function POST(request: NextRequest) {
 
         let userId = matchedProfile?.[0]?.id;
 
-        // Fallback: match by sent emails from_email
         if (!userId) {
           const { data: matchedEmails } = await supabase
             .from('emails')
@@ -67,7 +96,6 @@ export async function POST(request: NextRequest) {
             .eq('from_email', toEmail)
             .eq('type', 'sent')
             .limit(1);
-
           userId = matchedEmails?.[0]?.user_id;
         }
 
@@ -76,7 +104,21 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ received: true, matched: false });
         }
 
-        // Save directly from webhook payload
+        // Try to get full email content (with body) from Resend API
+        let body = data.html || data.text || data.body || '';
+        let subject = data.subject || '(fără subiect)';
+
+        if (!body && data.email_id) {
+          const resendApiKey = process.env.RESEND_API_KEY;
+          if (resendApiKey) {
+            const fullEmail = await fetchEmailContent(data.email_id, resendApiKey);
+            if (fullEmail) {
+              body = fullEmail.html || fullEmail.text || fullEmail.body || '';
+              subject = fullEmail.subject || subject;
+            }
+          }
+        }
+
         const { error: insertError } = await supabase
           .from('emails')
           .insert({
@@ -85,8 +127,8 @@ export async function POST(request: NextRequest) {
             type: 'received',
             from_email: rawFrom,
             to_email: toEmail,
-            subject: data.subject || '(fără subiect)',
-            body: data.html || data.text || '',
+            subject,
+            body,
             attachments: data.attachments?.map((a: { filename: string; content_type: string }) => ({
               name: a.filename,
               type: a.content_type,
@@ -104,7 +146,7 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'DB insert failed' }, { status: 500 });
         }
 
-        return NextResponse.json({ received: true, matched: true });
+        return NextResponse.json({ received: true, matched: true, has_body: !!body });
       }
 
       case 'email.delivered':
