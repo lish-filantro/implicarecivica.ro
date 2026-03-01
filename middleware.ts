@@ -59,6 +59,9 @@ export async function middleware(request: NextRequest) {
   const authRoutes = ['/login', '/register', '/verify', '/reset-password']
   const isAuthRoute = authRoutes.some(route => request.nextUrl.pathname.startsWith(route))
 
+  // /reset-password/confirm needs to be accessible when logged in (after recovery callback)
+  const isPasswordConfirm = request.nextUrl.pathname.startsWith('/reset-password/confirm')
+
   if (isProtectedRoute && !user) {
     // Redirect to login if accessing protected route without auth
     const url = request.nextUrl.clone()
@@ -67,7 +70,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  if (isAuthRoute && user) {
+  if (isAuthRoute && !isPasswordConfirm && user) {
     // Redirect to dashboard if accessing auth route while logged in
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'

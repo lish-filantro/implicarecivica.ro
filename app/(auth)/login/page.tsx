@@ -95,7 +95,13 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
+          <div className="mt-4 text-center">
+            <Link href="/reset-password" className="text-sm text-muted-foreground hover:text-primary hover:underline">
+              Ai uitat parola?
+            </Link>
+          </div>
+
+          <div className="mt-4 text-center text-sm text-muted-foreground">
             Nu ai cont?{' '}
             <Link href="/register" className="text-primary hover:underline font-medium">
               Înregistrează-te

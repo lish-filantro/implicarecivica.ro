@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Save, User, Shield, Bell } from 'lucide-react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { getProfile, updateProfile } from '@/lib/supabase/profile-queries';
+import { createClient } from '@/lib/supabase/client';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 import type { Profile } from '@/lib/types/profile';
 
@@ -19,6 +20,12 @@ export default function SettingsPage() {
   const [notificationEmail, setNotificationEmail] = useState(true);
   const [notificationDays, setNotificationDays] = useState(3);
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system');
+
+  // Password change state
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -61,6 +68,43 @@ export default function SettingsPage() {
     } finally {
       setSaving(false);
       setTimeout(() => setMessage(null), 4000);
+    }
+  }
+
+  async function handlePasswordChange() {
+    if (newPassword !== confirmPassword) {
+      setPasswordMessage({ type: 'error', text: 'Parolele nu coincid.' });
+      return;
+    }
+    if (newPassword.length < 6) {
+      setPasswordMessage({ type: 'error', text: 'Parola trebuie să aibă cel puțin 6 caractere.' });
+      return;
+    }
+
+    setPasswordSaving(true);
+    setPasswordMessage(null);
+
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+      if (error) {
+        setPasswordMessage({
+          type: 'error',
+          text: error.message === 'New password should be different from the old password.'
+            ? 'Parola nouă trebuie să fie diferită de cea veche.'
+            : error.message,
+        });
+      } else {
+        setPasswordMessage({ type: 'success', text: 'Parola a fost schimbată cu succes.' });
+        setNewPassword('');
+        setConfirmPassword('');
+      }
+    } catch {
+      setPasswordMessage({ type: 'error', text: 'Nu am putut schimba parola. Încearcă din nou.' });
+    } finally {
+      setPasswordSaving(false);
+      setTimeout(() => setPasswordMessage(null), 4000);
     }
   }
 
@@ -215,15 +259,83 @@ export default function SettingsPage() {
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Securitate</h2>
           </div>
 
-          <div>
-            <button
-              onClick={signOut}
-              className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400
-                         border border-red-200 dark:border-red-800 rounded-lg
-                         hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-            >
-              Deconectare
-            </button>
+          <div className="space-y-6">
+            {/* Change password */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Schimbă parola
+              </h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Parolă nouă
+                </label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Minim 6 caractere"
+                  minLength={6}
+                  autoComplete="new-password"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700
+                             bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                             focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Confirmă parola nouă
+                </label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Repetă parola nouă"
+                  minLength={6}
+                  autoComplete="new-password"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700
+                             bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                             focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50"
+                />
+              </div>
+
+              {passwordMessage && (
+                <div className={`px-4 py-3 rounded-lg text-sm font-medium
+                                ${passwordMessage.type === 'success'
+                                  ? 'bg-grassroots-green-100 dark:bg-grassroots-green-900/20 text-grassroots-green-700 dark:text-grassroots-green-400 border border-grassroots-green-200 dark:border-grassroots-green-800'
+                                  : 'bg-protest-red-100 dark:bg-protest-red-900/20 text-protest-red-700 dark:text-protest-red-400 border border-protest-red-200 dark:border-protest-red-800'
+                                }`}>
+                  {passwordMessage.text}
+                </div>
+              )}
+
+              <button
+                onClick={handlePasswordChange}
+                disabled={passwordSaving || !newPassword || !confirmPassword}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium
+                           bg-civic-blue-500 hover:bg-civic-blue-600 text-white rounded-lg
+                           transition-colors duration-200
+                           disabled:opacity-50 disabled:cursor-not-allowed
+                           focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50"
+              >
+                {passwordSaving ? <LoadingSpinner size="sm" /> : null}
+                {passwordSaving ? 'Se salvează...' : 'Schimbă parola'}
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-gray-200 dark:border-gray-700" />
+
+            {/* Sign out */}
+            <div>
+              <button
+                onClick={signOut}
+                className="px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400
+                           border border-red-200 dark:border-red-800 rounded-lg
+                           hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+              >
+                Deconectare
+              </button>
+            </div>
           </div>
         </section>
 
