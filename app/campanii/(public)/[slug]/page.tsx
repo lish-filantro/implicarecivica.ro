@@ -5,7 +5,9 @@ import { getActiveRecipientsByCampaign } from "@/lib/campanii/recipient-queries"
 import { CampaignHero } from "@/components/campanii/campaign/CampaignHero";
 import { ParticipationForm } from "@/components/campanii/campaign/ParticipationForm";
 import { ShareButton } from "@/components/campanii/campaign/ShareButton";
-import { Users, ArrowLeft, Share2 } from "lucide-react";
+import { renderEmailBody } from "@/lib/campanii/mailto";
+import { formatDate } from "@/lib/utils";
+import { Users, ArrowLeft, Share2, Mail } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -72,9 +74,48 @@ export default async function CampaignPage({ params }: PageProps) {
         <ShareButton title={campaign.title} />
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8 grid gap-8 lg:grid-cols-5">
-        {/* Left: Context & Recipients */}
-        <div className="lg:col-span-2 space-y-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 grid gap-8 lg:grid-cols-2">
+        {/* Left: Email text + context */}
+        <div className="space-y-6">
+          {/* Full email preview — always visible */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+            <div className="bg-gray-50 dark:bg-gray-800/50 px-5 py-3 border-b border-gray-200 dark:border-gray-700 flex items-center gap-2">
+              <Mail className="w-4 h-4 text-civic-blue-500" />
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Emailul pe care îl vei trimite
+              </span>
+            </div>
+            <div className="px-5 py-4 space-y-3">
+              <div className="text-sm text-gray-500 dark:text-gray-400 space-y-1 pb-3 border-b border-gray-100 dark:border-gray-700/50">
+                <p><span className="font-medium">Către:</span> {recipients.map((r) => r.name).slice(0, 3).join(", ")}{recipients.length > 3 ? ` și alți ${recipients.length - 3}` : ""}</p>
+                <p><span className="font-medium">Subiect:</span> <span className="text-gray-900 dark:text-white">{campaign.email_subject}</span></p>
+              </div>
+              <div className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                {renderEmailBody(campaign.email_body, {
+                  nume_participant: "[Numele tău]",
+                  oras_participant: "[Orașul tău]",
+                  profesie_participant: "[Profesia ta]",
+                  organizatie_participant: "[Organizația ta]",
+                  telefon_participant: "[Telefonul tău]",
+                  sector_participant: "[Sectorul tău]",
+                  data: formatDate(new Date()),
+                  organizatie: campaign.organization || undefined,
+                })}
+                {campaign.email_signature && (
+                  <>
+                    {"\n\n"}
+                    {campaign.email_signature}
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="px-5 py-2.5 border-t border-gray-100 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/30">
+              <p className="text-xs text-gray-400 dark:text-gray-500">
+                Câmpurile dintre paranteze pătrate se completează automat cu datele tale.
+              </p>
+            </div>
+          </div>
+
           {campaign.long_description && (
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
@@ -116,8 +157,8 @@ export default async function CampaignPage({ params }: PageProps) {
         </div>
 
         {/* Right: Participation Form */}
-        <div className="lg:col-span-3">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg sticky top-4">
+        <div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 shadow-lg lg:sticky lg:top-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
               <Share2 className="w-5 h-5 text-civic-blue-500" />
               Participă la campanie
