@@ -5,19 +5,20 @@ import { Check } from 'lucide-react';
 
 interface StepperBarProps {
   currentStep: 1 | 2 | 3;
+  steps?: { number: number; label: string }[];
 }
 
-const STEPS = [
+const DEFAULT_STEPS = [
   { number: 1, label: 'Date cerere' },
   { number: 2, label: 'Selectează întrebări' },
   { number: 3, label: 'Previzualizare' },
 ];
 
-export function StepperBar({ currentStep }: StepperBarProps) {
+export function StepperBar({ currentStep, steps = DEFAULT_STEPS }: StepperBarProps) {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-center">
-        {STEPS.map((step, index) => {
+        {steps.map((step, index) => {
           const isCompleted = currentStep > step.number;
           const isActive = currentStep === step.number;
 
@@ -50,7 +51,7 @@ export function StepperBar({ currentStep }: StepperBarProps) {
               </div>
 
               {/* Connector line */}
-              {index < STEPS.length - 1 && (
+              {index < steps.length - 1 && (
                 <div
                   className={`flex-1 h-0.5 mx-3 sm:mx-6 transition-colors duration-300 ${
                     currentStep > step.number

@@ -7,23 +7,13 @@ interface MailtoParams {
 
 export function renderEmailBody(
   template: string,
-  data: {
-    nume_participant: string;
-    oras_participant?: string;
-    data?: string;
-    organizatie?: string;
-  }
+  data: Record<string, string | undefined>
 ): string {
   let result = template;
-  result = result.replace(/{nume_participant}/g, data.nume_participant);
-  if (data.oras_participant) {
-    result = result.replace(/{oras_participant}/g, data.oras_participant);
-  }
-  if (data.data) {
-    result = result.replace(/{data}/g, data.data);
-  }
-  if (data.organizatie) {
-    result = result.replace(/{organizatie}/g, data.organizatie);
+  for (const [key, value] of Object.entries(data)) {
+    if (value) {
+      result = result.replace(new RegExp(`\\{${key}\\}`, "g"), value);
+    }
   }
   return result;
 }

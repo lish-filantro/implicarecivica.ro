@@ -5,12 +5,14 @@ import type { CampaignRecipient } from "@/lib/campanii/types/campaign";
 import { Plus, Trash2, Upload, ToggleLeft, ToggleRight } from "lucide-react";
 
 interface RecipientTableProps {
-  campaignSlug: string;
+  campaignSlug?: string;
   initialRecipients: CampaignRecipient[];
+  onRecipientsChange?: (recipients: CampaignRecipient[]) => void;
 }
 
-export function RecipientTable({ campaignSlug, initialRecipients }: RecipientTableProps) {
-  const [recipients, setRecipients] = useState(initialRecipients);
+export function RecipientTable({ campaignSlug, initialRecipients, onRecipientsChange }: RecipientTableProps) {
+  const localMode = !campaignSlug;
+  const [recipients, setRecipientsState] = useState(initialRecipients);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showCsvImport, setShowCsvImport] = useState(false);
   const [name, setName] = useState("");
@@ -20,15 +22,40 @@ export function RecipientTable({ campaignSlug, initialRecipients }: RecipientTab
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
+  const setRecipients = useCallback((newRecipients: CampaignRecipient[]) => {
+    setRecipientsState(newRecipients);
+    onRecipientsChange?.(newRecipients);
+  }, [onRecipientsChange]);
+
   const refresh = useCallback(async () => {
+    if (localMode) return;
     const res = await fetch(`/api/campanii/${campaignSlug}/recipients`);
     if (res.ok) {
-      setRecipients(await res.json());
+      const data = await res.json();
+      setRecipientsState(data);
+      onRecipientsChange?.(data);
     }
-  }, [campaignSlug]);
+  }, [campaignSlug, localMode, onRecipientsChange]);
 
   const addRecipient = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (localMode) {
+      const newRecipient: CampaignRecipient = {
+        id: `local-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        campaign_id: "",
+        name,
+        role: role || null,
+        email,
+        is_active: true,
+        created_at: new Date().toISOString(),
+      };
+      setRecipients([...recipients, newRecipient]);
+      setName("");
+      setRole("");
+      setEmail("");
+      setShowAddForm(false);
+      return;
+    }
     setLoading(true);
     const res = await fetch(`/api/campanii/${campaignSlug}/recipients`, {
       method: "POST",
@@ -46,6 +73,31 @@ export function RecipientTable({ campaignSlug, initialRecipients }: RecipientTab
   };
 
   const importCsv = async () => {
+    if (localMode) {
+      // Parse CSV locally for local mode
+      const lines = csvText.split("\n").filter((l) => l.trim());
+      const newRecipients: CampaignRecipient[] = [];
+      for (const line of lines) {
+        const delimiter = line.includes(";") ? ";" : ",";
+        const parts = line.split(delimiter).map((p) => p.trim());
+        if (parts.length >= 2) {
+          newRecipients.push({
+            id: `local-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+            campaign_id: "",
+            name: parts[0],
+            role: parts.length === 3 ? parts[1] : null,
+            email: parts[parts.length - 1],
+            is_active: true,
+            created_at: new Date().toISOString(),
+          });
+        }
+      }
+      setRecipients([...recipients, ...newRecipients]);
+      setMessage(`${newRecipients.length} destinatari adăugați.`);
+      setCsvText("");
+      setShowCsvImport(false);
+      return;
+    }
     setLoading(true);
     setMessage(null);
     const res = await fetch(`/api/campanii/${campaignSlug}/recipients`, {
@@ -66,6 +118,14 @@ export function RecipientTable({ campaignSlug, initialRecipients }: RecipientTab
   };
 
   const toggleActive = async (id: string, currentActive: boolean) => {
+    if (localMode) {
+      setRecipients(
+        recipients.map((r) =>
+          r.id === id ? { ...r, is_active: !currentActive } : r
+        )
+      );
+      return;
+    }
     await fetch(`/api/campanii/${campaignSlug}/recipients`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -76,6 +136,10 @@ export function RecipientTable({ campaignSlug, initialRecipients }: RecipientTab
 
   const deleteRecipient = async (id: string) => {
     if (!confirm("Sigur vrei să ștergi acest destinatar?")) return;
+    if (localMode) {
+      setRecipients(recipients.filter((r) => r.id !== id));
+      return;
+    }
     await fetch(`/api/campanii/${campaignSlug}/recipients?id=${id}`, {
       method: "DELETE",
     });

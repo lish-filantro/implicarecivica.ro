@@ -52,10 +52,18 @@ export function ParticipationForm({
 
   const watchedName = watch("participant_name", "");
   const watchedCity = watch("participant_city", "");
+  const watchedProfession = watch("participant_profession", "");
+  const watchedOrg = watch("participant_organization", "");
+  const watchedPhone = watch("participant_phone", "");
+  const watchedSector = watch("participant_sector", "");
 
   const previewBody = renderEmailBody(campaign.email_body, {
     nume_participant: watchedName || "[Numele tău]",
     oras_participant: watchedCity || "[Orașul tău]",
+    profesie_participant: watchedProfession || "[Profesia ta]",
+    organizatie_participant: watchedOrg || "[Organizația ta]",
+    telefon_participant: watchedPhone || "[Telefonul tău]",
+    sector_participant: watchedSector || "[Sectorul tău]",
     data: formatDate(new Date()),
     organizatie: campaign.organization || undefined,
   });
@@ -161,6 +169,63 @@ export function ParticipationForm({
             {...register("participant_city")}
             className="input-modern"
             placeholder="București, Sector 3"
+          />
+        </div>
+      )}
+
+      {campaign.form_fields?.profession && (
+        <div>
+          <label htmlFor="participant_profession" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Profesie / Ocupație
+          </label>
+          <input
+            id="participant_profession"
+            {...register("participant_profession")}
+            className="input-modern"
+            placeholder="Ex: inginer, profesor, medic"
+          />
+        </div>
+      )}
+
+      {campaign.form_fields?.participant_organization && (
+        <div>
+          <label htmlFor="participant_organization" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Organizație / Instituție
+          </label>
+          <input
+            id="participant_organization"
+            {...register("participant_organization")}
+            className="input-modern"
+            placeholder="Ex: ONG Civitas, Universitatea București"
+          />
+        </div>
+      )}
+
+      {campaign.form_fields?.phone && (
+        <div>
+          <label htmlFor="participant_phone" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Telefon
+          </label>
+          <input
+            id="participant_phone"
+            type="tel"
+            {...register("participant_phone")}
+            className="input-modern"
+            placeholder="0721 123 456"
+          />
+        </div>
+      )}
+
+      {campaign.form_fields?.sector && (
+        <div>
+          <label htmlFor="participant_sector" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Sector
+          </label>
+          <input
+            id="participant_sector"
+            {...register("participant_sector")}
+            className="input-modern"
+            placeholder="Sector 3"
           />
         </div>
       )}

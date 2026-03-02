@@ -1,7 +1,7 @@
 "use client";
 
 import { AdminAuthGuard } from "@/components/campanii/admin/AdminAuthGuard";
-import { CampaignForm } from "@/components/campanii/admin/CampaignForm";
+import { CampaignWizard } from "@/components/campanii/admin/wizard/CampaignWizard";
 import { ArrowLeft } from "lucide-react";
 
 export default function NewCampaignPage() {
@@ -17,7 +17,7 @@ export default function NewCampaignPage() {
 
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">Campanie nouă</h1>
 
-        <CampaignForm />
+        <CampaignWizard />
       </div>
     </AdminAuthGuard>
   );

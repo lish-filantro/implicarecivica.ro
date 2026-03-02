@@ -6,6 +6,11 @@ export interface FormFieldsConfig {
   city: boolean;
   postal_code: boolean;
   custom_field: string | null;
+  // Extended fields (optional for backward compat)
+  profession?: boolean;
+  participant_organization?: boolean;
+  phone?: boolean;
+  sector?: boolean;
 }
 
 export interface Campaign {
