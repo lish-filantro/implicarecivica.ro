@@ -18,6 +18,7 @@ export interface RequestSession {
   conversation_id?: string;
 
   // Core
+  name?: string;
   subject: string;
   institution_name: string;
   institution_email?: string;
@@ -44,6 +45,7 @@ export interface RequestSessionWithRequests extends RequestSession {
  * Payload for creating a new session with requests
  */
 export interface CreateSessionPayload {
+  name?: string;
   subject: string;
   institution_name: string;
   institution_email?: string;

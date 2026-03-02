@@ -155,9 +155,14 @@ export function SessionCard({ session, onOpenDetail }: SessionCardProps) {
         className="w-full text-left"
       >
         <div className="flex items-center justify-between px-5 py-4">
-          {/* Left: subject + request count */}
+          {/* Left: name/subject + request count */}
           <div className="min-w-0 flex-1">
-            <p className="text-sm text-gray-700 dark:text-gray-300 truncate">
+            {session.name && (
+              <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                {session.name}
+              </p>
+            )}
+            <p className={`text-sm truncate ${session.name ? 'text-gray-500 dark:text-gray-400 text-xs' : 'text-gray-700 dark:text-gray-300'}`}>
               {session.subject}
             </p>
             {isMultiRequest && (

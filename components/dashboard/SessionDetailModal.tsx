@@ -67,7 +67,7 @@ export function SessionDetailModal({ session, onClose }: SessionDetailModalProps
             </div>
             <div className="min-w-0 flex-1">
               <h2 className="text-lg font-bold text-gray-900 dark:text-white truncate pr-8">
-                {session.subject}
+                {session.name || session.subject}
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 {session.institution_name}
@@ -75,6 +75,11 @@ export function SessionDetailModal({ session, onClose }: SessionDetailModalProps
                   <span className="text-gray-400 dark:text-gray-500"> · {session.institution_email}</span>
                 )}
               </p>
+              {session.name && (
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 truncate">
+                  {session.subject}
+                </p>
+              )}
             </div>
           </div>
 

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
     }
 
-    const { subject, institution_name, institution_email, conversation_id, questions } = await request.json();
+    const { name, subject, institution_name, institution_email, conversation_id, questions } = await request.json();
 
     if (!subject || !institution_name || !questions?.length) {
       return NextResponse.json(
@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
       .from('request_sessions')
       .insert({
         user_id: user.id,
+        name: name || null,
         subject,
         institution_name,
         institution_email: institution_email || null,

@@ -92,6 +92,7 @@ function NewRequestContent() {
         <PreviewModal
           wizard={wizard}
           onClose={() => wizard.setStep(2)}
+          sessionName={chatData?.problemContext?.ce}
         />
       )}
     </div>
