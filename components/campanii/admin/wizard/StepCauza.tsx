@@ -4,6 +4,7 @@ import type { UseFormReturn } from "react-hook-form";
 import type { WizardFormData } from "@/lib/campanii/validations/wizard";
 import type { CampaignRecipient } from "@/lib/campanii/types/campaign";
 import { RecipientTable } from "../RecipientTable";
+import { ImageUpload } from "../ImageUpload";
 import { slugify } from "@/lib/utils";
 import { Users } from "lucide-react";
 
@@ -100,28 +101,20 @@ export function StepCauza({
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Imagine copertă (URL)
-            </label>
-            <input
-              {...register("cover_image_url")}
-              className="input-modern"
-              type="url"
-              placeholder="https://..."
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Organizație inițiatoare
-            </label>
-            <input
-              {...register("organization")}
-              className="input-modern"
-              placeholder="Ex: Asociația Civică XYZ"
-            />
-          </div>
+        <ImageUpload
+          value={watch("cover_image_url")}
+          onChange={(url) => setValue("cover_image_url", url)}
+        />
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+            Organizație inițiatoare
+          </label>
+          <input
+            {...register("organization")}
+            className="input-modern"
+            placeholder="Ex: Asociația Civică XYZ"
+          />
         </div>
       </section>
 

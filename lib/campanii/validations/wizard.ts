@@ -10,7 +10,7 @@ export const step1Schema = z.object({
     .max(100),
   short_description: z.string().max(300).optional().nullable(),
   long_description: z.string().optional().nullable(),
-  cover_image_url: z.string().url().optional().or(z.literal("")).nullable(),
+  cover_image_url: z.string().optional().or(z.literal("")).nullable(),
   organization: z.string().max(200).optional().nullable(),
 });
 
