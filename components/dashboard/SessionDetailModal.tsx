@@ -9,6 +9,7 @@ import {
   getSessionProgress,
   getSessionDaysUntilDeadline,
 } from '@/lib/utils/sessionUtils';
+import { exportSessionToCsv } from '@/lib/utils/exportCsv';
 
 interface SessionDetailModalProps {
   session: RequestSessionWithRequests;
@@ -47,16 +48,28 @@ export function SessionDetailModal({ session, onClose }: SessionDetailModalProps
       <div className="relative w-full max-w-3xl max-h-[90vh] mt-[5vh] mx-4 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-scale-in">
         {/* Header */}
         <div className="px-6 py-5 border-b border-gray-200 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50 shrink-0">
-          {/* Close button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors"
-            aria-label="Închide"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          {/* Action buttons */}
+          <div className="absolute top-4 right-4 flex items-center gap-1">
+            <button
+              onClick={() => exportSessionToCsv(session)}
+              className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors"
+              aria-label="Exportă CSV"
+              title="Exportă CSV"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors"
+              aria-label="Închide"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
 
           {/* Institution icon + name */}
           <div className="flex items-center gap-3 mb-3">
