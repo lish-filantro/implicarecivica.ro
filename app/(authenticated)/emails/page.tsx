@@ -7,6 +7,7 @@ import EmailList from '@/components/emails/EmailList';
 import ComposeModal from '@/components/emails/ComposeModal';
 import { listEmails, markEmailAsRead, getUnreadCount } from '@/lib/supabase/email-queries';
 import { getProfile } from '@/lib/supabase/profile-queries';
+import { createClient } from '@/lib/supabase/client';
 import { formatDate } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { Email } from '@/lib/types/email';
@@ -51,6 +52,45 @@ export default function EmailsPage() {
     }
     load();
   }, []);
+
+  // Realtime: subscribe to new emails
+  useEffect(() => {
+    const supabase = createClient();
+
+    const channel = supabase
+      .channel('emails-realtime')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'emails' },
+        (payload) => {
+          const newEmail = payload.new as Email;
+          setEmails((prev) => {
+            // Avoid duplicates
+            if (prev.some((e) => e.id === newEmail.id)) return prev;
+            return [newEmail, ...prev];
+          });
+          if (newEmail.type === 'received' && !newEmail.is_read) {
+            setUnreadCount((prev) => prev + 1);
+          }
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'emails' },
+        (payload) => {
+          const updated = payload.new as Email;
+          setEmails((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+          if (selectedEmail?.id === updated.id) {
+            setSelectedEmail(updated);
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto mark-as-read when selecting an unread email
   useEffect(() => {
