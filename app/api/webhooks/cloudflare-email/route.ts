@@ -2,6 +2,9 @@ import { NextRequest, NextResponse, after } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import PostalMime from 'postal-mime';
 
+// Vercel serverless has a 4.5MB body limit.
+// Worker sends raw_email_base64 for small emails, or pre-parsed fields for large ones.
+
 /**
  * Extract raw email address from RFC 5322 format.
  * "Ion Popescu <ion.popescu@domain.ro>" → "ion.popescu@domain.ro"
@@ -124,19 +127,25 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await request.json();
-    const { from, to, subject, message_id, in_reply_to, references, raw_email_base64, received_at } = payload;
+    const {
+      from, to, subject, message_id, in_reply_to, references,
+      raw_email_base64, received_at,
+      // Large email fields (when raw MIME > 3MB)
+      body: preParsedBody, attachments_metadata, large_email,
+    } = payload;
 
     if (!from || !to) {
       return NextResponse.json({ error: 'Missing from/to' }, { status: 400 });
     }
 
-    console.log(`[CF Email] Received: from=${from}, to=${to}, subject=${subject}`);
+    console.log(`[CF Email] Received: from=${from}, to=${to}, subject=${subject}, large=${!!large_email}`);
 
-    // Parse raw MIME email
+    // Parse raw MIME email (small emails) or use pre-parsed data (large emails)
     let body = '';
     let parsedAttachments: { filename: string; mimeType: string; content: Uint8Array }[] = [];
 
     if (raw_email_base64) {
+      // Small email — full raw MIME available, parse server-side
       const rawBuffer = Buffer.from(raw_email_base64, 'base64');
       const parser = new PostalMime();
       const parsed = await parser.parse(rawBuffer);
@@ -146,6 +155,10 @@ export async function POST(request: NextRequest) {
         mimeType: att.mimeType || 'application/octet-stream',
         content: new Uint8Array(att.content as ArrayBuffer),
       }));
+    } else if (large_email) {
+      // Large email — Worker already extracted what it could
+      body = preParsedBody || '';
+      // attachments_metadata has no content, just filenames — saved as metadata only
     }
 
     // Use service role to bypass RLS
@@ -192,9 +205,17 @@ export async function POST(request: NextRequest) {
     let savedAttachments: { name: string; type: string; size: number; path: string }[] = [];
     if (parsedAttachments.length > 0) {
       savedAttachments = await saveAttachments(parsedAttachments, userId, emailId, supabase);
+    } else if (attachments_metadata && attachments_metadata.length > 0) {
+      // Large email — metadata only, no file content
+      savedAttachments = attachments_metadata.map((a: { filename: string; content_type: string; size: number }) => ({
+        name: a.filename,
+        type: a.content_type || 'application/octet-stream',
+        size: a.size || 0,
+        path: '',
+      }));
     }
 
-    const pdfFilePath = savedAttachments.find((a) => a.type === 'application/pdf')?.path || null;
+    const pdfFilePath = savedAttachments.find((a) => a.type === 'application/pdf' && a.path)?.path || null;
 
     // Save email to database
     const { error: insertError } = await supabase
