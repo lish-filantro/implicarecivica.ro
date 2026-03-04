@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
 
     // Verify webhook signature if secret is configured
     const webhookSecret = process.env.RESEND_WEBHOOK_SECRET;
-    if (webhookSecret && webhookSecret !== 'whsec_placeholder') {
+    if (webhookSecret) {
       const signature = request.headers.get('svix-signature');
       if (!signature) {
         return NextResponse.json({ error: 'Missing signature' }, { status: 401 });
@@ -314,7 +314,7 @@ export async function POST(request: NextRequest) {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                ...(cronSecret && cronSecret !== 'placeholder' ? { Authorization: `Bearer ${cronSecret}` } : {}),
+                ...(cronSecret ? { Authorization: `Bearer ${cronSecret}` } : {}),
               },
               body: JSON.stringify({ email_id: emailId }),
             });
