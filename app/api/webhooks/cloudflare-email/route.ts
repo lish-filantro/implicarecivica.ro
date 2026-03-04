@@ -2,9 +2,6 @@ import { NextRequest, NextResponse, after } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import PostalMime from 'postal-mime';
 
-// Vercel serverless has a 4.5MB body limit.
-// Worker sends raw_email_base64 for small emails, or pre-parsed fields for large ones.
-
 /**
  * Extract raw email address from RFC 5322 format.
  * "Ion Popescu <ion.popescu@domain.ro>" → "ion.popescu@domain.ro"
@@ -109,10 +106,74 @@ async function saveAttachments(
 }
 
 /**
+ * Fetch raw email from Cloudflare R2 bucket via S3-compatible API.
+ */
+async function fetchFromR2(r2Key: string): Promise<ArrayBuffer> {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const bucket = 'email-staging';
+
+  if (!accountId || !accessKeyId || !secretAccessKey) {
+    throw new Error('R2 credentials not configured');
+  }
+
+  // Use Cloudflare R2 S3-compatible API
+  const url = `https://${accountId}.r2.cloudflarestorage.com/${bucket}/${r2Key}`;
+
+  // AWS S3 Signature V4 — use simple approach with pre-shared credentials
+  // Using the Workers-compatible endpoint with auth header
+  const { AwsClient } = await import('aws4fetch');
+  const r2 = new AwsClient({
+    accessKeyId,
+    secretAccessKey,
+    service: 's3',
+    region: 'auto',
+  });
+
+  const response = await r2.fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`R2 fetch failed: ${response.status} ${response.statusText}`);
+  }
+
+  return response.arrayBuffer();
+}
+
+/**
+ * Delete raw email from R2 after processing.
+ */
+async function deleteFromR2(r2Key: string): Promise<void> {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const bucket = 'email-staging';
+
+  if (!accountId || !accessKeyId || !secretAccessKey) return;
+
+  try {
+    const { AwsClient } = await import('aws4fetch');
+    const r2 = new AwsClient({
+      accessKeyId,
+      secretAccessKey,
+      service: 's3',
+      region: 'auto',
+    });
+
+    const url = `https://${accountId}.r2.cloudflarestorage.com/${bucket}/${r2Key}`;
+    await r2.fetch(url, { method: 'DELETE' });
+    console.log(`[R2] Deleted ${r2Key}`);
+  } catch (err: any) {
+    console.warn(`[R2] Failed to delete ${r2Key}:`, err.message);
+  }
+}
+
+/**
  * Cloudflare Email Worker Webhook Handler
  *
- * Receives raw MIME email (base64) from the Cloudflare Email Worker,
- * parses it with postal-mime, saves to Supabase, and triggers processing.
+ * Receives metadata from the Cloudflare Email Worker,
+ * fetches raw MIME from R2, parses it, saves to Supabase,
+ * and triggers the processing pipeline.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -127,39 +188,31 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await request.json();
-    const {
-      from, to, subject, message_id, in_reply_to, references,
-      raw_email_base64, received_at,
-      // Large email fields (when raw MIME > 3MB)
-      body: preParsedBody, attachments_metadata, large_email,
-    } = payload;
+    const { from, to, subject, message_id, in_reply_to, references, r2_key, raw_size, received_at } = payload;
 
     if (!from || !to) {
       return NextResponse.json({ error: 'Missing from/to' }, { status: 400 });
     }
 
-    console.log(`[CF Email] Received: from=${from}, to=${to}, subject=${subject}, large=${!!large_email}`);
-
-    // Parse raw MIME email (small emails) or use pre-parsed data (large emails)
-    let body = '';
-    let parsedAttachments: { filename: string; mimeType: string; content: Uint8Array }[] = [];
-
-    if (raw_email_base64) {
-      // Small email — full raw MIME available, parse server-side
-      const rawBuffer = Buffer.from(raw_email_base64, 'base64');
-      const parser = new PostalMime();
-      const parsed = await parser.parse(rawBuffer);
-      body = parsed.html || parsed.text || '';
-      parsedAttachments = (parsed.attachments || []).map((att) => ({
-        filename: att.filename || 'attachment',
-        mimeType: att.mimeType || 'application/octet-stream',
-        content: new Uint8Array(att.content as ArrayBuffer),
-      }));
-    } else if (large_email) {
-      // Large email — Worker already extracted what it could
-      body = preParsedBody || '';
-      // attachments_metadata has no content, just filenames — saved as metadata only
+    if (!r2_key) {
+      return NextResponse.json({ error: 'Missing r2_key' }, { status: 400 });
     }
+
+    console.log(`[CF Email] Received: from=${from}, to=${to}, subject=${subject}, r2=${r2_key}, size=${raw_size}`);
+
+    // Fetch raw email from R2
+    const rawBuffer = await fetchFromR2(r2_key);
+    console.log(`[CF Email] Fetched ${rawBuffer.byteLength} bytes from R2`);
+
+    // Parse raw MIME email
+    const parser = new PostalMime();
+    const parsed = await parser.parse(rawBuffer);
+    const body = parsed.html || parsed.text || '';
+    const parsedAttachments = (parsed.attachments || []).map((att) => ({
+      filename: att.filename || 'attachment',
+      mimeType: att.mimeType || 'application/octet-stream',
+      content: new Uint8Array(att.content as ArrayBuffer),
+    }));
 
     // Use service role to bypass RLS
     const supabase = createServerClient(
@@ -205,14 +258,6 @@ export async function POST(request: NextRequest) {
     let savedAttachments: { name: string; type: string; size: number; path: string }[] = [];
     if (parsedAttachments.length > 0) {
       savedAttachments = await saveAttachments(parsedAttachments, userId, emailId, supabase);
-    } else if (attachments_metadata && attachments_metadata.length > 0) {
-      // Large email — metadata only, no file content
-      savedAttachments = attachments_metadata.map((a: { filename: string; content_type: string; size: number }) => ({
-        name: a.filename,
-        type: a.content_type || 'application/octet-stream',
-        size: a.size || 0,
-        path: '',
-      }));
     }
 
     const pdfFilePath = savedAttachments.find((a) => a.type === 'application/pdf' && a.path)?.path || null;
@@ -249,10 +294,14 @@ export async function POST(request: NextRequest) {
       `[CF Email] Saved email ${emailId}: parent=${parentEmailId || 'none'}, attachments=${savedAttachments.length}`,
     );
 
-    // Trigger processing pipeline (fire-and-forget)
+    // Clean up R2 and trigger processing pipeline after response
     const processUrl = new URL('/api/emails/process', request.url).toString();
     const cronSecret = process.env.CRON_SECRET;
     after(async () => {
+      // Delete raw email from R2 (already saved to Supabase)
+      await deleteFromR2(r2_key);
+
+      // Trigger processing pipeline
       try {
         const res = await fetch(processUrl, {
           method: 'POST',
