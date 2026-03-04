@@ -62,6 +62,7 @@ export function CampaignWizard({
             recipients={wizard.recipients}
             onRecipientsChange={wizard.setRecipients}
             campaignSlug={wizard.savedSlug}
+            campaignEmail={campaign?.campaign_email}
             isEdit={!!campaign}
           />
         )}

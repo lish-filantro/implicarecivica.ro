@@ -56,7 +56,7 @@ export default async function CampaignPage({ params }: PageProps) {
   }
 
   const recipients = await getActiveRecipientsByCampaign(campaign.id);
-  const trackingEmail = process.env.NEXT_PUBLIC_TRACKING_EMAIL || "track@campanii.implicarecivica.ro";
+  const trackingEmail = campaign.campaign_email || process.env.NEXT_PUBLIC_TRACKING_EMAIL || "track@campanii.implicarecivica.ro";
 
   return (
     <div className="pb-16">

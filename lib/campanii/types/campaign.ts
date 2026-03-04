@@ -21,6 +21,7 @@ export interface Campaign {
   long_description: string | null;
   cover_image_url: string | null;
   organization: string | null;
+  campaign_email: string | null;
   email_subject: string;
   email_body: string;
   email_signature: string | null;

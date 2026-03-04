@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { AdminAuthGuard } from "@/components/campanii/admin/AdminAuthGuard";
 import { StatsCards } from "@/components/campanii/admin/StatsCards";
 import { ParticipationTable } from "@/components/campanii/admin/ParticipationTable";
+import { CampaignInbox } from "@/components/campanii/admin/CampaignInbox";
 import type { CampaignParticipation } from "@/lib/campanii/types/campaign";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft, Download, BarChart3, Inbox } from "lucide-react";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
+
+type Tab = "stats" | "inbox";
 
 interface StatsData {
   campaign: {
@@ -29,9 +32,13 @@ interface StatsData {
 
 function StatsContent() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = params.slug as string;
   const [data, setData] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const initialTab = searchParams.get("tab") === "inbox" ? "inbox" : "stats";
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     fetch(`/api/campanii/${slug}/stats`)
@@ -40,6 +47,14 @@ function StatsContent() {
         setData(d);
         setLoading(false);
       });
+
+    // Fetch unread count for inbox badge
+    fetch(`/api/campanii/${slug}/messages?limit=0`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.unread_count !== undefined) setUnreadCount(d.unread_count);
+      })
+      .catch(() => {});
   }, [slug]);
 
   if (loading) {
@@ -75,74 +90,111 @@ function StatsContent() {
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Statistici: {campaign.title}</h1>
       </div>
 
-      <StatsCards
-        participationCount={campaign.participation_count}
-        confirmedCount={campaign.confirmed_count}
-        createdAt={campaign.created_at}
-      />
-
-      {dailyEntries.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
-            Participări pe zi (ultimele 30 zile)
-          </h3>
-          <div className="flex items-end gap-1 h-32">
-            {dailyEntries.map(([day, count]) => (
-              <div
-                key={day}
-                className="flex-1 bg-civic-blue-500 hover:bg-civic-blue-600 transition-colors rounded-t relative group"
-                style={{ height: `${(count / maxDaily) * 100}%`, minHeight: "4px" }}
-                title={`${day}: ${count} participări`}
-              >
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  {count}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-between text-[10px] text-gray-400 dark:text-gray-500 mt-1">
-            <span>{dailyEntries[0]?.[0]?.slice(5)}</span>
-            <span>{dailyEntries[dailyEntries.length - 1]?.[0]?.slice(5)}</span>
-          </div>
-        </div>
-      )}
-
-      {Object.keys(stats.cityCounts).length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
-            Pe orașe
-          </h3>
-          <div className="space-y-2">
-            {Object.entries(stats.cityCounts)
-              .sort(([, a], [, b]) => b - a)
-              .slice(0, 10)
-              .map(([city, count]) => (
-                <div key={city} className="flex items-center gap-3">
-                  <span className="text-sm w-32 truncate text-gray-700 dark:text-gray-300">{city}</span>
-                  <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full h-4">
-                    <div
-                      className="bg-activist-orange-500 h-4 rounded-full"
-                      style={{ width: `${(count / total) * 100}%`, minWidth: "8px" }}
-                    />
-                  </div>
-                  <span className="text-sm font-semibold w-8 text-right text-gray-900 dark:text-white">{count}</span>
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
-
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-            Participări recente
-          </h3>
-          <button className="text-sm text-civic-blue-500 dark:text-civic-blue-400 hover:underline flex items-center gap-1">
-            <Download className="w-3 h-3" /> Export CSV
-          </button>
-        </div>
-        <ParticipationTable participations={participations} total={total} />
+      {/* Tab navigation */}
+      <div className="flex gap-1 border-b border-gray-200 dark:border-gray-700">
+        <button
+          onClick={() => setActiveTab("stats")}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === "stats"
+              ? "border-civic-blue-500 text-civic-blue-600 dark:text-civic-blue-400"
+              : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+          }`}
+        >
+          <BarChart3 className="w-4 h-4" />
+          Statistici
+        </button>
+        <button
+          onClick={() => setActiveTab("inbox")}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === "inbox"
+              ? "border-civic-blue-500 text-civic-blue-600 dark:text-civic-blue-400"
+              : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+          }`}
+        >
+          <Inbox className="w-4 h-4" />
+          Inbox
+          {unreadCount > 0 && (
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-civic-blue-500 rounded-full">
+              {unreadCount}
+            </span>
+          )}
+        </button>
       </div>
+
+      {activeTab === "stats" ? (
+        <div className="space-y-8">
+          <StatsCards
+            participationCount={campaign.participation_count}
+            confirmedCount={campaign.confirmed_count}
+            createdAt={campaign.created_at}
+          />
+
+          {dailyEntries.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
+                Participări pe zi (ultimele 30 zile)
+              </h3>
+              <div className="flex items-end gap-1 h-32">
+                {dailyEntries.map(([day, count]) => (
+                  <div
+                    key={day}
+                    className="flex-1 bg-civic-blue-500 hover:bg-civic-blue-600 transition-colors rounded-t relative group"
+                    style={{ height: `${(count / maxDaily) * 100}%`, minHeight: "4px" }}
+                    title={`${day}: ${count} participări`}
+                  >
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      {count}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-400 dark:text-gray-500 mt-1">
+                <span>{dailyEntries[0]?.[0]?.slice(5)}</span>
+                <span>{dailyEntries[dailyEntries.length - 1]?.[0]?.slice(5)}</span>
+              </div>
+            </div>
+          )}
+
+          {Object.keys(stats.cityCounts).length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-4">
+                Pe orașe
+              </h3>
+              <div className="space-y-2">
+                {Object.entries(stats.cityCounts)
+                  .sort(([, a], [, b]) => b - a)
+                  .slice(0, 10)
+                  .map(([city, count]) => (
+                    <div key={city} className="flex items-center gap-3">
+                      <span className="text-sm w-32 truncate text-gray-700 dark:text-gray-300">{city}</span>
+                      <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full h-4">
+                        <div
+                          className="bg-activist-orange-500 h-4 rounded-full"
+                          style={{ width: `${(count / total) * 100}%`, minWidth: "8px" }}
+                        />
+                      </div>
+                      <span className="text-sm font-semibold w-8 text-right text-gray-900 dark:text-white">{count}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                Participări recente
+              </h3>
+              <button className="text-sm text-civic-blue-500 dark:text-civic-blue-400 hover:underline flex items-center gap-1">
+                <Download className="w-3 h-3" /> Export CSV
+              </button>
+            </div>
+            <ParticipationTable participations={participations} total={total} />
+          </div>
+        </div>
+      ) : (
+        <CampaignInbox slug={slug} />
+      )}
     </div>
   );
 }

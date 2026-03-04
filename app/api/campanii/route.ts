@@ -4,8 +4,10 @@ import {
   getAllCampaigns,
   createCampaign,
   checkEmailSubjectUnique,
+  checkCampaignEmailUnique,
 } from "@/lib/campanii/campaign-queries";
 import { campaignSchema } from "@/lib/campanii/validations/campaign";
+import { generateUniqueCampaignEmail } from "@/lib/campanii/generate-email";
 
 export async function GET(request: NextRequest) {
   const isAdmin = await verifyAdminSession();
@@ -48,7 +50,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const campaign = await createCampaign(parsed.data as Parameters<typeof createCampaign>[0]);
+    // Generate unique campaign email address from title
+    const campaignEmail = await generateUniqueCampaignEmail(
+      parsed.data.title,
+      (email) => checkCampaignEmailUnique(email)
+    );
+
+    const campaign = await createCampaign({
+      ...parsed.data,
+      campaign_email: campaignEmail,
+    } as Parameters<typeof createCampaign>[0]);
     if (!campaign) {
       return NextResponse.json({ error: "Eroare la creare" }, { status: 500 });
     }

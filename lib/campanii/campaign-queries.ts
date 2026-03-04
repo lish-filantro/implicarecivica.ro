@@ -105,3 +105,22 @@ export async function checkEmailSubjectUnique(
   const { data } = await query;
   return !data || data.length === 0;
 }
+
+export async function checkCampaignEmailUnique(
+  email: string,
+  excludeId?: string
+): Promise<boolean> {
+  const supabase = createServiceClient();
+  let query = supabase
+    .from("campaigns")
+    .select("id")
+    .eq("campaign_email", email)
+    .eq("status", "active");
+
+  if (excludeId) {
+    query = query.neq("id", excludeId);
+  }
+
+  const { data } = await query;
+  return !data || data.length === 0;
+}

@@ -6,13 +6,14 @@ import type { CampaignRecipient } from "@/lib/campanii/types/campaign";
 import { RecipientTable } from "../RecipientTable";
 import { ImageUpload } from "../ImageUpload";
 import { slugify } from "@/lib/utils";
-import { Users } from "lucide-react";
+import { Users, Mail } from "lucide-react";
 
 interface StepCauzaProps {
   form: UseFormReturn<WizardFormData>;
   recipients: CampaignRecipient[];
   onRecipientsChange: (recipients: CampaignRecipient[]) => void;
   campaignSlug?: string | null;
+  campaignEmail?: string | null;
   isEdit: boolean;
 }
 
@@ -21,6 +22,7 @@ export function StepCauza({
   recipients,
   onRecipientsChange,
   campaignSlug,
+  campaignEmail,
   isEdit,
 }: StepCauzaProps) {
   const {
@@ -77,6 +79,21 @@ export function StepCauza({
             </p>
           )}
         </div>
+
+        {campaignEmail && (
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              Email campanie
+            </label>
+            <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm">
+              <Mail className="w-4 h-4 text-civic-blue-500 dark:text-civic-blue-400 shrink-0" />
+              <span className="font-mono text-gray-700 dark:text-gray-300">{campaignEmail}</span>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Generat automat. Folosit pentru tracking BCC și inbox campanie.
+            </p>
+          </div>
+        )}
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">

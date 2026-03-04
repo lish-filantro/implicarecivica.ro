@@ -4,8 +4,10 @@ import {
   getCampaignBySlug,
   updateCampaign,
   checkEmailSubjectUnique,
+  checkCampaignEmailUnique,
 } from "@/lib/campanii/campaign-queries";
 import { campaignSchema } from "@/lib/campanii/validations/campaign";
+import { generateUniqueCampaignEmail } from "@/lib/campanii/generate-email";
 import type { Campaign } from "@/lib/campanii/types/campaign";
 
 export async function GET(
@@ -66,7 +68,17 @@ export async function PUT(
       }
     }
 
-    const updated = await updateCampaign(campaign.id, parsed.data as Partial<Campaign>);
+    // If campaign has no email yet (pre-migration), generate one
+    const updates = { ...parsed.data } as Partial<Campaign>;
+    if (!campaign.campaign_email) {
+      const campaignEmail = await generateUniqueCampaignEmail(
+        campaign.title,
+        (email) => checkCampaignEmailUnique(email, campaign.id)
+      );
+      updates.campaign_email = campaignEmail;
+    }
+
+    const updated = await updateCampaign(campaign.id, updates);
     if (!updated) {
       return NextResponse.json({ error: "Eroare la actualizare" }, { status: 500 });
     }

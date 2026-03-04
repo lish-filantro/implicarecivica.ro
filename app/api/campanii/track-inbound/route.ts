@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 import { confirmParticipation } from "@/lib/campanii/participation-queries";
 
+/**
+ * DEPRECATED — Kept for backwards compatibility with the old
+ * cloudflare-worker-campanii. New campaign tracking goes through
+ * /api/webhooks/cloudflare-email which routes by campaign_email address.
+ *
+ * Can be removed once all campaigns have campaign_email set and the
+ * old Cloudflare worker is decommissioned.
+ */
 export async function POST(request: NextRequest) {
   const secret = request.headers.get("x-webhook-secret");
   if (secret !== process.env.CLOUDFLARE_WEBHOOK_SECRET) {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse, after } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import PostalMime from 'postal-mime';
 import { AwsClient } from 'aws4fetch';
+import { confirmParticipation } from '@/lib/campanii/participation-queries';
 
 /**
  * Extract raw email address from RFC 5322 format.
@@ -10,6 +11,15 @@ import { AwsClient } from 'aws4fetch';
 function extractEmail(raw: string): string {
   const match = raw.match(/<([^>]+)>/);
   return (match ? match[1] : raw).trim().toLowerCase();
+}
+
+/**
+ * Extract display name from RFC 5322 format.
+ * "Ion Popescu <ion.popescu@domain.ro>" → "Ion Popescu"
+ */
+function extractName(raw: string): string | null {
+  const match = raw.match(/^(.+?)\s*<[^>]+>/);
+  return match ? match[1].replace(/^["']|["']$/g, '').trim() || null : null;
 }
 
 /**
@@ -220,6 +230,63 @@ export async function POST(request: NextRequest) {
 
     const toEmail = extractEmail(to);
 
+    // --- CAMPAIGN ROUTING ---
+    // Check if this email is addressed to a campaign inbox
+    const { data: matchedCampaign } = await supabase
+      .from('campaigns')
+      .select('id, email_subject')
+      .eq('campaign_email', toEmail)
+      .in('status', ['active', 'archived'])
+      .single();
+
+    if (matchedCampaign) {
+      const cleanSubject = (subject || '').replace(/^(Re|Fwd|FW|RE):\s*/gi, '').trim();
+
+      if (cleanSubject === matchedCampaign.email_subject) {
+        // Subject matches campaign template → count as confirmed participation
+        console.log(`[CF Email] Campaign counting: campaign=${matchedCampaign.id}, from=${extractEmail(from)}`);
+        await confirmParticipation(matchedCampaign.id, extractEmail(from));
+
+        after(async () => { await deleteFromR2(r2_key); });
+        return NextResponse.json({ received: true, campaign_counted: true, campaign_id: matchedCampaign.id });
+      } else {
+        // Different subject → save to campaign inbox
+        console.log(`[CF Email] Campaign message: campaign=${matchedCampaign.id}, subject="${subject}"`);
+
+        const rawBuffer = await fetchFromR2(r2_key);
+        const parser = new PostalMime();
+        const parsed = await parser.parse(rawBuffer);
+        const messageBody = parsed.html || parsed.text || '';
+
+        // Save campaign attachments
+        const parsedAtts = (parsed.attachments || []).map((att) => ({
+          filename: att.filename || 'attachment',
+          mimeType: att.mimeType || 'application/octet-stream',
+          content: new Uint8Array(att.content as ArrayBuffer),
+        }));
+
+        const msgId = crypto.randomUUID();
+        let campaignAttachments: { name: string; type: string; size: number; path: string }[] = [];
+        if (parsedAtts.length > 0) {
+          campaignAttachments = await saveAttachments(parsedAtts, `campaign-${matchedCampaign.id}`, msgId, supabase);
+        }
+
+        await supabase.from('campaign_messages').insert({
+          campaign_id: matchedCampaign.id,
+          from_email: extractEmail(from),
+          from_name: extractName(from),
+          subject: subject || '(fără subiect)',
+          body: messageBody,
+          attachments: campaignAttachments.map((a) => ({ name: a.name, type: a.type, size: a.size, path: a.path })),
+          received_at: received_at || new Date().toISOString(),
+        });
+
+        after(async () => { await deleteFromR2(r2_key); });
+        return NextResponse.json({ received: true, campaign_message_saved: true, campaign_id: matchedCampaign.id });
+      }
+    }
+
+    // --- USER EMAIL FLOW ---
     // Find user by mailcow_email
     const { data: matchedProfile } = await supabase
       .from('profiles')

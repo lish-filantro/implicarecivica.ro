@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Campaign } from "@/lib/campanii/types/campaign";
 import { AdminAuthGuard } from "@/components/campanii/admin/AdminAuthGuard";
-import { Plus, Eye, Edit, BarChart3, Megaphone } from "lucide-react";
+import { Plus, Eye, Edit, BarChart3, Megaphone, Inbox } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 
@@ -108,6 +108,13 @@ function AdminDashboard() {
                           title="Statistici"
                         >
                           <BarChart3 className="w-4 h-4 text-activist-orange-500" />
+                        </button>
+                        <button
+                          onClick={() => router.push(`/campanii/admin/campanii/${c.slug}/stats?tab=inbox`)}
+                          className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                          title="Inbox campanie"
+                        >
+                          <Inbox className="w-4 h-4 text-civic-blue-500" />
                         </button>
                         {c.status === "active" && (
                           <a
