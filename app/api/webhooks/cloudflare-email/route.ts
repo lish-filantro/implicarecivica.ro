@@ -326,8 +326,12 @@ export async function POST(request: NextRequest) {
       has_parent: !!parentEmailId,
       processing: 'triggered',
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('[CF Email] Webhook error:', error);
-    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 });
+    return NextResponse.json({
+      error: 'Webhook processing failed',
+      message: error?.message || String(error),
+      stack: error?.stack?.split('\n').slice(0, 5),
+    }, { status: 500 });
   }
 }
