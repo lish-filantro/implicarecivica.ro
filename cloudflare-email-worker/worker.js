@@ -1,16 +1,15 @@
 /**
  * Cloudflare Email Worker — Inbound email receiver for implicarecivica.ro
  *
- * This worker receives emails via Cloudflare Email Routing,
- * parses the raw MIME content, and forwards it to the Next.js API.
+ * Receives emails via Cloudflare Email Routing,
+ * extracts headers + raw MIME body, and forwards to the Next.js API.
+ * Full parsing (body, attachments) happens server-side.
  *
- * Environment variables (set in Cloudflare dashboard):
+ * Environment variables (set in Cloudflare dashboard → Worker Settings):
  *   WEBHOOK_URL    — https://implicarecivica.ro/api/webhooks/cloudflare-email
  *   WEBHOOK_SECRET — shared secret for authenticating requests
  *   BACKUP_EMAIL   — (optional) forward a copy to this address as backup
  */
-import PostalMime from 'postal-mime';
-
 export default {
   async email(message, env, ctx) {
     const from = message.from;
@@ -23,49 +22,15 @@ export default {
     console.log(`[Email Worker] Received: from=${from}, to=${to}, subject=${subject}`);
 
     try {
-      // Read raw MIME email
-      const rawEmail = await new Response(message.raw).arrayBuffer();
-
-      // Parse with postal-mime
-      const parser = new PostalMime();
-      const parsed = await parser.parse(rawEmail);
-
-      // Extract body (prefer HTML, fallback to text)
-      const body = parsed.html || parsed.text || '';
-
-      // Process attachments — convert to base64 for transport
-      const attachments = [];
-      if (parsed.attachments && parsed.attachments.length > 0) {
-        for (const att of parsed.attachments) {
-          // Max 10MB per attachment for the webhook payload
-          if (att.content && att.content.byteLength <= 10 * 1024 * 1024) {
-            const bytes = new Uint8Array(att.content);
-            let binary = '';
-            for (let i = 0; i < bytes.length; i++) {
-              binary += String.fromCharCode(bytes[i]);
-            }
-            const base64 = btoa(binary);
-
-            attachments.push({
-              filename: att.filename || 'attachment',
-              content_type: att.mimeType || 'application/octet-stream',
-              size: att.content.byteLength,
-              content_base64: base64,
-            });
-          } else if (att.content) {
-            // Too large — include metadata only
-            attachments.push({
-              filename: att.filename || 'attachment',
-              content_type: att.mimeType || 'application/octet-stream',
-              size: att.content.byteLength,
-              content_base64: null,
-            });
-            console.warn(`[Email Worker] Attachment ${att.filename} too large (${att.content.byteLength} bytes), skipping content`);
-          }
-        }
+      // Read raw MIME email as base64 (preserves binary attachments)
+      const rawBuffer = await new Response(message.raw).arrayBuffer();
+      const bytes = new Uint8Array(rawBuffer);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
       }
+      const rawBase64 = btoa(binary);
 
-      // Send to Next.js API
       const payload = {
         from,
         to,
@@ -73,8 +38,7 @@ export default {
         message_id: messageId.replace(/[<>]/g, ''),
         in_reply_to: inReplyTo.replace(/[<>]/g, ''),
         references,
-        body,
-        attachments,
+        raw_email_base64: rawBase64,
         received_at: new Date().toISOString(),
       };
 
@@ -90,7 +54,6 @@ export default {
       if (!response.ok) {
         const text = await response.text();
         console.error(`[Email Worker] API error: ${response.status} ${text}`);
-        // Reject so Cloudflare retries
         message.setReject(`API error: ${response.status}`);
         return;
       }

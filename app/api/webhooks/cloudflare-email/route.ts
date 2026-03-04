@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse, after } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
+import PostalMime from 'postal-mime';
 
 /**
  * Extract raw email address from RFC 5322 format.
@@ -54,10 +55,10 @@ async function detectParentEmail(
 }
 
 /**
- * Save base64-encoded attachments to Supabase Storage.
+ * Save parsed attachments to Supabase Storage.
  */
 async function saveAttachments(
-  attachments: { filename: string; content_type: string; size: number; content_base64: string | null }[],
+  attachments: { filename: string; mimeType: string; content: Uint8Array }[],
   userId: string,
   emailId: string,
   supabase: ReturnType<typeof createServerClient>,
@@ -65,19 +66,8 @@ async function saveAttachments(
   const saved: { name: string; type: string; size: number; path: string }[] = [];
 
   for (const att of attachments) {
-    if (!att.content_base64) {
-      // Metadata only — no content to save
-      saved.push({
-        name: att.filename,
-        type: att.content_type,
-        size: att.size,
-        path: '',
-      });
-      continue;
-    }
-
     try {
-      const buffer = Buffer.from(att.content_base64, 'base64');
+      const buffer = Buffer.from(att.content);
 
       // Max 50MB
       if (buffer.length > 50 * 1024 * 1024) {
@@ -85,25 +75,26 @@ async function saveAttachments(
         continue;
       }
 
-      const storagePath = `${userId}/${emailId}/${att.filename}`;
+      const filename = att.filename || 'attachment';
+      const storagePath = `${userId}/${emailId}/${filename}`;
 
       const { error } = await supabase.storage
         .from('email-attachments')
         .upload(storagePath, buffer, {
-          contentType: att.content_type,
+          contentType: att.mimeType || 'application/octet-stream',
           upsert: true,
         });
 
       if (error) {
-        console.error(`[Attachments] Upload failed for ${att.filename}:`, error.message);
+        console.error(`[Attachments] Upload failed for ${filename}:`, error.message);
         continue;
       }
 
-      console.log(`[Attachments] Saved ${att.filename} (${buffer.length} bytes)`);
+      console.log(`[Attachments] Saved ${filename} (${buffer.length} bytes)`);
       saved.push({
-        name: att.filename,
-        type: att.content_type,
-        size: att.size || buffer.length,
+        name: filename,
+        type: att.mimeType || 'application/octet-stream',
+        size: buffer.length,
         path: storagePath,
       });
     } catch (err: any) {
@@ -117,8 +108,8 @@ async function saveAttachments(
 /**
  * Cloudflare Email Worker Webhook Handler
  *
- * Receives parsed email data from the Cloudflare Email Worker,
- * saves it to Supabase, and triggers the processing pipeline.
+ * Receives raw MIME email (base64) from the Cloudflare Email Worker,
+ * parses it with postal-mime, saves to Supabase, and triggers processing.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -133,13 +124,29 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await request.json();
-    const { from, to, subject, message_id, in_reply_to, references, body, attachments, received_at } = payload;
+    const { from, to, subject, message_id, in_reply_to, references, raw_email_base64, received_at } = payload;
 
     if (!from || !to) {
       return NextResponse.json({ error: 'Missing from/to' }, { status: 400 });
     }
 
     console.log(`[CF Email] Received: from=${from}, to=${to}, subject=${subject}`);
+
+    // Parse raw MIME email
+    let body = '';
+    let parsedAttachments: { filename: string; mimeType: string; content: Uint8Array }[] = [];
+
+    if (raw_email_base64) {
+      const rawBuffer = Buffer.from(raw_email_base64, 'base64');
+      const parser = new PostalMime();
+      const parsed = await parser.parse(rawBuffer);
+      body = parsed.html || parsed.text || '';
+      parsedAttachments = (parsed.attachments || []).map((att) => ({
+        filename: att.filename || 'attachment',
+        mimeType: att.mimeType || 'application/octet-stream',
+        content: new Uint8Array(att.content),
+      }));
+    }
 
     // Use service role to bypass RLS
     const supabase = createServerClient(
@@ -183,8 +190,8 @@ export async function POST(request: NextRequest) {
 
     // Save attachments to Supabase Storage
     let savedAttachments: { name: string; type: string; size: number; path: string }[] = [];
-    if (attachments && attachments.length > 0) {
-      savedAttachments = await saveAttachments(attachments, userId, emailId, supabase);
+    if (parsedAttachments.length > 0) {
+      savedAttachments = await saveAttachments(parsedAttachments, userId, emailId, supabase);
     }
 
     const pdfFilePath = savedAttachments.find((a) => a.type === 'application/pdf')?.path || null;
@@ -201,7 +208,7 @@ export async function POST(request: NextRequest) {
         from_email: from,
         to_email: toEmail,
         subject: subject || '(fără subiect)',
-        body: body || '',
+        body,
         attachments: savedAttachments.map((a) => ({ name: a.name, type: a.type, size: a.size, path: a.path })),
         pdf_file_path: pdfFilePath,
         processing_status: 'pending',
