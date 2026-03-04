@@ -1,19 +1,35 @@
 /**
  * Cloudflare Email Worker — Inbound email receiver for implicarecivica.ro
  *
- * Receives emails via Cloudflare Email Routing,
- * extracts headers + raw MIME body, and forwards to the Next.js API.
+ * Receives emails via Cloudflare Email Routing and forwards to Next.js API.
+ * Uses chunked base64 encoding for CPU efficiency.
  *
- * For small emails (< 3MB): sends full raw MIME as base64
- * For large emails: sends headers + body text only, attachments as metadata
- *
- * Environment variables (set in Cloudflare dashboard → Worker Settings):
+ * Environment variables:
  *   WEBHOOK_URL    — https://implicarecivica.ro/api/webhooks/cloudflare-email
  *   WEBHOOK_SECRET — shared secret for authenticating requests
- *   BACKUP_EMAIL   — (optional) forward a copy to this address as backup
+ *   BACKUP_EMAIL   — (optional) forward a copy to this address
  */
 
 const MAX_RAW_SIZE = 3 * 1024 * 1024; // 3MB — safe under Vercel's 4.5MB limit after base64
+const CHUNK_SIZE = 8192; // Process 8KB at a time for base64 encoding
+
+/**
+ * Efficiently convert ArrayBuffer to base64 using chunked processing.
+ * Avoids CPU timeout by not building a huge string character by character.
+ */
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  const chunks = [];
+  for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
+    const chunk = bytes.subarray(i, i + CHUNK_SIZE);
+    let binary = '';
+    for (let j = 0; j < chunk.length; j++) {
+      binary += String.fromCharCode(chunk[j]);
+    }
+    chunks.push(binary);
+  }
+  return btoa(chunks.join(''));
+}
 
 export default {
   async email(message, env, ctx) {
@@ -28,76 +44,73 @@ export default {
     console.log(`[Email Worker] Received: from=${from}, to=${to}, subject=${subject}, size=${rawSize}`);
 
     try {
-      const rawBuffer = await new Response(message.raw).arrayBuffer();
+      // Common header fields
+      const headers = {
+        from,
+        to,
+        subject,
+        message_id: messageId.replace(/[<>]/g, ''),
+        in_reply_to: inReplyTo.replace(/[<>]/g, ''),
+        references,
+        received_at: new Date().toISOString(),
+      };
+
       let payload;
 
-      if (rawBuffer.byteLength <= MAX_RAW_SIZE) {
+      // Check size BEFORE reading raw (use rawSize if available)
+      const estimatedSize = rawSize || MAX_RAW_SIZE + 1;
+
+      if (estimatedSize <= MAX_RAW_SIZE) {
         // Small email — send full raw MIME for server-side parsing
-        const bytes = new Uint8Array(rawBuffer);
-        let binary = '';
-        for (let i = 0; i < bytes.length; i++) {
-          binary += String.fromCharCode(bytes[i]);
+        const rawBuffer = await new Response(message.raw).arrayBuffer();
+
+        if (rawBuffer.byteLength <= MAX_RAW_SIZE) {
+          payload = {
+            ...headers,
+            raw_email_base64: arrayBufferToBase64(rawBuffer),
+          };
+        } else {
+          // rawSize was wrong, actually large
+          payload = {
+            ...headers,
+            body: '',
+            large_email: true,
+          };
         }
-        const rawBase64 = btoa(binary);
-
-        payload = {
-          from,
-          to,
-          subject,
-          message_id: messageId.replace(/[<>]/g, ''),
-          in_reply_to: inReplyTo.replace(/[<>]/g, ''),
-          references,
-          raw_email_base64: rawBase64,
-          received_at: new Date().toISOString(),
-        };
       } else {
-        // Large email — extract text body, send attachment metadata only
-        console.log(`[Email Worker] Large email (${rawBuffer.byteLength} bytes), parsing in Worker`);
+        // Large email — don't even try to base64 the full thing
+        // Read raw just to extract text body
+        const rawBuffer = await new Response(message.raw).arrayBuffer();
+        const rawText = new TextDecoder().decode(rawBuffer.slice(0, 100000)); // First 100KB for body extraction
 
-        const rawText = new TextDecoder().decode(rawBuffer);
-
-        // Extract plain text body from MIME (best-effort)
         let body = '';
-        const textMatch = rawText.match(
-          /Content-Type:\s*text\/(?:html|plain)[^\r\n]*\r?\nContent-Transfer-Encoding:\s*(\S+)\r?\n\r?\n([\s\S]*?)(?:\r?\n--|\r?\n\r?\n)/i
+        // Try to extract HTML body
+        const htmlMatch = rawText.match(
+          /Content-Type:\s*text\/html[^\r\n]*[\r\n]+(?:Content-Transfer-Encoding:\s*(\S+)[\r\n]+)?[\r\n]+([\s\S]*?)(?:[\r\n]--)/i
         );
-        if (textMatch) {
-          const encoding = textMatch[1].toLowerCase();
-          const content = textMatch[2].trim();
+        const textMatch = rawText.match(
+          /Content-Type:\s*text\/plain[^\r\n]*[\r\n]+(?:Content-Transfer-Encoding:\s*(\S+)[\r\n]+)?[\r\n]+([\s\S]*?)(?:[\r\n]--)/i
+        );
+
+        const match = htmlMatch || textMatch;
+        if (match) {
+          const encoding = (match[1] || '7bit').toLowerCase();
+          const content = match[2].trim();
           if (encoding === 'base64') {
             try { body = atob(content.replace(/\s/g, '')); } catch { body = content; }
           } else if (encoding === 'quoted-printable') {
-            body = content.replace(/=([0-9A-F]{2})/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16))).replace(/=\r?\n/g, '');
+            body = content
+              .replace(/=([0-9A-F]{2})/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+              .replace(/=\r?\n/g, '');
           } else {
             body = content;
           }
         }
 
-        // Extract attachment metadata (filename + content-type + size estimate)
-        const attachments = [];
-        const attRegex = /Content-Disposition:\s*attachment[^\r\n]*filename="?([^"\r\n;]+)"?/gi;
-        const typeRegex = /Content-Type:\s*([^\s;]+)/gi;
-        let match;
-        while ((match = attRegex.exec(rawText)) !== null) {
-          attachments.push({
-            filename: match[1].trim(),
-            content_type: 'application/octet-stream',
-            size: 0,
-            content_base64: null,
-          });
-        }
-
         payload = {
-          from,
-          to,
-          subject,
-          message_id: messageId.replace(/[<>]/g, ''),
-          in_reply_to: inReplyTo.replace(/[<>]/g, ''),
-          references,
+          ...headers,
           body,
-          attachments_metadata: attachments,
           large_email: true,
-          received_at: new Date().toISOString(),
         };
       }
 
