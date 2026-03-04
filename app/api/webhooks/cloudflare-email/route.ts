@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse, after } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import PostalMime from 'postal-mime';
+import { AwsClient } from 'aws4fetch';
 
 /**
  * Extract raw email address from RFC 5322 format.
@@ -121,9 +122,6 @@ async function fetchFromR2(r2Key: string): Promise<ArrayBuffer> {
   // Use Cloudflare R2 S3-compatible API
   const url = `https://${accountId}.r2.cloudflarestorage.com/${bucket}/${r2Key}`;
 
-  // AWS S3 Signature V4 — use simple approach with pre-shared credentials
-  // Using the Workers-compatible endpoint with auth header
-  const { AwsClient } = await import('aws4fetch');
   const r2 = new AwsClient({
     accessKeyId,
     secretAccessKey,
@@ -152,7 +150,6 @@ async function deleteFromR2(r2Key: string): Promise<void> {
   if (!accountId || !accessKeyId || !secretAccessKey) return;
 
   try {
-    const { AwsClient } = await import('aws4fetch');
     const r2 = new AwsClient({
       accessKeyId,
       secretAccessKey,
