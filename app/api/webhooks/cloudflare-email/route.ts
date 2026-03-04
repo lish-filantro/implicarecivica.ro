@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
       parsedAttachments = (parsed.attachments || []).map((att) => ({
         filename: att.filename || 'attachment',
         mimeType: att.mimeType || 'application/octet-stream',
-        content: new Uint8Array(att.content),
+        content: new Uint8Array(att.content as ArrayBuffer),
       }));
     }
 
