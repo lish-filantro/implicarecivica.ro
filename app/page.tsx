@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { DarkModeToggle } from "@/components/shared/DarkModeToggle"
-import { CampaignsShowcase } from "@/components/campanii/campaign/CampaignsShowcase"
 
 export default function Home() {
   return (
@@ -14,13 +13,7 @@ export default function Home() {
             implicarecivica.ro
           </span>
           <div className="flex items-center gap-3">
-            <Link
-              href="/campanii"
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-activist-orange-500 transition-colors"
-            >
-              Campanii
-            </Link>
-            <DarkModeToggle />
+<DarkModeToggle />
             <Link
               href="/login"
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
@@ -156,8 +149,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Campanii Civice ─── */}
-      <CampaignsShowcase />
 
       {/* ─── De ce contează ─── */}
       <section className="py-20 px-6">

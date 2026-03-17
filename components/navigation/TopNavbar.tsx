@@ -8,7 +8,6 @@ import {
   Send,
   Mail,
   MessageCircle,
-  Megaphone,
 } from 'lucide-react';
 import { DarkModeToggle } from '@/components/shared/DarkModeToggle';
 import { UserDropdown } from './UserDropdown';
@@ -19,7 +18,6 @@ const NAV_ITEMS = [
   { href: '/chat', label: 'Asistent 544', icon: MessageSquare },
   { href: '/requests/new', label: 'Trimite Cereri', icon: Send },
   { href: '/emails', label: 'Emailuri', icon: Mail },
-  { href: '/campanii/admin', label: 'Campanii', icon: Megaphone },
   { href: '/feedback', label: 'Feedback', icon: MessageCircle },
 ];
 

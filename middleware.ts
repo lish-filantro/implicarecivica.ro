@@ -44,6 +44,11 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Campanii pages are hidden — redirect to homepage
+  if (request.nextUrl.pathname.startsWith('/campanii')) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
   // Redirect /chatbot to /chat
   if (request.nextUrl.pathname.startsWith('/chatbot')) {
     const url = request.nextUrl.clone()
