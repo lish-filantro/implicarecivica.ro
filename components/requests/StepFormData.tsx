@@ -137,6 +137,20 @@ export function StepFormData({ wizard }: StepFormDataProps) {
           Instituție destinatară
         </h3>
 
+        {/* Session name */}
+        <div>
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Denumire sesiune *
+          </label>
+          <input
+            type="text"
+            value={formData.sessionName}
+            onChange={(e) => updateFormField('sessionName', e.target.value)}
+            placeholder="ex: Transparența cheltuielilor publice"
+            className="w-full field-input"
+          />
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Institution name */}
           <div>

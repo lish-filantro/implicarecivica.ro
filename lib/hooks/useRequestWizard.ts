@@ -32,6 +32,7 @@ export interface WizardFormData {
   saveAddress: boolean;
   institutionName: string;
   institutionEmail: string;
+  sessionName: string;
 }
 
 interface ChatData {
@@ -60,6 +61,7 @@ export function useRequestWizard({ initialChatData }: UseRequestWizardOptions = 
     saveAddress: false,
     institutionName: initialChatData?.institutionName || '',
     institutionEmail: initialChatData?.institutionEmail || '',
+    sessionName: '',
   });
 
   const [questions, setQuestions] = useState<Record<QuestionCategory, QuestionItem[]>>({
@@ -227,7 +229,8 @@ export function useRequestWizard({ initialChatData }: UseRequestWizardOptions = 
       formData.solicitantAddress.trim() &&
       formData.institutionName.trim() &&
       formData.institutionEmail.trim() &&
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.institutionEmail)
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.institutionEmail) &&
+      formData.sessionName.trim()
     );
   }, [formData]);
 

@@ -109,6 +109,7 @@ export async function listSessionsWithRequests(): Promise<RequestSessionWithRequ
  * Create a session with N requests (one per question)
  */
 export async function createSessionWithRequests(payload: {
+  name?: string;
   subject: string;
   institution_name: string;
   institution_email?: string;
@@ -125,6 +126,7 @@ export async function createSessionWithRequests(payload: {
     .from('request_sessions')
     .insert({
       user_id: user.id,
+      name: payload.name || null,
       subject: payload.subject,
       institution_name: payload.institution_name,
       institution_email: payload.institution_email,

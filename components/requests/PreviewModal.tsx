@@ -32,10 +32,9 @@ const FOIA_MESSAGES = [
 interface PreviewModalProps {
   wizard: ReturnType<typeof useRequestWizard>;
   onClose: () => void;
-  sessionName?: string;
 }
 
-export function PreviewModal({ wizard, onClose, sessionName }: PreviewModalProps) {
+export function PreviewModal({ wizard, onClose }: PreviewModalProps) {
   const router = useRouter();
   const [isSending, setIsSending] = useState(false);
   const [sendProgress, setSendProgress] = useState({ sent: 0, total: 0 });
@@ -85,7 +84,7 @@ export function PreviewModal({ wizard, onClose, sessionName }: PreviewModalProps
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: sessionName || undefined,
+          name: formData.sessionName || undefined,
           subject: FIXED_SUBJECT,
           institution_name: formData.institutionName,
           institution_email: formData.institutionEmail,
