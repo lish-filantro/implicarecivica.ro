@@ -64,7 +64,7 @@ export default function AdminDashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <div className="flex items-center justify-center py-32">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600" />
       </div>
     );
@@ -72,7 +72,7 @@ export default function AdminDashboardPage() {
 
   if (error || !stats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <div className="flex items-center justify-center py-32">
         <p className="text-red-600 dark:text-red-400">{error || 'Eroare necunoscută'}</p>
       </div>
     );
@@ -81,7 +81,7 @@ export default function AdminDashboardPage() {
   const maxSignup = Math.max(...stats.dailySignups.map((d) => d.count), 1);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
