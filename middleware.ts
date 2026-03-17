@@ -82,6 +82,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Admin routes - require authentication
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+  if (isAdminRoute && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('redirectedFrom', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
+  }
+
   // Campanii admin routes - require authentication
   const isCampaniiAdmin = request.nextUrl.pathname.startsWith('/campanii/admin') &&
     !request.nextUrl.pathname.startsWith('/campanii/admin/login')
