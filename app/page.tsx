@@ -29,6 +29,12 @@ export default function Home() {
               Instituții
             </Link>
             <Link
+              href="/despre"
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
+            >
+              Despre
+            </Link>
+            <Link
               href="/login"
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
             >
