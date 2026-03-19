@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link"
+import Image from "next/image"
 import { DarkModeToggle } from "@/components/shared/DarkModeToggle"
 
 export default function Home() {
@@ -9,9 +10,16 @@ export default function Home() {
       {/* ─── Nav ─── */}
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 z-50">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <span className="font-activist text-lg tracking-tight text-civic-blue-700 dark:text-civic-blue-400">
-            implicarecivica.ro
-          </span>
+          <Link href="/">
+            <Image
+              src="/assets/implicare_civica_logo_navbar.png"
+              alt="Implicare Civică"
+              width={140}
+              height={40}
+              className="h-8 w-auto"
+              priority
+            />
+          </Link>
           <div className="flex items-center gap-3">
 <DarkModeToggle />
             <Link
@@ -33,6 +41,14 @@ export default function Home() {
       {/* ─── Hero ─── */}
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-3xl mx-auto text-center">
+          <Image
+            src="/assets/implicare_civica_logo.png"
+            alt="Implicare Civică"
+            width={180}
+            height={180}
+            className="mx-auto mb-8 w-36 md:w-44 h-auto"
+            priority
+          />
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">
             Informația publică e dreptul tău.
             <br />
@@ -188,7 +204,13 @@ export default function Home() {
       <footer className="py-10 px-6 border-t border-gray-100 dark:border-gray-800">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400 dark:text-gray-500">
           <div className="flex items-center gap-6">
-            <span className="font-activist text-gray-500 dark:text-gray-400 tracking-tight">implicarecivica.ro</span>
+            <Image
+              src="/assets/implicare_civica_logo_navbar.png"
+              alt="Implicare Civică"
+              width={120}
+              height={34}
+              className="h-6 w-auto opacity-60"
+            />
             <a href="mailto:contact@implicarecivica.ro" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
               contact@implicarecivica.ro
             </a>

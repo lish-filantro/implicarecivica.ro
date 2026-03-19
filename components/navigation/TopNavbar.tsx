@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -32,12 +33,15 @@ export function TopNavbar() {
         {/* Left: Brand + Mobile menu */}
         <div className="flex items-center gap-3">
           <MobileMenu items={NAV_ITEMS} />
-          <Link
-            href="/dashboard"
-            className="font-activist text-lg tracking-tight text-civic-blue-700 dark:text-civic-blue-400
-                       hover:text-civic-blue-800 dark:hover:text-civic-blue-300 transition-colors"
-          >
-            implicarecivica.ro
+          <Link href="/dashboard" className="flex items-center">
+            <Image
+              src="/assets/implicare_civica_logo_navbar.png"
+              alt="Implicare Civică"
+              width={140}
+              height={40}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
         </div>
 
