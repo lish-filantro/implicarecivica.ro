@@ -1,0 +1,102 @@
+{
+  "id": "ins",
+  "tip_institutie": "Instituție Națională",
+  "nivel": "National",
+  "nume_oficial": "Institutul Național de Statistică",
+  "nume_scurt": "INS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Libertății nr. 16, sector 5",
+    "cod_postal": "050706",
+    "telefon": "+40 21 940 9555",
+    "email": "contact@insse.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://insse.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 226/2009 privind organizarea și funcționarea statisticii oficiale în România",
+    "actualizari": [
+      "Regulamentul (UE) 2015/696 privind statistica europeană",
+      "Codul de practică pentru statisticile europene",
+      "Regulamentul (UE) 2019/1700 privind cadrul pentru rețelele integrate de informații sociale"
+    ]
+  },
+  "atributii_principale": [
+    "Producție și difuzare de date statistice oficiale",
+    "Coordonare a Sistemului Statistic Național",
+    "Elaborare și actualizare a metodologiilor și nomenclaturilor statistice",
+    "Gestionare a bazelor de date statistice",
+    "Efectuarea de recensământuri și sondaje statistice",
+    "Colaborare cu alte instituții publice pentru colectare de date statistice",
+    "Asigurare a calității datelor statistice conform standardelor europene",
+    "Publicare și diseminare de statistici oficiale",
+    "Conducere de cercetări și analize statistice",
+    "Respectare a confidențialității și securității datelor personale",
+    "Elaborare de programe și inițiative de statistică"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "statistică oficială",
+      "indicatori statistici",
+      "recensământ",
+      "sondaj statistic",
+      "PIB",
+      "rate de șomaj",
+      "date demografice"
+    ],
+    "termeni_populari": [
+      "statistica",
+      "cifre și procente",
+      "populație",
+      "muncă și ocupare",
+      "prețuri și inflație",
+      "date economice"
+    ],
+    "probleme_cetatean": [
+      "solicitare de date pentru studii sau proiecte",
+      "verificare a statisticilor raportate",
+      "informații despre populație și demografia",
+      "date despre purtarea și ocuparea forței de muncă",
+      "informații economice și comerciale",
+      "date despre consum și mode de viață"
+    ],
+    "domenii_semantice": [
+      "statistică și analitică",
+      "date economice și sociale",
+      "cercetare și dezvoltare",
+      "bază de date publică",
+      "informare și transparență"
+    ],
+    "termeni_gresiti": [
+      "Institut Statistică",
+      "Birou Statistici",
+      "Agenție Recensământ"
+    ],
+    "contexte_situationale": [
+      "cerere de date statistice pentru studiu",
+      "solicitare informații despre populație și ocupare",
+      "demers pentru informații economice",
+      "cerere de date pentru proiect de cercetare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la baze de date statistice brute și procesate",
+    "Cerere de informații despre metodologia de colectare a datelor statistice",
+    "Solicitare de date și statistici pe subiecte specifice (economie, demografie, etc.)",
+    "Cerere de acces la rezultatele recensământurilor și sondajelor efectuate",
+    "Solicitare de informații despre partajarea datelor cu alte instituții internaționale",
+    "Cerere de date privind indicatorii macroeconomici și sociali",
+    "Solicitare de informații despre programele și proiectele statistice în curs"
+  ],
+  "procedura_544": {
+    "contact_cereri": "contact@insse.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Diseminare Informații"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "1859",
+    "subordinea": "Cancelaria Primului-Ministru",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

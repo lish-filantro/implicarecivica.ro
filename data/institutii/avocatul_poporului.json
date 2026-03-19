@@ -1,0 +1,102 @@
+{
+  "id": "avocatul_poporului",
+  "tip_institutie": "Instituție Independentă",
+  "nivel": "National",
+  "nume_oficial": "Instituția Avocatul Poporului",
+  "nume_scurt": "Avocatul Poporului",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Eugenia Carada nr. 3, sector 3",
+    "cod_postal": "030967",
+    "telefon": "+40 21 319 0636",
+    "email": "petitii@avp.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://avp.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 35/1997 privind organizarea și funcționarea instituției Avocatul Poporului",
+    "actualizari": [
+      "Constituția României - articolul privind Avocatul Poporului",
+      "Statutul Ombudsmanului European",
+      "Recomandări ale Comisiei Europene privind instituțiile naționale de drepturi omului"
+    ]
+  },
+  "atributii_principale": [
+    "Protecție a drepturilor și libertăților cetățenilor în relațiile cu autoritățile publice",
+    "Investigare a plângerilor privind acte sau fapte ilegale ale administrației",
+    "Emisiune de recomandări către autoritățile publice pentru corectarea ilegalităților",
+    "Promovare a respectării drepturilor omului și libertăților fundamentale",
+    "Mediere între cetățeni și autorități publice",
+    "Elaborare de rapoarte speciale privind încălcări de drepturi",
+    "Colaborare cu instituții similare din alte state",
+    "Inițiere de acțiuni în justiție pentru apărarea unor cauze de interes public",
+    "Asigurare a accesului la justiție pentru persoane vulnerabile",
+    "Raportare periodică către Parlamentul României",
+    "Investigare de inițiativă a unor probleme care afectează drepturi"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "ombudsman",
+      "drepturi omului",
+      "libertăți fundamentale",
+      "administrație publică",
+      "ilegalitate administrativă",
+      "petiție",
+      "recomandație"
+    ],
+    "termeni_populari": [
+      "nedreptate",
+      "abuz de putere",
+      "birocracie",
+      "autoritare",
+      "protecție drepturi",
+      "justiție socială"
+    ],
+    "probleme_cetatean": [
+      "act abuziv al unei autorități publice",
+      "refuzul administrației de a acorda un drept",
+      "hărțuire de către funcționari publici",
+      "discriminare în servicii publice",
+      "neglijență administrativă",
+      "nepăsare față de probleme personale grave"
+    ],
+    "domenii_semantice": [
+      "drepturi fundamentale",
+      "protecție juridică",
+      "administrație și justiție",
+      "responsabilitate publică",
+      "advocație pentru drepturi"
+    ],
+    "termeni_gresiti": [
+      "Advocate of People",
+      "Protector Cetățeni",
+      "Autoritate Drepturi"
+    ],
+    "contexte_situationale": [
+      "depunere petitie pentru act abuziv al administrației",
+      "sesizare privind discriminare în servicii publice",
+      "plângere pentru nerespectare de drepturi",
+      "solicitare de intervenție în conflict cu autoritățile"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la rapoartele de investigație ale Avocatului Poporului",
+    "Cerere de informații despre recomandările emise și implementarea lor",
+    "Solicitare de date și statistici privind plângerile primite și rezolvate",
+    "Cerere de acces la deciziile și rapoartele speciale pe subiecte",
+    "Solicitare de informații despre acțiunile în justiție inițiate",
+    "Cerere de date privind cazurile de încălcare a drepturilor depistate",
+    "Solicitare de informații despre colaborarea cu alte instituții internaționale"
+  ],
+  "procedura_544": {
+    "contact_cereri": "petitii@avp.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Comunicare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "1997",
+    "subordinea": "Senat (Parlamentul României)",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

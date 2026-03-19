@@ -1,0 +1,95 @@
+{
+  "id": "ANPIS",
+  "tip_institutie": "Agenție Națională",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională pentru Plăți și Inspecție Socială",
+  "nume_scurt": "ANPIS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bd. Gen. Gheorghe Magheru nr. 7, Sector 1, București",
+    "cod_postal": "010322",
+    "telefon": "021.796.82.88",
+    "email": "secretariat@mmanpis.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mmanpis.ro/",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/136511"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 151/2012 privind aprobarea Statutului pentru organizarea și funcționarea Agenției Naționale pentru Plăți și Inspecție Socială",
+    "actualizari": []
+  },
+  "atributii_principale": [
+    "Administrează și coordonează sistemul de beneficii de asistență socială la nivel național",
+    "Asigură plata corectă și la timp a beneficiilor sociale către beneficiari",
+    "Monitorizează și asigură aplicarea uniformă și nediscriminatorie a legislației privind beneficiile de asistență socială",
+    "Conduce inspecții sociale pentru verificarea respectării legislației privind drepturi și beneficii sociale",
+    "Controlează utilizarea corectă a fondurilor pentru plata beneficiilor de asistență socială",
+    "Elaborează propuneri pentru îmbunătățirea cadrului legislativ în domeniul asistență socială",
+    "Stabilește proceduri administrative pentru acordarea beneficiilor sociale",
+    "Elaborează instrucțiuni pentru gestionarea beneficiilor și programelor de servicii sociale",
+    "Referă organe de urmărire penală în caz de ilegalități în administrarea fondurilor sociale",
+    "Coordonează activitatea Agențiilor Județeane pentru Plăți și Inspecție Socială"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Națională pentru Plăți și Inspecție Socială",
+      "ANPIS",
+      "Agenția Județeană pentru Plăți și Inspecție Socială",
+      "AJPIS"
+    ],
+    "termeni_populari": [
+      "Agență beneficii sociale",
+      "Birou asistență socială",
+      "Plată beneficii",
+      "Inspecție socială"
+    ],
+    "probleme_cetatean": [
+      "Indemnizație copil",
+      "Venit minim de incluziune",
+      "Alocație familă",
+      "Beneficii persoane cu dizabilități",
+      "Ajutor social",
+      "Asistență socială"
+    ],
+    "domenii_semantice": [
+      "Beneficii sociale",
+      "Asistență socială",
+      "Protecție socială",
+      "Inspecție socială",
+      "Drepturi sociale"
+    ],
+    "termeni_gresiti": [
+      "ANSI",
+      "Agenția Socială",
+      "Oficiul Beneficii"
+    ],
+    "contexte_situationale": [
+      "Nu pot plăti chirie",
+      "Am nevoie de ajutor social",
+      "Vreau să solicit venit minim",
+      "Am copii și vreau indemnizație",
+      "Vreau să verific status beneficii"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre beneficiile de asistență socială disponibile și condiții eligibilitate",
+    "Cerere de acces la statistici privind beneficiarii beneficiilor sociale pe județe și tipuri",
+    "Informații despre procedurile de control și inspecție socială",
+    "Cerere privind rezultatele inspecțiilor sociale efectuate la instituții locale",
+    "Solicitare de date privind plățile efectuate din fondul de asistență socială",
+    "Informații despre contractele ANPIS cu furnizorii de servicii sociale",
+    "Cerere de rapoarte anuale asupra execuției bugetului de asistență socială"
+  ],
+  "procedura_544": {
+    "contact_cereri": "secretariat@mmanpis.ro",
+    "departament_responsabil": "Departamentul de Relații cu Publicul și Transparență",
+    "call_center": "021.9309"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2012",
+    "subordinea": "Ministerul Muncii, Familiei și Tineretului",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

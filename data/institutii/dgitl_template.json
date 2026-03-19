@@ -1,0 +1,106 @@
+{
+  "id": "DGITL_TEMPLATE",
+  "tip_institutie": "Direcție de Impozite și Taxe Locale",
+  "nivel": "Local",
+  "nume_oficial": "Direcția de Impozite și Taxe Locale {LOCALITATE}",
+  "nume_scurt": "DGITL {LOCALITATE} sau Serviciul Fiscal Local",
+  "aplicabilitate": "În municipii și orașe mari (în localități mici - Compartiment Fiscal)",
+  "template_pattern": {
+    "nume_format": "Direcția Generală de Impozite și Taxe Locale {localitate}",
+    "variante": "Serviciul Fiscal Local / Compartiment Impozite și Taxe",
+    "site_format": "Pagină pe site-ul primăriei",
+    "email_format": "impozite@primaria{localitate}.ro sau fiscal@primaria{localitate}.ro",
+    "coordonate_variabile": ["localitate", "judet", "marime_localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 227/2015 - Codul fiscal",
+    "reglementari_specifice": [
+      "Legea nr. 207/2015 - Codul de procedură fiscală",
+      "Legea nr. 273/2006 - finanțele publice locale",
+      "HCL pentru stabilirea impozitelor și taxelor locale"
+    ],
+    "subordonare": "Sub autoritatea primarului"
+  },
+  "atributii_principale": [
+    "Administrarea impozitelor și taxelor locale",
+    "Stabilirea și încasarea impozitului pe clădiri și teren",
+    "Administrarea taxei pe autovehicule",
+    "Înregistrarea contribuabililor în evidența fiscală locală",
+    "Eliberarea certificatelor fiscale locale",
+    "Acordarea facilităților fiscale (eșalonări, scutiri)",
+    "Executarea silită a creanțelor fiscale locale",
+    "Soluționarea contestațiilor fiscale la nivel local",
+    "Evidența patrimoniului contribuabililor",
+    "Raportarea către bugetul local"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Direcția de Impozite și Taxe Locale", "DGITL", "Serviciul Fiscal Local",
+      "impozit local", "taxă locală", "certificat fiscal local"
+    ],
+    "termeni_populari": [
+      "impozite locale", "taxe locale", "impozit casa", "taxa auto",
+      "certificat fiscal", "plata impozitelor", "esalonare impozit"
+    ],
+    "probleme_cetatean": [
+      "impozit pe clădire", "impozit casă", "impozit apartament",
+      "impozit teren", "impozit terenuri agricole",
+      "taxă autovehicul", "taxă mașină", "taxa auto",
+      "certificat fiscal local", "certificat atestare fiscală",
+      "plată impozit", "termen plată impozit", "bonificație plată",
+      "eșalonare impozit", "amânare plată", "scutire impozit",
+      "contestație impozit", "recalculare impozit greșit",
+      "executare silită", "poprire cont", "datorie impozit",
+      "declarație impozit", "declarație 600", "declarație teren clădiri",
+      "factura fiscală", "chitanță plată impozit"
+    ],
+    "domenii_semantice": [
+      "impozit", "taxă", "fiscal", "contribuabil", "plată", "datorie",
+      "clădire", "teren", "autovehicul", "mașină",
+      "certificat", "atestare", "declarație", "raportare",
+      "eșalonare", "scutire", "bonificație", "facilitate",
+      "executare", "poprire", "sechestru", "creanță",
+      "contestație", "recalculare", "corecție"
+    ],
+    "termeni_gresiti": [
+      "impozitul local", "casa impozitelor locale",
+      "directia fiscala locala"
+    ],
+    "contexte_situationale": [
+      "unde plătesc impozitul pe casă", "cum obțin certificat fiscal",
+      "vreau să eșalonez impozitul", "cum contest impozitul greșit calculat",
+      "când plătesc taxa auto", "unde depun declarația 600",
+      "cum aflu cât impozit am de plătit", "cum obțin bonificație plată anticipată",
+      "vreau scutire impozit pentru handicap", "unde plătesc online impozitele"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre metodologia de calcul a impozitelor",
+    "Date despre veniturile încasate din impozite și taxe locale",
+    "Informații despre facilitățile fiscale acordate",
+    "Rapoarte despre execuțiile silite în derulare",
+    "Date despre contestațiile fiscale soluționate",
+    "Informații despre structura contribuabililor",
+    "Rapoarte despre gradul de colectare a impozitelor",
+    "Date despre restanțele la bugetul local"
+  ],
+  "procedura_544": {
+    "contact_cereri": "impozite@primaria{localitate}.ro",
+    "departament_responsabil": "Director DGITL / Șef serviciu fiscal",
+    "observatii": "HCL-urile privind impozitele sunt publice"
+  },
+  "servicii_principale": {
+    "relatii_contribuabili": "Informații, depunere declarații, plăți",
+    "evidenta_contribuabili": "Înregistrare, actualizare date",
+    "calcul_impozite": "Stabilire impozite, emitere decizii",
+    "incasare": "Colectare impozite, chitanțe",
+    "executare_silita": "Recuperare creanțe, popririSomații",
+    "contestatii": "Soluționare contestații fiscale"
+  },
+  "termene_importante": {
+    "impozit_cladiri": "Patru rate: 31 martie, 30 iunie, 30 sept, 30 noiembrie",
+    "taxa_auto": "Aceleași termene ca impozitul pe clădiri",
+    "bonificatie": "10% pentru plata integrală până la 31 martie",
+    "declaratie_600": "30 zile de la obținerea/modificarea dreptului de proprietate"
+  }
+}

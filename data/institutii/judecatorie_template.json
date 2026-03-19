@@ -1,0 +1,212 @@
+{
+  "id": "JUDECATORIE_TEMPLATE",
+  "tip_institutie": "Judecătorie - Instanță de prim grad",
+  "nivel": "Județean/Local",
+  "nume_oficial": "Judecătoria {LOCALITATE}",
+  "nume_scurt": "Judecătoria {LOCALITATE}",
+  "aplicabilitate": "Aproximativ 188 judecătorii în toată țara (în județe și sectoarele Bucureștiului)",
+  "template_pattern": {
+    "nume_format": "Judecătoria {localitate}",
+    "variante": "Judecătoriile sectoare București (6 judecătorii sectoriale)",
+    "site_format": "Portal.just.ro sau site-uri proprii",
+    "email_format": "judecatoria.{localitate}@just.ro",
+    "adresa_format": "Variabilă - în reședințe de județ și orașe mari",
+    "coordonate_variabile": [
+      "localitate",
+      "judet",
+      "sector"
+    ]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 304/2022 privind organizarea judiciară",
+    "reglementari_specifice": [
+      "Legea nr. 303/2022 privind statutul judecătorilor și procurorilor",
+      "Constituția României - Cap. VI Autoritatea judecătorească"
+    ],
+    "natura_juridica": "Instanțe fără personalitate juridică, organizate în județe și sectoarele municipiului București"
+  },
+  "atributii_principale": [
+    "Soluționarea în primă instanță a cauzelor civile și penale",
+    "Judecarea proceselor civile (divorț, succesiuni, litigii contractuale)",
+    "Judecarea cauzelor penale (infracțiuni cu pedepse mai mici)",
+    "Soluționarea cererilor de ordine protecție",
+    "Cauze privind minori și familie (în secții specializate)",
+    "Proceduri de insolvență persoane fizice",
+    "Cauze comerciale și litigii de muncă (în unele judecătorii)",
+    "Executări silite și proceduri succesorale",
+    "Cauze administrative și fiscale (în primă instanță)",
+    "Emiterea ordonanțelor președințiale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Judecătorie",
+      "instanță de prim grad",
+      "tribunal",
+      "proces civil",
+      "proces penal",
+      "judecător",
+      "completul de judecată"
+    ],
+    "termeni_populari": [
+      "judecatorie",
+      "proces",
+      "judecator",
+      "instanta",
+      "divorț",
+      "mostenire",
+      "plangere penală"
+    ],
+    "probleme_cetatean": [
+      "divorț",
+      "divorț cu copii",
+      "partaj bunuri",
+      "pensie alimentară",
+      "moștenire",
+      "succesiune",
+      "certificat de moștenitor",
+      "proces civil",
+      "contencios civil",
+      "litigiu contractual",
+      "datorii",
+      "executare silită",
+      "poprire salariu",
+      "plângere penală",
+      "dosar penal",
+      "judecată penală",
+      "infracțiune",
+      "vătămare corporală",
+      "furt",
+      "înșelăciune",
+      "ordin de protecție",
+      "violență domestică",
+      "hărțuire",
+      "cauze minori",
+      "tutelă",
+      "autoritate părintească",
+      "litigii de muncă",
+      "concediere",
+      "drepturi salariale",
+      "insolvență persoană fizică",
+      "faliment personal",
+      "termen judecată",
+      "când este procesul",
+      "dosar instanță",
+      "apel",
+      "recurs",
+      "contestație",
+      "cale de atac"
+    ],
+    "domenii_semantice": [
+      "judecătorie",
+      "instanță",
+      "tribunal",
+      "curte",
+      "justiție",
+      "judecător",
+      "magistrat",
+      "completul",
+      "ședință",
+      "termen",
+      "proces",
+      "cauză",
+      "dosar",
+      "litigiu",
+      "contencios",
+      "divorț",
+      "căsătorie",
+      "partaj",
+      "pensie",
+      "alimentară",
+      "moștenire",
+      "succesiune",
+      "testament",
+      "moștenitor",
+      "penal",
+      "infracțiune",
+      "inculpat",
+      "victimă",
+      "martor",
+      "civil",
+      "contract",
+      "obligație",
+      "drept",
+      "datorie",
+      "executare",
+      "silită",
+      "poprire",
+      "sechestru",
+      "ordin",
+      "protecție",
+      "violență",
+      "domestică",
+      "minor",
+      "familie",
+      "tutelă",
+      "autoritate",
+      "părintească",
+      "apel",
+      "recurs",
+      "contestație",
+      "hotărâre",
+      "sentință"
+    ],
+    "termeni_gresiti": [
+      "judecatoria",
+      "instanta de judecata"
+    ],
+    "contexte_situationale": [
+      "vreau să divorțez",
+      "unde depun cerere de divorț",
+      "vreau să declar succesiunea",
+      "cum obțin certificat de moștenitor",
+      "am un proces civil",
+      "unde verific dosarul de judecată",
+      "vreau să depun plângere penală",
+      "unde dau în judecată",
+      "cum obțin ordin de protecție",
+      "unde cer protecție pentru violență",
+      "când am termen la judecată",
+      "cum verific dosarul la instanță",
+      "vreau să fac apel",
+      "nu sunt mulțumit de hotărâre"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre programul instanței",
+    "Date despre dosarele pe rol",
+    "Informații despre procedurile de înregistrare cauze",
+    "Rapoarte despre activitatea instanței",
+    "Date despre hotărârile pronunțate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin Ministerul Justiției sau direct la judecătorie",
+    "observatii": "Portal.just.ro - acces public la dosare"
+  },
+  "structura": {
+    "presedinte": "Președinte judecătorie (în judecătorii mari)",
+    "judecatori": "Judecători - membri ai completurilor de judecată",
+    "grefieri": "Grefieri - secretariat ședințe",
+    "personal_auxiliar": "Personal administrativ"
+  },
+  "sectii_specializate": {
+    "civil": "Secția civilă - divorțuri, succesiuni, contracte",
+    "penal": "Secția penală - infracțiuni",
+    "minori_familie": "Secție minori și familie (obligatorie)",
+    "comercial": "Contencios comercial (în unele judecătorii)",
+    "administrativ": "Contencios administrativ și fiscal"
+  },
+  "sistem_judiciar": {
+    "prim_grad": "Judecătoria - primă instanță",
+    "apel": "Tribunalul Județean - a doua instanță",
+    "recurs": "Curtea de Apel - a treia instanță",
+    "casatie": "Înalta Curte de Casație și Justiție - instanță supremă"
+  },
+  "portal_just": {
+    "observatie": "Portal.just.ro oferă acces public la informații despre dosare, termene, judecători, hotărâri"
+  },
+  "numar_judecatorii": {
+    "total": "Aproximativ 188 judecătorii în România",
+    "bucuresti": "6 judecătorii sectoriale în București",
+    "judetene": "În fiecare județ, în funcție de populație și volum cauze"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "id": "CJP_TEMPLATE",
+  "tip_institutie": "Instituție de pensii și asigurări sociale",
+  "nivel": "Județean",
+  "nume_oficial": "Casa Județeană de Pensii {JUDET}",
+  "nume_scurt": "CJP {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "nume_format": "Casa Județeană de Pensii {judet}",
+    "site_format": "https://cjp{judet}.ro",
+    "email_format": "contact@cjp{judet}.ro",
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 263/2010 privind sistemul unitar de pensii publice",
+    "reglementari_specifice": [
+      "Legea nr. 215/2019 pentru modificarea și completarea Legii nr. 263/2010",
+      "Ordin de ministru privind norme de aplicare a Legii 263/2010",
+      "Hotărârile Guvernului privind creșterea pensiilor și ajustări ale sistemului"
+    ]
+  },
+  "atributii_principale": [
+    "Calcularea și acordarea pensiilor de bătrânețe pentru limită de vârstă",
+    "Acordarea și gestionarea pensiilor de invaliditate din toate gradele",
+    "Procesarea și acordarea pensiilor de urmaș pentru supraviețuitori",
+    "Efectuarea plăților periodice ale pensiilor",
+    "Verificarea și actualizarea datelor persoanelor pensionate",
+    "Evaluarea și acordarea pensiilor anticipate și parțial anticipate",
+    "Controlul și asigurarea uniforme aplicării legislației în domeniu",
+    "Rezolvarea contestațiilor în materia pensiilor",
+    "Gestionarea registrelor de asigurați și pensionari",
+    "Coordonarea cu alte instituții de pensii și asigurări sociale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "pensie de bătrânețe",
+      "pensie de invaliditate",
+      "pensie de urmaș",
+      "pensie anticipată",
+      "cumulul pensiei",
+      "vârstă de pensionare",
+      "ani de cotizare",
+      "reabilitare profesională",
+      "stagiu de cotizare"
+    ],
+    "termeni_populari": [
+      "pensie de bătrân",
+      "pensie de invalid",
+      "pensie de viuv",
+      "pensie timpurie",
+      "reguli de pensionare",
+      "bani de pensie",
+      "cât primesc pensie",
+      "vârstă de pensionare"
+    ],
+    "probleme_cetatean": [
+      "când pot ieși la pensie",
+      "cum calculez pensia mea",
+      "pensia mea e prea mică",
+      "sunt declarat invalid, ce ai beneficii",
+      "sunt urmaș, am dreptul la pensie",
+      "vreau să mă pensionez mai devreme",
+      "pot lucra după pensionare",
+      "pensia mea a fost retinută"
+    ],
+    "domenii_semantice": [
+      "sistem de pensii",
+      "asigurări sociale",
+      "protecție socială",
+      "beneficii de vârstă",
+      "asistență pentru persoane cu handicap"
+    ],
+    "termeni_gresiti": [
+      "pensii sociale",
+      "bani de șomaj",
+      "ajutor social pe pensie",
+      "drepturi de pensionar"
+    ],
+    "contexte_situationale": [
+      "persoană care aproape a atins vârsta de pensionare",
+      "muncitor cu 30+ ani de stagiu",
+      "persoană cu invaliditate declarată",
+      "soț/soție care și-a pierdut partenerul",
+      "orfan care a pierdut ambii părinți",
+      "femeie care are drepturi de mamă pensionistă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Cerere privind calculul estimat al pensiei în baza anilor de cotizare",
+    "Solicitare de informații despre vârsta de pensionare și condițiile în {judet}",
+    "Cerere de acces la tabele cu indicii de recalculare a pensiilor",
+    "Solicitare de statistici privind pensiile și pensionarii din {judet}",
+    "Cerere privind procedurile de contestație a calculelor de pensie",
+    "Solicitare de lămuriri pe tema pensiilor de invaliditate și gradelor",
+    "Cerere de acces la modelele de formular pentru cererile de pensionare"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Compartimentul Informații de Interes Public - CJP {judet}",
+    "departament_responsabil": "Serviciul Relații Publice și Comunicare"
+  },
+  "structura": {
+    "compartimente_principale": [
+      "Servicii de procesare a cererilor de pensionare",
+      "Servicii de calcul și acordare a pensiilor",
+      "Servicii financiar-contabile de plată",
+      "Servicii de control și verificare"
+    ]
+  }
+}

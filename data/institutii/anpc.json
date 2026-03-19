@@ -1,0 +1,169 @@
+{
+  "id": "ANPC",
+  "tip_institutie": "Autoritate de reglementare",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională pentru Protecția Consumatorilor",
+  "nume_scurt": "ANPC",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Aviatorilor nr. 72, Sector 1, București",
+    "cod_postal": "011865",
+    "telefon": "021.9551 (Linia consumatorului) / 021.3141.500 (Centrală)",
+    "email": "office@anpc.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://anpc.ro",
+    "legislatie_organizare": "https://anpc.ro/legislatie-privind-organizarea-si-functionarea/",
+    "rof_complet": "https://anpc.ro/legislatie-privind-organizarea-si-functionarea/",
+    "transparenta": "https://anpc.ro/informatii-publice/",
+    "formulare_544": "https://anpc.ro/contact/",
+    "reclamatii": "https://reclamatii.anpc.ro"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 700/2012 privind organizarea și funcționarea Autorității Naționale pentru Protecția Consumatorilor",
+    "actualizari": [
+      "Raport de activitate ANPC 2024",
+      "Modificări și completări periodice ale HG 700/2012"
+    ],
+    "natura_juridica": "Organ de specialitate al administrației publice centrale, cu personalitate juridică, în subordinea Guvernului"
+  },
+  "atributii_principale": [
+    "Protejarea intereselor economice legitime ale consumatorilor",
+    "Controlul pieței și verificarea conformității produselor și serviciilor",
+    "Sancționarea comercianților care încalcă drepturile consumatorilor",
+    "Primirea și soluționarea reclamațiilor consumatorilor",
+    "Medierea litigiilor între consumatori și comercianți",
+    "Monitorizarea practicilor comerciale neloiale și înșelătoare",
+    "Controlul respectării normelor de etichetare și informare a consumatorilor",
+    "Verificarea garanțiilor și service-urilor autorizate",
+    "Retragerea de pe piață a produselor periculoase",
+    "Controlul în domeniul metalelor prețioase",
+    "Educația și informarea consumatorilor",
+    "Colaborarea cu organizațiile de consumatori",
+    "Coordonarea comisariatelor regionale și județene pentru protecția consumatorilor"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Autoritatea Națională pentru Protecția Consumatorilor", "ANPC",
+      "protecția consumatorului", "drepturile consumatorului",
+      "reclamație consumator", "control comercial", "practici comerciale"
+    ],
+    "termeni_populari": [
+      "ANPC", "protectia consumatorului", "reclamatie ANPC",
+      "plangere comert", "control ANPC", "sesizare ANPC",
+      "comisariatul consumatorului"
+    ],
+    "probleme_cetatean": [
+      "reclamație produs defect", "reclamație magazin", "reclamație restaurant",
+      "garanție produs", "service refuză garanție", "service neautorizat",
+      "produs expirat", "alimente expirate", "produs deteriorat",
+      "etichetare greșită", "preț afișat greșit", "înșelăciune preț",
+      "practici comerciale neloiale", "publicitate înșelătoare", "ofertă falsă",
+      "returnare produs", "produs cumpărat online defect", "nu returnează bani",
+      "produse periculoase", "produs retras de pe piață", "alertă consum",
+      "clauze abuzive contract", "condiții contractuale abuzive",
+      "calitate slabă produs", "falsificare produs", "produs contrafăcut",
+      "încălcare drept consumator", "tratament necorespunzător comerciant",
+      "taxa ascunsă", "costuri suplimentare nedeclarate",
+      "nerespectare garanție legală", "garanție comercială refuzată",
+      "metale prețioase false", "verificare aur bijuterie",
+      "control sanitar restaurant", "igienă precară magazin alimentar"
+    ],
+    "domenii_semantice": [
+      "consumator", "client", "cumpărător", "utilizator",
+      "reclamație", "sesizare", "plângere", "contestație",
+      "produs", "serviciu", "marfă", "bun", "articol",
+      "defect", "deteriorat", "expirat", "stricat", "neconform",
+      "garanție", "service", "reparație", "înlocuire", "returnare",
+      "etichetare", "informare", "preț", "afișare", "publicitate",
+      "comerciant", "vânzător", "magazin", "restaurant", "prestator",
+      "practică", "neloial", "abuziv", "înșelător", "fraudulos",
+      "drepturi", "protecție", "apărare", "consumator",
+      "control", "inspecție", "sancțiune", "amendă", "măsură"
+    ],
+    "termeni_gresiti": [
+      "ANPC plangere", "autoritatea consumatorului",
+      "protectia consumatorilor", "comisariatul consumatorilor"
+    ],
+    "contexte_situationale": [
+      "vreau să fac reclamație la un magazin", "cum depun sesizare la ANPC",
+      "am cumpărat produs defect și nu îmi returnează banii", "magazinul refuză să repare în garanție",
+      "vreau să raportez alimente expirate în magazin", "unde sesizez igienă precară restaurant",
+      "am fost înșelat de un comerciant", "preț diferit la casă față de raft",
+      "vreau să verific dacă service-ul este autorizat", "cum verific garanția produsului",
+      "vreau să raportez publicitate înșelătoare", "oferta nu corespunde realității",
+      "cum verific dacă aurul este autentic", "vreau control ANPC la bijuterie",
+      "vreau să raportez practici comerciale neloiale", "comerciantul nu respectă drepturile",
+      "cum depun reclamație online la ANPC", "unde găsesc formularul de reclamație"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre controalele efectuate",
+    "Date despre sancțiunile aplicate comercianților",
+    "Informații despre reclamațiile primite și soluționate",
+    "Rapoarte despre produsele retrase de pe piață",
+    "Date despre litigiile mediate între consumatori și comercianți",
+    "Informații despre campaniile de informare a consumatorilor",
+    "Rapoarte despre verificările în domeniul metalelor prețioase",
+    "Date despre activitatea comisariatelor teritoriale"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcția Generală Control Piață",
+      "atributii": "Inspecții și controale la comercianți, verificare conformitate",
+      "contact": "Prin ANPC"
+    },
+    {
+      "nume": "Direcția Reclamații și Soluționare Litigii",
+      "atributii": "Primire reclamații consumatori, mediere litigii",
+      "contact": "https://reclamatii.anpc.ro sau 021.9551"
+    },
+    {
+      "nume": "Direcția Metale Prețioase",
+      "atributii": "Control și verificare autenticitate metale prețioase",
+      "contact": "Prin ANPC"
+    },
+    {
+      "nume": "Comisariate Regionale pentru Protecția Consumatorilor (CRPC)",
+      "atributii": "Coordonare comisariate județene - 8 comisariate regionale",
+      "contact": "În 8 regiuni ale țării"
+    },
+    {
+      "nume": "Comisariate Județene pentru Protecția Consumatorilor (CJPC)",
+      "atributii": "Control și inspecție la nivel local, primire reclamații",
+      "contact": "În toate județele țării"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@anpc.ro",
+    "departament_responsabil": "Direcția Juridică / Relații Publice",
+    "observatii": "Informații publice și rapoarte de activitate disponibile pe site"
+  },
+  "program_lucru": {
+    "luni_joi": "08:00 - 16:30",
+    "vineri": "08:00 - 14:00",
+    "linia_consumatorului": {
+      "telefon": "021.9551",
+      "observatie": "Pentru reclamații și informații consumatori"
+    }
+  },
+  "structura_conducere": {
+    "presedinte": "Președinte ANPC - numit de Guvern",
+    "vicepresedinti": "2 vicepreședinți",
+    "structura_teritoriala": "8 Comisariate Regionale + Comisariate Județene în toate județele",
+    "modificare_2003": "Din 2003, ANPC este condusă de un președinte și doi vicepreședinți"
+  },
+  "servicii_consumatori": {
+    "reclamatii_online": "https://reclamatii.anpc.ro - platformă online reclamații",
+    "linia_consumatorului": "021.9551 - apel gratuit pentru informații și reclamații",
+    "mediere_litigii": "Soluționare amiabilă litigii consumator-comerciant",
+    "informare_educatie": "Campanii de informare și educație a consumatorilor"
+  },
+  "drepturi_consumator": {
+    "garantie_legala": "Garanție legală de conformitate 24 luni",
+    "returnare_produs": "Dreptul de returnare în 14 zile pentru cumpărături online",
+    "reparatie_inlocuire": "Dreptul la reparație sau înlocuire produs defect",
+    "informatii_corecte": "Dreptul la informații complete și corecte despre produs",
+    "practici_loiale": "Protecție împotriva practicilor comerciale neloiale"
+  }
+}

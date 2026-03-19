@@ -1,0 +1,133 @@
+{
+  "id": "SPCLEP_TEMPLATE",
+  "tip_institutie": "Serviciu Public Comunitar Local de Evidență a Persoanelor",
+  "nivel": "Local",
+  "nume_oficial": "Serviciul Public Comunitar Local de Evidență a Persoanelor {LOCALITATE}",
+  "nume_scurt": "SPCLEP {LOCALITATE}",
+  "aplicabilitate": "În orașe și municipii (în comune funcția este asigurată de compartimente din primărie)",
+  "template_pattern": {
+    "nume_format": "SPCLEP {localitate} sau Compartiment Evidență Populație",
+    "site_format": "Pagină pe site-ul primăriei",
+    "email_format": "evidenta.populatie@primaria{localitate}.ro",
+    "adresa_format": "În sediul primăriei sau sediu separat",
+    "coordonate_variabile": [
+      "localitate",
+      "judet"
+    ]
+  },
+  "legislatie_baza": {
+    "document_principal": "OUG nr. 97/2005 privind evidența populației",
+    "reglementari_specifice": [
+      "Legea nr. 215/2001 - administrația publică locală",
+      "Regulamente proprii de organizare"
+    ],
+    "coordonare": "Sub coordonarea Ministerului Afacerilor Interne (DEPABD - Direcția pentru Evidența Persoanelor și Administrarea Bazelor de Date)"
+  },
+  "atributii_principale": [
+    "Eliberarea cărților de identitate și cărților de identitate provizorii",
+    "Înregistrarea și actualizarea datelor de evidență a persoanelor",
+    "Înregistrarea schimbărilor de domiciliu și reședință",
+    "Participarea la atribuirea Codului Numeric Personal (CNP) la înregistrarea nașterilor, în colaborare cu DEPABD/MAI",
+    "Evidența cetățenilor români cu domiciliul în localitate",
+    "Evidența străinilor cu drept de ședere în România",
+    "Administrarea bazelor de date cu evidența populației"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "SPCLEP",
+      "Serviciul Public de Evidență a Persoanelor",
+      "evidența populației",
+      "carte de identitate",
+      "pașaport",
+      "CNP"
+    ],
+    "termeni_populari": [
+      "evidenta populatiei",
+      "buletin identitate",
+      "pasaport",
+      "carte identitate",
+      "CNP",
+      "cod numeric personal",
+      "schimbare domiciliu",
+      "viza resedinta"
+    ],
+    "probleme_cetatean": [
+      "carte de identitate",
+      "CI",
+      "buletin",
+      "pașaport",
+      "pașaport copil",
+      "pașaport temporar",
+      "carte de identitate provizorie",
+      "CI provizoriu",
+      "schimbare domiciliu",
+      "mutare domiciliu",
+      "viza reședință",
+      "pierdere carte identitate",
+      "furt carte identitate",
+      "carte identitate expirată",
+      "reînnoire CI",
+      "certificat înregistrare fiscală",
+      "CNP",
+      "program evidență populație",
+      "programare online CI"
+    ],
+    "domenii_semantice": [
+      "evidență",
+      "populație",
+      "carte identitate",
+      "buletin",
+      "pașaport",
+      "CNP",
+      "domiciliu",
+      "reședință",
+      "identificare",
+      "certificat",
+      "înregistrare",
+      "actualizare",
+      "schimbare",
+      "pierdere",
+      "furt",
+      "expirare",
+      "reînnoire"
+    ],
+    "termeni_gresiti": [
+      "evidenta persoanelor",
+      "buletin de identitate",
+      "casa evidenta populatiei",
+      "directia evidenta"
+    ],
+    "contexte_situationale": [
+      "unde îmi fac cartea de identitate",
+      "cum obțin pașaport",
+      "vreau să îmi schimb domiciliul",
+      "am pierdut buletinul",
+      "cum obțin carte de identitate provizorie",
+      "când expiră CI",
+      "unde depun cerere pentru pașaport",
+      "ce acte trebuie pentru CI",
+      "cum îmi schimb adresa pe buletin",
+      "programare online pentru carte identitate"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de eliberare a actelor",
+    "Date despre programul de lucru și audiențe",
+    "Informații despre taxele pentru acte de identitate",
+    "Date despre termenele de eliberare",
+    "Rapoarte despre activitatea serviciului",
+    "Informații despre procedurile online disponibile"
+  ],
+  "procedura_544": {
+    "contact_cereri": "evidenta.populatie@primaria{localitate}.ro",
+    "departament_responsabil": "Șef SPCLEP sau prin primărie",
+    "observatii": "Programul poate fi consultat online"
+  },
+  "acte_eliberate": {
+    "carte_identitate": "15-30 zile / 48 ore în regim de urgență",
+    "pasaport_simplu": "30 zile / 5 zile urgență",
+    "pasaport_temporar": "24-48 ore",
+    "ci_provizorie": "Câteva ore"
+  },
+  "nota_actualizare": "Pașapoartele sunt emise de SPCEEPS (serviciu separat). CNP-urile sunt generate central de DEPABD și atribuite prin SPCLEP la înregistrarea nașterilor."
+}

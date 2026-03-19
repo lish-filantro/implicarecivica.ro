@@ -1,0 +1,97 @@
+{
+  "id": "ONRC",
+  "tip_institutie": "Oficiu Național",
+  "nivel": "National",
+  "nume_oficial": "Oficiul Național al Registrului Comerțului",
+  "nume_scurt": "ONRC",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Boulevard Unirii nr. 74, Building J3b, Sector 3, București",
+    "cod_postal": "030837",
+    "telefon": "0213160804",
+    "email": "onrc@onrc.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.onrc.ro/",
+    "legislatie_organizare": "https://legislatie.just.ro/public/DetaliiDocument/116297"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 83/2010 privind aprobarea Regulamentului de organizare și funcționare a Oficiului Național al Registrului Comerțului și a oficiilor registrului comerțului de pe lângă tribunale",
+    "actualizari": [
+      "Regulament din 1 iulie 2024 privind organizarea și funcționarea ONRC și officiilor registrului comerțului"
+    ]
+  },
+  "atributii_principale": [
+    "Ține și administrează registrul comerțului la nivel național",
+    "Înregistrează persoane juridice, întreprinderi individuale și comercianți persoane fizice",
+    "Certifică autenticitatea semnăturilor și semnaturilor digitale în actele depuse",
+    "Eliberează certificate și extrase din registrul comerțului",
+    "Publică deciziile de înregistrare în Buletinul Electronic al Registrului Comerțului (BERC)",
+    "Controlează respectarea formalităților legale în înregistrări",
+    "Menține baza de date cu toți comercianții și societățile comerciale din România",
+    "Asigură transparență și acces public la informațiile din registrul comerțului",
+    "Gestionează suspendarea și reluarea activității pentru entități înregistrate",
+    "Coordonează activitatea oficiilor registrului comerțului de pe lângă tribunale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Oficiul Național al Registrului Comerțului",
+      "ONRC",
+      "Registrul Comerțului",
+      "Oficiul Registrului Comerțului"
+    ],
+    "termeni_populari": [
+      "Registru firme",
+      "Înregistrare firmă",
+      "ONRC",
+      "Registrul comercial"
+    ],
+    "probleme_cetatean": [
+      "Înregistrare firmă nouă",
+      "Modificare date companie",
+      "Certificat înregistrare",
+      "Radiare firmă",
+      "Verificare cifră firmă",
+      "Extract registru comerț"
+    ],
+    "domenii_semantice": [
+      "Registrul comerțului",
+      "Înregistrare comercială",
+      "Drepturi comerciante",
+      "Persoane juridice",
+      "Întreprinderi"
+    ],
+    "termeni_gresiti": [
+      "Registrul Național",
+      "Birou Înregistrări",
+      "CONRC"
+    ],
+    "contexte_situationale": [
+      "Vreau să înregistrez o firmă",
+      "Trebuie să schimb datele companiei",
+      "Vreau să verific o firmă",
+      "Trebuie certificat de înregistrare",
+      "Vreau să închid o companie"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare extract din registrul comerțului pentru o companie",
+    "Cerere de informații despre proceduri de înregistrare și modificare date",
+    "Informații despre taxe și tarife pentru operațiuni la registrul comerțului",
+    "Cerere privind statistica înregistrărilor comerciale pe județe",
+    "Solicitare date despre structura și competențele oficiilor regionale",
+    "Informații despre politici de transparență și acces la informații",
+    "Cerere de rapoarte anuale asupra activității ONRC"
+  ],
+  "procedura_544": {
+    "contact_cereri": "onrc@onrc.ro",
+    "departament_responsabil": "Departamentul de Relații cu Publicul și Transparență",
+    "call_center": "0213160804"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "1990",
+    "subordinea": "Ministerul Justiției",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

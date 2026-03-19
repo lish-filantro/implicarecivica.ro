@@ -1,0 +1,129 @@
+{
+  "id": "CSM",
+  "tip_institutie": "Autoritate constituțională",
+  "nivel": "National",
+  "nume_oficial": "Consiliul Superior al Magistraturii",
+  "nume_scurt": "CSM",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Calea Plevnei nr. 141B, Sector 6, București",
+    "cod_postal": "060011",
+    "telefon": "+4 (021) 311 69 01 / +4 (021) 311 69 09",
+    "email": "relatii.publice@csm1909.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.csm1909.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocumentAfis/261415",
+    "lege5": "https://lege5.ro/gratuit/gezdsojsgmzdo/legea-nr-305-2022-privind-consiliul-superior-al-magistraturii",
+    "transparenta": "https://www.csm1909.ro/Contacts.aspx",
+    "legislatie_csm": "https://www.csm1909.ro/Pages.aspx?PageId=274"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 305/2022 privind Consiliul Superior al Magistraturii",
+    "publicare": "Monitorul Oficial nr. 1105 din 16 noiembrie 2022",
+    "baza_constitutionala": "Art. 132-134 din Constituția României",
+    "legi_complementare": [
+      "Legea nr. 303/2022 privind statutul judecătorilor și procurorilor",
+      "Legea nr. 304/2022 privind organizarea judiciară"
+    ]
+  },
+  "atributii_principale": [
+    "Garantarea independenței justiției și a judecătorilor și procurorilor",
+    "Propunerea de numire în funcție a judecătorilor și procurorilor",
+    "Gestionarea carierei magistraților (promovări, transferuri, detașări)",
+    "Exercitarea răspunderii disciplinare a magistraților",
+    "Adoptarea hotărârilor privind avizarea bugetului sistemului judiciar",
+    "Propunerea de modificare a legislației din domeniul justiției",
+    "Avizarea proiectelor de acte normative privind organizarea judiciară",
+    "Emiterea avizelor pentru înființarea, reorganizarea instanțelor"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Consiliul Superior al Magistraturii", "CSM", "autoritate constituțională",
+      "independența justiției", "magistratură", "judecători", "procurori",
+      "cariera magistraților", "responsabilitate disciplinară"
+    ],
+    "termeni_populari": [
+      "consiliul magistratilor", "CSM 1909", "consiliu judecatori",
+      "sistem judiciar", "justiție independentă", "cariera judecătorilor"
+    ],
+    "probleme_cetatean": [
+      "plângere împotriva judecătorului", "sesizare magistrat",
+      "reclamație judecător", "comportament neetic magistrat",
+      "corupție în justiție", "abuz judecător", "întârziere soluționare dosar",
+      "plângere disciplinară magistrat"
+    ],
+    "domenii_semantice": [
+      "justiție", "magistratură", "judecător", "procuror", "instanță",
+      "parchet", "carieră judiciară", "integritate", "disciplină",
+      "independență", "imparțialitate", "etică profesională",
+      "sistem judiciar", "înfăptuirea justiției"
+    ],
+    "termeni_gresiti": [
+      "consiliul magistratilor", "consiliul superior magistratura",
+      "csm magistrati", "casa magistratilor", "ministerul judecatorilor"
+    ],
+    "contexte_situationale": [
+      "unde reclam un judecător", "cum se numesc judecătorii",
+      "cine supraveghează judecătorii", "unde depun plângere contra magistrat",
+      "vreau să știu despre cariera judecătorilor",
+      "cine garantează independența justiției",
+      "unde sesizez comportament neetic judecător"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procesul de numire a judecătorilor",
+    "Date despre procedurile disciplinare ale magistraților",
+    "Informații despre criteriile de promovare în cariera judiciară",
+    "Rapoarte privind activitatea CSM și hotărârile adoptate",
+    "Date despre bugetul sistemului judiciar și alocarea resurselor",
+    "Informații despre sesizările disciplinare și rezultatele acestora",
+    "Date statistice despre magistrații din România",
+    "Informații despre procesul de evaluare a magistraților",
+    "Rapoarte privind independența justiției și măsurile luate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Secția pentru judecători",
+      "atributii": "Gestionarea carierei judecătorilor, numiri, promovări, sancțiuni disciplinare",
+      "contact": "Prin centrală CSM: +4 (021) 311 69 01"
+    },
+    {
+      "nume": "Secția pentru procurori",
+      "atributii": "Gestionarea carierei procurorilor, numiri, promovări, sancțiuni disciplinare",
+      "contact": "Prin centrală CSM: +4 (021) 311 69 09"
+    },
+    {
+      "nume": "Inspecția Judiciară",
+      "atributii": "Verificarea activității magistraților, investigarea sesizărilor disciplinare",
+      "contact": "Instituție distinctă în coordonarea CSM"
+    },
+    {
+      "nume": "Compartiment Relații Publice",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "relatii.publice@csm1909.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "relatii.publice@csm1909.ro",
+    "telefon_cereri": "+4 (021) 311 69 01",
+    "departament_responsabil": "Compartiment Relații Publice",
+    "sediu_registratura": "Calea Plevnei nr. 141B, Sector 6, București, cod poștal 060011",
+    "formulare_disponibile": ["Cerere informații publice", "Sesizare disciplinară magistrat"],
+    "rapoarte_anuale": "Publicate anual pe site-ul oficial"
+  },
+  "structura_organizatorica": {
+    "compozitie": "19 membri (judecători și procurori aleși + membri de drept)",
+    "mandate": "Mandat de 6 ani, fără posibilitatea reînnoirii",
+    "conducere": "Președinte ales din rândul membrilor",
+    "sectii": ["Secția pentru judecători", "Secția pentru procurori"],
+    "plen": "Plenul CSM - organ de decizie suprem"
+  },
+  "independenta_institutionala": {
+    "natura": "Autoritate constituțională independentă",
+    "statut": "Nu este subordonată nici unei autorități publice",
+    "garantii": "Protecția constituțională a independenței",
+    "buget": "Buget propriu inclus în bugetul sistemului judiciar"
+  },
+  "template_pattern": null
+}

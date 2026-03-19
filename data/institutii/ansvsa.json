@@ -1,0 +1,246 @@
+{
+  "id": "ANSVSA",
+  "tip_institutie": "Autoritate de reglementare",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională Sanitară Veterinară și pentru Siguranța Alimentelor",
+  "nume_scurt": "ANSVSA",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Piața Presei Libere nr. 1, Corp D1, Sector 1, București",
+    "cod_postal": "013701",
+    "telefon": "0372.184.977",
+    "email": "office@ansvsa.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.ansvsa.ro",
+    "legislatie_organizare": "https://www.ansvsa.ro/ansvsa/legislatie/",
+    "rof_complet": "https://www.ansvsa.ro/",
+    "transparenta": "https://www.ansvsa.ro/informatii-publice/",
+    "formulare_544": "https://www.ansvsa.ro/date-de-contact/",
+    "proiecte_hg": "https://www.ansvsa.ro/hotarari-ale-guvernului/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 1415/2009 privind organizarea și funcționarea ANSVSA",
+    "actualizari": [
+      "Modificări și completări ulterioare ale HG 1415/2009",
+      "Proiect HG pentru modificarea HG 1415/2009 (în consultare)",
+      "Proiect HG pentru alocarea de fonduri din rezerva Guvernului pentru bugetul 2025"
+    ],
+    "natura_juridica": "Instituție publică centrală cu personalitate juridică, organ de reglementare, în subordinea Guvernului, sub coordonarea directă a Prim-ministrului"
+  },
+  "atributii_principale": [
+    "Asigurarea securității și siguranței alimentelor pe întreg lanțul alimentar",
+    "Controlul veterinar sanitar al produselor de origine animală",
+    "Supravegherea sănătății și bunăstării animalelor",
+    "Prevenirea și combaterea bolilor la animale",
+    "Controlul medicamentelor veterinare și produselor biocide",
+    "Autorizarea și controlul unităților din industria alimentară",
+    "Inspecția sanitară veterinară la frontieră",
+    "Gestionarea și controlul subproduselor de origine animală",
+    "Implementarea legislației UE în domeniul veterinar și siguranței alimentare",
+    "Coordonarea direcțiilor sanitare veterinare județene (DSVSA)",
+    "Gestionarea sistemului TRACES (urmărire mișcare animale și produse)"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Autoritatea Națională Sanitară Veterinară și pentru Siguranța Alimentelor",
+      "ANSVSA",
+      "siguranță alimentară",
+      "sănătate animală",
+      "medicină veterinară",
+      "control veterinar",
+      "inspecție sanitară veterinară"
+    ],
+    "termeni_populari": [
+      "ANSVSA",
+      "veterinar sanitar",
+      "control alimente",
+      "sanitar veterinar",
+      "salubritate alimentara",
+      "DSVSA",
+      "directia veterinara"
+    ],
+    "probleme_cetatean": [
+      "intoxicație alimentară",
+      "mâncare stricată",
+      "aliment contaminat",
+      "boală animal",
+      "pestă porcină",
+      "gripă aviară",
+      "boală contagioasă",
+      "veterinar",
+      "cabinet veterinar",
+      "medicament veterinar",
+      "autorizație sanitar veterinară",
+      "aviz sanitar veterinar",
+      "magazin alimentar",
+      "restaurant control sanitar",
+      "igienă precară restaurant",
+      "salubritate restaurant",
+      "produse de origine animală",
+      "carne",
+      "lapte",
+      "ouă",
+      "pește",
+      "abator",
+      "unitate procesare carne",
+      "fabrică produse lactate",
+      "import animale",
+      "import produse animale",
+      "vamă veterinar",
+      "pașaport animal",
+      "certificat sanitar veterinar",
+      "transport animale",
+      "bunăstare animală",
+      "cruzime animale",
+      "condiții crescătorie",
+      "fermă animale",
+      "exploatație zootehnic",
+      "creștere porci/păsări/bovine",
+      "control ANSVSA",
+      "inspecție DSVSA",
+      "sancțiune sanitar veterinar",
+      "reclamație produse alimentare",
+      "sesizare condiții nesanitare",
+      "pesticide",
+      "reziduuri",
+      "aditivi alimentari",
+      "siguranță carne"
+    ],
+    "domenii_semantice": [
+      "veterinar",
+      "sanitar",
+      "animal",
+      "alimentar",
+      "siguranță",
+      "sănătate",
+      "boală",
+      "epidemie",
+      "contaminare",
+      "infecție",
+      "carne",
+      "lapte",
+      "ouă",
+      "pește",
+      "aliment",
+      "produs",
+      "restaurant",
+      "magazin",
+      "unitate",
+      "abator",
+      "fermă",
+      "control",
+      "inspecție",
+      "autorizare",
+      "aviz",
+      "certificat",
+      "import",
+      "export",
+      "frontieră",
+      "vamă",
+      "TRACES",
+      "medicament",
+      "tratament",
+      "vaccin",
+      "profilaxie",
+      "bunăstare",
+      "protecție",
+      "cruzime",
+      "transport",
+      "igienă",
+      "salubritate",
+      "curățenie",
+      "contaminat"
+    ],
+    "termeni_gresiti": [
+      "ANSVSA control",
+      "autoritatea veterinara",
+      "directia sanitar veterinara"
+    ],
+    "contexte_situationale": [
+      "vreau să raportez intoxicație alimentară",
+      "unde sesizez mâncare stricată",
+      "vreau să reclam restaurant murdar",
+      "unde raportez igienă precară",
+      "am găsit carne alterată în magazin",
+      "cum raportez produse expirate",
+      "vreau să raportez boală la animale",
+      "unde sesizez pestă porcină",
+      "cum obțin autorizație sanitar veterinară",
+      "unde solicit aviz ANSVSA",
+      "vreau să deschid restaurant",
+      "ce autorizații sanitar veterinare trebuie",
+      "vreau să import animale",
+      "ce documente veterinare trebuie la vamă",
+      "cum obțin pașaport pentru animal",
+      "certificat sanitar veterinar câine/pisică",
+      "vreau să raportez cruzime împotriva animalelor",
+      "condiții proaste crescătorie"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre autorizațiile sanitar veterinare emise",
+    "Date despre controalele efectuate în unitățile alimentare",
+    "Informații despre focarele de boli la animale",
+    "Rapoarte despre produsele retrase de pe piață",
+    "Date despre sancțiunile aplicate",
+    "Informații despre planurile de supraveghere și control",
+    "Rapoarte despre siguranța alimentară în România",
+    "Date despre importurile de animale și produse animale"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcția Generală Sănătate și Bunăstare Animală",
+      "atributii": "Supraveghere boli animale, programe profilaxie, bunăstare animală",
+      "contact": "Prin ANSVSA"
+    },
+    {
+      "nume": "Direcția Generală Siguranță Alimentară",
+      "atributii": "Control produse alimentare, autorizare unități, siguranță lanț alimentar",
+      "contact": "Prin ANSVSA"
+    },
+    {
+      "nume": "Direcția Generală Control Sanitar Veterinar Frontieră",
+      "atributii": "Inspecție sanitară veterinară la punctele de frontieră",
+      "contact": "În punctele de frontieră"
+    },
+    {
+      "nume": "Direcțiile Sanitare Veterinare și pentru Siguranța Alimentelor Județene (DSVSA)",
+      "atributii": "Control teritorial, autorizări locale, inspecții, verificări",
+      "contact": "În toate județele + DSVSA București"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@ansvsa.ro",
+    "departament_responsabil": "Compartiment Juridic / Relații Publice",
+    "telefon": "0372.184.977",
+    "observatii": "Informații publice disponibile pe site"
+  },
+  "program_lucru": {
+    "luni_joi": "08:00 - 16:30",
+    "vineri": "08:00 - 14:00"
+  },
+  "structura_conducere": {
+    "presedinte": "Președinte ANSVSA",
+    "vicepresedinti": "Vicepreședinți",
+    "directii_generale": "3 Direcții Generale + 7 Direcții",
+    "structura_teritoriala": "DSVSA în toate cele 42 județe + DSVSA București"
+  },
+  "structura_teritoriala": {
+    "nivel_central": "ANSVSA București - coordonare națională",
+    "nivel_teritorial": "DSVSA - Direcții Sanitare Veterinare și pentru Siguranța Alimentelor în fiecare județ + București",
+    "puncte_frontiera": "Posturi de inspecție sanitară veterinară la frontieră"
+  },
+  "sistem_traces": {
+    "observatie": "ANSVSA gestionează sistemul TRACES (Trade Control and Expert System) pentru urmărirea mișcărilor de animale vii și produse de origine animală în UE"
+  },
+  "coordonare": {
+    "guvern": "În subordinea Guvernului României",
+    "prim_ministru": "Sub coordonarea directă a Prim-ministrului",
+    "madr": "Colaborare strânsă cu Ministerul Agriculturii și Dezvoltării Rurale"
+  },
+  "modificari_2025": {
+    "proiect_hg_organizare": "Proiect HG pentru modificarea HG 1415/2009 - în consultare",
+    "alocare_fonduri": "Proiect HG pentru alocarea de fonduri din rezerva Guvernului pentru bugetul ANSVSA 2025"
+  }
+}

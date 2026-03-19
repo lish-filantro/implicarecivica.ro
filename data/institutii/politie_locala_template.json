@@ -1,0 +1,93 @@
+{
+  "id": "POLITIE_LOCALA_TEMPLATE",
+  "tip_institutie": "Poliție Locală",
+  "nivel": "Local",
+  "nume_oficial": "Poliția Locală {LOCALITATE}",
+  "nume_scurt": "Poliția Locală {LOCALITATE}",
+  "aplicabilitate": "În orașe și municipii (comune mari pot avea gardieni publici)",
+  "template_pattern": {
+    "nume_format": "Poliția Locală {localitate} sau Direcția Poliției Locale",
+    "variante": "Serviciul de Poliție Locală (în orașe mici)",
+    "site_format": "Pagină pe site-ul primăriei sau site dedicat",
+    "email_format": "politialocala@primaria{localitate}.ro",
+    "telefon_urgenta": "Număr local dedicat sau 112",
+    "coordonate_variabile": ["localitate", "judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 155/2010 privind poliția locală",
+    "reglementari_specifice": [
+      "ROF aprobat de consiliul local",
+      "Regulamente locale specifice"
+    ],
+    "subordonare": "Sub autoritatea consiliului local și primarului"
+  },
+  "atributii_principale": [
+    "Asigurarea ordinii și liniștii publice în localitate",
+    "Constatarea și sancționarea contravențiilor la regulamentele locale",
+    "Paza obiectivelor de interes public local",
+    "Verificarea respectării normelor de curățenie și salubritate",
+    "Gestionarea traficului rutier pe străzile locale (parcări, acces)",
+    "Verificarea respectării normelor de comerț stradal",
+    "Protecția spațiilor verzi și a domeniului public local",
+    "Scoaterea din trafic a autovehiculelor abandonate",
+    "Verificarea deținerii câinilor și aplicarea legii animalelor",
+    "Intervenții la evenimente publice locale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Poliția Locală", "polițist local", "gardian public",
+      "ordine publică locală", "contravenție locală"
+    ],
+    "termeni_populari": [
+      "politia locala", "gardianul public", "politistul local",
+      "ordine publica", "amenda parcare", "ridicare masina"
+    ],
+    "probleme_cetatean": [
+      "parcare ilegală", "mașină parcată ilegal", "ridicare mașină",
+      "amendă parcare", "proces verbal parcare",
+      "zgomot vecini", "gălăgie noaptea", "petrecere zgomotoasă",
+      "câine fără botniță", "câine maidanez", "câine agresiv",
+      "gunoi aruncat", "curățenie stradă", "gunoi pe domeniul public",
+      "comerț stradal ilegal", "cerșetorie", "vânzător ambulant",
+      "mașină abandonată", "vehicul abandonat",
+      "distrugere spațiu verde", "tăiere copac ilegal",
+      "reclamație polițist local", "contestație amendă"
+    ],
+    "domenii_semantice": [
+      "poliție locală", "ordine publică", "contravenție", "amendă",
+      "parcare", "ridicare", "vehicul", "zgomot", "gălăgie",
+      "câine", "animal", "curățenie", "salubritate", "gunoi",
+      "comerț", "stradal", "domeniu public", "spațiu verde",
+      "control", "sancțiune", "proces verbal"
+    ],
+    "termeni_gresiti": [
+      "politia locala", "gardianul publicu"
+    ],
+    "contexte_situationale": [
+      "unde reclam parcare ilegală", "cum recuperez mașina ridicată",
+      "vreau să contest o amendă de la poliția locală", "unde sesizez zgomot",
+      "cum raportez un câine agresiv", "unde reclam gunoi aruncat",
+      "cine ridică mașinile abandonate", "unde sesizez comerț ilegal",
+      "cum obțin înregistrare video de la camera stradală"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre zonele de parcare și tarifele",
+    "Date despre procesele verbale de contravenție emise",
+    "Informații despre regulamentele locale de ordine publică",
+    "Rapoarte despre activitatea poliției locale",
+    "Date despre achizițiile de echipamente și autovehicule",
+    "Informații despre structura și efectivele poliției locale"
+  ],
+  "procedura_544": {
+    "contact_cereri": "politialocala@primaria{localitate}.ro",
+    "departament_responsabil": "Șef Poliție Locală sau prin primărie",
+    "observatii": "Rapoarte anuale de activitate publicate"
+  },
+  "structura_tip": {
+    "sef_politie": "Șef Poliție Locală / Director",
+    "sefi_formatie": "Șefi de tură/formație",
+    "politisti_locali": "Polițiști locali pe patrule",
+    "compartimente": "Ordine publică, Disciplina în construcții, Evidență contravenții"
+  }
+}

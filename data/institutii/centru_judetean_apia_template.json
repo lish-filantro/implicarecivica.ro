@@ -1,0 +1,145 @@
+{
+  "id": "CENTRU_JUDETEAN_APIA_TEMPLATE",
+  "tip_institutie": "Centru Județean APIA",
+  "nivel": "Județean",
+  "nume_oficial": "Centrul Județean {JUDET} al APIA",
+  "nume_scurt": "APIA {JUDET}",
+  "aplicabilitate": "42 centre județene (unul în fiecare județ)",
+  "template_pattern": {
+    "nume_format": "Centrul Județean {judet} al Agenției de Plăți și Intervenție pentru Agricultură",
+    "site_format": "Pagină pe site-ul APIA - https://apia.org.ro/centre-judetene/",
+    "email_format": "{cod_judet}@apia.org.ro sau apia.{judet}@apia.org.ro",
+    "adresa_format": "Variabilă per județ - de obicei în reședința de județ",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta", "adresa_exacta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 1/2004 privind înființarea, organizarea și funcționarea APIA",
+    "natura_juridica": "Centre județene cu personalitate juridică",
+    "subordonare": "Sub coordonarea Aparatului Central APIA București"
+  },
+  "atributii_principale": [
+    "Primirea și verificarea cererilor unice de plată de la fermieri",
+    "Înregistrarea cererilor în Sistemul Integrat de Administrare și Control (IACS)",
+    "Verificarea documentelor depuse de fermieri pentru eligibilitate",
+    "Controlul administrativ al cererilor de plată",
+    "Coordonarea controalelor pe teren în județ",
+    "Procesarea plăților către fermierii eligibili din județ",
+    "Gestionarea dosarelor fermierilor la nivel județean",
+    "Asistență și consiliere pentru fermieri privind completarea cererilor",
+    "Coordonarea centrelor locale APIA din județ",
+    "Verificarea suprafețelor declarate cu parcelarul LPIS",
+    "Aplicarea măsurilor PAC la nivel județean",
+    "Recuperarea plăților necuvenite"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Centru Județean APIA", "APIA județean", "Agenția de Plăți",
+      "cerere unică de plată", "plăți directe", "subvenții agricole",
+      "IACS", "LPIS", "PAC"
+    ],
+    "termeni_populari": [
+      "APIA judet", "centru APIA", "subventii judet",
+      "plati APIA", "cerere APIA judet",
+      "depunere APIA"
+    ],
+    "probleme_cetatean": [
+      "depunere cerere APIA", "unde depun cerere APIA", "campanie APIA",
+      "termen depunere APIA", "când depun la APIA județean",
+      "verificare cerere", "status cerere APIA", "când primesc plata",
+      "respingere cerere", "cerere respinsă APIA", "cum contest",
+      "acte necesare", "documente APIA", "ce trebuie pentru cerere",
+      "declarație suprafață", "parcele agricole", "teren eligibil",
+      "control APIA", "inspecție fermă", "verificare teren",
+      "corecție cerere", "modificare cerere APIA", "greșeală declarație",
+      "centru local APIA", "unde este centrul local", "program APIA",
+      "plată întârziată", "când vine plata APIA", "verificare plată online",
+      "fermier", "agricultor", "exploatație agricolă", "hectare"
+    ],
+    "domenii_semantice": [
+      "APIA", "județean", "centru", "local",
+      "fermier", "agricultor", "exploatație", "agricol",
+      "cerere", "declarație", "depunere", "înregistrare",
+      "plată", "subvenție", "ajutor", "fonduri", "european",
+      "hectar", "suprafață", "parcelă", "teren", "cultură",
+      "control", "verificare", "inspecție", "eligibil",
+      "termen", "campanie", "deadline", "perioadă",
+      "IACS", "LPIS", "PAC", "FEGA",
+      "status", "proces", "cerere", "plată",
+      "document", "act", "dovadă", "registru"
+    ],
+    "termeni_gresiti": [
+      "APIA judetean", "centrul APIA"
+    ],
+    "contexte_situationale": [
+      "vreau să depun cerere la APIA județean", "unde este centrul APIA din județul meu",
+      "când este campania APIA în județul meu", "până când pot depune cererea",
+      "cum verific dacă cererea a fost primită", "unde văd statusul cererii",
+      "am fost respins de APIA județean", "cum contest decizia",
+      "vreau să corectez cererea depusă", "am greșit suprafața",
+      "unde este centrul local APIA cel mai apropiat", "program centru APIA județean"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre criteriile de eligibilitate",
+    "Date despre plățile efectuate în județ",
+    "Informații despre calendarul campaniilor",
+    "Rapoarte despre controalele efectuate",
+    "Date despre fermieri beneficiari din județ",
+    "Informații despre centrele locale coordonate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Compartiment Primire Cereri",
+      "atributii": "Înregistrare cereri, asistență fermieri",
+      "contact": "La centrul județean"
+    },
+    {
+      "nume": "Compartiment Verificare și Control",
+      "atributii": "Verificare administrativă, control eligibilitate",
+      "contact": "La centrul județean"
+    },
+    {
+      "nume": "Compartiment Plăți",
+      "atributii": "Procesare plăți, transfer fonduri",
+      "contact": "La centrul județean"
+    },
+    {
+      "nume": "Centre Locale APIA",
+      "atributii": "Asistență locală fermieri, primire cereri la nivel comunal",
+      "contact": "În comune și orașe din județ (210 centre locale în total la nivel național)"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "Email centru județean sau prin Aparat Central APIA",
+    "observatii": "Informații disponibile pe site APIA"
+  },
+  "structura_teritoriala_judet": {
+    "centru_judetean": "1 centru județean cu personalitate juridică",
+    "centre_locale": "Variază per județ - în total 210 centre locale în țară (medie ~5 centre locale/județ)",
+    "coordonare": "Centrul județean coordonează centrele locale din județ"
+  },
+  "contact_general_apia": {
+    "sediu_central": "Bd. Carol I nr. 17, sector 2, București",
+    "telefon_central": "021.305.48.23 (Registratură) / 021.30.54.802 (Relații publice)",
+    "email_central": "relatii.cu.publicul@apia.org.ro",
+    "observatie": "Pentru contact specific județean, consultați https://apia.org.ro/centre-judetene/"
+  },
+  "campanie_2025": {
+    "data_start": "3 martie 2025",
+    "observatie": "Campania de primire a cererilor de plată pentru anul 2025 a fost demarată pe 3 martie 2025"
+  },
+  "servicii_oferite": {
+    "asistenta_fermieri": "Consiliere completare cereri",
+    "primire_dosare": "Înregistrare cereri unice de plată",
+    "verificare_eligibilitate": "Control administrativ și pe teren",
+    "procesare_plati": "Transfer plăți către fermieri eligibili",
+    "recuperari": "Recuperare plăți necuvenite"
+  },
+  "exemple_centre": {
+    "Alba": "Str. Motilor, Nr. 112, Alba Iulia - Tel: 0258830650",
+    "Arad": "Str. Fratii Neumann, Nr. 10, Arad - Tel: 0257253540",
+    "Argeș": "Str. Armand Calinescu, Nr. 44, Pitesti - Tel: 0248210536",
+    "Bacău": "Str. George Bacovia, Nr. 20, Bacău - Tel: 0234512974",
+    "observatie": "Pentru lista completă a tuturor celor 42 centre județene, consultați https://apia.org.ro/centre-judetene/"
+  }
+}

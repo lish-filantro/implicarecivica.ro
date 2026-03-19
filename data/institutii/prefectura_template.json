@@ -1,0 +1,198 @@
+{
+  "id": "PREFECTURA_TEMPLATE",
+  "tip_institutie": "Instituția Prefectului",
+  "nivel": "Județean",
+  "nume_oficial": "Instituția Prefectului - Județul {JUDET}",
+  "nume_scurt": "Prefectura {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București (Prefectura Municipiului București)",
+  "template_pattern": {
+    "nume_format": "Instituția Prefectului - Județul {judet}",
+    "nume_popular": "Prefectura {judet}",
+    "site_format": "http://{judet}.prefectura.mai.gov.ro sau variante",
+    "email_format": "prefect@{judet}.ro sau office@prefectura{judet}.ro",
+    "adresa_format": "În reședința de județ",
+    "telefon_format": "Cod zonă județ + centrală",
+    "coordonate_variabile": [
+      "judet",
+      "cod_judet",
+      "oras_resedinta"
+    ]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 340/2004 privind prefectul și instituția prefectului",
+    "reglementari_specifice": [
+      "Legea administrației publice locale nr. 215/2001",
+      "OUG nr. 57/2019 privind Codul administrativ",
+      "ROF aprobat prin ordin al prefectului"
+    ],
+    "subordonare": "Prefectul este reprezentantul Guvernului în teritoriu, subordonat Ministerului Afacerilor Interne"
+  },
+  "atributii_principale": [
+    "Reprezentarea Guvernului la nivel județean",
+    "Asigurarea respectării Constituției și legilor în județ",
+    "Coordonarea serviciilor publice deconcentrate ale ministerelor",
+    "Verificarea legalității actelor administrative ale autorităților locale",
+    "Atac la actele administrative ilegale (cu susținere în instanță)",
+    "Organizarea și coordonarea activităților de apărare, ordine publică, situații de urgență",
+    "Organizarea alegerilor și referendumurilor la nivel județean",
+    "Gestionarea situațiilor de urgență și calamităților naturale",
+    "Învestirea primarilor și președinților consiliilor județene"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Instituția Prefectului",
+      "Prefectura",
+      "prefect",
+      "subprefect",
+      "reprezentantul Guvernului",
+      "control de legalitate",
+      "servicii deconcentrate"
+    ],
+    "termeni_populari": [
+      "prefectura",
+      "prefectul judetului",
+      "reprezentant guvern",
+      "control legalitate primarie",
+      "administratie publica"
+    ],
+    "probleme_cetatean": [
+      "cazier fiscal",
+      "certificat cazier fiscal",
+      "atac legalitate hotărâre consiliu local",
+      "control legalitate",
+      "învestire primar",
+      "validare mandat primar",
+      "înregistrare partid politic",
+      "asociație fără scop lucrativ",
+      "ONG înregistrare",
+      "fundație autorizare",
+      "situație urgență",
+      "stare de alertă",
+      "calamitate naturală",
+      "ajutor urgență",
+      "atribuție serviciu public deconcentrat"
+    ],
+    "domenii_semantice": [
+      "prefect",
+      "guvern",
+      "administrație",
+      "legalitate",
+      "control",
+      "autoritate",
+      "reprezentant",
+      "coordonare",
+      "servicii publice",
+      "situații urgență",
+      "ordine publică",
+      "apărare",
+      "alegeri",
+      "referendum",
+      "partide",
+      "asociații",
+      "ONG-uri",
+      "cazier fiscal",
+      "legalitate acte",
+      "consiliu local",
+      "primărie"
+    ],
+    "termeni_gresiti": [
+      "prefectura judeteana",
+      "casa prefectului",
+      "prefectura bucuresti",
+      "ministerul prefectului",
+      "directia prefectului"
+    ],
+    "contexte_situationale": [
+      "unde obțin cazier fiscal",
+      "cum atacăm hotărâre consiliu local ilegală",
+      "vreau să înregistrez o asociație",
+      "cum autorizez o fundație",
+      "cine reprezintă guvernul în județ",
+      "cine verifică primăria",
+      "unde raportez o calamitate naturală",
+      "cum se coordonează serviciile deconcentrate",
+      "cine investește primarul",
+      "unde depun actele pentru ONG"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de înregistrare ONG-uri",
+    "Date despre atacurile la legalitate împotriva actelor autorităților locale",
+    "Informații despre certificatele de cazier fiscal eliberate",
+    "Rapoarte despre coordonarea serviciilor publice deconcentrate",
+    "Date despre gestionarea situațiilor de urgență din județ",
+    "Informații despre organizarea alegerilor și referendumurilor",
+    "Rapoarte despre achizițiile publice și contractele",
+    "Date despre structura organizatorică și personalul prefecturii",
+    "Informații despre bugetul și cheltuielile instituției",
+    "Rapoarte despre activitatea prefectului"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Compartiment Juridic și Control de Legalitate",
+      "atributii": "Verificarea legalității actelor autorităților locale, atacuri la legalitate",
+      "contact": "Prin centrală prefectură"
+    },
+    {
+      "nume": "Compartiment Situații de Urgență și Protecție Civilă",
+      "atributii": "Coordonarea situațiilor de urgență, calamități, apărare civilă",
+      "contact": "Prin centrală prefectură sau 112"
+    },
+    {
+      "nume": "Compartiment Asociații și Fundații",
+      "atributii": "Înregistrarea și monitorizarea ONG-urilor, asociațiilor, fundațiilor",
+      "contact": "Biroul Asociații"
+    },
+    {
+      "nume": "Compartiment Cazier Fiscal",
+      "atributii": "Eliberarea certificatelor de cazier fiscal",
+      "contact": "Ghișeu cazier fiscal"
+    },
+    {
+      "nume": "Compartiment Coordonare Servicii Deconcentrate",
+      "atributii": "Coordonarea serviciilor publice deconcentrate ale ministerelor",
+      "contact": "Prin cabinet prefect"
+    },
+    {
+      "nume": "Serviciu Relații cu Publicul",
+      "atributii": "Informații pentru cetățeni, primire cereri și sesizări",
+      "contact": "relatii.publice@prefectura... sau secretariat"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@prefectura{judet}.ro sau prefect@{judet}.ro",
+    "departament_responsabil": "Serviciu Relații cu Publicul / Compartiment Juridic",
+    "formulare_disponibile": [
+      "Cerere informații publice Legea 544/2001"
+    ],
+    "observatii": "Prefecturile publică rapoarte anuale de activitate"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "cod_judet": "CJ",
+      "nume_complet": "Instituția Prefectului - Județul Cluj",
+      "oras_resedinta": "Cluj-Napoca",
+      "site_exemplu": "http://cluj.prefectura.mai.gov.ro"
+    },
+    {
+      "judet": "Iași",
+      "cod_judet": "IS",
+      "nume_complet": "Instituția Prefectului - Județul Iași",
+      "oras_resedinta": "Iași",
+      "site_exemplu": "http://iasi.prefectura.mai.gov.ro"
+    },
+    {
+      "judet": "București",
+      "cod_judet": "B",
+      "nume_complet": "Prefectura Municipiului București",
+      "observatii": "Acoperă tot Municipiul București cu 6 sectoare"
+    }
+  ],
+  "conducere": {
+    "prefect": "Reprezentantul Guvernului, numit prin decizie a Primului-ministru",
+    "subprefecti": "1-2 subprefecți, numiți în funcție de numărul locuitorilor",
+    "secretar_general": "Secretar general al județului - funcționar public de conducere"
+  },
+  "nota_actualizare": "Cazierul fiscal este emis exclusiv de ANAF, nu de Prefectură."
+}

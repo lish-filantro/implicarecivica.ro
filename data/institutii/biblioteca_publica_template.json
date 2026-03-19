@@ -1,0 +1,159 @@
+{
+  "id": "BIBLIOTECA_PUBLICA_TEMPLATE",
+  "tip_institutie": "Bibliotecă Publică",
+  "nivel": "Local/Județean",
+  "nume_oficial": "Biblioteca Publică {LOCALITATE/JUDET}",
+  "nume_scurt": "Biblioteca {LOCALITATE}",
+  "aplicabilitate": "Toate nivelurile - comunală, orășenească, municipală, județeană",
+  "template_pattern": {
+    "nume_format_comunal": "Biblioteca Comunală {nume_comună}",
+    "nume_format_oras": "Biblioteca Orășenească {nume_oraș}",
+    "nume_format_municipal": "Biblioteca Municipală {nume_municipiu}",
+    "nume_format_judetean": "Biblioteca Județeană {nume_județ}",
+    "variante": "Bibliotecă publică / Cămin cultural cu bibliotecă / Filială bibliotecă",
+    "site_format": "http://biblioteca{localitate}.ro sau pagină pe site primărie/CJ",
+    "email_format": "biblioteca@{localitate}.ro sau contact@biblioteca{localitate}.ro",
+    "adresa_format": "Variabilă - în centrul localității sau sediu propriu",
+    "coordonate_variabile": ["localitate", "judet", "nivel_administrativ"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea bibliotecilor nr. 334/2002 (republicată)",
+    "reglementari_specifice": [
+      "Regulamentul privind organizarea și funcționarea bibliotecilor publice (1996)",
+      "Normele metodologice pentru aplicarea Legii 334/2002",
+      "Hotărâri ale consiliilor locale/județene privind organizarea bibliotecilor"
+    ],
+    "subordonare_comunala": "Sub autoritatea consiliului local, finanțare din bugetul local",
+    "subordonare_judeteana": "Sub autoritatea consiliului județean, instituție publică cu personalitate juridică",
+    "coordonare_nationala": "Biblioteca Națională a României coordonează metodologic sistemul"
+  },
+  "atributii_principale": [
+    "Organizarea și desfășurarea activităților de lectură publică",
+    "Oferirea serviciilor de documentare și informare comunitară",
+    "Constituirea, organizarea și gestionarea colecțiilor de carte și documente",
+    "Împrumutul de carte la domiciliu și în sala de lectură",
+    "Servicii de referință și asistență pentru utilizatori",
+    "Acces la internet și resurse electronice",
+    "Activități culturale: lansări de carte, întâlniri cu scriitori, expoziții",
+    "Programe educaționale pentru copii și adulți",
+    "Alfabetizare digitală și formare utilizatori",
+    "Preservarea și valorificarea patrimoniului cultural local",
+    "Servici de bibliotecă pentru persoane cu dizabilități",
+    "Colaborarea cu școli, universități și alte instituții culturale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "bibliotecă publică", "Legea bibliotecilor 334/2002",
+      "bibliotecă comunală", "bibliotecă județeană", "serviciu public de bibliotecă"
+    ],
+    "termeni_populari": [
+      "biblioteca", "biblioteca publica", "biblioteca orasului",
+      "biblioteca satului", "biblioteca din comuna", "biblioteca judeteana"
+    ],
+    "probleme_cetatean": [
+      "împrumut cărți", "carte biblioteca", "abonament biblioteca",
+      "carte de identitate biblioteca", "legitimație biblioteca",
+      "sala de lectură", "citit la bibliotecă", "cărți noi bibliotecă",
+      "program bibliotecă", "orar biblioteca", "când este deschisă biblioteca",
+      "internet la bibliotecă", "calculator biblioteca", "wifi biblioteca",
+      "cărți pentru copii", "povești copii biblioteca", "ora poveștilor",
+      "lansare carte", "întâlnire cu scriitorul", "evenimente biblioteca",
+      "termen returnare cărți", "prelungire împrumut", "carte pierdută",
+      "amenzi bibliotecă", "carte deteriorată",
+      "căutare carte în catalog", "catalog online biblioteca",
+      "carte veche", "colecție specială", "fond local bibliotecă",
+      "curs calculator biblioteca", "educație digitală"
+    ],
+    "domenii_semantice": [
+      "bibliotecă", "carte", "lectură", "citit", "împrumut",
+      "catalog", "fond", "colecție", "volum", "publicație",
+      "sală", "lectură", "studiu", "documentare",
+      "abonament", "legitimație", "utilizator", "cititor",
+      "programăeveniment", "lansare", "expoziție", "atelier",
+      "digital", "internet", "calculator", "online", "electronic",
+      "copii", "povești", "educativ", "școlar",
+      "cultural", "patrimoniu", "local", "valoare"
+    ],
+    "termeni_gresiti": [
+      "biblioteca publica", "libraria publica",
+      "casa cartii", "centrul de carti"
+    ],
+    "contexte_situationale": [
+      "unde împrumut cărți gratuit", "cum mă înscriu la bibliotecă",
+      "vreau să citesc cărți la bibliotecă", "care este programul bibliotecii",
+      "cum caut o carte în catalog", "când trebuie să returnez cartea",
+      "pot folosi internetul la bibliotecă", "ce evenimente sunt la bibliotecă",
+      "unde găsesc cărți pentru copii", "cum prelungesc termenul de împrumut",
+      "am pierdut o carte a bibliotecii", "cât costă abonamentul",
+      "există cursuri de calculator la bibliotecă", "pot studia la bibliotecă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre achizițiile de carte și documente",
+    "Date despre bugetul bibliotecii și execuția bugetară",
+    "Informații despre numărul de utilizatori și volumul împrumuturilor",
+    "Rapoarte despre activitățile culturale organizate",
+    "Date despre dotările și echipamentele bibliotecii",
+    "Informații despre programele și proiectele implementate",
+    "Rapoarte despre colaborările cu alte instituții",
+    "Date despre patrimoniul cultural al bibliotecii"
+  ],
+  "procedura_544": {
+    "contact_cereri": "biblioteca@{localitate}.ro sau prin consiliul local/județean",
+    "departament_responsabil": "Director bibliotecă / Bibliotecar responsabil",
+    "observatii": "Rapoartele anuale de activitate sunt publice"
+  },
+  "organizare_pe_niveluri": {
+    "biblioteci_comunale": {
+      "descriere": "Organizate în toate comunele, în centrele de comună",
+      "finantare": "Din bugetul local al comunei",
+      "subordonare": "Consiliul local",
+      "filiale": "Pot avea filiale sau puncte de service în satele componente ale comunei"
+    },
+    "biblioteci_orasenesti_municipale": {
+      "descriere": "În orașe și municipii, cu activități de lectură și documentare",
+      "finantare": "Din bugetele locale ale orașelor și municipiilor",
+      "subordonare": "Consiliul local",
+      "coordonare_metodologica": "De către biblioteca județeană"
+    },
+    "biblioteci_judetene": {
+      "descriere": "În toate reședințele de județ, cu personalitate juridică",
+      "finantare": "Din bugetul județean",
+      "subordonare": "Consiliul județean",
+      "rol": "Coordonare metodologică a bibliotecilor publice din județ",
+      "conducere": "Director general sau director"
+    }
+  },
+  "servicii_oferite": {
+    "imprumut_domiciliu": "Împrumut carte la domiciliu pentru abonați",
+    "sala_lectura": "Acces la colecții în sala de lectură",
+    "referinta": "Servicii de referință, bibliografii, asistență documentare",
+    "internet": "Acces internet, calculatoare pentru utilizatori",
+    "copiere_printare": "Servicii de reprografie (taxe minime)",
+    "activitati_culturale": "Evenimente culturale, lansări, expoziții, ateliere",
+    "educatie": "Programe educaționale, formare utilizatori, alfabetizare digitală",
+    "interlibrary": "Împrumut interbibliotecar pentru cărți rare",
+    "colectii_speciale": "Acces la fondul local, carte rară, colecții speciale"
+  },
+  "conditii_acces": {
+    "abonament": "Gratuit sau taxă simbolică anuală",
+    "acte_necesare": "Carte de identitate/buletin",
+    "legitimatie": "Eliberare legitimație de bibliotecă",
+    "vârsta": "Servicii pentru toate vârstele (copii, tineri, adulți, vârstnici)",
+    "persoane_dizabilitati": "Servicii adaptate conform Legii 448/2006"
+  },
+  "personal": {
+    "director": "Director/Bibliotecar responsabil",
+    "bibliotecari": "Personal de specialitate cu studii în biblioteconomie",
+    "compartimente": "Achiziții, catalogare, împrumut, referință, activități culturale"
+  },
+  "colectii": {
+    "fond_general": "Cărți, periodice, documente în diverse domenii",
+    "literatura": "Beletristică română și universală",
+    "nonfiction": "Științe, tehnică, artă, religie, filosofie",
+    "copii_tineret": "Colecții speciale pentru copii și tineret",
+    "fond_local": "Documente despre istoria și cultura locală",
+    "carte_rara": "Colecții de carte veche și rară (în bibliotecile județene)",
+    "multimedia": "CD-uri, DVD-uri, resurse electronice"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "id": "COMISARIAT_GARDA_MEDIU_TEMPLATE",
+  "tip_institutie": "Comisariat Județean / Municipal",
+  "nivel": "Județean",
+  "nume_oficial": "Comisariatul Județului {JUDET} al Gărzii Naționale de Mediu",
+  "nume_scurt": "Comisariat GNM {JUDET}",
+  "aplicabilitate": "41 județe + Comisariatul Municipiului București (42 comisariate în total, conform OUG 229/2025)",
+  "template_pattern": {
+    "nume_format": "Comisariatul Județului {judet} al Gărzii Naționale de Mediu",
+    "variante": "Comisariatul Municipiului București (pentru București)",
+    "site_format": "Pagină pe site-ul GNM - www.gnm.ro",
+    "email_format": "{cod_judet}@gnm.ro sau comisariat.{judet}@gnm.ro",
+    "adresa_format": "Variabilă per județ - în reședință județ",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 1005/2012 privind organizarea și funcționarea Gărzii Naționale de Mediu",
+    "actualizari": [
+      "OUG nr. 229 din 18 martie 2025 - reorganizare GNM",
+      "Eliminarea Comisariatului Rezervației Biosferei Delta Dunării în 2025"
+    ],
+    "natura_juridica": "Structuri fără personalitate juridică, la nivel de serviciu",
+    "subordonare": "Sub autoritatea Comisariatului General al Gărzii Naționale de Mediu"
+  },
+  "atributii_principale": [
+    "Control și inspecție pentru protecția mediului la nivel județean",
+    "Verificarea respectării legislației de mediu de către agenții economici",
+    "Constatarea și sancționarea contravențiilor de mediu",
+    "Control poluare aer, apă, sol la nivel local",
+    "Verificarea gestionării deșeurilor și respectării normelor",
+    "Control asupra ariilor naturale protejate din județ",
+    "Verificarea autorizațiilor și permiselor de mediu",
+    "Investigarea sesizărilor privind încălcări ale legislației de mediu",
+    "Aplicarea măsurilor de prevenire și restaurare mediu",
+    "Colaborarea cu alte autorități locale pentru protecția mediului"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Garda Națională de Mediu", "GNM", "Comisariat GNM",
+      "control mediu", "inspecție mediu", "sancțiune mediu"
+    ],
+    "termeni_populari": [
+      "garda de mediu", "GNM", "control mediu",
+      "politia mediului", "inspectie mediu"
+    ],
+    "probleme_cetatean": [
+      "raportare poluare", "sesizare poluare aer", "sesizare poluare apă",
+      "control GNM", "inspecție fabrică", "verificare emisii",
+      "reclamație poluare", "miros neplăcut industrial", "fum toxic",
+      "deversare apă uzată", "poluare râu", "contaminare sol",
+      "depozit ilegal deșeuri", "gunoi toxic", "deșeuri periculoase",
+      "tăiere ilegală pădure", "distrugere arie protejată",
+      "sancțiune mediu", "amendă poluare", "proces verbal GNM"
+    ],
+    "domenii_semantice": [
+      "mediu", "protecție", "control", "inspecție", "verificare",
+      "poluare", "contaminare", "emisii", "deversare",
+      "aer", "apă", "sol", "deșeuri", "gunoi",
+      "fabrică", "industrial", "agent", "economic",
+      "sancțiune", "amendă", "proces", "verbal",
+      "sesizare", "reclamație", "raportare"
+    ],
+    "termeni_gresiti": [
+      "garda mediului", "politia de mediu"
+    ],
+    "contexte_situationale": [
+      "vreau să raportez poluare la GNM", "unde sesizez poluare aer",
+      "cum raportez deversare în râu", "unde reclam miros industrial",
+      "vreau control GNM la fabrică", "cum sesizez poluare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre controalele efectuate",
+    "Date despre sancțiunile aplicate",
+    "Informații despre sesizările primite",
+    "Rapoarte despre agenții economici controlați"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin Comisariatul General GNM sau local",
+    "observatii": "Informații disponibile pe www.gnm.ro"
+  },
+  "conducere": {
+    "comisar_sef": "Comisar șef - funcție publică de conducere, asimilată salarial cu șef serviciu public"
+  },
+  "reorganizare_2025": {
+    "oug": "OUG nr. 229 din 18 martie 2025",
+    "reducere_posturi": "Reducere posturi de conducere de la 72 la 64",
+    "secretari_stat": "Reducere secretari de stat de la 3 la 2",
+    "angajari_noi": "150 posturi noi de comisari cu atribuții de control (aprobat decembrie 2024)",
+    "eliminare": "Eliminarea Comisariatului Rezervației Biosferei Delta Dunării"
+  },
+  "obiective_activitate": {
+    "preventie": "Prevenirea poluării mediului",
+    "restaurare": "Restaurarea mediului",
+    "aplicare_lege": "Aplicarea legii în domeniul protecției mediului"
+  },
+  "directii_actiune": [
+    "Control poluare",
+    "Biodiversitate",
+    "Biosecuritate",
+    "Arii protejate"
+  ]
+}

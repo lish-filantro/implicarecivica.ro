@@ -1,0 +1,113 @@
+{
+  "id": "ARACIS",
+  "tip_institutie": "Instituție Autonomă",
+  "nivel": "National",
+  "nume_oficial": "Agenția Română de Asigurare a Calității în Învățământul Superior",
+  "nume_scurt": "ARACIS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Mărăști Nr. 59, Sector 1, București",
+    "cod_postal": "011464",
+    "telefon": "+40 21 206 76 00 / +40 21 206 76 02",
+    "email": "secretariat@aracis.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.aracis.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/63367",
+    "rof_complet": "https://www.aracis.ro/wp-content/uploads/2019/07/Metodologie_de_evaluare_externa.pdf",
+    "transparenta": "https://www.aracis.ro/transparenta/",
+    "formulare_544": "contact544@aracis.ro"
+  },
+  "legislatie_baza": {
+    "document_principal": "OUG nr. 75/2005 privind asigurarea calității educației (aprobată prin Legea nr. 87/2006)",
+    "actualizari": [
+      "OUG nr. 75/2011 - modificarea și completarea OUG 75/2005",
+      "Metodologie de evaluare externă actualizată 2019",
+      "Procedura de selecție experți RNE 2023"
+    ]
+  },
+  "atributii_principale": [
+    "Evaluarea și acreditarea instituțiilor de învățământ superior",
+    "Stabilirea standardelor academice și a criteriilor de calitate",
+    "Autorizarea provizorie și acreditarea programelor de studii",
+    "Evaluarea externă periodică a calității educației superioare",
+    "Coordonarea procesului de asigurare a calității în învățământul superior",
+    "Monitorizarea respectării standardelor de calitate",
+    "Promovarea excelenței în educația superioară",
+    "Cooperarea internațională în domeniul asigurării calității"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Română de Asigurare a Calității în Învățământul Superior", "ARACIS",
+      "evaluare externă", "acreditare universitară", "asigurarea calității", "evaluare instituțională"
+    ],
+    "termeni_populari": [
+      "aracis romania", "evaluarea universităților", "acreditarea facultăților",
+      "calitatea educației", "evaluare universitate", "agenția calității"
+    ],
+    "probleme_cetatean": [
+      "verificare acreditare facultate", "calitatea universității", "evaluare program de studii",
+      "acreditare master", "verificare diplomă validă", "expertiza calității educației",
+      "evaluarea unei facultăți", "acreditarea unei specialități"
+    ],
+    "domenii_semantice": [
+      "calitate educațională", "învățământ superior", "universitate", "facultate", "acreditare",
+      "evaluare", "standarde academice", "experți evaluatori", "curriculum universitar",
+      "programe de studii", "licență", "master", "doctorat", "competențe academice"
+    ],
+    "termeni_gresiti": [
+      "araciss", "arracis", "agentia calitatii", "aracis bucuresti",
+      "casa calitatii", "ministerul calitatii"
+    ],
+    "contexte_situationale": [
+      "vreau să verific dacă facultatea e acreditată", "cum verific calitatea universității",
+      "cine evaluează universitățile", "este recunoscută diploma mea",
+      "vreau să știu despre acreditarea programului", "cine controlează calitatea educației",
+      "informații despre standardele de calitate", "cum funcționează evaluarea externă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre criteriile de acreditare a universităților",
+    "Date despre procesul de evaluare a unei instituții specifice",
+    "Informații despre expertii evaluatori și competențele acestora",
+    "Rapoarte de evaluare pentru universități și programe de studii",
+    "Date despre bugetul agenției și costurile evaluărilor",
+    "Informații despre standardele de calitate aplicate",
+    "Procedurile de contestare a deciziilor de acreditare",
+    "Statistici privind rata de acreditare pe domenii de studiu",
+    "Informații despre cooperarea internațională și recunoașterea reciprocă"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Secretariat General",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "secretariat@aracis.ro, contact544@aracis.ro"
+    },
+    {
+      "nume": "Departamentul de Acreditare",
+      "atributii": "Procesul de acreditare a instituțiilor și programelor",
+      "contact": "Prin centrală ARACIS: +40 21 206 76 00"
+    },
+    {
+      "nume": "Departamentul de Evaluare Externă",
+      "atributii": "Coordonarea evaluărilor externe de calitate",
+      "contact": "solicitari.evaluare@aracis.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "contact544@aracis.ro",
+    "telefon_cereri": "+40 21 206 76 02",
+    "departament_responsabil": "Secretariat General",
+    "program_audiente": "08:00-16:00 (Luni-Vineri)",
+    "sediu_registratura": "Str. Mărăști Nr. 59, Sector 1, București",
+    "sediu_social": "Str. Spiru Haret nr. 12, 010176, București",
+    "cod_fiscal": "18476245"
+  },
+  "calitate_internationala": {
+    "membru_enqa": "Asociația Europeană pentru Asigurarea Calității în Învățământul Superior",
+    "inscris_eqar": "Registrul European pentru Asigurarea Calității în Învățământul Superior",
+    "membru_inqaahe": "Rețeaua Internațională de Agenții pentru Asigurarea Calității în Învățământul Superior",
+    "recunoastere_europeana": "Acreditările ARACIS sunt recunoscute la nivel european"
+  },
+  "template_pattern": null
+}

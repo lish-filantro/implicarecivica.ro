@@ -1,0 +1,106 @@
+{
+  "id": "SCOALA_PUBLICA_TEMPLATE",
+  "tip_institutie": "Școală Publică / Liceu Public",
+  "nivel": "Local",
+  "nume_oficial": "{TIP_SCOALA} {NUME_SCOALA}",
+  "nume_scurt": "{NUME_SCURT}",
+  "aplicabilitate": "Toate unitățile de învățământ preuniversitar de stat",
+  "template_pattern": {
+    "nume_format": "{Grădiniță/Școală Gimnazială/Colegiu Național/Grup Școlar} {nume}",
+    "tipuri": ["Grădiniță", "Școală Gimnazială", "Școală Primară", "Liceu Teoretic", "Colegiu Național", "Colegiu Tehnic", "Grup Școlar"],
+    "site_format": "http://{nume_scurtat}.ro sau http://scoala{nume}.ro",
+    "email_format": "scoala{nume}@{judet}.ro sau contact@{nume_scoala}.ro",
+    "adresa_format": "Variabilă în cadrul localității",
+    "coordonate_variabile": ["tip_scoala", "nume", "localitate", "judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea Educației Naționale nr. 1/2011",
+    "reglementari_specifice": [
+      "ROFUIP - Regulamentul de Organizare și Funcționare a Unităților de Învățământ Preuniversitar",
+      "Statutul elevului",
+      "Regulament intern propriu"
+    ],
+    "subordonare": "În coordonarea ISJ/ISMB + finanțare de la CL/CJ/buget de stat"
+  },
+  "atributii_principale": [
+    "Asigurarea educației și instruirii elevilor conform curriculum",
+    "Implementarea planurilor de învățământ aprobate de MEC",
+    "Evaluarea periodică și continuă a elevilor",
+    "Organizarea examenelor școlare și naționale",
+    "Consiliere școlară și profesională",
+    "Educație pentru cetățenie democratică",
+    "Activități extracurriculare și extrașcolare",
+    "Colaborarea cu părinții și comunitatea locală",
+    "Asigurarea siguranței elevilor în perimetrul școlar",
+    "Menținerea și dezvoltarea patrimoniului școlar"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "unitate de învățământ", "școală publică", "liceu de stat",
+      "învățământ preuniversitar", "învățământ obligatoriu", "curriculum național"
+    ],
+    "termeni_populari": [
+      "scoala publica", "liceul", "scoala generala", "gradinita",
+      "scoala de stat", "invatamant public"
+    ],
+    "probleme_cetatean": [
+      "înscrierea la școală", "înscriere clasa pregătitoare",
+      "înscrierea la grădiniță", "admitere liceu",
+      "transferul școlar", "transfer copil altă școală",
+      "situație școlară", "catalog online", "note elev",
+      "absențe nemotivate", "motivare absențe",
+      "orar școlar", "program școală", "vacanțe școlare",
+      "manuale școlare gratuite", "rechizite gratuite",
+      "bursă școlară", "bursă merit", "bursă socială",
+      "masă caldă școală", "cantină școlară",
+      "transport școlar", "microbuz școlar",
+      "plângere profesor", "reclamație director",
+      "consilier școlar", "psiholog școlar", "mediator",
+      "exmatriculare", "sancțiune disciplinară",
+      "adeverință școlarizare", "diplomă absolvire"
+    ],
+    "domenii_semantice": [
+      "școală", "liceu", "grădiniță", "învățământ", "educație",
+      "elev", "preșcolar", "profesor", "director", "diriginte",
+      "clasă", "orar", "program", "lecție", "curs",
+      "notă", "medie", "catalog", "situație școlară",
+      "examen", "teză", "evaluare", "bacalaureat", "evaluare națională",
+      "înscrierea", "admitere", "transfer", "situație",
+      "bursă", "rechizite", "manuale", "masă", "transport"
+    ],
+    "termeni_gresiti": [
+      "scoala publica", "liceul teoretic", "gradinita de stat"
+    ],
+    "contexte_situationale": [
+      "unde înscriu copilul la școală", "cum transfer copilul",
+      "vreau situația școlară", "când sunt vacanțele",
+      "cum solicit bursă pentru copil", "unde reclam un profesor",
+      "cum justific absențele", "când este admiterea la liceu",
+      "cine oferă consiliere școlară", "cum obțin manuale gratuite",
+      "unde aflu orarul", "cum contactez dirigintele"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre criteriile de înscriere",
+    "Date despre rezultatele la examene și evaluări",
+    "Informații despre achizițiile de manuale și echipamente",
+    "Rapoarte despre bugetul școlii și execuția bugetară",
+    "Date despre efectivele de elevi și profesori",
+    "Informații despre programele educaționale implementate",
+    "Rapoarte despre infrastructura școlară și investiții",
+    "Date despre bursele acordate elevilor",
+    "Informații despre plângerile și sesizările primite"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Email școală sau prin ISJ/ISMB",
+    "departament_responsabil": "Director / Secretariat",
+    "observatii": "Unele informații sunt publicate pe site sau la avizier"
+  },
+  "structura_conducere": {
+    "director": "Manager unitate învățământ",
+    "director_adjunct": "În școli mari",
+    "consiliul_administratiei": "Organ decizional",
+    "consiliul_profesoral": "Organ deliberativ",
+    "comitetul_parinti": "Reprezentare părinți"
+  }
+}

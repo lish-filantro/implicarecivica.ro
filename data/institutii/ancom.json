@@ -1,0 +1,100 @@
+{
+  "id": "ancom",
+  "tip_institutie": "Autoritate Națională",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională pentru Administrare și Reglementare în Comunicații",
+  "nume_scurt": "ANCOM",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Delea Noua nr. 2, sector 3",
+    "cod_postal": "030925",
+    "telefon": "+40 372.845.400",
+    "email": "ancom@ancom.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.ancom.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 504/2002 privind audiovizualul și Legea nr. 198/2022 privind securitatea rețelelor și serviciilor de comunicații electronice",
+    "actualizari": [
+      "Legea nr. 198/2022 privind securitatea rețelelor și serviciilor de comunicații electronice",
+      "Ordonanța de Urgență nr. 111/2018"
+    ]
+  },
+  "atributii_principale": [
+    "Reglementare și supraveghere a comunicațiilor electronice",
+    "Autorizare și licențiere de operatori de comunicații electronice",
+    "Gestionare și alocare a spectrului de frecvență radio",
+    "Reglementare a serviciilor poștale",
+    "Supraveghere a conformității cu obligațiile de conectivitate și interoperabilitate",
+    "Protecția consumatorilor în domeniul comunicațiilor electronice",
+    "Reglementare a accesului și interconexiunii rețelelor de comunicații",
+    "Control și sancționare a încălcărilor în domeniu",
+    "Supraveghere a serviciilor de radiocomunicații și compatibilității electromagnetice",
+    "Monitorizare și raportare în domeniul comunicațiilor electronice și serviciilor poștale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "telecomunicații",
+      "comunicații electronice",
+      "servicii poștale",
+      "spectru de frecvență",
+      "operator de telecomunicații",
+      "internet",
+      "rețele 5G"
+    ],
+    "termeni_populari": [
+      "telefonie mobilă",
+      "internet rapid",
+      "operatori telecom",
+      "probleme la internet",
+      "semnal prost",
+      "servicii poștale"
+    ],
+    "probleme_cetatean": [
+      "conturi blocate fără justificare",
+      "tarife inechitabile",
+      "calitate slabă a serviciului",
+      "contracte cu clauze abuzive",
+      "probleme cu transmiterea datelor",
+      "servicii de poștă neconforme"
+    ],
+    "domenii_semantice": [
+      "reglementare electronică",
+      "piața comunicațiilor",
+      "protecția consumatorilor telecom",
+      "competiție pe piața comunicațiilor",
+      "tehnologie de rețea"
+    ],
+    "termeni_gresiti": [
+      "ANCOM ROmania",
+      "Autoritate Telecomunicații",
+      "Reglementare Internet"
+    ],
+    "contexte_situationale": [
+      "reclamație împotriva unui operator de telecomunicații",
+      "solicitare informații despre calitatea rețelei",
+      "probleme cu facturarea serviciilor de internet",
+      "schimbare de operator de telecomunicații"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de informații despre calitatea serviciilor unui operator telecom",
+    "Cerere de acces la dosarele investigațiilor ANCOM privind încălcări de către operatori",
+    "Solicitare de date și statistici privind piața comunicațiilor electronice",
+    "Cerere de informații despre licențele și autorizații acordate operatorilor",
+    "Solicitare de acces la decizii și hotărâri ale ANCOM în procese administrative",
+    "Cerere de informații despre alocare și utilizarea spectrului de frecvență",
+    "Solicitare de date privind numarul și tipurile de reclamații înregistrate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "ancom@ancom.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Comunicare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2002",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

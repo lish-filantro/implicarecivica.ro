@@ -1,0 +1,102 @@
+{
+  "id": "asf",
+  "tip_institutie": "Autoritate de Supraveghere",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea de Supraveghere Financiară",
+  "nume_scurt": "ASF",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Splaiul Independenței nr. 15, sector 5",
+    "cod_postal": "050092",
+    "telefon": "+40 21 305 3470",
+    "email": "office@asfromania.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.asfromania.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Ordonanța de Urgență nr. 93/2012 privind înfiinţarea, organizarea și funcţionarea ASF și Legea nr. 113/2013 de aprobare",
+    "actualizari": [
+      "Legea nr. 62/2009 privind reglementarea activităților cu valori mobiliare",
+      "Legea nr. 227/2015 privind Codul de Asigurări",
+      "OUG nr. 128/2021 privind reforma pieței pensiilor private"
+    ]
+  },
+  "atributii_principale": [
+    "Autorizare și reglementare a operatorilor pe piața de capital, asigurări și pensii private",
+    "Supraveghere și control al respectării reglementărilor privind piețele financiare",
+    "Protecția investitorilor și asiguraților",
+    "Sancționare a încălcărilor reglementărilor financiare",
+    "Aprobarea și monitorizarea structurii corpului statistic al piețelor supervizate",
+    "Reglementare a transparenței și publicării informațiilor pe piețele financiare",
+    "Managementul crizelor și apărarea stabilitații sistemului financiar non-bancar",
+    "Prevenire a frauzei și spălării de bani pe piețele supervizate",
+    "Cooperare cu autorități similare din alte state UE",
+    "Elaborare și publicare de regulamente și directive privind piețele supervizate",
+    "Gestionarea fondului de compensare al investitorilor și fondului de protecție al asiguraților"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "piață de capital",
+      "valori mobiliare",
+      "asigurări",
+      "pensii private",
+      "fond de investiții",
+      "supraveghere financiară",
+      "reglementări financiare"
+    ],
+    "termeni_populari": [
+      "bursă",
+      "acțiuni",
+      "fonduri de investiții",
+      "asigurări de viață",
+      "pensii",
+      "investiții"
+    ],
+    "probleme_cetatean": [
+      "păgubare de la companie de asigurări",
+      "pierderi în fondurile de investiții",
+      "nerespectare de angajamente de către brokeri",
+      "probleme cu polițe de asigurare",
+      "restituire de contribuții la pensii private",
+      "fraude în domeniul financiar non-bancar"
+    ],
+    "domenii_semantice": [
+      "protecția consumatorilor financiari",
+      "piețe de capital",
+      "supraveghere și control",
+      "stabilitate financiară",
+      "reglementare financiară"
+    ],
+    "termeni_gresiti": [
+      "Autoritate Finanțare",
+      "Supraveghere Piață Bursă",
+      "Reglementare Asigurări"
+    ],
+    "contexte_situationale": [
+      "reclamație împotriva unei companii de asigurări",
+      "probleme cu fondurile de investiții",
+      "pierderi în bursă și protecție",
+      "conflicte cu brokeri de valori mobiliare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la dosarele investigațiilor ASF privind operatori financiari",
+    "Cerere de informații despre sancțiunile aplicate de ASF pentru încălcări",
+    "Solicitare de date și statistici privind piața de capital și companii de asigurări supravegheate",
+    "Cerere de acces la regulamentele și normele ASF",
+    "Solicitare de informații despre reclamații înregistrate și rezolvate",
+    "Cerere de date privind numărul de operatori autorizați pe fiecare segment de piață",
+    "Solicitare de informații despre hotărâri și decizii emise în procese administrative"
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@asfromania.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Comunicare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2013",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

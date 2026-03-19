@@ -1,0 +1,112 @@
+{
+  "id": "MINISTERUL_TRANSPORTURILOR_INFRASTRUCTURII",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Transporturilor și Infrastructurii",
+  "nume_scurt": "MTI",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Dinicu Golescu Nr. 38, Palat CFR, Poarta G, Sector 1, București",
+    "cod_postal": "010873",
+    "telefon": "Prin centrală ministerială",
+    "email": "cerere544@mt.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mt.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/240344",
+    "rof_complet": "https://lege5.ro/gratuit/gu3tknzsgq3q/hotararea-nr-370-2021-privind-organizarea-si-functionarea-ministerului-transporturilor-si-infrastructurii",
+    "transparenta": "https://www.mt.ro/transparenta-decizionala",
+    "formulare_544": "https://www.mt.ro/web14/informatii-de-interes-public/e-petitie"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 370/2021 privind organizarea și funcționarea Ministerului Transporturilor și Infrastructurii",
+    "actualizari": [
+      "Proiecte de modificare HG 370/2021 - 2022, 2024, 2025",
+      "Abrogarea HG nr. 90/2020 (fostul Ministerul Transporturilor, Infrastructurii și Comunicațiilor)",
+      "Restructurări organizatorice periodice (514 posturi maxim)"
+    ]
+  },
+  "atributii_principale": [
+    "Aplicarea politicilor guvernamentale în domeniul transporturilor și infrastructurii",
+    "Dezvoltarea strategiei și reglementărilor specifice pentru transporturi",
+    "Coordonarea dezvoltării sistemului național de transport",
+    "Implementarea politicilor UE și organizațiilor internaționale în transport",
+    "Monitorizarea și controlul domeniilor de competență",
+    "Implementarea programelor specifice de transport și infrastructură",
+    "Asigurarea siguranței și eficienței transportului de mărfuri și persoane",
+    "Dezvoltarea infrastructurii naționale de transport"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Transporturilor și Infrastructurii", "MTI", "Minister Transporturi",
+      "transport infrastructure", "politici transport", "sistem național transport"
+    ],
+    "termeni_populari": [
+      "ministrul transporturilor", "ministerul transporturilor", "minister transport",
+      "infrastructura", "drumuri", "căi ferate", "transport public", "aviația"
+    ],
+    "probleme_cetatean": [
+      "permis de conducere", "înmatriculare auto", "transport public", "bilet tren",
+      "autostradă", "drum național", "zbor avion", "port maritim", "transport fluvial",
+      "licență transport", "autorizație transport", "taxa drumuri", "rovinieta"
+    ],
+    "domenii_semantice": [
+      "transport", "infrastructură", "drumuri", "căi ferate", "aviație", "naval",
+      "autostradă", "transport public", "logistică", "mobilitate", "trafic",
+      "vehicule", "siguranță rutieră", "transport urban", "transport interurban"
+    ],
+    "termeni_gresiti": [
+      "ministerul transporturilor", "ministeru transporturi", "casa transporturilor",
+      "ministerul drumurilor", "minister infrastructura"
+    ],
+    "contexte_situationale": [
+      "unde îmi fac permisul de conducere", "cine se ocupă de drumuri",
+      "vreau să știu despre transport public", "informații despre autostradă",
+      "cine controlează aviația", "unde fac reclamație pentru CFR",
+      "cum obțin licență de transport", "informații despre taxe rutiere"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul alocat infrastructurii rutiere",
+    "Date despre contractele de construcție a autostrăzilor",
+    "Informații despre criteriile de acordare a licențelor de transport",
+    "Rapoarte despre starea infrastructurii naționale de transport",
+    "Date despre investițiile în transport public urban",
+    "Informații despre politicile de dezvoltare a porturilor",
+    "Rapoarte privind siguranța în transportul feroviar",
+    "Date despre costurile și eficiența proiectelor de infrastructură",
+    "Informații despre cooperarea internațională în transport"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul pentru Relații cu Publicul",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "cerere544@mt.ro, petitie@mt.ro"
+    },
+    {
+      "nume": "Direcția Generală de Monitorizare Proiecte",
+      "atributii": "Coordonarea și monitorizarea implementării proiectelor strategice",
+      "contact": "Prin centrală MTI"
+    },
+    {
+      "nume": "Serviciul pentru Consultare Publică",
+      "atributii": "Coordonarea consultărilor publice pentru actele normative",
+      "contact": "consultare.publica@mt.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "cerere544@mt.ro",
+    "email_petitii": "petitie@mt.ro",
+    "email_presa": "presa@mt.ro",
+    "email_consultare": "consultare.publica@mt.ro",
+    "departament_responsabil": "Serviciul pentru Relații cu Publicul",
+    "sediu_registratura": "Bulevardul Dinicu Golescu Nr. 38, Palat CFR, Sector 1, București",
+    "transparenta_decizionala": "Conform Legii 52/2003 privind transparența decizională"
+  },
+  "structura_organizatorica": {
+    "posturi_maxim": "514 posturi (exclusiv demnitari)",
+    "sediu_principal": "Palat CFR, Bulevardul Dinicu Golescu nr. 38, București",
+    "subordine_guvern": "Organism specializat al administrației publice centrale"
+  },
+  "template_pattern": null
+}

@@ -1,0 +1,95 @@
+{
+  "id": "ANMCS",
+  "tip_institutie": "Autoritate Națională",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională de Management al Calității în Sănătate",
+  "nume_scurt": "ANMCS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Splaiul Independenței nr. 202A, Sector 6, București",
+    "cod_postal": "060022",
+    "telefon": "0212115275",
+    "email": "info@anmcs.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://anmcs.gov.ro/",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/116695"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 144/2010 privind organizarea și funcționarea Ministerului Sănătății și a Autorității Naționale de Management al Calității în Sănătate",
+    "actualizari": [
+      "LEGE 185/2017 privind asigurarea și îmbunătățirea continuă a calității serviciilor și a siguranței pacienților în unitățile sanitare"
+    ]
+  },
+  "atributii_principale": [
+    "Asigură și îmbunătățește continuu calitatea serviciilor de sănătate și siguranța pacienților",
+    "Standardizează și evaluează serviciile de sănătate la nivel național",
+    "Realizează acreditarea și re-acreditare a unităților sanitare",
+    "Stabilește standarde de calitate și liste de verificare pentru instituții medicale",
+    "Coordonează monitoringul și evaluarea performanțelor unităților sanitare",
+    "Implementează sisteme de management al calității și siguranței pacienților",
+    "Evaluează și aprobă structuri de management al calității în unitățile sanitare",
+    "Elaborate recomandări și ghiduri pentru asigurarea calității în sănătate",
+    "Ține evidența și rapoartelor privind incidente adverse în healthcare",
+    "Colaborează cu Ministerul Sănătății în dezvoltarea politicii de calitate în sănătate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Autoritatea Națională de Management al Calității în Sănătate",
+      "ANMCS",
+      "Acreditare spitale",
+      "Evaluare unitati medicale"
+    ],
+    "termeni_populari": [
+      "Acreditare spital",
+      "Calitate sănătate",
+      "Evaluare medicală",
+      "Acreditare medicină"
+    ],
+    "probleme_cetatean": [
+      "Spital acreditat",
+      "Calitate servicii medicale",
+      "Siguranță pacient",
+      "Evaluare spital",
+      "Garanție calitate sănătate"
+    ],
+    "domenii_semantice": [
+      "Management calitate",
+      "Calitate sănătate",
+      "Acreditare medicală",
+      "Siguranță pacient",
+      "Standarde medicale"
+    ],
+    "termeni_gresiti": [
+      "Agenția Calității",
+      "Autoritatea Medicală",
+      "AMCS"
+    ],
+    "contexte_situationale": [
+      "Vreau să verific dacă spitalul este acreditat",
+      "Caut spital cu standarde de calitate",
+      "Am o reclamație despre calitate servicii",
+      "Vreau info despre evaluare unitati sanitare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare listă de unitati sanitare acreditate pe categorii și județe",
+    "Cerere de acces la rapoarte de evaluare și acreditare pentru un spital",
+    "Informații despre standarde și criterii de acreditare în healthcare",
+    "Solicitare date privind incidentele adverse raportate în unitati sanitare",
+    "Cerere privind procedurile de monitorizare și control al calității",
+    "Informații despre procesul de re-acreditare și termene",
+    "Solicitare rapoarte anuale asupra stării acreditării în sistemul de sănătate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "info@anmcs.gov.ro",
+    "departament_responsabil": "Departamentul de Comunicare și Relații Publice",
+    "call_center": "0212115275"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2010",
+    "subordinea": "Ministerul Sănătății",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

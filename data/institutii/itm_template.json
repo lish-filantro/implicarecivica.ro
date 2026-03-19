@@ -1,0 +1,113 @@
+{
+  "id": "ITM_TEMPLATE",
+  "tip_institutie": "Inspectorat teritorial de muncă",
+  "nivel": "Județean",
+  "nume_oficial": "Inspectoratul Teritorial de Muncă {JUDET}",
+  "nume_scurt": "ITM {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "nume_format": "ITM {judet}",
+    "site_format": "https://itm{judet}.ro",
+    "email_format": "contact@itm{judet}.ro",
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 108/1999 pentru înființarea și organizarea Inspecției Muncii",
+    "reglementari_specifice": [
+      "Hotărârea Guvernului nr. 488/2017 privind Regulamentul de organizare și funcționare a Inspecției Muncii",
+      "Norma nr. 10/1996 privind investigarea accidentelor de muncă și bolilor profesionale",
+      "Codul Muncii actualizat cu amendamentele și completările"
+    ]
+  },
+  "atributii_principale": [
+    "Efectuarea inspecciilor la locurile de muncă pentru respectarea legislației muncii",
+    "Investigarea accidentelor de muncă și bolilor profesionale",
+    "Controlul respectării normelor de sănătate și securitate în muncă",
+    "Combaterea muncii ilegale și a exploatării muncii",
+    "Monitorizarea condițiilor de lucru și a drepturilor angajaților",
+    "Rezolvarea plângerilor și sesizărilor cu privire la violări ale drepturilor muncitorului",
+    "Verificarea respectării contractelor de muncă și a drepturilor salariale",
+    "Controlul tabelelor orare și a orelor de lucru",
+    "Sancționarea încălcărilor legislației muncii",
+    "Consilierea angajatorilor și angajaților privind conformitatea legală"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "inspecție muncă",
+      "accident de muncă",
+      "boală profesională",
+      "norme de SSM",
+      "control ITM",
+      "muncă ilegală",
+      "drepturi ale angajatului",
+      "contract de muncă",
+      "salariu minim",
+      "ore de lucru legale"
+    ],
+    "termeni_populari": [
+      "control la munca",
+      "accident pe lucru",
+      "munca neoficiala",
+      "drepturi de muncitor",
+      "salari pe negru",
+      "cât pot lucra pe zi",
+      "drepturi angajat",
+      "inspecție la job"
+    ],
+    "probleme_cetatean": [
+      "m-am rănit la muncă, ce fac",
+      "am accident la munca, cine plătește",
+      "angajatorul nu-mi plătește salariu",
+      "lucrez neoficial, ce drepturi am",
+      "am prea multe ore de lucru",
+      "nu am contract de muncă",
+      "angajatorul meu nu respectă legile",
+      "vreau să fiu asigurat la munca",
+      "cum dochez accidentul de muncă"
+    ],
+    "domenii_semantice": [
+      "piață a muncii",
+      "drepturi și obligații ale angajaților",
+      "sănătate și securitate ocupațională",
+      "protecție socială a lucrătorilor",
+      "conformitate legală la locul de muncă"
+    ],
+    "termeni_gresiti": [
+      "inspectorat de munca",
+      "departament de munca",
+      "serviciu de control",
+      "poliția muncii"
+    ],
+    "contexte_situationale": [
+      "muncitor care s-a accidentat la locul de muncă",
+      "angajat care nu primește salariul la timp",
+      "persoană care lucră în condiții nesigure",
+      "muncitor care lucrează cu contract informal",
+      "persoană care suspectează exploatare",
+      "angajat la fabrica care are accidente frecvente",
+      "persoană cu boală ocupațională"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Cerere privind legislația în vigoare referitor la norme de SSM în {judet}",
+    "Solicitare de informații despre procedurile de investigare a accidentelor",
+    "Cerere de acces la statistici privind accidentele și bolile profesionale",
+    "Solicitare de lămuriri pe tema drepturilor angajaților și obligațiilor angajatorilor",
+    "Cerere privind procedurile de depunere a plângerilor și sesizărilor",
+    "Solicitare de informații despre sancțiuni și modalități de contestare",
+    "Cerere de acces la formularele și procedurile standard ale ITM"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Departamentul Informații de Interes Public - ITM {judet}",
+    "departament_responsabil": "Serviciul Relații Publice și Comunicare"
+  },
+  "structura": {
+    "compartimente_principale": [
+      "Servicii de inspecție pe locurile de muncă",
+      "Servicii de investigare a accidentelor și bolilor profesionale",
+      "Servicii de control al sănătății și securității",
+      "Servicii de soluționare a reclamațiilor și contestațiilor",
+      "Servicii administrative și de evidență"
+    ]
+  }
+}

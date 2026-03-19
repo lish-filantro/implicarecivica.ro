@@ -1,0 +1,162 @@
+{
+  "id": "TRIBUNAL_JUDETEAN_TEMPLATE",
+  "tip_institutie": "Tribunal",
+  "nivel": "Județean",
+  "nume_oficial": "Tribunalul {JUDET}",
+  "nume_scurt": "Tribunalul {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București (Tribunalul București + Curtea de Apel București)",
+  "template_pattern": {
+    "nume_format": "Tribunalul {judet}",
+    "bucuresti_special": "Tribunalul București (4 secții civile, penale, contentios administrativ, minori)",
+    "site_format": "http://tribunal{judet}.ro sau portal.just.ro",
+    "email_format": "tribunal_{judet}@just.ro sau registratura@tribunal{judet}.ro",
+    "adresa_format": "În reședința de județ - Palatul de Justiție",
+    "telefon_format": "Cod zonă județ + centrală tribunal",
+    "coordonate_variabile": ["judet", "oras_resedinta", "cod_judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 304/2022 privind organizarea judiciară",
+    "reglementari_specifice": [
+      "Legea nr. 303/2022 privind statutul judecătorilor și procurorilor",
+      "Codul de procedură civilă",
+      "Codul de procedură penală",
+      "Regulamentul de ordine interioară al instanțelor",
+      "Hotărâri CSM privind organizarea instanțelor"
+    ],
+    "coordonare": "Sub autoritatea Consiliului Superior al Magistraturii (CSM)"
+  },
+  "atributii_principale": [
+    "Judecarea cauzelor civile în primă instanță și apel de la judecătorii",
+    "Judecarea cauzelor penale în primă instanță (infracțiuni grave) și apel",
+    "Soluționarea litigiilor de contencios administrativ și fiscal",
+    "Judecarea cauzelor de minori și familie (în unele tribunale)",
+    "Soluționarea recursurilor de la hotărârile judecătoriilor",
+    "Judecarea cererilor de insolvență și proceduri colective",
+    "Soluționarea contestațiilor la executare",
+    "Judecarea conflictelor de muncă",
+    "Emiterea ordonanțelor președințiale și a încheierilor de procedură"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Tribunalul", "instanță de judecată", "tribunal județean",
+      "justiție", "sistem judiciar", "instanță superioară", "judecător"
+    ],
+    "termenipopulari": [
+      "tribunalul judetean", "judecatorie tribunal", "instanta de judecata",
+      "curtea judecata", "palatul justitiei", "proces tribunal"
+    ],
+    "probleme_cetatean": [
+      "depunere cerere tribunal", "program tribunal",
+      "dosarul meu tribunal", "termen tribunal", "proces civil",
+      "proces penal", "recurs sentință", "contestație hotărâre",
+      "citație tribunal", "cerere executare hotărâre",
+      "divorț tribunal", "partaj bunuri", "moștenire tribunal",
+      "insolvență firmă", "contestație la executare",
+      "conflict muncă", "dare în plată", "expropiere",
+      "cum depun cerere la tribunal", "taxă timbru tribunal"
+    ],
+    "domenii_semantice": [
+      "justiție", "judecată", "proces", "instanță", "tribunal", "judecător",
+      "hotărâre", "sentință", "recurs", "apel", "contestație",
+      "dosar", "termen", "citație", "avocat", "grefier",
+      "parte civilă", "pârât", "reclamant", "inculpat",
+      "civil", "penal", "contencios", "muncă", "familie", "minori"
+    ],
+    "termeni_gresiti": [
+      "tribunalul judetean", "curtea de judecata", "judecatoria tribunal",
+      "palatul justitiei", "casa de judecata"
+    ],
+    "contexte_situationale": [
+      "unde depun cerere de divorț", "cum fac recurs la sentință",
+      "vreau să contest o hotărâre", "unde găsesc dosarul meu",
+      "când am termen la tribunal", "cum obțin copie hotărâre",
+      "unde depun cerere de insolvență", "cum execut o hotărâre judecătorească",
+      "vreau să deschid proces civil", "unde reclam un judecător"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de depunere a cererilor",
+    "Date despre programul de lucru și audiențe",
+    "Informații despre taxele judiciare de timbru",
+    "Date statistice despre cauzele soluționate",
+    "Rapoarte despre durata medie de soluționare a dosarelor",
+    "Informații despre structura instanței și completele de judecată",
+    "Date despre achizițiile publice și contractele",
+    "Rapoarte despre bugetul și cheltuielile instanței",
+    "Informații despre judecătorii delegați și detașați",
+    "Date despre sesizările și plângerile primite"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Registratură Civilă",
+      "atributii": "Primirea cererilor civile, înregistrare dosare, eliberare copii",
+      "contact": "Relații cu publicul - secția civilă"
+    },
+    {
+      "nume": "Registratură Penală",
+      "atributii": "Primirea sesizărilor penale, înregistrare dosare penale",
+      "contact": "Relații cu publicul - secția penală"
+    },
+    {
+      "nume": "Compartiment Contencios Administrativ",
+      "atributii": "Dosare împotriva autorităților publice, litigii administrative",
+      "contact": "Registratură contencios"
+    },
+    {
+      "nume": "Serviciu Relații cu Publicul și Informare",
+      "atributii": "Informații pentru justițiabili, orientare în instanță",
+      "contact": "Ghișeu relații publice"
+    },
+    {
+      "nume": "Compartiment Executare Hotărâri",
+      "atributii": "Gestionarea dosarelor de executare, contestații la executare",
+      "contact": "Biroul executări"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "registratura@tribunal{judet}.ro sau tribunal_{judet}@just.ro",
+    "departament_responsabil": "Serviciu Relații cu Publicul / Compartiment Juridic",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "portal_national": "https://portal.just.ro - Portal național pentru instanțe",
+    "observatii": "Hotărârile sunt publice și disponibile pe portal.just.ro"
+  },
+  "structura_judiciara_tip": {
+    "sectii": [
+      "Secția civilă",
+      "Secția penală",
+      "Secția contencios administrativ și fiscal",
+      "Secția pentru minori și familie (în unele tribunale)",
+      "Secția comercială (în tribunale mari)"
+    ],
+    "conducere": "Președinte tribunal + Vicepreședinte + Președinți de secții",
+    "colegii_conducere": "Colegiul de conducere + Adunarea generală a judecătorilor"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "nume_complet": "Tribunalul Cluj",
+      "oras_resedinta": "Cluj-Napoca",
+      "site_exemplu": "http://tribunalulcluj.ro",
+      "curte_apel": "Curtea de Apel Cluj"
+    },
+    {
+      "judet": "Iași",
+      "nume_complet": "Tribunalul Iași",
+      "oras_resedinta": "Iași",
+      "site_exemplu": "http://tribunaliasi.ro",
+      "curte_apel": "Curtea de Apel Iași"
+    },
+    {
+      "judet": "București",
+      "nume_complet": "Tribunalul București",
+      "observatii": "Are 4 secții civile separate + secții penale, contencios",
+      "curte_apel": "Curtea de Apel București (instanță separată)"
+    }
+  ],
+  "ierarhie_judiciara": {
+    "judecatorie": "Instanță de prim grad (orașe, municipii)",
+    "tribunal": "Instanță de prim grad pentru cauze importante + apel față de judecătorii",
+    "curte_apel": "Instanță de apel + recurs în anumite cauze (15 curți în România)",
+    "inalta_curte": "Înalta Curte de Casație și Justiție - instanța supremă"
+  }
+}

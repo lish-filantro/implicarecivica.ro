@@ -1,0 +1,101 @@
+{
+  "id": "ani",
+  "tip_institutie": "Agenție Națională",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională de Integritate",
+  "nume_scurt": "ANI",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Lascăr Catargiu nr. 15, sector 1",
+    "cod_postal": "010661",
+    "telefon": "+40 372 069 869",
+    "email": "ani@integritate.eu"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://integritate.eu/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 144/2007 privind înfiinţarea, organizarea și funcţionarea Agenţiei Naţionale de Integritate",
+    "actualizari": [
+      "Legea nr. 176/2010 privind integritatea în exercitarea funcțiilor și demnităților publice",
+      "OUG nr. 5/2013 pentru modificarea și completarea Legii nr. 144/2007",
+      "Legea nr. 286/2009 privind Codul penal (în ce privește infracțiunile)"
+    ]
+  },
+  "atributii_principale": [
+    "Verificare a declarațiilor de avere și interese ale demnitarilor și funcționarilor publici",
+    "Control al conformității și actualității declarațiilor de avere",
+    "Investigare a conflictelor de interese",
+    "Evaluare a incompatibilităților în exercitarea funcțiilor și demnităților publice",
+    "Administrare a Registrului Declarațiilor de Avere și Interese",
+    "Sancționare a încălcărilor obligațiilor de declarare",
+    "Cooperare cu instituții similare din alte state",
+    "Promovare a integrității în sectorul public",
+    "Conducere a cercetărilor administrative privind comporarea funcționarilor",
+    "Elaborare și difuzare de informații cu privire la integritate",
+    "Trimitere a cazurilor de suspectă criminalitate către procuratură"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "integritate",
+      "declarație de avere",
+      "conflict de interese",
+      "incompatibilitate",
+      "demnitate publică",
+      "funcție publică"
+    ],
+    "termeni_populari": [
+      "corupție",
+      "declarații false",
+      "averi suspicioase",
+      "promovări nemerite",
+      "imbunatățiri din funcție",
+      "incompetență"
+    ],
+    "probleme_cetatean": [
+      "suspectare de corupție la funcționari",
+      "averi nejustificate ale demnitarilor",
+      "conflict de interese suspectat",
+      "declarații de avere incomplete",
+      "abuz de funcție",
+      "incompatibilitate suspecta"
+    ],
+    "domenii_semantice": [
+      "etică în administrație",
+      "transparență publică",
+      "responsabilitate administrativă",
+      "devoalare de corupție",
+      "control administrativ"
+    ],
+    "termeni_gresiti": [
+      "Agenție Integritate Publică",
+      "ANIP",
+      "Verificare Averi"
+    ],
+    "contexte_situationale": [
+      "raportare de suspect de corupție",
+      "verificare avere a demnitarului",
+      "solicitare informatii despre conflict de interese",
+      "depunere plângere pentru incompatibilitate"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la rapoartele de investigație ale ANI",
+    "Cerere de informații despre sancțiunile aplicate pentru încălcări ale obligațiilor de declarare",
+    "Solicitare de date și statistici privind declarațiile de avere verificate",
+    "Cerere de acces la deciziile și hotărârile ANI în procese administrative",
+    "Solicitare de informații despre cazurile trimise procuraturii",
+    "Cerere de date privind conflictele de interese detectate și sancționate",
+    "Solicitare de informații despre numarul de controale efectuate pe an"
+  ],
+  "procedura_544": {
+    "contact_cereri": "ani@integritate.eu",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Informare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2007",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

@@ -1,0 +1,108 @@
+{
+  "id": "PARCHET_JUDETEAN_TEMPLATE",
+  "tip_institutie": "Parchet de pe lângă Tribunal",
+  "nivel": "Județean",
+  "nume_oficial": "Parchetul de pe lângă Tribunalul {JUDET}",
+  "nume_scurt": "Parchetul {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București",
+  "template_pattern": {
+    "nume_format": "Parchetul de pe lângă Tribunalul {judet}",
+    "site_format": "http://parchet{judet}.ro sau portal.just.ro",
+    "email_format": "parchet_{judet}@mpublic.ro",
+    "adresa_format": "În reședința de județ, adesea în același sediu cu Tribunalul",
+    "telefon_format": "Cod zonă județ + centrală parchet",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 304/2022 privind organizarea judiciară",
+    "reglementari_specifice": [
+      "Legea nr. 303/2022 privind statutul magistraților",
+      "Codul de procedură penală",
+      "Legea nr. 305/2022 privind CSM"
+    ],
+    "coordonare": "Sub autoritatea Parchetului de pe lângă Înalta Curte și CSM"
+  },
+  "atributii_principale": [
+    "Conducerea și supravegherea activității de urmărire penală",
+    "Reprezentarea intereselor generale ale societății",
+    "Apărarea ordinii de drept și a drepturilor cetățenilor",
+    "Sesizarea instanțelor și susținerea acuzării în fața acestora",
+    "Supravegherea activității de cercetare penală a poliției",
+    "Coordonarea activității parchetelor de pe lângă judecătorii",
+    "Verificarea legalității și temeiniciei soluțiilor de neurmărire/netrimitere în judecată",
+    "Exercitarea căilor de atac împotriva hotărârilor judecătorești"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Parchetul", "Ministerul Public", "procuror", "urmărire penală",
+      "acuzare", "rechizitoriu", "ordonanță de clasare"
+    ],
+    "termeni_populari": [
+      "parchetul judetean", "procuratura", "procurorul", "acuzarea",
+      "urmarire penala", "plangere penala"
+    ],
+    "probleme_cetatean": [
+      "plângere penală", "sesizare infracțiune", "reclamație penală",
+      "rechizitoriu", "clasare dosar", "ordonanță clasare",
+      "contestație clasare", "soluție neurmărire",
+      "urmărire penală", "inculpat", "suspect",
+      "victimă infracțiune", "parte vătămată",
+      "procuror caz", "dosar penal", "anchetă penală"
+    ],
+    "domenii_semantice": [
+      "parchet", "procuror", "ministerul public", "acuzare", "urmărire",
+      "infracțiune", "penal", "anchetă", "investigație",
+      "rechizitoriu", "clasare", "trimitere în judecată",
+      "victimă", "suspect", "inculpat", "martor",
+      "dosar penal", "plângere", "sesizare"
+    ],
+    "termeni_gresiti": [
+      "parchetul judetean", "procuratura", "ministerul public judet",
+      "procurorul general judet"
+    ],
+    "contexte_situationale": [
+      "unde depun plângere penală", "cum sesizez o infracțiune",
+      "vreau să contest clasarea dosarului", "cine conduce ancheta penală",
+      "unde aflu dacă sunt tras la răspundere penal", "cum verific dosarul penal",
+      "cine mă apără ca victimă", "unde reclam un procuror"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de depunere a plângerilor penale",
+    "Date statistice despre infracțiunile instrumentate",
+    "Rapoarte despre soluțiile dispuse (trimiteri în judecată, clasări)",
+    "Informații despre durata medie de soluționare a cauzelor",
+    "Date despre structura parchetului și numărul de procurori",
+    "Rapoarte despre activitatea parchetului",
+    "Informații despre achizițiile publice și contracte",
+    "Date despre bugetul și cheltuielile parchetului"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciu Relații cu Publicul",
+      "atributii": "Informații pentru cetățeni, primire plângeri și sesizări",
+      "contact": "Registratură parchet"
+    },
+    {
+      "nume": "Secția Penală",
+      "atributii": "Urmărire penală infracțiuni generale",
+      "contact": "Prin centrală parchet"
+    },
+    {
+      "nume": "Serviciu Executare Hotărâri Penale",
+      "atributii": "Supravegherea executării pedepselor",
+      "contact": "Prin centrală parchet"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "parchet_{judet}@mpublic.ro",
+    "departament_responsabil": "Serviciu Relații cu Publicul",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"]
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "nume_complet": "Parchetul de pe lângă Tribunalul Cluj"
+    }
+  ]
+}

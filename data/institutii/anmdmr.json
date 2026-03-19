@@ -1,0 +1,138 @@
+{
+  "id": "ANMDMR",
+  "tip_institutie": "Agenție Națională",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională a Medicamentului și Dispozitivelor Medicale din România",
+  "nume_scurt": "ANMDMR",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Aviator Sănătescu nr. 48, Sector 1, București (medicamente) / Șos. Nicolae Titulescu 58, Sector 1, București (dispozitive)",
+    "cod_postal": "011478 / 011144",
+    "telefon": "021-317.11.00 / 021-317.11.01 / 021-317.11.02 / 021-317.11.04",
+    "email": "secretariat@anm.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.anm.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/157788",
+    "rof_complet": "https://legislatie.just.ro/public/DetaliiDocument/253170",
+    "transparenta": "https://www.anm.ro/informatii-de-interes-public/",
+    "formulare_544": "https://www.anm.ro/informatii-de-interes-public/formular-de-solicitare-in-baza-legea-5442001/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 134/2019 privind reorganizarea ANMDMR și Ordinul MS nr. 857/2022 privind ROF",
+    "actualizari": [
+      "Legea 134/2019 - reorganizare ANMDMR (a înlocuit ca act de bază HG 734/2010)",
+      "Ordinul MS 857/2022 - Regulamentul de Organizare și Funcționare actualizat",
+      "HG 734/2010 - act fondator inițial (depășit)"
+    ]
+  },
+  "atributii_principale": [
+    "Autorizarea medicamentelor de uz uman",
+    "Supravegherea unităților de producție și distribuție de medicamente",
+    "Reglementarea și controlul dispozitivelor medicale",
+    "Farmacovigilență și siguranța pacientului",
+    "Autorizarea studiilor clinice",
+    "Controlul calității medicamentelor",
+    "Supravegherea respectării bunelor practici de fabricație",
+    "Gestionarea alertelor de siguranță farmaceutică"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Națională a Medicamentului și Dispozitivelor Medicale",
+      "ANMDMR",
+      "ANM",
+      "autorizare medicamente",
+      "farmacovigilență",
+      "studii clinice",
+      "bune practici fabricație"
+    ],
+    "termeni_populari": [
+      "agenția medicamentului",
+      "agenția medicamentelor",
+      "anm romania",
+      "control medicamente",
+      "siguranța medicamentelor",
+      "efecte adverse"
+    ],
+    "probleme_cetatean": [
+      "medicament retras",
+      "efecte adverse medicament",
+      "reclamație medicament",
+      "autorizație medicament",
+      "import medicament",
+      "calitate medicament",
+      "alertă sanitară",
+      "dispozitiv medical defect",
+      "studiu clinic participare"
+    ],
+    "domenii_semantice": [
+      "medicamente",
+      "farmaceutic",
+      "dispozitive medicale",
+      "farmacie",
+      "farmacist",
+      "producător medicamente",
+      "distribuitor medicamente",
+      "laboratoare farmaceutice",
+      "cercetare clinică",
+      "teste clinice",
+      "siguranță farmaceutică",
+      "calitate farmaceutică"
+    ],
+    "termeni_gresiti": [
+      "agentia medicamentului",
+      "anmdm",
+      "agentia medicamentelor",
+      "minister medicamente",
+      "casa medicamentelor"
+    ],
+    "contexte_situationale": [
+      "unde raportez efecte adverse",
+      "cine autorizează medicamentele",
+      "vreau să particip la studiu clinic",
+      "medicamentul meu a fost retras",
+      "cum verific dacă medicamentul e autorizat",
+      "unde fac reclamație pentru medicament",
+      "cine controlează farmaciile",
+      "informații despre dispozitive medicale"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare lista medicamentelor autorizate pe o perioadă",
+    "Informații despre procedurile de autorizare a medicamentelor",
+    "Date despre controalele efectuate la producători și farmacii",
+    "Rapoarte de farmacovigilență și efecte adverse",
+    "Informații despre bugetul agenției și cheltuielile pe activități",
+    "Liste cu studiile clinice autorizate și rezultatele acestora",
+    "Date despre sancțiunile aplicate pentru încălcarea legislației",
+    "Informații despre alertele sanitare și măsurile luate",
+    "Rapoarte privind calitatea medicamentelor de pe piață"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Comunicare și Relații Publice",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "comunicare@anm.ro, maria.vasilescu@anm.ro"
+    },
+    {
+      "nume": "Direcția Medicamente de Uz Uman",
+      "atributii": "Autorizarea și supravegherea medicamentelor",
+      "contact": "Prin centrală ANMDMR: 021-317.11.00"
+    },
+    {
+      "nume": "Direcția Dispozitive Medicale",
+      "atributii": "Reglementarea și controlul dispozitivelor medicale",
+      "contact": "Prin centrală ANMDMR: 021-317.11.00"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "secretariat@anm.ro",
+    "telefon_cereri": "021-317.11.00",
+    "departament_responsabil": "Serviciul Comunicare și Relații Publice",
+    "responsabil_legal": "Conform Deciziei Președintelui nr. 175/2019",
+    "formular_online": "https://www.anm.ro/informatii-de-interes-public/formular-de-solicitare-in-baza-legea-5442001/",
+    "contestatii": "Procedură de plângere administrativă disponibilă pe site",
+    "informatii_exceptate": "Conform Deciziei Președintelui nr. 175/2019"
+  },
+  "template_pattern": null
+}

@@ -1,0 +1,130 @@
+{
+  "id": "ADMINISTRATIE_DOMENIU_PUBLIC_TEMPLATE",
+  "tip_institutie": "Direcția Administrarea Domeniului Public / Serviciu Domeniu Public",
+  "nivel": "Local",
+  "nume_oficial": "Direcția Administrarea Domeniului Public {LOCALITATE}",
+  "nume_scurt": "Administrarea Domeniului Public {LOCALITATE}",
+  "aplicabilitate": "Municipii mari (Direcție) / orașe și comune (Serviciu/Compartiment)",
+  "template_pattern": {
+    "nume_format": "Direcția/Serviciul Administrarea Domeniului Public {localitate}",
+    "variante": "Direcția Domeniu Public / Compartiment Domeniu Public / Serviciul Tehnic",
+    "site_format": "Pagină pe site-ul primăriei",
+    "email_format": "domeniupublic@primaria{localitate}.ro sau tehnic@primaria{localitate}.ro",
+    "adresa_format": "În sediul primăriei sau sediu propriu",
+    "coordonate_variabile": ["localitate", "judet", "marime_localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 215/2001 privind administrația publică locală (republicată)",
+    "reglementari_specifice": [
+      "OUG nr. 57/2019 - Codul administrativ",
+      "Legea nr. 213/1998 - proprietatea publică și regimul juridic al acesteia",
+      "Legea nr. 350/2001 - amenajarea teritoriului și urbanism",
+      "Hotărâri ale consiliului local privind administrarea domeniului public"
+    ],
+    "subordonare": "Sub autoritatea primarului, în coordonarea Consiliului Local",
+    "natura_juridica": "Serviciu public de interes local"
+  },
+  "atributii_principale": [
+    "Administrarea și întreținerea străzilor, aleilor și căilor de acces publice locale",
+    "Întreținerea și repararea trotuarelor și rigolelor",
+    "Administrarea și întreținerea spațiilor verzi publice (parcuri, grădini publice, fâșii verzi)",
+    "Administrarea și întreținerea parcărilor publice",
+    "Administrarea și întreținerea iluminatului public stradal",
+    "Administrarea și întreținerea rețelelor de canalizare pluvială",
+    "Administrarea și întreținerea mobilierului urban (bănci, coșuri gunoi, indicatoare)",
+    "Întreținerea monumentelor publice și a statuilor din domeniul public",
+    "Eliberarea avizelor pentru ocuparea temporară a domeniului public",
+    "Administrarea pieței locale și a piețelor agroalimentare",
+    "Gestionarea cimitirelor publice locale",
+    "Inventarierea și evidența bunurilor din domeniul public local",
+    "Controlul și sancționarea încălcărilor privind folosirea domeniului public",
+    "Emiterea autorizațiilor pentru terase, chioșcuri, tonete pe domeniul public",
+    "Coordonarea lucrărilor de intervenție pe domeniul public (utilități, reparații)"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Direcția Administrarea Domeniului Public", "domeniu public local",
+      "serviciu tehnic primar", "administrare străzi", "spații verzi publice"
+    ],
+    "termeni_populari": [
+      "domeniul public", "serviciul tehnic", "primaria tehnic",
+      "intretinere strazi", "parcuri publice", "iluminat public"
+    ],
+    "probleme_cetatean": [
+      "gropă în stradă", "asfalt spart", "groapă pe drum",
+      "trotuare distruse", "borduri rupte", "rigolă spartă",
+      "iluminat public defect", "stâlp iluminat nefuncțional", "lampă stradală arsă",
+      "spațiu verde neîngrijit", "parc murdar", "iarbă netăiată în parc",
+      "copac căzut", "copac uscat periculos", "creangă ruptă",
+      "parcare publică blocată", "loc parcare public",
+      "autorizație terasă", "chioșc domeniu public", "tonete pe domeniu public",
+      "ocupare domeniu public", "taxă terasă stradală",
+      "cimitir public", "loc de veci", "întreținere cimitir",
+      "piață agroalimentară", "program piață", "tarife piață",
+      "canalizare pluvială înfundată", "gură scurgere blocată",
+      "mobilier urban distrus", "bancă publică ruptă", "coș gunoi lipsă",
+      "monument public degradat", "statuie vandalizată"
+    ],
+    "domenii_semantice": [
+      "domeniu", "public", "stradă", "drum", "asfalt", "trotuare",
+      "iluminat", "public", "stradal", "lampă", "stâlp",
+      "spațiu", "verde", "parc", "grădină", "iarbă", "copac", "pomi",
+      "parcare", "loc", "autovehicul",
+      "terasă", "chioșc", "tonetă", "autorizație", "ocupare",
+      "cimitir", "loc", "veci", "mormânt",
+      "piață", "agroalimentar", "tarif",
+      "mobilier", "urban", "bancă", "coș", "indicator",
+      "întreținere", "reparație", "curățenie", "administrare"
+    ],
+    "termeni_gresiti": [
+      "directia de domeniu public", "serviciul domeniului",
+      "primaria tehnic", "biroul tehnic"
+    ],
+    "contexte_situationale": [
+      "unde reclam o groapă în stradă", "cine repară trotuarele",
+      "vreau să raportez iluminat public defect", "cine taie iarba în parc",
+      "unde obțin autorizație pentru terasă", "cum ocup domeniul public legal",
+      "cine întreține cimitirul public", "unde cumpăr loc de veci",
+      "cum raportez copac periculos", "unde sesizez bancă publică ruptă",
+      "cine repară canalizarea pluvială", "unde reclam gură scurgere înfundată",
+      "cum obțin aviz ocupare domeniu public", "tarife piață agroalimentară"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre programele de întreținere a străzilor",
+    "Date despre contractele de întreținere a spațiilor verzi",
+    "Informații despre achizițiile pentru iluminat public",
+    "Rapoarte despre lucrările de reparații efectuate",
+    "Date despre avizele și autorizațiile pentru ocuparea domeniului public",
+    "Informații despre veniturile din taxe ocupare domeniu public",
+    "Rapoarte despre inventarul bunurilor din domeniul public",
+    "Date despre sesizările cetățenilor și modul de rezolvare",
+    "Informații despre programele de investiții în infrastructură locală"
+  ],
+  "procedura_544": {
+    "contact_cereri": "domeniupublic@primaria{localitate}.ro",
+    "departament_responsabil": "Director Direcție / Șef Serviciu Domeniu Public",
+    "observatii": "Programele de lucrări sunt publice și afișate"
+  },
+  "departamente_tipice": {
+    "strazi_drumuri": "Întreținere și reparații străzi, trotuare, alei",
+    "spatii_verzi": "Administrare parcuri, grădini, fâșii verzi, tăieri pomi",
+    "iluminat_public": "Întreținere și reparații iluminat stradal",
+    "piete_cimitire": "Administrare piețe agroalimentare și cimitire publice",
+    "autorizari": "Eliberare avize și autorizații ocupare domeniu public",
+    "evidenta_patrimoniu": "Inventar și evidență bunuri domeniu public"
+  },
+  "servicii_catre_cetateni": {
+    "sesizari": "Primire și rezolvare sesizări despre domeniul public",
+    "autorizatii_ocupare": "Eliberare autorizații terase, chioșcuri, evenimente",
+    "informatii_piete": "Program și tarife piețe agroalimentare",
+    "informatii_cimitir": "Regulament, tarife locuri de veci",
+    "raportare_online": "Platforme online pentru raportare probleme domeniu public"
+  },
+  "structura_conducere": {
+    "director_executiv": "În municipii mari - Director Executiv",
+    "sef_serviciu": "În orașe - Șef Serviciu",
+    "responsabil_compartiment": "În comune - Responsabil compartiment tehnic",
+    "subordonare": "Sub autoritatea directă a primarului"
+  }
+}

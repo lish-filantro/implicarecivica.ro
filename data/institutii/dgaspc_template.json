@@ -1,0 +1,201 @@
+{
+  "id": "DGASPC_TEMPLATE",
+  "tip_institutie": "Direcție Generală de Asistență Socială și Protecția Copilului",
+  "nivel": "Județean/Local",
+  "nume_oficial": "Direcția Generală de Asistență Socială și Protecția Copilului {JUDET}",
+  "nume_scurt": "DGASPC {JUDET}",
+  "aplicabilitate": "Structură la nivel județean (în subordinea CJ) sau municipii mari (în subordinea primăriei)",
+  "template_pattern": {
+    "nume_format": "DGASPC {judet} sau Direcția de Asistență Socială {municipiu}",
+    "site_format": "http://dgaspc{judet}.ro sau pagină pe site CJ/primărie",
+    "email_format": "office@dgaspc{judet}.ro sau contact@dgaspc{judet}.ro",
+    "adresa_format": "În reședința de județ sau municipiu",
+    "coordonate_variabile": [
+      "judet",
+      "municipiu",
+      "tip_structura"
+    ]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 272/2004 privind protecția copilului",
+    "reglementari_specifice": [
+      "Legea nr. 292/2011 - asistență socială",
+      "Legea nr. 448/2006 - protecția persoanelor cu handicap",
+      "Legea nr. 217/2003 - prevenirea violenței în familie",
+      "ROF aprobat de CJ sau consiliul local"
+    ],
+    "subordonare": "Consiliu Județean (județean) sau Primărie (local - municipii mari)"
+  },
+  "atributii_principale": [
+    "Protecția copilului în dificultate și a copilului separat de părinți",
+    "Prevenirea separării copilului de familie",
+    "Evaluarea situației copiilor aflați în dificultate",
+    "Plasament familial și supraveghere asistenți maternali",
+    "Gestionarea centrelor de plasament și caselor de tip familial",
+    "Evaluarea și atestarea asistenților maternali",
+    "Servicii de asistență socială pentru persoane adulte în dificultate",
+    "Evaluarea persoanelor cu handicap și emiterea certificatelor de încadrare",
+    "Servicii pentru victimele violenței domestice",
+    "Gestionarea cantinelor sociale și adăposturilor de noapte",
+    "Acordarea ajutoarelor sociale și a alocațiilor",
+    "Servicii de îngrijire la domiciliu pentru persoane vârstnice"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "DGASPC",
+      "Direcția de Asistență Socială",
+      "protecția copilului",
+      "asistență socială",
+      "certificat de încadrare în grad de handicap",
+      "asistent maternal",
+      "plasament familial"
+    ],
+    "termeni_populari": [
+      "protectia copilului",
+      "asistenta sociala",
+      "handicap",
+      "certificat handicap",
+      "ajutor social",
+      "cantina sociala",
+      "asistent maternal",
+      "casa copilului"
+    ],
+    "probleme_cetatean": [
+      "certificat de încadrare în handicap",
+      "comisia de handicap",
+      "grad de handicap",
+      "evaluare handicap",
+      "reevaluare handicap",
+      "copil abuzat",
+      "copil neglijat",
+      "violență împotriva copilului",
+      "sesizare protecția copilului",
+      "raportare abuz copil",
+      "ajutor social",
+      "venit minim garantat",
+      "alocație suport",
+      "cantină socială",
+      "masă caldă",
+      "adăpost noapte",
+      "îngrijire la domiciliu",
+      "asistent personal",
+      "indemnizație însoțitor",
+      "violență domestică",
+      "ordin protecție",
+      "centru victimă",
+      "asistent maternal atestare",
+      "plasament copil",
+      "adopție copil",
+      "tutelă",
+      "curatela"
+    ],
+    "domenii_semantice": [
+      "asistență",
+      "protecție",
+      "copil",
+      "minor",
+      "handicap",
+      "dizabilitate",
+      "social",
+      "ajutor",
+      "alocație",
+      "suport",
+      "evaluare",
+      "certificat",
+      "încadrare",
+      "grad",
+      "comisie",
+      "abuz",
+      "neglijență",
+      "violență",
+      "victimă",
+      "plasament",
+      "asistent maternal",
+      "centru",
+      "cămin",
+      "cantină",
+      "masă",
+      "adăpost",
+      "îngrijire",
+      "servicii"
+    ],
+    "termeni_gresiti": [
+      "directia protectia copilului",
+      "casa handicapatilor",
+      "comisia de handicap",
+      "asistenta sociala primarie"
+    ],
+    "contexte_situationale": [
+      "unde obțin certificat de handicap",
+      "cum evaluez gradul de handicap",
+      "vreau să raportez un copil abuzat",
+      "unde sesizez violență împotriva copilului",
+      "cum solicit ajutor social",
+      "unde mă înscriu la cantina socială",
+      "vreau să devin asistent maternal",
+      "cum adopt un copil",
+      "unde cer ajutor pentru violență domestică",
+      "cum obțin asistent personal",
+      "unde raportez un copil lăsat nesupraveghat",
+      "cum cer îngrijire la domiciliu"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de evaluare a handicapului",
+    "Date despre copiii aflați în sistemul de protecție",
+    "Informații despre centrele de plasament și capacitatea acestora",
+    "Rapoarte despre asistenții maternali profesionali",
+    "Date despre ajutoarele sociale acordate",
+    "Informații despre serviciile sociale disponibile",
+    "Rapoarte despre sesizările de abuz și neglijență",
+    "Date despre achizițiile publice și contractele",
+    "Informații despre bugetul și cheltuielile DGASPC",
+    "Rapoarte despre programele de prevenție implementate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Evaluare Complexă a Persoanelor cu Handicap",
+      "atributii": "Evaluarea și încadrarea în grad de handicap",
+      "contact": "Compartiment Handicap"
+    },
+    {
+      "nume": "Serviciul Protecția Copilului",
+      "atributii": "Evaluare situație copii, măsuri protecție, monitorizare",
+      "contact": "Asistent social coordonator caz"
+    },
+    {
+      "nume": "Serviciul Asistenți Maternali",
+      "atributii": "Atestare, supraveghere, sprijin asistenți maternali",
+      "contact": "Compartiment Plasament Familial"
+    },
+    {
+      "nume": "Serviciul Prevenire și Intervenție în Comunitățile Marginalizate",
+      "atributii": "Servicii comunitare, cantină socială, ajutoare sociale",
+      "contact": "Asistent social comunitar"
+    },
+    {
+      "nume": "Compartiment Violență Domestică",
+      "atributii": "Servicii pentru victime, consiliere, adăpostire temporară",
+      "contact": "Centru de zi victimă"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@dgaspc{judet}.ro",
+    "departament_responsabil": "Compartiment Juridic / Relații Publice",
+    "observatii": "Rapoarte anuale de activitate publicate"
+  },
+  "exemple_concrete": [
+    {
+      "tip": "județean",
+      "nume": "DGASPC Cluj",
+      "judet": "Cluj",
+      "observatii": "Structură complexă cu multiple centre și servicii"
+    },
+    {
+      "tip": "local",
+      "nume": "Direcția de Asistență Socială București - Sector 1",
+      "observatii": "Fiecare sector din București are DGASPC proprie"
+    }
+  ],
+  "nota_actualizare": "Ajutoarele sociale (VMG - venitul minim garantat) sunt acordate de primărie, nu de DGASPC. DGASPC coordonează, verifică și gestionează anumite prestații sociale specifice (ex. alocații pentru copii cu handicap)."
+}

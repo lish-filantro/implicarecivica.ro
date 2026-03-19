@@ -1,0 +1,123 @@
+{
+  "id": "ANP",
+  "tip_institutie": "Instituție Publică Specializată",
+  "nivel": "National",
+  "nume_oficial": "Administrația Națională a Penitenciarelor",
+  "nume_scurt": "ANP",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "București (sediu central)",
+    "cod_postal": "Variabil",
+    "telefon": "Prin site oficial anp.gov.ro",
+    "email": "contact@anp.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://anp.gov.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/147105",
+    "rof_complet": "https://anp.gov.ro/despre-anp/legislatie-de-organizare-si-functionare/",
+    "transparenta": "https://anp.gov.ro/transparenta-decizionala/",
+    "formulare_544": "https://anp.gov.ro/contact-anp/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 756/2016 privind organizarea, funcționarea și atribuțiile ANP (înlocuiește HG 1849/2004)",
+    "actualizari": [
+      "HG nr. 1849/2004 - abrogată după 12 ani (28 octombrie 2004 - 26 octombrie 2016)",
+      "Ordinul MJ nr. 160/C/2018 - ROF ANP",
+      "Legea nr. 254/2013 - executarea pedepselor privative de libertate",
+      "HG nr. 157/2016 - Regulament de aplicare Legea 254/2013"
+    ]
+  },
+  "atributii_principale": [
+    "Coordonarea și controlul activităților din penitenciarele românești",
+    "Dezvoltarea politicilor și standardelor pentru siguranța unităților de detenție",
+    "Asigurarea respectării drepturilor persoanelor private de libertate",
+    "Organizarea programelor de reeducare și reintegrare socială",
+    "Consiliere psihologică, formare profesională și asistență socială",
+    "Recrutarea, formarea și evaluarea personalului din sistemul penitenciar",
+    "Monitorizarea condițiilor de detenție și măsuri de îmbunătățire",
+    "Cooperarea cu organizații internaționale pentru drepturile omului"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Administrația Națională a Penitenciarelor", "ANP", "sistem penitenciar",
+      "executarea pedepselor", "detenție", "penitenciare", "unități de detenție"
+    ],
+    "termeni_populari": [
+      "anp romania", "închisoarea", "pușcăria", "sistemul carceral",
+      "penitenciarul", "deținuții", "condițiile din închisori"
+    ],
+    "probleme_cetatean": [
+      "vizita la deținut", "transfer deținut", "plângere împotriva penitenciarului",
+      "condițiile de detenție", "programele de reintegrare", "eliberarea deținuților",
+      "drepturile deținuților", "pachete pentru deținuți", "muncă în detenție"
+    ],
+    "domenii_semantice": [
+      "penitenciar", "închisoare", "detenție", "deținut", "condamnat", "arestare",
+      "pedeapsa", "executarea pedepsei", "regim de detenție", "supraveghere",
+      "reintegrare", "reeducare", "personal penitenciar", "vizite", "corespondenţă"
+    ],
+    "termeni_gresiti": [
+      "administratia penitenciarelor", "anp bucuresti", "casa penitenciarelor",
+      "ministerul penitenciarelor", "agentia penitenciarelor"
+    ],
+    "contexte_situationale": [
+      "vreau să vizitez un deținut", "unde fac plângere pentru condițiile din închisoare",
+      "cine se ocupă de penitenciare", "informații despre transferul deținuților",
+      "cum funcționează sistemul penitenciar", "drepturile deținuților",
+      "programele de reintegrare socială", "unde lucrez în sistemul penitenciar"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul alocat sistemului penitenciar",
+    "Date despre condițiile de detenție și investițiile în infrastructură",
+    "Informații despre programele de reintegrare și eficiența acestora",
+    "Statistici privind populația carcerală și distribuția pe categorii",
+    "Date despre personalul din sistemul penitenciar și formarea acestuia",
+    "Informații despre contractele de achiziții pentru unități penitenciare",
+    "Rapoarte privind respectarea drepturilor omului în penitenciare",
+    "Date despre costurile de întreținere per deținut",
+    "Informații despre cooperarea internațională în domeniul penitenciar"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Comunicare și Relații cu Publicul",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "contact@anp.gov.ro, prin site anp.gov.ro"
+    },
+    {
+      "nume": "Direcția Generală Penitenciare",
+      "atributii": "Coordonarea unităților penitenciare și regimurilor de detenție",
+      "contact": "Prin centrală ANP"
+    },
+    {
+      "nume": "Direcția Dezvoltare Resurse Umane",
+      "atributii": "Formarea și dezvoltarea personalului penitenciar",
+      "contact": "Prin centrală ANP"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "contact@anp.gov.ro",
+    "sectiune_web": "https://anp.gov.ro/contact-anp/",
+    "departament_responsabil": "Serviciul Comunicare și Relații cu Publicul",
+    "transparenta_institutionala": "Rapoarte, studii și date statistice publicate pe anp.gov.ro",
+    "plangeri_reclamatii": "Proces specific pentru plângeri privind personalul ANP sau condițiile din unități"
+  },
+  "structura_organizatorica": {
+    "subordinea": "Ministerul Justiției",
+    "personalitate_juridica": "Da, instituție publică de interes național",
+    "conducere": "Director general + directori generali adjuncți",
+    "consiliu_management": "Organ consultativ pentru măsuri de îmbunătățire",
+    "unitati_subordonate": "Penitenciare, spitale penitenciare, centre de reținere"
+  },
+  "sistem_penitenciar": {
+    "tipuri_unitati": [
+      "Penitenciare de regim închis, semi-deschis, deschis",
+      "Penitenciare-spital",
+      "Centre de reținere și arestare preventivă",
+      "Centre de reeducare pentru minori"
+    ],
+    "acoperire_teritoriala": "Rețea distribuită teritorial cu cel puțin o unitate specializată per regiune",
+    "programe_specifice": "Reeducare, consiliere psihologică, formare profesională, asistență socială"
+  },
+  "template_pattern": null
+}

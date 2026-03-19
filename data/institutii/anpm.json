@@ -1,0 +1,183 @@
+{
+  "id": "ANPM",
+  "tip_institutie": "Agenție Națională (reorganizată în 2025)",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională pentru Mediu și Arii Protejate (ANMAP - din 2025, fostă ANPM)",
+  "nume_scurt": "ANMAP (fost ANPM)",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Splaiul Independenței nr. 294, Sector 6, București (sediu fostă ANPM)",
+    "cod_postal": "060031",
+    "telefon": "021.207.10.00",
+    "email": "office@anpm.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "http://www.anpm.ro",
+    "legislatie_organizare": "http://www.anpm.ro/web/guest/legislatie",
+    "rof_complet": "http://www.anpm.ro",
+    "transparenta": "http://www.anpm.ro/informatii-publice",
+    "formulare_544": "http://www.anpm.ro/contact"
+  },
+  "legislatie_baza": {
+    "document_principal_vechi": "HG nr. 1000/2012 privind organizarea și funcționarea ANPM (până în aprilie 2025)",
+    "document_nou_2025": "HG nr. 311/03.04.2025 privind organizarea și funcționarea ANMAP (Agenția Națională pentru Mediu și Arii Protejate)",
+    "oug_infiintare": "OUG pentru înființarea ANMAP - aprilie 2025",
+    "reorganizare": "ANPM, ANANP și APM-urile au fost comasate în ANMAP în aprilie 2025",
+    "document_principal": "HG nr. 311/2025 privind organizarea și funcționarea ANMAP (Agenția Națională pentru Mediu și Arii Protejate)",
+    "actualizari": [
+      "Fuziune ANPM + ANANP → ANMAP (aprilie 2025 prin HG 311/2025)",
+      "Anterior: HG nr. 1000/2012 privind ANPM"
+    ]
+  },
+  "atributii_principale": [
+    "Coordonarea și implementarea politicii naționale de protecție a mediului",
+    "Monitorizarea calității mediului (aer, apă, sol)",
+    "Emiterea autorizațiilor de mediu",
+    "Gestionarea și conservarea ariilor naturale protejate (din 2025)",
+    "Controlul și monitorizarea agenților economici privind respectarea legislației de mediu",
+    "Evaluarea impactului asupra mediului pentru proiecte majore",
+    "Coordonarea direcțiilor județene pentru mediu și arii protejate",
+    "Raportarea către Agenția Europeană de Mediu",
+    "Monitorizarea emisiilor de poluanți în mediu",
+    "Gestionarea bazelor de date privind starea mediului"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Națională pentru Mediu",
+      "ANPM",
+      "ANMAP",
+      "protecția mediului",
+      "calitatea mediului",
+      "autorizație de mediu",
+      "arii naturale protejate",
+      "monitorizare mediu"
+    ],
+    "termeni_populari": [
+      "ANPM",
+      "agentia de mediu",
+      "autorizatie mediu",
+      "poluare",
+      "monitorizare aer",
+      "calitate apa",
+      "arii protejate"
+    ],
+    "probleme_cetatean": [
+      "autorizație integrată de mediu",
+      "aviz de mediu",
+      "permis de mediu",
+      "poluare aer",
+      "calitate aer București",
+      "monitorizare poluare",
+      "poluare apă",
+      "calitate apă râu",
+      "deversare apă uzată",
+      "raport mediu",
+      "studiu impact mediu",
+      "evaluare mediu",
+      "arie naturală protejată",
+      "parc național",
+      "rezervație naturală",
+      "emisii industriale",
+      "poluare fabrică",
+      "control poluare",
+      "reclamație poluare",
+      "sesizare mediu",
+      "raportare poluant",
+      "certificat verde",
+      "măsuri mediu",
+      "protecție biodiversitate",
+      "deșeuri periculoase",
+      "gestionare deșeuri",
+      "gunoi toxic"
+    ],
+    "domenii_semantice": [
+      "mediu",
+      "protecție",
+      "calitate",
+      "monitorizare",
+      "aer",
+      "apă",
+      "sol",
+      "poluare",
+      "emisii",
+      "contaminare",
+      "autorizație",
+      "aviz",
+      "permis",
+      "evaluare",
+      "impact",
+      "arie",
+      "protejată",
+      "rezervație",
+      "parc",
+      "național",
+      "biodiversitate",
+      "natură",
+      "ecosistem",
+      "conservare",
+      "deșeuri",
+      "toxic",
+      "periculos",
+      "hazardos",
+      "industrial",
+      "fabrică",
+      "agent",
+      "economic",
+      "raport",
+      "date",
+      "statistici",
+      "monitoring"
+    ],
+    "termeni_gresiti": [
+      "ANPM mediu",
+      "agentia nationala mediu",
+      "agentia pentru mediu"
+    ],
+    "contexte_situationale": [
+      "vreau să obțin autorizație de mediu",
+      "cum solicit aviz de mediu",
+      "vreau să raportez poluare aer",
+      "unde sesizez miros neplăcut industrial",
+      "cum verific calitatea aerului în București",
+      "unde găsesc date poluare",
+      "vreau să raportez deversare în râu",
+      "unde sesizez poluare apă",
+      "cum aflu dacă terenul este în arie protejată",
+      "restricții construcție parc național",
+      "vreau să verific emisiile fabricii din zonă",
+      "cum raportez poluare industrială"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare date calitate aer și apă",
+    "Informații despre autorizațiile de mediu emise",
+    "Rapoarte monitorizare mediu",
+    "Date despre controalele efectuate",
+    "Informații despre ariile naturale protejate",
+    "Rapoarte despre emisiile de poluanți"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcții Județene pentru Mediu și Arii Protejate",
+      "atributii": "Control local, autorizări, monitorizare la nivel județean",
+      "contact": "În fiecare județ (fostele APM + structuri ANANP)"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@anpm.ro",
+    "departament_responsabil": "Compartiment Juridic / Relații Publice",
+    "observatii": "În proces de reorganizare în 2025"
+  },
+  "reorganizare_2025": {
+    "data": "3 aprilie 2025",
+    "hg": "HG nr. 311/2025",
+    "schimbare": "Fuziunea ANPM + ANANP + APM-uri în ANMAP (Agenția Națională pentru Mediu și Arii Protejate)",
+    "pozitii": "Maximum 2.001 posturi",
+    "probleme": "Reorganizarea a creat blocaj instituțional, fără măsuri tranzitorii clare. Personalul nu știe atribuțiile exacte. Transfer personal după minimum 30 zile.",
+    "impact_local": "La nivel județean, structurile devin Direcții pentru Mediu și Arii Protejate, fără personalitate juridică"
+  },
+  "observatie_critica": {
+    "nota": "ANPM a fost reorganizată în aprilie 2025 prin HG 311/2025, creând ANMAP. Procesul a fost criticat de organizațiile de mediu pentru lipsa măsurilor tranzitorii, generând un blocaj instituțional. Datele de contact și atribuțiile pot fi în tranziție."
+  },
+  "nota_actualizare": "Din aprilie 2025, ANPM s-a comasat cu ANANP și s-a redenumit ANMAP (Agenția Națională pentru Mediu și Arii Protejate). JSON actualizat."
+}

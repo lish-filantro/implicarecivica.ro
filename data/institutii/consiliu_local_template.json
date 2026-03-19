@@ -1,0 +1,85 @@
+{
+  "id": "CONSILIU_LOCAL_TEMPLATE",
+  "tip_institutie": "Consiliu Local",
+  "nivel": "Local",
+  "nume_oficial": "Consiliul Local al {LOCALITATE}",
+  "nume_scurt": "CL {LOCALITATE}",
+  "aplicabilitate": "Toate cele 3.181 UAT-uri din România",
+  "template_pattern": {
+    "nume_format": "Consiliul Local al {tip_localitate} {nume_localitate}",
+    "site_format": "Același cu primăria - http://primaria{localitate}.ro",
+    "email_format": "consiliu@primaria{localitate}.ro sau același cu primăria",
+    "adresa_format": "În sediul primăriei",
+    "coordonate_variabile": ["localitate", "judet", "tip_localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 215/2001 privind administrația publică locală",
+    "reglementari_specifice": [
+      "OUG nr. 57/2019 - Codul administrativ",
+      "ROF propriu adoptat prin HCL"
+    ],
+    "natura_juridica": "Autoritate deliberativă la nivel local"
+  },
+  "atributii_principale": [
+    "Adoptarea hotărârilor pentru dezvoltarea economică, socială și culturală a localității",
+    "Aprobarea bugetului local și a contului de încheiere a exercițiului bugetar",
+    "Stabilirea impozitelor și taxelor locale în limitele legii",
+    "Administrarea domeniului public și privat al localității",
+    "Aprobarea documentațiilor de urbanism și amenajarea teritoriului",
+    "Înființarea și organizarea serviciilor publice locale",
+    "Aprobarea strategiilor de dezvoltare locală",
+    "Controlul activității primarului și a serviciilor publice locale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Consiliul Local", "CL", "consilieri locali", "hotărâre consiliu local",
+      "HCL", "ședință consiliu local", "deliberativ local"
+    ],
+    "termeni_populari": [
+      "consiliul local", "consilieri", "hotarare CL",
+      "sedinta consiliu", "dezbatere publica"
+    ],
+    "probleme_cetatean": [
+      "hotărâre consiliu local", "HCL", "vot consiliu",
+      "ședință publică", "dezbatere publică locală",
+      "buget local", "impozite locale", "taxe locale",
+      "documentație urbanism", "PUZ", "PUG",
+      "zona construibil", "regulament local",
+      "consilier local circonscripție", "petiție consiliu"
+    ],
+    "domenii_semantice": [
+      "consiliu", "consilier", "deliberativ", "hotărâre", "HCL",
+      "ședință", "vot", "dezbatere", "public",
+      "buget", "impozit", "taxă", "urbanism",
+      "dezvoltare locală", "servicii publice"
+    ],
+    "termeni_gresiti": [
+      "consiliul local", "consiliul primariei"
+    ],
+    "contexte_situationale": [
+      "unde găsesc hotărârile consiliului local", "când sunt ședințele CL",
+      "cum particip la ședință publică", "vreau să depun petiție la consiliu",
+      "cine sunt consilierii locali", "cum votează consiliul local",
+      "unde găsesc bugetul local", "când este dezbatere publică"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare copii hotărâri consiliu local",
+    "Informații despre procesele-verbale ale ședințelor",
+    "Date despre prezența consilierilor la ședințe",
+    "Rapoarte despre comisiile de specialitate",
+    "Informații despre dezbaterile publice organizate",
+    "Date despre inițiativele legislative locale"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Același cu primăria",
+    "departament_responsabil": "Secretar general UAT / Compartiment Juridic",
+    "observatii": "HCL-urile sunt publice și afișate obligatoriu"
+  },
+  "structura": {
+    "consilieri_locali": "Număr variabil în funcție de populația localității",
+    "presedinte_sedinta": "Primar sau viceprimar",
+    "secretar_general": "Asigură secretariatul ședințelor",
+    "comisii_specialitate": "Comisii pentru buget, urbanism, social, cultură"
+  }
+}

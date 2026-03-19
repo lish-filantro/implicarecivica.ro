@@ -1,0 +1,119 @@
+{
+  "id": "MINISTERUL_JUSTITIEI",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Justiției",
+  "nume_scurt": "MJ",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Apolodor, Nr. 17, Sector 5, București",
+    "cod_postal": "050741",
+    "telefon": "Prin centrală ministerială",
+    "email": "relatiipublice@just.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.just.ro",
+    "legislatie_organizare": "https://lege5.ro/Gratuit/ge2temzug44tk/hotararea-nr-592-2024-privind-organizarea-si-functionarea-ministerului-justitiei",
+    "rof_complet": "https://lege5.ro/gratuit/geytemzvgy4dc/regulamentul-de-organizare-si-functionare-a-ministerului-justitiei-din-06052022",
+    "transparenta": "https://www.just.ro/transparenta-decizionala/",
+    "formulare_544": "https://www.just.ro/formular-legea544-v2/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 592/2024 privind organizarea și funcționarea Ministerului Justiției",
+    "actualizari": [
+      "Regulament de Organizare și Funcționare (06.05.2022)",
+      "Legea nr. 303/2022 privind statutul judecătorilor și procurorilor",
+      "Legea nr. 304/2022 privind organizarea judiciară",
+      "Legea nr. 305/2022 privind Consiliul Superior al Magistraturii"
+    ]
+  },
+  "atributii_principale": [
+    "Elaborarea politicilor în domeniul justiției și sistemului judiciar",
+    "Coordonarea sistemului penitenciar și de probațiune",
+    "Organizarea și coordonarea profesiilor juridice (notari, executori, avocați)",
+    "Cooperarea judiciară internațională și extrădarea",
+    "Gestionarea resurselor pentru sistemul judiciar",
+    "Administrarea ajutorului juridic gratuit",
+    "Monitorizarea și evaluarea activității instanțelor",
+    "Elaborarea și propunerea actelor normative în domeniul justiției"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Justiției", "MJ", "Minister Justiție", "sistem judiciar",
+      "administrarea justiției", "politici judiciare", "cooperare judiciară internațională"
+    ],
+    "termeni_populari": [
+      "ministrul justiției", "ministerul justitiei", "minister justiție",
+      "justiția", "tribunalul", "judecatoria", "instanța", "magistrații"
+    ],
+    "probleme_cetatean": [
+      "proces civil", "proces penal", "ajutor juridic gratuit", "avocat din oficiu",
+      "notariat", "executor judecătoresc", "extrădare", "cooperare judiciară",
+      "plângere penală", "contestație", "recursul", "cazier judiciar"
+    ],
+    "domenii_semantice": [
+      "justiție", "drept", "lege", "tribunal", "judecător", "procuror", "avocat",
+      "notar", "executor", "proces", "sentință", "hotărâre", "penitenciar",
+      "probațiune", "magistrat", "instanță", "jurisdicție", "litigiu"
+    ],
+    "termeni_gresiti": [
+      "ministerul justitiei", "ministeru justitiei", "casa justitiei",
+      "ministerul legii", "minister tribunale"
+    ],
+    "contexte_situationale": [
+      "unde fac plângere penală", "cum obțin ajutor juridic gratuit",
+      "vreau să știu despre procedurile judiciare", "cine se ocupă de notariat",
+      "informații despre executorii judecătorești", "unde contest o hotărâre",
+      "cum funcționează sistemul penitenciar", "cooperare judiciară cu străinătatea"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul alocat sistemului judiciar",
+    "Date despre criteriile de selecție pentru funcții în magistratură",
+    "Informații despre programele de ajutor juridic gratuit",
+    "Rapoarte privind eficiența sistemului penitenciar",
+    "Date despre cooperarea judiciară internațională și costurile aferente",
+    "Informații despre reformele în curs în sistemul judiciar",
+    "Statistici privind durata proceselor în instanțe",
+    "Date despre investițiile în infrastructura judiciară",
+    "Informații despre programele de formare a magistraților"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Relații Publice",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "relatiipublice@just.ro, responsabil: Cătălina Stănesc"
+    },
+    {
+      "nume": "Direcția Generală pentru Politici de Justiție",
+      "atributii": "Elaborarea și implementarea politicilor în domeniul justiției",
+      "contact": "Prin centrală MJ"
+    },
+    {
+      "nume": "Direcția pentru Cooperare Judiciară Internațională",
+      "atributii": "Coordonarea cooperării judiciare și extrădării",
+      "contact": "Prin centrală MJ"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "relatiipublice@just.ro",
+    "responsabil_544": "Cătălina Stănesc",
+    "departament_responsabil": "Serviciul Relații Publice",
+    "formular_online": "https://www.just.ro/formular-legea544-v2/",
+    "sediu_registratura": "Str. Apolodor, Nr. 17, Sector 5, București",
+    "audiențe_publice": "Conform art. 167 din ROF - doar informații generale, nu cazuri specifice"
+  },
+  "conducere_2024": {
+    "ministru": "Radu Marinescu",
+    "secretari_stat": ["Ioan Turc", "Roxana Simona Momeu"],
+    "posturi_ocupate": "2.678 posturi (august 2024)"
+  },
+  "instituții_subordonate": [
+    "Administrația Națională a Penitenciarelor (ANP)",
+    "Institutul Național de Criminalistică",
+    "Institutul Național de Expertize Criminalistice",
+    "Școala Națională de Grefieri",
+    "Centrul de Formare și Dezvoltare Profesională"
+  ],
+  "template_pattern": null
+}

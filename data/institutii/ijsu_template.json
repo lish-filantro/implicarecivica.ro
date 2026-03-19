@@ -1,0 +1,110 @@
+{
+  "id": "IJSU_JUDETEAN",
+  "tip_institutie": "Instituție de protecție civică și situații de urgență",
+  "nivel": "Județean",
+  "nume_oficial": "Inspectoratul Județean pentru Situații de Urgență {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 307/2006 privind apărarea împotriva incendiilor",
+    "legi_complementare": [
+      "OUG 21/2004 privind Sistemul Național de Management al Situațiilor de Urgență",
+      "Regulamente IGSU (Inspectoratul General pentru Situații de Urgență)"
+    ]
+  },
+  "atributii_principale": [
+    "Stingerea incendiilor și salvarea persoanelor din pericol",
+    "Acordare de asistență medicală de urgență prin serviciul SMURD",
+    "Descarcerare și extrication persoane din vehicule și structuri",
+    "Gestionarea situațiilor de urgență și coordonare răspuns",
+    "Emitere avize și autorizații ISU pentru protecție la incendiu",
+    "Inspecții de prevenire incendii și verificări compliance legislativ",
+    "Pregătire și instruire a populației în comportament de urgență",
+    "Coordonare operații de protecție civică în caz de dezastre",
+    "Dezvoltare și implementare de planuri de management situații de urgență",
+    "Menținere și gestionare a mijloacelor și echipamentelor de intervențe",
+    "Colaborare cu alte instituții și servicii de urgență (ambulanță, poliție)",
+    "Rapoarte și statistici privind situațiile de urgență la nivel județean"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "pompieri",
+      "situații de urgență",
+      "stingere incendii",
+      "protecție civică",
+      "SMURD",
+      "aviz ISU",
+      "descarcerare",
+      "securitate la incendiu"
+    ],
+    "termeni_populari": [
+      "pompieri județ",
+      "sunați 112",
+      "incendiu casă",
+      "accident mașină",
+      "curs prim ajutor",
+      "aviz incendiu"
+    ],
+    "probleme_cetatean": [
+      "cum obțin aviz de protecție la incendiu",
+      "cum verific conformitatea edificiului cu normele ISU",
+      "cum solicitu inspectare prevenire incendii",
+      "cum primesc curs de prim ajutor",
+      "cum se face evacuare în caz de incendiu"
+    ],
+    "domenii_semantice": [
+      "protecție civică",
+      "incendii",
+      "urgență medicală",
+      "dezastre naturale",
+      "evacuare"
+    ],
+    "contexte_situationale": [
+      "construcție nou imobil",
+      "renovare și modificare structuri",
+      "deschidere spațiu comercial",
+      "accident rutier",
+      "situație de urgență medicală",
+      "inundații sau alte catastrofe"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare copie aviz ISU emis anterior",
+    "Cerere informații privind inspectiile efectuate",
+    "Acces la rapoarte de evaluare risc incendiu",
+    "Solicitare date contact și program funcționare"
+  ],
+  "procedura_544": {
+    "timp_raspuns": "10-30 de zile (conform Legea 544/2001)",
+    "format_cerere": "Scrisoare cu identificare clar a informației (aviz, inspecție, proprietate)",
+    "contact": "Inspectoratul Județean pentru Situații de Urgență - Birou relații publice"
+  },
+  "procedura_aviz_isu": {
+    "denumire_procedurii": "Emitere aviz de protecție la incendiu",
+    "timp_procesare": "15-30 de zile lucratoare de la depunere",
+    "doc_necesare": [
+      "Cerere tipizată pe formular oficial",
+      "Planuri de situație și arhitecturale",
+      "Dovada plată taxă serviciu",
+      "Documentație tehnică a sistemelor de protecție"
+    ],
+    "etape": [
+      "Depunere documentație completă",
+      "Verificare conformitate documentelor",
+      "Inspecție fizică a locației",
+      "Evaluare conformitate cu normele ISU",
+      "Emitere aviz sau solicitare completări"
+    ]
+  },
+  "servicii_online": {
+    "descriere": "Hub MAI pentru solicitări avize ISU",
+    "link": "https://hub.mai.gov.ro/serviciu/view?id=22"
+  },
+  "observatii": {
+    "smurd": "Serviciul Mobil de Urgență, Reanimare și Descarcerare integrează echipe medicale și de salvare",
+    "center_apel": "Pentru urgențe: 112 (non-stop)",
+    "taxe": "[NEVERIFICAT - taxe variabile în funcție de serviciu și locație]"
+  }
+}

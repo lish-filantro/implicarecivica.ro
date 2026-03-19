@@ -1,0 +1,120 @@
+{
+  "id": "ANAF",
+  "tip_institutie": "Agenție Națională",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională de Administrare Fiscală",
+  "nume_scurt": "ANAF",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Apolodor nr. 17, Sector 5, București",
+    "cod_postal": "050741",
+    "telefon": "031.403.91.60 (Call Center)",
+    "email": "contact@anaf.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.anaf.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/152156",
+    "rof_complet": "https://www.anaf.ro/anaf/internet/ANAF/despre_anaf/organizare/regulament_organizare_functionare",
+    "transparenta": "https://www.anaf.ro/anaf/internet/ANAF/transparenta_decizionala",
+    "formulare_544": "https://www.anaf.ro/asistpublic/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 520/2013 privind organizarea și funcționarea ANAF",
+    "actualizari": [
+      "HG nr. 238/2022 - restructurare importantă",
+      "Reorganizarea Direcției Generale Antifraudă Fiscală",
+      "Reorganizarea DGAMC (Direcția Generală de Administrare a Marilor Contribuabili)",
+      "Fuziunea prin absorbție a Autorității Naționale Vamale și Gărzii Financiare (2013)"
+    ]
+  },
+  "atributii_principale": [
+    "Administrarea impozitelor, taxelor și contribuțiilor la bugetul consolidat",
+    "Colectarea și administrarea veniturilor bugetare",
+    "Activități vamale și controlul mărfurilor la frontieră",
+    "Combaterea evaziunii fiscale și fraudei",
+    "Colectarea creanțelor bugetare și recuperarea datoriilor",
+    "Supravegherea respectării legislației fiscale și vamale",
+    "Implementarea și menținerea sistemelor informatice fiscale",
+    "Asistența contribuabililor și educația fiscală"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Națională de Administrare Fiscală", "ANAF", "administrare fiscală",
+      "colectare venituri bugetare", "Direcția Generală Antifraudă Fiscală", "DGAF"
+    ],
+    "termeni_populari": [
+      "anaf romania", "fisc", "fiscul", "administrația fiscală", "agenția fiscală",
+      "taxe și impozite", "vama", "garda financiara"
+    ],
+    "probleme_cetatean": [
+      "declarație de venit", "plata taxelor", "control fiscal", "restituire TVA",
+      "întârziere la plată", "eșalonare datorii", "certificat fiscal", "recuperare TVA",
+      "contest fiscal", "amendă fiscală", "executare silită", "poprire pe cont"
+    ],
+    "domenii_semantice": [
+      "fiscalitate", "taxe", "impozite", "contribuții", "TVA", "accize", "vamă",
+      "declarații fiscale", "controale fiscale", "executare fiscală", "creanțe bugetare",
+      "evaziune fiscală", "fraudă fiscală", "SPV", "e-factura", "digitalizare fiscală"
+    ],
+    "termeni_gresiti": [
+      "anaf bucuresti", "casa fiscala", "fiscul romaniei", "agentia fiscala",
+      "administrația de taxe", "ministerul fiscului"
+    ],
+    "contexte_situationale": [
+      "unde depun declarația de venit", "cum plătesc taxele restante",
+      "vreau să contest o amendă fiscală", "cum recuperez TVA-ul",
+      "cine mă ajută cu SPV-ul", "unde fac reclamație pentru control fiscal",
+      "cum eșalonez datoriile la ANAF", "informații despre executarea silită"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre criteriile de selecție pentru controale fiscale",
+    "Date despre veniturile colectate la bugetul de stat pe categorii",
+    "Informații despre procedurile de recuperare a creanțelor bugetare",
+    "Rapoarte despre eficiența măsurilor anti-evaziune implementate",
+    "Date despre costurile de funcționare ale aparatului ANAF",
+    "Informații despre criteriile de acordare a eșalonărilor de plată",
+    "Statistici privind numărul de controale fiscale efectuate",
+    "Date despre investițiile în digitalizarea administrației fiscale",
+    "Informații despre cooperarea cu alte administrații fiscale străine"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Relații Publice și Mass-Media",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "https://www.anaf.ro/anaf/internet/ANAF/contact/relatii_publice_mass_media"
+    },
+    {
+      "nume": "Call Center ANAF",
+      "atributii": "Asistență telefonică pentru contribuabili",
+      "contact": "031.403.91.60 (Luni-Joi: 8:30-16:30, Vineri: 8:30-14:00)"
+    },
+    {
+      "nume": "Direcția Generală Antifraudă Fiscală (DGAF)",
+      "atributii": "Combaterea evaziunii fiscale și fraudei",
+      "contact": "Piața Presei Libere nr. 1, corp C3 et. 3-4, sector 1, București, Tel: 021 327 06 29, antifrauda.generala@anaf.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "contact@anaf.ro",
+    "formular_online": "https://www.anaf.ro/asistpublic/",
+    "departament_responsabil": "Serviciul Relații Publice și Mass-Media",
+    "call_center": "031.403.91.60",
+    "program_call_center": "Luni-Joi: 8:30-16:30, Vineri: 8:30-14:00",
+    "sediu_registratura": "Str. Apolodor nr. 17, Sector 5, București"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "1 octombrie 2003, operațional din ianuarie 2004",
+    "subordinea": "Ministerul Finanțelor Publice",
+    "personalitate_juridica": "Da, instituție publică cu personalitate juridică",
+    "fuziuni_importante": "Absorbția Autorității Naționale Vamale și Gărzii Financiare (30 octombrie 2013)",
+    "structuri_principale": "DGAF - fără personalitate juridică proprie"
+  },
+  "servicii_digitale": {
+    "spv": "Spațiul Privat Virtual pentru contribuabili",
+    "e_factura": "Sistem electronic de facturare și raportare",
+    "chat_online": "Asistență online pentru contribuabili",
+    "transparenta_fiscala": "Raportare automată facturilor și arhivare electronică"
+  },
+  "template_pattern": null
+}

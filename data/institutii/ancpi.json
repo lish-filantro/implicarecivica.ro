@@ -1,0 +1,95 @@
+{
+  "id": "ANCPI",
+  "tip_institutie": "Agenție Națională",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională de Cadastru și Publicitate Imobiliară",
+  "nume_scurt": "ANCPI",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Splaiul Independenței nr. 202A, Sector 6, București",
+    "cod_postal": "060022",
+    "telefon": "021.317.31.62",
+    "email": "relatiicupublicul@ancpi.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.ancpi.ro/",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/201762"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 1.445/2016 privind aprobarea structurilor organizatorice ale oficiilor de cadastru și publicitate imobiliară, Centrului de Cartografie Națională și a regulamentelor lor de organizare și funcționare",
+    "actualizari": []
+  },
+  "atributii_principale": [
+    "Coordonează și controlează executarea lucrărilor cadastrale și asigură înregistrarea proprietăților în registrul cadastral de publicitate imobiliară",
+    "Asigură execuția, completarea, modernizarea și întreținerea în stare funcțională a rețelei geodetice naționale",
+    "Organizează și administrează fondul național de geodezie și cartografie",
+    "Organizează, administrează și întreține baza de date a sistemului integrat de cadastru și registru funciar",
+    "Creează, actualizează și administrează registrul electronic național al numelor de străzi",
+    "Creează și întreține registrul electronic al limitelor unităților administrativ-teritoriale",
+    "Asigură înregistrarea sistematică și sprijină înregistrarea voluntară a proprietăților imobiliare",
+    "Furnizează informații și documente din arhiva cadastrală și de publicitate imobiliară",
+    "Certifică copiile din actele înregistrate în registrul funciar și cadastru",
+    "Coordonează activitățile celor 42 de Oficii de Cadastru și Publicitate Imobiliară (OCPI) pe plan național"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Națională de Cadastru și Publicitate Imobiliară",
+      "ANCPI",
+      "Oficiul de Cadastru și Publicitate Imobiliară",
+      "OCPI"
+    ],
+    "termeni_populari": [
+      "Cadastru",
+      "Publicitate imobiliară",
+      "Registru funciar",
+      "Birou cadastru"
+    ],
+    "probleme_cetatean": [
+      "Inregistrare proprietate",
+      "Certificat cadastral",
+      "Hartă cadastrală",
+      "Schimbare proprietar",
+      "Extract registrul funciar",
+      "Deschidere dosar imobiliar"
+    ],
+    "domenii_semantice": [
+      "Cadastru",
+      "Publicitate imobiliară",
+      "Registru funciar",
+      "Proprietate imobiliară",
+      "Topografie"
+    ],
+    "termeni_gresiti": [
+      "Agenția de Cadastre",
+      "Birou Registrul Proprietăților",
+      "ACPI"
+    ],
+    "contexte_situationale": [
+      "Vând proprietate și trebuie înregistrare",
+      "Caut hartă cadastrală a terenului",
+      "Am nevoie de certificate pentru moștenire",
+      "Vreau să înregistrez proprietate dobândită",
+      "Trebuie info despre vicinul meu"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare copie din registrul funciar și cadastru pentru o proprietate",
+    "Cerere de acces la harta cadastrală și planurile topografice",
+    "Informații despre procedurile de înregistrare a proprietăților imobiliare",
+    "Solicitare date privind proprietățile din domeniul public/privat",
+    "Cerere privind structura și competențele Oficiilor de Cadastru și Publicitate Imobiliară",
+    "Informații despre tarifele și taxele pentru servicii cadastrale",
+    "Solicitare de rapoarte asupra stadiului înregistrării sistematice în județe"
+  ],
+  "procedura_544": {
+    "contact_cereri": "relatiicupublicul@ancpi.ro",
+    "departament_responsabil": "Departamentul de Relații cu Publicul",
+    "call_center": "021.317.31.62"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2004",
+    "subordinea": "Ministerul Dezvoltării, Lucrărilor Publice și Administrației",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

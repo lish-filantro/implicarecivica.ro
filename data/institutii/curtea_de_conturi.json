@@ -1,0 +1,102 @@
+{
+  "id": "curtea_de_conturi",
+  "tip_institutie": "Instituție Supremă de Audit",
+  "nivel": "National",
+  "nume_oficial": "Curtea de Conturi a României",
+  "nume_scurt": "Curtea de Conturi",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. General Ernest Broșteanu nr. 20, sector 1",
+    "cod_postal": "010165",
+    "telefon": "+40 21 264 1350",
+    "email": "autoritateadeaudit@rcc.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.curteadeconturi.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 94/1992 privind organizarea și funcționarea Curții de Conturi",
+    "actualizari": [
+      "Constituția României - articolele privind instituțiile independente",
+      "Regulamentul (UE) nr. 883/2013 privind investigații de fraude în domeniul UE",
+      "Regulamentul (UE) nr. 2018/1046 privind regulile financiare aplicabile bugetului general al UE"
+    ]
+  },
+  "atributii_principale": [
+    "Audit al finanțelor publice și formării și administrării resurselor statului",
+    "Audit de conformitate și audit de performanță al instituțiilor publice",
+    "Examinare a conturilor finale anuale ale statului",
+    "Investigare a practicilor ilegale privind bugetul public",
+    "Elaborare de rapoarte și avize asupra gestiunii resurselor publice",
+    "Supravegherea tuturor instituțiilor care gestionează fonduri publice",
+    "Executare de audit asupra utilizării fondurilor UE în România",
+    "Raportare periodică către Parlament",
+    "Autorizare a conturilor finale ale statului",
+    "Evaluare a eficienței utilizării resurselor publice",
+    "Cooperare cu instituții similare din alte state și de la nivelul UE"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "audit",
+      "finanțe publice",
+      "buget de stat",
+      "fonduri publice",
+      "control financiar",
+      "audit de performanță",
+      "compliance"
+    ],
+    "termeni_populari": [
+      "cheltuielile statului",
+      "gestionarea banilor publici",
+      "cheltuieli ilegale",
+      "risipă de fonduri",
+      "raportare financiară",
+      "transparență bugetară"
+    ],
+    "probleme_cetatean": [
+      "sospectare de risipă a fondurilor publice",
+      "cheltuieli neautorizate din bugetul statului",
+      "proiecte publice abandonate după cheltuire de bani",
+      "finanțare intetnă de proiecte",
+      "plăți nelegale din fonduri publice",
+      "corupție și cheltuieli ilegale"
+    ],
+    "domenii_semantice": [
+      "responsabilitate financiară",
+      "transparență publică",
+      "audit și control",
+      "gestionare de resurse",
+      "integritate în administrație"
+    ],
+    "termeni_gresiti": [
+      "Cour de Conturi",
+      "Birou Audit Stat",
+      "Verificare Fonduri Publice"
+    ],
+    "contexte_situationale": [
+      "raportare de cheltuiri ilegale la instituție publică",
+      "solicitare informații privind auditele efectuate",
+      "depunere reclamație pentru risipă de fonduri",
+      "cerere de date despre cheltuielile unei instituții"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la rapoartele de audit ale Curții de Conturi",
+    "Cerere de informații despre cheltuielile unei instituții publice verificate",
+    "Solicitare de date și statistici privind neregulile și risipa depistate",
+    "Cerere de acces la deciziile și hotărârile Curții de Conturi în procese",
+    "Solicitare de informații despre utilizarea fondurilor UE în România",
+    "Cerere de date privind instituțiile cu audit necompletate sau cu dificultăți",
+    "Solicitare de acces la raportul anual privind conturi finale ale statului"
+  ],
+  "procedura_544": {
+    "contact_cereri": "autoritateadeaudit@rcc.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Informare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "1992",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

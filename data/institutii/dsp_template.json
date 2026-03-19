@@ -1,0 +1,151 @@
+{
+  "id": "DSP_TEMPLATE",
+  "tip_institutie": "Direcție de Sănătate Publică",
+  "nivel": "Județean",
+  "nume_oficial": "Direcția de Sănătate Publică {JUDET}",
+  "nume_scurt": "DSP {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + Municipiul București (DSP București)",
+  "template_pattern": {
+    "nume_format": "Direcția de Sănătate Publică {judet}",
+    "site_format": "http://dsp{cod_judet}.ro sau variante",
+    "email_format": "office@dsp{cod_judet}.ro sau secretariat@dsp{cod_judet}.ro",
+    "adresa_format": "Variabilă per județ - de obicei în reședința de județ",
+    "telefon_format": "Cod zonă județ + număr local",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta", "cod_postal"]
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 144/2010 privind organizarea Ministerului Sănătății",
+    "reglementari_specifice": [
+      "Ordin MS pentru organizarea DSP-urilor",
+      "ROF propriu aprobat de MS",
+      "Reglementări județene specifice"
+    ],
+    "subordonare": "În coordonarea Ministerului Sănătății"
+  },
+  "atributii_principale": [
+    "Supravegherea și controlul stării de sănătate a populației la nivel județean",
+    "Prevenirea și controlul bolilor transmisibile și epidemiilor",
+    "Autorizarea sanitară a unităților cu destinație publică",
+    "Controlul sanitar al alimentelor, apei potabile și mediului",
+    "Coordonarea programelor naționale de sănătate publică la nivel județean",
+    "Vaccinarea populației și monitorizarea imunizării",
+    "Investigații epidemiologice și gestionarea focarelor de infecție",
+    "Educație pentru sănătate și promovarea sănătății",
+    "Emiterea avizelor sanitare pentru diverse activități",
+    "Monitorizarea factorilor de risc pentru sănătate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Direcția de Sănătate Publică", "DSP", "direcție județeană sănătate",
+      "sănătate publică", "control sanitar", "aviz sanitar", "autorizație sanitară"
+    ],
+    "termeni_populari": [
+      "directia de sanatate", "dsp judet", "control sanitar",
+      "autorizatie sanitara", "aviz sanitar", "vaccinare", "medicina muncii"
+    ],
+    "probleme_cetatean": [
+      "autorizație sanitară restaurant", "aviz sanitar cabinet medical",
+      "vaccinare obligatorie", "vaccin copii", "carnet de sănătate",
+      "control sanitar alimentar", "investigație epidemiologică",
+      "focar infecție", "bolă transmisibilă", "izolare carantină",
+      "certificat medical șofer", "aviz igieno-sanitar",
+      "intoxicație alimentară", "apă potabilă contaminată"
+    ],
+    "domenii_semantice": [
+      "sănătate publică", "epidemiologie", "igienă", "prevenție",
+      "control sanitar", "autorizare", "supraveghere", "imunizare",
+      "vaccinare", "boli transmisibile", "siguranță alimentară",
+      "medicină preventivă", "educație sanitară", "factori de risc"
+    ],
+    "termeni_gresiti": [
+      "directia de sanatate", "dsp bucuresti", "casa de sanatate publica",
+      "directia sanitara", "inspectoratul sanitar"
+    ],
+    "contexte_situationale": [
+      "unde obțin autorizație sanitară", "cum raportez intoxicație alimentară",
+      "unde mă duc pentru vaccinare", "cine face control sanitar restaurant",
+      "vreau certificat medical pentru permis", "unde sesizez nesiguranță alimentară",
+      "cine verifică calitatea apei potabile", "unde raportez focar infecție"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare date despre situația epidemiologică din județ",
+    "Informații despre programele de vaccinare și acoperirea vaccinală",
+    "Date despre controlul sanitar al unităților de alimentație publică",
+    "Rapoarte privind calitatea apei potabile în județ",
+    "Informații despre procedurile de autorizare sanitară",
+    "Date despre focarele de boli transmisibile și măsurile luate",
+    "Rapoarte despre starea de sănătate a populației județene",
+    "Informații despre bugetul și cheltuielile DSP",
+    "Date despre achizițiile publice și contractele încheiate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Compartiment Supraveghere și Control Boli Transmisibile",
+      "atributii": "Monitorizarea și prevenirea bolilor transmisibile, investigații epidemiologice",
+      "contact": "Prin centrala DSP"
+    },
+    {
+      "nume": "Compartiment Sănătatea Mediului",
+      "atributii": "Controlul calității apei, aerului, solului și managementul deșeurilor",
+      "contact": "Prin centrala DSP"
+    },
+    {
+      "nume": "Compartiment Igienă și Sănătate Alimentară",
+      "atributii": "Controlul sanitar al alimentelor și unităților de alimentație",
+      "contact": "Prin centrala DSP"
+    },
+    {
+      "nume": "Compartiment Autorizare Sanitară",
+      "atributii": "Eliberarea autorizațiilor și avizelor sanitare",
+      "contact": "Prin centrala DSP"
+    },
+    {
+      "nume": "Compartiment Medicină Școlară",
+      "atributii": "Supravegherea stării de sănătate a elevilor și studenților",
+      "contact": "Prin centrala DSP"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@dsp{cod_judet}.ro sau secretariat@dsp{cod_judet}.ro",
+    "departament_responsabil": "Compartiment Relații cu Publicul / Secretariat",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "observatii": "Fiecare DSP are propriul ROF și proceduri specifice"
+  },
+  "coduri_judete_romania": {
+    "AB": "Alba", "AR": "Arad", "AG": "Argeș", "BC": "Bacău", "BH": "Bihor",
+    "BN": "Bistrița-Năsăud", "BT": "Botoșani", "BV": "Brașov", "BR": "Brăila",
+    "BZ": "Buzău", "CS": "Caraș-Severin", "CL": "Călărași", "CJ": "Cluj",
+    "CT": "Constanța", "CV": "Covasna", "DB": "Dâmbovița", "DJ": "Dolj",
+    "GL": "Galați", "GR": "Giurgiu", "GJ": "Gorj", "HR": "Harghita",
+    "HD": "Hunedoara", "IL": "Ialomița", "IS": "Iași", "IF": "Ilfov",
+    "MM": "Maramureș", "MH": "Mehedinți", "MS": "Mureș", "NT": "Neamț",
+    "OT": "Olt", "PH": "Prahova", "SM": "Satu Mare", "SJ": "Sălaj",
+    "SB": "Sibiu", "SV": "Suceava", "TR": "Teleorman", "TM": "Timiș",
+    "TL": "Tulcea", "VS": "Vaslui", "VL": "Vâlcea", "VN": "Vrancea",
+    "B": "București"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "cod_judet": "CJ",
+      "nume_complet": "Direcția de Sănătate Publică Cluj",
+      "site_exemplu": "http://dspcj.ro",
+      "observatii": "Site-urile pot varia: dsp + cod sau dsp + nume județ"
+    },
+    {
+      "judet": "Iași",
+      "cod_judet": "IS",
+      "nume_complet": "Direcția de Sănătate Publică Iași",
+      "site_exemplu": "http://dspiasi.ro",
+      "observatii": "Unele folosesc numele complet al județului"
+    },
+    {
+      "judet": "București",
+      "cod_judet": "B",
+      "nume_complet": "Direcția de Sănătate Publică a Municipiului București",
+      "site_exemplu": "http://dspb.ro",
+      "observatii": "București are structură specială"
+    }
+  ]
+}

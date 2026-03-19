@@ -1,0 +1,253 @@
+{
+  "id": "RAR",
+  "tip_institutie": "Regie Autonomă",
+  "nivel": "National",
+  "nume_oficial": "Registrul Auto Român - R.A.",
+  "nume_scurt": "RAR",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Calea Griviței nr. 391A, Sector 1, București",
+    "cod_postal": "010719",
+    "telefon": "021.232.44.33 / 021.232.20.32",
+    "email": "oficiu@rarom.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.rarom.ro",
+    "legislatie_organizare": "https://www.rarom.ro/?page_id=292011",
+    "rof_complet": "https://www.rarom.ro/?page_id=292011",
+    "transparenta": "https://www.rarom.ro/?page_id=292011",
+    "formulare_544": "https://www.rarom.ro/?page_id=292011",
+    "contact": "https://www.rarom.ro/?page_id=294266"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG privind organizarea și funcționarea Registrului Auto Român",
+    "actualizari": [
+      "Legea 544/2001 - privind accesul la informații de interes public"
+    ],
+    "cod_fiscal": "1590236",
+    "natura_juridica": "Regie Autonomă (R.A.)"
+  },
+  "atributii_principale": [
+    "Acordarea omologărilor naționale de tip pentru vehicule rutiere",
+    "Eliberarea certificatelor de conformitate pentru vehicule",
+    "Acordarea omologărilor individuale pentru vehicule rutiere",
+    "Efectuarea inspecțiilor tehnice periodice (ITP) pentru anumite categorii de vehicule",
+    "Autorizarea stațiilor de inspecție tehnică periodică (ITP)",
+    "Controlul activității stațiilor ITP private",
+    "Verificarea conformității vehiculelor cu cerințele de siguranță rutieră",
+    "Verificarea conformității vehiculelor cu cerințele de protecție a mediului",
+    "Verificarea sistemelor de asigurare a calității la producătorii de vehicule",
+    "Înmatricularea vehiculelor istorice și de colecție",
+    "Eliberarea cărților de identitate pentru vehicule istorice",
+    "Coordonarea rețelei de reprezentanțe RAR la nivel național",
+    "Gestionarea bazelor de date naționale privind vehiculele verificate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Registrul Auto Român",
+      "RAR",
+      "regie autonomă",
+      "inspecție tehnică periodică",
+      "ITP",
+      "omologare vehicule",
+      "siguranță rutieră",
+      "protecție mediu vehicule"
+    ],
+    "termeni_populari": [
+      "RAR",
+      "ITP",
+      "inspectie tehnica",
+      "revizie ITP",
+      "statie ITP",
+      "omologare masina",
+      "RAR inspectie"
+    ],
+    "probleme_cetatean": [
+      "ITP",
+      "inspecție tehnică periodică",
+      "revizie tehnică",
+      "programare ITP",
+      "stație ITP",
+      "reprezentanță RAR",
+      "carte identitate vehicul",
+      "CIV",
+      "ITP expirat",
+      "termen ITP",
+      "când expir ITP",
+      "omologare vehicul",
+      "omologare import",
+      "omologare individuală",
+      "vehicul istoric",
+      "mașină de epocă",
+      "mașină colecție",
+      "certificat conformitate",
+      "COC",
+      "certificare vehicul",
+      "ITP picat",
+      "mașină respinsă ITP",
+      "deficiențe ITP",
+      "reclamație stație ITP",
+      "fraudă ITP",
+      "control RAR",
+      "autorizare stație ITP",
+      "cum devin stație ITP",
+      "verificare ITP online",
+      "istoric ITP vehicul",
+      "normele emisii",
+      "poluare vehicul",
+      "verificare emisii noxe",
+      "frâne defecte",
+      "direcție uzată",
+      "suspensie uzată",
+      "verificare tehnică vehicul",
+      "stare tehnică mașină"
+    ],
+    "domenii_semantice": [
+      "auto",
+      "vehicul",
+      "mașină",
+      "automobil",
+      "autovehicul",
+      "ITP",
+      "inspecție",
+      "tehnică",
+      "periodică",
+      "revizie",
+      "omologare",
+      "conformitate",
+      "certificare",
+      "aprobare",
+      "stație",
+      "reprezentanță",
+      "RAR",
+      "autorizat",
+      "siguranță",
+      "rutieră",
+      "circulație",
+      "trafic",
+      "mediu",
+      "poluare",
+      "emisii",
+      "noxe",
+      "Euro",
+      "frână",
+      "direcție",
+      "suspensie",
+      "lumini",
+      "anvelope",
+      "defect",
+      "deficiență",
+      "uzură",
+      "uzat",
+      "deteriorat",
+      "carte",
+      "identitate",
+      "vehicul",
+      "CIV",
+      "istoric",
+      "colecție",
+      "veterane",
+      "epocă",
+      "control",
+      "verificare",
+      "testare",
+      "inspectare"
+    ],
+    "termeni_gresiti": [
+      "revizie tehnica",
+      "RAR inspectie",
+      "ITP inspectie",
+      "registru auto",
+      "registrul auto roman"
+    ],
+    "contexte_situationale": [
+      "unde fac ITP în București",
+      "cum găsesc stație ITP autorizată",
+      "vreau să programez ITP pentru mașină",
+      "când expir ITP-ul",
+      "mașina a picat la ITP",
+      "ce fac dacă nu trec de ITP",
+      "vreau să omologhz mașină import",
+      "cum omologhz vehicul adus din străinătate",
+      "vreau să înmatriculez mașină de colecție",
+      "cum obțin CIV pentru vehicul istoric",
+      "vreau să verific istoricul ITP al mașinii",
+      "cum văd dacă ITP-ul este valid",
+      "vreau să reclam o stație ITP",
+      "cum sesizez fraudă la ITP",
+      "vreau să deschid stație ITP",
+      "cum obțin autorizare RAR pentru ITP",
+      "ce verifică RAR la ITP",
+      "ce trebuie să fie în regulă la mașină",
+      "mașina nu respectă normele de emisii",
+      "cum trec testul de poluare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre criteriile de omologare vehicule",
+    "Date despre stațiile ITP autorizate și suspendări",
+    "Informații despre controalele efectuate la stații ITP",
+    "Rapoarte despre vehiculele verificate anual",
+    "Date despre sancțiunile aplicate stațiilor ITP",
+    "Informații despre procedurile de omologare",
+    "Rapoarte despre conformitatea vehiculelor cu normele de mediu",
+    "Date despre vehiculele istorice înmatriculate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Departamentul Omologări Vehicule",
+      "atributii": "Omologări de tip, individuale, certificare conformitate",
+      "contact": "Prin RAR sediu central"
+    },
+    {
+      "nume": "Departamentul Inspecții Tehnice Periodice (ITP)",
+      "atributii": "Autorizare stații ITP, control activitate stații",
+      "contact": "Prin RAR și reprezentanțe județene"
+    },
+    {
+      "nume": "Departamentul Vehicule Istorice",
+      "atributii": "Înmatriculare vehicule de colecție, CIV vehicule istorice",
+      "contact": "Prin RAR sediu central"
+    },
+    {
+      "nume": "Reprezentanțe RAR Județene",
+      "atributii": "Servicii locale ITP, omologări, control stații",
+      "contact": "În toate județele țării"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "oficiu@rarom.ro",
+    "departament_responsabil": "Compartiment Juridic / Relații Publice",
+    "observatii": "Solicitări informații conform Legea 544/2001 pe site"
+  },
+  "subordonare": {
+    "minister_tutela": "Ministerul Transporturilor și Infrastructurii",
+    "natura_juridica": "Regie Autonomă",
+    "statut": "Organism tehnic specializat desemnat de MT ca autoritate competentă în domeniul vehiculelor rutiere"
+  },
+  "retea_nationala": {
+    "reprezentante_judetene": "Reprezentanțe RAR în toate județele",
+    "statii_itp_autorizate": "Peste 3.000 de stații ITP autorizate la nivel național",
+    "observatie": "Rețea extinsă pentru acoperire națională servicii ITP și omologări"
+  },
+  "servicii_principale": {
+    "pentru_cetateni": [
+      "ITP - Inspecție Tehnică Periodică",
+      "Verificare valabilitate ITP online",
+      "Omologare vehicule import",
+      "Înmatriculare vehicule istorice",
+      "Găsire stații ITP autorizate"
+    ],
+    "pentru_profesionisti": [
+      "Autorizare stație ITP",
+      "Omologare tip vehicule pentru producători",
+      "Certificare conformitate producție serie",
+      "Control calitate vehicule"
+    ]
+  },
+  "responsabilitati_cheie": {
+    "siguranta_rutiera": "Verificarea stării tehnice a vehiculelor pentru siguranță în trafic",
+    "protectia_mediului": "Verificarea emisiilor și conformității cu normele de mediu",
+    "calitate_vehicule": "Asigurarea calității vehiculelor comercializate în România"
+  }
+}

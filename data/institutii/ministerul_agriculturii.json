@@ -1,0 +1,161 @@
+{
+  "id": "MINISTERUL_AGRICULTURII",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Agriculturii și Dezvoltării Rurale",
+  "nume_scurt": "MADR",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Carol I nr. 24, Sector 2, București",
+    "cod_postal": "020921",
+    "telefon": "021.307.24.45 (Cabinet ministru) / 021.307.85.88 (Audiențe publice)",
+    "email": "cabinet@madr.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.madr.ro",
+    "legislatie_organizare": "https://www.madr.ro/minister.html",
+    "rof_complet": "https://www.madr.ro/minister.html",
+    "transparenta": "https://www.madr.ro/informatii-de-interes-public.html",
+    "formulare_544": "https://www.madr.ro/informatii-de-interes-public.html",
+    "contact": "https://madr.ro/sitemap.html"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG privind organizarea și funcționarea Ministerului Agriculturii și Dezvoltării Rurale",
+    "actualizari": [
+      "Ordonanțe și modificări periodice",
+      "Ordinul nr. 145/2025 privind recuperarea zilei de 2 mai 2025"
+    ]
+  },
+  "atributii_principale": [
+    "Elaborarea și implementarea politicii agricole naționale",
+    "Gestionarea fondurilor europene pentru agricultură și dezvoltare rurală",
+    "Administrarea PNDR (Programul Național de Dezvoltare Rurală)",
+    "Sprijin pentru fermieri și exploatații agricole",
+    "Reglementarea pieței produselor agricole",
+    "Siguranța și calitatea alimentelor de origine vegetală",
+    "Protecția plantelor și controlul fitosanitar",
+    "Registrul agricol național",
+    "Coordonarea APIA (Agenția de Plăți și Intervenție pentru Agricultură)",
+    "Dezvoltarea rurală și îmbunătățirea infrastructurii rurale",
+    "Promovarea agriculturii ecologice și sustenabile",
+    "Gestionarea terenurilor agricole din domeniul public",
+    "Politici de irigații și infrastructură hidroameliorativă"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Agriculturii și Dezvoltării Rurale", "MADR",
+      "agricultură", "dezvoltare rurală", "PNDR", "APIA",
+      "subvenții agricole", "fermier", "exploatație agricolă"
+    ],
+    "termeni_populari": [
+      "ministerul agriculturii", "minister agricultura",
+      "subventii fermieri", "ajutor fermieri", "fonduri europene agricultura",
+      "APIA", "plati directe", "dezvoltare rurala"
+    ],
+    "probleme_cetatean": [
+      "subvenție fermier", "ajutor agricol", "fonduri europene agricultură",
+      "APIA plăți", "plăți directe", "campanie APIA",
+      "PNDR finanțare", "fonduri dezvoltare rurală", "proiect PNDR",
+      "registru agricol", "cadastru agricol", "teren agricol",
+      "întreprindere agricolă", "PFA agricol", "fermă",
+      "autorizare exploatație agricolă", "certificare produse agricole",
+      "produse ecologice", "certificare BIO", "agricultură ecologică",
+      "control fitosanitar", "protecția plantelor", "pesticide autorizate",
+      "irigații", "infrastructură irigații", "apă pentru agricultură",
+      "despăgubiri secetă", "despăgubiri calamități", "asigurare agricolă",
+      "contract APIA", "cerere subvenție", "declarație APIA",
+      "teren arabil", "pășune", "livadă", "vie"
+    ],
+    "domenii_semantice": [
+      "agricultură", "agricol", "rural", "fermă", "fermier",
+      "teren", "arabil", "cultivat", "pășune", "livadă",
+      "subvenție", "plată", "ajutor", "fonduri", "finanțare",
+      "APIA", "PNDR", "european", "PAC", "politică agricolă",
+      "cultură", "plantă", "cereale", "legume", "fructe",
+      "ecologic", "BIO", "organic", "sustenabil",
+      "irigație", "apă", "secetă", "calamitate",
+      "fitosanitar", "protecție", "plantă", "dăunător",
+      "exploatație", "producție", "recoltă", "randament",
+      "registru", "cadastru", "proprietate", "teren"
+    ],
+    "termeni_gresiti": [
+      "ministerul agriculturii", "minister de agricultura",
+      "ministeru agriculturii", "APIA plati"
+    ],
+    "contexte_situationale": [
+      "vreau să primesc subvenție pentru fermă", "cum accesez fonduri APIA",
+      "unde depun cerere PNDR", "cum obțin finanțare pentru agricultură",
+      "vreau să înregistrez exploatație agricolă", "cum mă înscriu în registrul agricol",
+      "cum obțin certificare BIO pentru produse", "unde certificare ecologică",
+      "vreau despăgubiri pentru secetă", "cum solicit ajutor calamități",
+      "cum obțin autorizație fitosanitară", "unde verific pesticide autorizate",
+      "vreau să dezvolt turism rural", "cum accesez fonduri pentru mediu rural",
+      "când sunt plățile APIA", "cum verific plățile directe",
+      "vreau să îmbunătățesc infrastructura fermă", "fonduri modernizare fermă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre schemele de subvenționare",
+    "Date despre bugetul MADR și execuția bugetară",
+    "Informații despre contractele de achiziții publice",
+    "Rapoarte despre fondurile PNDR distribuite",
+    "Date despre plățile APIA către fermieri",
+    "Informații despre strategiile agricole naționale",
+    "Rapoarte despre producția agricolă națională",
+    "Date despre terenurile agricole din domeniul public",
+    "Informații despre programele de dezvoltare rurală"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "APIA - Agenția de Plăți și Intervenție pentru Agricultură",
+      "atributii": "Plăți directe, subvenții fermieri, gestionare fonduri PAC",
+      "contact": "www.apia.org.ro"
+    },
+    {
+      "nume": "AFIR - Agenția pentru Finanțarea Investițiilor Rurale",
+      "atributii": "Implementare PNDR, finanțare proiecte dezvoltare rurală",
+      "contact": "www.afir.info"
+    },
+    {
+      "nume": "ANSVSA - Agenția Sanitară Veterinară",
+      "atributii": "Siguranță alimentară, sănătate animală (coordonare)",
+      "contact": "www.ansvsa.ro"
+    },
+    {
+      "nume": "Direcția Registru Agricol",
+      "atributii": "Cadastru agricol, evidență terenuri agricole",
+      "contact": "Prin MADR"
+    },
+    {
+      "nume": "Direcția Dezvoltare Rurală",
+      "atributii": "Politici dezvoltare rurală, PNDR",
+      "contact": "Prin MADR"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin email sau adresa poștală",
+    "departament_responsabil": "Direcția Comunicare / Relații Publice",
+    "observatii": "Informații de interes public disponibile pe site"
+  },
+  "program_lucru": {
+    "luni_joi": "08:30 - 17:00",
+    "vineri": "08:30 - 14:30",
+    "audiențe_publice": {
+      "telefon": "021.307.85.88 sau 021.307.24.22",
+      "observatie": "Programare necesară"
+    }
+  },
+  "structura_conducere": {
+    "ministru": "Florin-Ionuț Barbu",
+    "secretari_stat": [
+      "Zoltán-József Mihály",
+      "Adrian Pintea",
+      "Violeta Mușat",
+      "Florian-Emil Dumitru"
+    ],
+    "agenții_subordonate": "APIA, AFIR, coordonare ANSVSA"
+  },
+  "locatie": {
+    "observatie": "Sediul ministerului se află în Palatul Ministerului Agriculturii pe Bulevardul Carol I"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "id": "anre",
+  "tip_institutie": "Autoritate de Reglementare",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională de Reglementare în Domeniul Energiei",
+  "nume_scurt": "ANRE",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Constantin Nacu nr. 3, sector 2",
+    "cod_postal": "023974",
+    "telefon": "+40 21 327 8100",
+    "email": "info@anrero.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://anre.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 123/2012 privind energia electrică și gazele naturale",
+    "actualizari": [
+      "Legea nr. 121/2014 privind eficiența energetică",
+      "Regulamentul (UE) nr. 2019/941 privind securitatea aprovizionării cu energie",
+      "Directiva 2019/944/UE privind regulile comune pentru piața internă a energiei electrice"
+    ]
+  },
+  "atributii_principale": [
+    "Reglementare și supraveghere a pieței de energie electrică și gaze naturale",
+    "Emisiune, modificare și revocare de licențe și autorizații pentru operatori",
+    "Stabilire de tarife și prețuri regulate pentru serviciile de transport și distribuție",
+    "Supraveghere a respectării obligațiilor operatorilor de rețele",
+    "Autorizare a accesului și conexiunii la rețele de electricitate și gaze",
+    "Protecția consumatorilor de energie",
+    "Promovare a energiei din surse regenerabile",
+    "Rezolvare a plângerilor și conflictelor dintre operatori și consumatori",
+    "Gestionare a congestiei pe interconexiunile internaționale",
+    "Monitorizare a siguranței și eficienței pieței",
+    "Cooperare cu autorități similare din alte state UE"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "energie electrică",
+      "gaze naturale",
+      "distribuție energie",
+      "transport energie",
+      "tarife energie",
+      "eficiență energetică",
+      "energie regenerabilă"
+    ],
+    "termeni_populari": [
+      "facturi la gaz și electricitate",
+      "semnal la gaz/electricitate",
+      "scumpire la factură",
+      "tarife injuste",
+      "probleme cu furnizorii",
+      "eficiență casă"
+    ],
+    "probleme_cetatean": [
+      "factură anormală de gaz/electricitate",
+      "deconectare nedreptă de la rețea",
+      "refuzul furnizorului să factureze corect",
+      "acces negat la rețea pentru noi consumatori",
+      "tarife inechitabile",
+      "probleme cu ofertele furnizorilor"
+    ],
+    "domenii_semantice": [
+      "reglementare piață energetică",
+      "protecția consumatorilor de energie",
+      "tranziție energetică",
+      "securitate energetică",
+      "prețuri și tarife"
+    ],
+    "termeni_gresiti": [
+      "Autoritate Electricitate",
+      "Reglementare Gaze",
+      "Supraveghere Energie"
+    ],
+    "contexte_situationale": [
+      "reclamație privind o factură anormală",
+      "solicitare de acces la rețea ca nou consumator",
+      "depunere reclamație pentru deconectare abuzivă",
+      "contestare a tarifelor impuse de distribuitor"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la dosarele investigațiilor ANRE privind operatori energetici",
+    "Cerere de informații despre sancțiunile aplicate pentru încălcări",
+    "Solicitare de date și statistici privind piața de electricitate și gaze naturale",
+    "Cerere de acces la regulamentele și normele ANRE în domeniu",
+    "Solicitare de informații despre metodologia de calcul a tarifelor reglementate",
+    "Cerere de date privind operatorii autorizați și licențele acordate",
+    "Solicitare de informații despre plângerile consumatorilor și rezolvarea lor"
+  ],
+  "procedura_544": {
+    "contact_cereri": "info@anrero.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Comunicare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2000",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

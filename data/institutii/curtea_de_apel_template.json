@@ -1,0 +1,142 @@
+{
+  "id": "CURTEA_DE_APEL_JUDETEAN",
+  "tip_institutie": "Instanță judecătorească de apel",
+  "nivel": "Județean/Regional",
+  "nume_oficial": "Curtea de Apel {JUDET}",
+  "aplicabilitate": "15 Curți de Apel în România (cobrind 41 județe + București)",
+  "observatie_nivel": "[NEVERIFICAT - unele Curți de Apel sunt sedii regionale cobrind 2-4 județe]",
+  "template_pattern": {
+    "coordonate_variabile": ["judet_sediu", "regiune_teritoriala"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 304/2022 privind organizarea judiciară",
+    "legi_complementare": [
+      "Legea 135/2022 privind procedura penală",
+      "Legea 134/2022 privind procedura civilă",
+      "Regulamente Înaltei Curți de Casație și Justiție (ICCJ)"
+    ]
+  },
+  "atributii_principale": [
+    "Judecare în apel a hotărârilor civile pronunțate de tribunale",
+    "Judecare în apel a hotărârilor penale pronunțate de tribunale și judecătorii",
+    "Verificare legalitate și temei al soluțiilor de instanță inferioară",
+    "Judecarea cauzelor în primă instanță (anumite materii administrative și fiscal)",
+    "Judecare a contestațiilor împotriva deciziilor în materie penală",
+    "Judecare a apelurilor privind minori și materii de familie",
+    "Judecare a apelurilor în materie administrativă și de impozite",
+    "Judecare a apelurilor privind litigii comerciale și insolvență",
+    "Judecare a apelurilor privind munci și asigurări sociale",
+    "Administrare și gestionare a dosarelor și arhivelor instanței",
+    "Coordonare cu Procuratura de pe lângă Curtea de Apel",
+    "Publicare de decizii și jurisprudență"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Curtea de Apel",
+      "apel civil",
+      "apel penal",
+      "hotărâre de apel",
+      "recursiune",
+      "cale de atac",
+      "instanță de apel",
+      "competență teritorială"
+    ],
+    "termeni_populari": [
+      "apel la tribunal",
+      "dosar la Curtea de Apel",
+      "contestare decizie judecătorie",
+      "proces de apel",
+      "cum aplez o hotărâre"
+    ],
+    "probleme_cetatean": [
+      "cum pot apela o hotărâre",
+      "cât timp am ca să aplez",
+      "care e termenul de apel",
+      "cum depun cerere de apel",
+      "care e adresa Curții de Apel",
+      "ce documentație trebuie pentru apel"
+    ],
+    "domenii_semantice": [
+      "justiție",
+      "procedure civile",
+      "procedure penale",
+      "drept administrativ",
+      "drept comercial",
+      "litigi"
+    ],
+    "contexte_situationale": [
+      "doresc să contest hotărârea judecătoriei",
+      "trebui să aplez o hotărâre penală",
+      "doresc revizuire a unui proces pierdut",
+      "contestu o decizie administrativă",
+      "doresc să aplez o sentință privind minori"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare copie sentințe și hotărâri",
+    "Cerere acces la dosarul cauzei",
+    "Solicitare informații privind termenele de judecată",
+    "Acces la informații privind competența instanței",
+    "Cerere date contact și program de funcționare"
+  ],
+  "procedura_544": {
+    "timp_raspuns": "10-30 de zile (conform Legea 544/2001)",
+    "format_cerere": "Scrisoare cu datele solicitantului și identificare precisă a dosarului/cauzei",
+    "contact": "Biroul de relații cu publicul al Curții de Apel - departament informații"
+  },
+  "structura": {
+    "sectiuni_principale": [
+      "Secția penală (apel și primă instanță în materii penale)",
+      "Secția civilă (apel și primă instanță în materii civile)",
+      "Secția pentru minori și familie",
+      "Secția administrativă și fiscală",
+      "Secția comercială și proprietate intelectuală",
+      "[NEVERIFICAT - alte secții în funcție de Curtea de Apel]"
+    ],
+    "departamente_suport": [
+      "Cancelarie (înregistrare și gestionare dosare)",
+      "Birou relații publice și informații",
+      "Serviciu de executare a hotărârilor"
+    ]
+  },
+  "competente_vs_judecatorie": {
+    "curtea_de_apel": "Apel asupra hotărârilor judecătoriei și tribunalului",
+    "judecatorie": "Instanță de primă instanță pentru litigii mici (până 5.000 lei valoare)",
+    "tribunal": "Instanță de primă instanță pentru litigii mai mari și materii complexe"
+  },
+  "competente_vs_tribunal": {
+    "descriere": "Curtea de Apel judecă apelurile împotriva hotărârilor tribunalelor și apeluri unor hotărâri ale judecătoriilor",
+    "prima_instanta": "Tribunal judecă în primă instanță litigii civile și penale de valoare/complexitate mai mare"
+  },
+  "informatii_generale": {
+    "numar_curti_apel": "15 Curți de Apel în România",
+    "judet_sediu": "[NEVERIFICAT - depinde de Curtea specifică]",
+    "teritorialitate": "[NEVERIFICAT - fiecare Curte de Apel acoperă 2-4 județe]"
+  },
+  "procedura_apel_civil": {
+    "termen_apel": "30 de zile de la comunicarea sentinței",
+    "doc_necesare": [
+      "Cerere de apel",
+      "Copie pe care se depune apelul",
+      "Dovada achitare taxă judiciară",
+      "Memoriu cu motivele apelului (dacă necesare)"
+    ],
+    "depunere": "La secretariatul Curții de Apel competente"
+  },
+  "procedura_apel_penal": {
+    "termen_apel": "30 de zile de la comunicarea sentinței",
+    "doc_necesare": [
+      "Cerere de apel",
+      "Dovada comunicării sentinței",
+      "Memoriu cu motivele apelului",
+      "Dovada plată taxe judiciare (dacă cazul)"
+    ],
+    "depunere": "La Procuratura sau Curtea de Apel pe lângă care se judecă apelul"
+  },
+  "observatii": {
+    "sediu_bucuresti": "Curtea de Apel București, Str. Înalta Curte nr.1-5, Bucuresti",
+    "sediu_altele": "[NEVERIFICAT - sedii specifice pentru alte Curți de Apel]",
+    "program_lucru": "[NEVERIFICAT - programe variabile]",
+    "acces_dosare": "Acces online parțial prin portal, acces complet la sediu"
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "id": "MINISTERUL_FINANTELOR_PUBLICE",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Finanțelor Publice",
+  "nume_scurt": "MFP",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "B-dul Libertății, nr. 16, Sector 5, București",
+    "cod_postal": "050706",
+    "telefon": "021 319 97 59 (centrală)",
+    "email": "registratura@mfinante.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://mfinante.gov.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/101725",
+    "rof_complet": "https://mfinante.gov.ro/en/acasa/-/asset_publisher/uwgr/content/organigrama",
+    "transparenta": "https://mfinante.gov.ro/transparenta-decizionala",
+    "formulare_544": "https://mfinante.gov.ro/contact"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 34/2009 privind organizarea și funcționarea Ministerului Finanțelor Publice",
+    "actualizari": [
+      "HG nr. 238/2022 - modificări importante",
+      "HG nr. 668/2024 - actualizare structură",
+      "HG nr. 211/2024 - modificări suplimentare (2.077 posturi)"
+    ]
+  },
+  "atributii_principale": [
+    "Aplicarea strategiei și programului guvernamental în domeniul finanțelor publice",
+    "Elaborarea și implementarea politicii fiscale și bugetare",
+    "Gestionarea datoriei publice și a activelor statului",
+    "Coordonarea sistemului de colectare a veniturilor publice",
+    "Elaborarea și monitorizarea bugetului de stat",
+    "Coordonarea politicilor în domeniul pieței de capital",
+    "Supravegherea instituțiilor financiare nebancare",
+    "Reprezentarea României în organismele financiare internaționale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Finanțelor Publice", "MFP", "Minister Finanțe", "politica fiscală",
+      "buget de stat", "finanțe publice", "datoria publică", "sistem fiscal"
+    ],
+    "termeni_populari": [
+      "ministrul finanțelor", "ministerul finantelor", "minister finanțe",
+      "finanțele", "bugetul", "taxele", "impozitele", "ANAF"
+    ],
+    "probleme_cetatean": [
+      "declarație de venit", "taxe și impozite", "returnare TVA", "controale fiscale",
+      "amnistie fiscală", "eșalonare datorii", "certificat fiscal", "buget local",
+      "finanțare europeană", "ajutoare de stat", "facilități fiscale"
+    ],
+    "domenii_semantice": [
+      "finanțe", "buget", "taxe", "impozite", "fiscal", "venituri", "cheltuieli",
+      "investiții", "datorie", "creditare", "fonduri", "economie", "monetar",
+      "contabilitate", "audit", "control financiar", "politici fiscale"
+    ],
+    "termeni_gresiti": [
+      "ministerul finantelor", "ministeru finantelor", "casa finantelor",
+      "ministerul banilor", "minister economie"
+    ],
+    "contexte_situationale": [
+      "unde depun declarația de venit", "cine se ocupă de taxe",
+      "vreau să știu despre bugetul de stat", "informații despre amnistie fiscală",
+      "cine controlează ANAF", "unde fac reclamație pentru impozite",
+      "cum funcționează returnarea TVA", "informații despre facilități fiscale"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre execuția bugetului de stat pe trimestre",
+    "Date despre criteriile de acordare a facilităților fiscale",
+    "Informații despre contractele de consultanță încheiate de minister",
+    "Rapoarte despre colectarea veniturilor la bugetul de stat",
+    "Date despre gestionarea datoriei publice și costurile aferente",
+    "Informații despre politicile fiscale în curs de elaborare",
+    "Rapoarte privind eficiența măsurilor anti-evaziune",
+    "Date despre fondurile europene gestionate de minister",
+    "Informații despre cooperarea fiscală internațională"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Relații cu Publicul",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "Tel: +4021 3199750 (int. 2353), publicinfo@mfinante.ro"
+    },
+    {
+      "nume": "Serviciul Relații cu Presa",
+      "atributii": "Comunicarea publică și relațiile cu mass-media",
+      "contact": "Tel/Fax: +4021 3199857 (int. 1105)"
+    },
+    {
+      "nume": "Direcția Generală de Politici Fiscale",
+      "atributii": "Elaborarea și implementarea politicilor fiscale",
+      "contact": "Prin centrală MFP: 021 319 97 59"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "publicinfo@mfinante.ro",
+    "contact_registratura": "registratura@mfinante.gov.ro",
+    "telefon_cereri": "+4021 3199750 (int. 2353)",
+    "departament_responsabil": "Serviciul Relații cu Publicul",
+    "program_audiente": "Luni-Joi: 08:30-17:00, Vineri: 08:30-14:30",
+    "sediu_registratura": "B-dul Libertății, nr. 16, Sector 5, București",
+    "recomandari_tehnice": "Se recomandă evitarea adreselor Yahoo pentru primirea răspunsurilor",
+    "confirmare_depunere": "Confirmare în maxim 48 ore, altfel contactați telefonic"
+  },
+  "structura_organizatorica": {
+    "conducere": "Ministru + 6 secretari de stat + 1 secretar general + 2 secretari generali adjuncți",
+    "posturi_maxim": "2.077 posturi pentru aparatul propriu (exclusiv demnitari)",
+    "personal_mixt": "Funcționari publici, personal contractual și echivalenți",
+    "instituții_subordonate": "ANAF, Agenția Națională de Administrare Fiscală ca principal subordonat"
+  },
+  "facilitati_speciale": {
+    "tel_verde_anticoruptie": "Linie telefonică pentru raportarea actelor de corupție",
+    "scoala_finante": "Școala de Finanțe Publice și Vamale (din 2000)",
+    "protectie_date": "Conformitate GDPR și legislația națională"
+  },
+  "template_pattern": null
+}

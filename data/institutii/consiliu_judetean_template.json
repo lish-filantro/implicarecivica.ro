@@ -1,0 +1,130 @@
+{
+  "id": "CONSILIU_JUDETEAN_TEMPLATE",
+  "tip_institutie": "Consiliu Județean",
+  "nivel": "Județean",
+  "nume_oficial": "Consiliul Județean {JUDET}",
+  "nume_scurt": "CJ {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe (București nu are Consiliu Județean, are Consiliu General)",
+  "template_pattern": {
+    "nume_format": "Consiliul Județean {judet}",
+    "site_format": "http://cj{judet}.ro sau http://www.cj{cod_judet}.ro",
+    "email_format": "office@cj{judet}.ro sau secretariat@cj{judet}.ro",
+    "adresa_format": "În reședința de județ",
+    "telefon_format": "Cod zonă județ + centrală",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea administrației publice locale nr. 215/2001",
+    "reglementari_specifice": [
+      "OUG nr. 57/2019 - Codul administrativ",
+      "Legea nr. 273/2006 privind finanțele publice locale",
+      "ROF propriu adoptat prin hotărâre a consiliului județean"
+    ],
+    "natura_juridica": "Autoritate deliberativă la nivel județean"
+  },
+  "atributii_principale": [
+    "Dezvoltarea economică și socială a județului",
+    "Administrarea domeniului public și privat al județului",
+    "Gestionarea instituțiilor publice de interes județean (spitale, licee, muzee)",
+    "Dezvoltarea infrastructurii județene (drumuri județene, transport interjudețean)",
+    "Aménajarea teritoriului și urbanism la nivel județean",
+    "Gestionarea serviciilor publice de interes județean",
+    "Protecția mediului și dezvoltare durabilă",
+    "Turism, cultură și sport la nivel județean",
+    "Colaborare cu consiliile locale și primăriile",
+    "Atragere fonduri europene și implementare proiecte"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Consiliul Județean", "CJ", "autoritate județeană",
+      "președinte consiliu județean", "consilieri județeni",
+      "administrație publică județeană", "hotărâre consiliu județean"
+    ],
+    "termeni_populari": [
+      "consiliul judetean", "CJ judet", "presedinte CJ",
+      "consilieri judeteni", "primaria judetului", "administratia judetului"
+    ],
+    "probleme_cetatean": [
+      "drumuri județene", "drum județean degradat",
+      "transport interjudețean", "autobuz interjudețean",
+      "spital județean buget", "finanțare liceu teoretic",
+      "proiect județean", "fonduri europene județ",
+      "hotărâre consiliu județean", "HCJ",
+      "ședință consiliu județean", "dezbatere publică",
+      "buget județean", "taxe și impozite județ",
+      "licitație publică județeană", "achiziție publică CJ",
+      "proiecte de dezvoltare", "strategie județeană"
+    ],
+    "domenii_semantice": [
+      "județ", "consiliu", "administrație", "dezvoltare", "infrastructură",
+      "drum județean", "transport", "spital", "liceu", "învățământ",
+      "cultură", "muzeu", "bibliotecă", "patrimoniu",
+      "turism", "dezvoltare durabilă", "fonduri europene",
+      "buget", "investiții", "proiecte", "licitații",
+      "hotărâre", "consilier", "președinte", "ședință publică"
+    ],
+    "termeni_gresiti": [
+      "consiliul judetean", "primaria judetului", "CJ bucuresti",
+      "prefectura judetului", "ministerul judetului"
+    ],
+    "contexte_situationale": [
+      "unde reclam un drum județean deteriorat", "cum aflu despre licitațiile CJ",
+      "vreau să știu bugetul județului", "unde găsesc hotărârile CJ",
+      "când sunt ședințele consiliului județean", "cum particip la dezbatere publică",
+      "cine se ocupă de drumurile județene", "unde reclam transportul interjudețean",
+      "cum aflu despre proiectele europene", "unde găsesc strategia de dezvoltare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul județului și execuția bugetară",
+    "Date despre drumurile județene și investițiile în infrastructură",
+    "Informații despre achizițiile publice și licitațiile organizate",
+    "Rapoarte despre proiectele cu finanțare europeană",
+    "Date despre contractele încheiate de consiliul județean",
+    "Informații despre hotărârile adoptate și procesele-verbale ale ședințelor",
+    "Rapoarte despre patrimoniul județului și administrarea acestuia",
+    "Date despre instituțiile publice finanțate din bugetul județean",
+    "Informații despre strategiile de dezvoltare județeană",
+    "Rapoarte despre serviciile publice de interes județean"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcția Drumuri și Poduri Județene",
+      "atributii": "Administrarea și întreținerea drumurilor județene",
+      "contact": "Prin centrală CJ"
+    },
+    {
+      "nume": "Direcția Generală de Asistență Socială și Protecția Copilului (DGASPC)",
+      "atributii": "Servicii de asistență socială și protecția copilului (subordonată CJ)",
+      "contact": "Contact direct DGASPC sau prin CJ"
+    },
+    {
+      "nume": "Serviciul Transport Public Județean",
+      "atributii": "Gestionarea transportului interjudețean de persoane",
+      "contact": "Prin centrală CJ"
+    },
+    {
+      "nume": "Compartiment Achiziții Publice",
+      "atributii": "Organizarea licitațiilor și achiziții publice",
+      "contact": "achizitii@cj{judet}.ro"
+    },
+    {
+      "nume": "Serviciu Relații cu Publicul și Transparență Decizională",
+      "atributii": "Informații pentru cetățeni, primire cereri și sesizări",
+      "contact": "relatii.publice@cj... sau secretariat"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@cj{judet}.ro sau transparenta@cj{judet}.ro",
+    "departament_responsabil": "Serviciu Relații cu Publicul / Compartiment Juridic",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "observatii": "Hotărârile CJ sunt publice și publicate pe site-ul oficial"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "nume_complet": "Consiliul Județean Cluj",
+      "site_exemplu": "http://cjcluj.ro"
+    }
+  ]
+}

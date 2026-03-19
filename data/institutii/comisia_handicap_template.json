@@ -1,0 +1,124 @@
+{
+  "id": "COMISIA_EVALUARE_HANDICAP_TEMPLATE",
+  "tip_institutie": "Comisia de Evaluare a Persoanelor Adulte cu Handicap",
+  "nivel": "Județean/Local",
+  "nume_oficial": "Comisia de Evaluare a Persoanelor Adulte cu Handicap {JUDET}",
+  "nume_scurt": "Comisia de Evaluare Handicap {JUDET}",
+  "aplicabilitate": "Fiecare județ + sectoarele municipiului București",
+  "template_pattern": {
+    "nume_format": "Comisia de Evaluare a Persoanelor Adulte cu Handicap {judet/sector}",
+    "variante": "Comisia de Evaluare Handicap / CEPAH",
+    "site_format": "Pagină pe site-ul DGASPC județean sau sectorial",
+    "email_format": "Prin DGASPC - handicap@dgaspc{judet}.ro",
+    "adresa_format": "În sediul DGASPC județean/sectorial",
+    "coordonate_variabile": ["judet", "sector_bucuresti"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 448/2006 privind protecția și promovarea drepturilor persoanelor cu handicap",
+    "reglementari_specifice": [
+      "HG nr. 430/2008 - Metodologia privind organizarea și funcționarea comisiei",
+      "ORDINUL nr. 312 din 7 aprilie 2025 - procedura de reevaluare a persoanelor cu handicap (MO 339/16.04.2025)",
+      "Legea nr. 292/2011 - asistența socială"
+    ],
+    "natura_juridica": "Organ de specialitate, fără personalitate juridică, al consiliului județean/local al sectorului municipiului București",
+    "comisia_superioara": "Ordinul nr. 1048/2024 privind Regulamentul Comisiei superioare de evaluare - soluționează contestațiile"
+  },
+  "atributii_principale": [
+    "Evaluarea complexă a persoanelor adulte cu handicap",
+    "Încadrarea persoanelor în grad de handicap (accentuat, grav, mediu)",
+    "Stabilirea tipului de handicap conform clasificării internaționale",
+    "Eliberarea certificatului de încadrare în grad și tip de handicap",
+    "Elaborarea programului individual de reabilitare și integrare socială",
+    "Reevaluarea periodică a persoanelor cu handicap conform procedurii din 2025",
+    "Avizarea măsurilor de protecție specială",
+    "Propuneri pentru servicii sociale specializate",
+    "Colaborarea cu serviciile medicale și sociale pentru evaluare complexă"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Comisia de Evaluare a Persoanelor cu Handicap", "CEPAH",
+      "certificat de încadrare în grad de handicap", "evaluare complexă handicap",
+      "program individual reabilitare", "Legea 448/2006"
+    ],
+    "termeni_populari": [
+      "comisia de handicap", "comisia handicapatilor", "evaluare handicap",
+      "certificat handicap", "gradul de handicap", "card euro handicap"
+    ],
+    "probleme_cetatean": [
+      "certificat de încadrare în handicap", "dosar handicap",
+      "grad de handicap accentuat", "handicap grav", "handicap mediu",
+      "evaluare handicap", "programare evaluare handicap",
+      "reevaluare handicap", "reînnoire certificat handicap",
+      "acte necesare handicap", "dosar evaluare handicap",
+      "contestație certificat handicap", "Comisia Superioară",
+      "carte euro handicap", "loc parcare handicap",
+      "asistent personal", "indemnizație handicap",
+      "scutire impozit handicap", "facilități transport handicap",
+      "card european handicap", "reduceri handicap",
+      "reevaluare 2025 handicap", "procedură nouă handicap"
+    ],
+    "domenii_semantice": [
+      "handicap", "dizabilitate", "grad", "evaluare", "certificat", "încadrare",
+      "accentuat", "grav", "mediu", "reabilitare", "integrare",
+      "asistent", "personal", "îngrijitor", "indemnizație",
+      "card", "euro", "parcare", "facilități", "scutiri",
+      "reevaluare", "contestație", "dosar", "programare",
+      "medical", "social", "psihologic", "evaluare complexă"
+    ],
+    "termeni_gresiti": [
+      "comisia handicapatilor", "casa handicapului",
+      "directia handicap", "biroul de handicap"
+    ],
+    "contexte_situationale": [
+      "unde obțin certificat de handicap", "cum evaluez gradul de handicap",
+      "vreau să fac dosar de handicap", "ce acte trebuie pentru handicap",
+      "când trebuie să reînnoiesc certificatul de handicap", "cum contest decizia comisiei",
+      "unde mă programez pentru evaluare handicap", "cum obțin asistent personal pentru handicap",
+      "cum obțin card euro handicap", "unde depun contestație pentru handicap",
+      "reevaluare handicap 2025 ce este nou", "ce schimbări sunt la evaluarea handicapului"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de evaluare în 2025",
+    "Date despre criteriile de încadrare în grad de handicap",
+    "Informații despre programul de lucru și programări",
+    "Rapoarte despre numărul evaluărilor efectuate",
+    "Date despre contestațiile soluționate",
+    "Informații despre componența comisiei",
+    "Procedura de reevaluare conform ORDINULUI 312/2025",
+    "Date despre termenele de evaluare"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin DGASPC - office@dgaspc{judet}.ro",
+    "departament_responsabil": "Secretariatul comisiei de evaluare / DGASPC",
+    "observatii": "Ședințele comisiei sunt programate periodic"
+  },
+  "compunere_comisia": {
+    "membri": "Medic specialist, psiholog, asistent social",
+    "secretariat": "Asigurat de DGASPC județean/local",
+    "aprobare": "Componența se aprobă prin HCJ/HCL sector București",
+    "preşedinte": "Numit din rândul membrilor comisiei"
+  },
+  "procedura_evaluare": {
+    "depunere_dosar": "La secretariatul comisiei - DGASPC",
+    "acte_necesare": "Cerere, acte medicale, buletin, alte documente medicale și sociale",
+    "evaluare_complexa": "Evaluare medicală, psihologică și socială",
+    "termen_solutionare": "Conform legislației în vigoare",
+    "eliberare_certificat": "După aprobarea în ședința comisiei",
+    "valabilitate": "Permanent sau pe perioadă determinată, cu reevaluare obligatorie",
+    "procedura_2025": "ORDINUL 312/2025 - procedură nouă de reevaluare"
+  },
+  "contestatii": {
+    "termen": "30 zile de la comunicarea deciziei",
+    "instanta": "Comisia Superioară de Evaluare - nivel național",
+    "legislatie": "Ordinul nr. 1048/2024 privind Regulamentul Comisiei superioare"
+  },
+  "graduri_handicap": {
+    "accentuat": "Grad cel mai sever - necesită îngrijire permanentă",
+    "grav": "Grad sever - necesită asistență frecventă",
+    "mediu": "Grad mediu - necesită asistență ocazională"
+  },
+  "actualizari_2025": {
+    "observatie": "ORDINUL nr. 312 din 7 aprilie 2025 introduce proceduri noi de reevaluare. Informații actualizate publicate în Monitorul Oficial, Partea I, nr. 339 din 16 aprilie 2025."
+  }
+}

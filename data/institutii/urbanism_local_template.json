@@ -1,0 +1,109 @@
+{
+  "id": "URBANISM_LOCAL_TEMPLATE",
+  "tip_institutie": "Compartiment Urbanism și Amenajarea Teritoriului",
+  "nivel": "Local",
+  "nume_oficial": "Serviciul de Urbanism {LOCALITATE}",
+  "nume_scurt": "Urbanism {LOCALITATE}",
+  "aplicabilitate": "Toate UAT-urile (structură variabilă în funcție de mărime)",
+  "template_pattern": {
+    "nume_format": "Serviciul/Compartimentul Urbanism {localitate}",
+    "variante": "Direcția Urbanism (municipii mari) / Arhitect Șef (comune)",
+    "site_format": "Pagină pe site-ul primăriei",
+    "email_format": "urbanism@primaria{localitate}.ro sau arhitectsef@primaria{localitate}.ro",
+    "adresa_format": "În sediul primăriei",
+    "coordonate_variabile": ["localitate", "judet", "marime"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 350/2001 privind amenajarea teritoriului și urbanismul",
+    "reglementari_specifice": [
+      "Legea nr. 50/1991 - autorizarea executării lucrărilor de construcții",
+      "Regulamentul General de Urbanism",
+      "PUG (Planul Urbanistic General) local",
+      "PUZ-uri (Planuri Urbanistice Zonal) locale"
+    ],
+    "subordonare": "Sub autoritatea primarului și consiliului local"
+  },
+  "atributii_principale": [
+    "Eliberarea certificatelor de urbanism",
+    "Emiterea autorizațiilor de construire/desființare",
+    "Verificarea respectării normelor de urbanism și amenajare",
+    "Elaborarea și actualizarea PUG, PUZ, PUD",
+    "Avizarea documentațiilor de urbanism",
+    "Urmărirea executării lucrărilor autorizate",
+    "Emiterea proceselor-verbale de recepție la terminarea lucrărilor",
+    "Aplicarea sancțiunilor pentru construcții ilegale",
+    "Gestionarea evidenței autorizațiilor emise",
+    "Consiliere cetățeni privind reglementările de urbanism"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "urbanism", "amenajare teritoriu", "certificat de urbanism", "autorizație de construire",
+      "autorizație de desființare", "PUG", "PUZ", "documentație urbanism"
+    ],
+    "termeni_populari": [
+      "certificat urbanism", "autorizatie constructie", "aprobare construire",
+      "demolare", "desfiintare", "construire casa", "plan urbanistic"
+    ],
+    "probleme_cetatean": [
+      "certificat de urbanism", "certificat urbanism pentru construire",
+      "autorizație de construire", "autorizație construcție casă",
+      "autorizație desființare", "autorizație demolare",
+      "construcție ilegală", "construcție fără autorizație",
+      "PUG", "plan urbanistic general", "zonă construibilă",
+      "PUZ", "regulament local urbanism", "RLU",
+      "POT", "CUT", "coeficient utilizare teren",
+      "aliniament", "retragere față stradă", "înălțime maximă",
+      "branșament utilități", "racord apă canal", "autorizație racord",
+      "recepție la terminarea lucrărilor", "proces verbal recepție",
+      "contestație refuz autorizație", "plângere construcție ilegală vecin"
+    ],
+    "domenii_semantice": [
+      "urbanism", "construcție", "clădire", "edificare", "demolare",
+      "certificat", "autorizație", "aprobare", "aviz",
+      "plan", "regulament", "zonare", "construibil",
+      "POT", "CUT", "retragere", "aliniament", "înălțime",
+      "teren", "parcelă", "lot", "proprietate",
+      "recepție", "finalizare", "terminare lucrări"
+    ],
+    "termeni_gresiti": [
+      "certificat de urbanism", "autorizatie de constructie",
+      "aprobare de construire", "permis de constructie"
+    ],
+    "contexte_situationale": [
+      "unde obțin certificat de urbanism", "cum obțin autorizație de construire",
+      "vreau să construiesc o casă", "pot construi pe terenul meu",
+      "cum verific dacă terenul este în zona construibilă", "ce POT are terenul",
+      "vreau să demolez o clădire", "cum obțin autorizație demolare",
+      "cum reclam construcție ilegală vecin", "unde verific PUG-ul",
+      "ce distanță trebuie de la stradă", "cât pot construi în înălțime",
+      "cum obțin recepție la terminarea lucrărilor"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre PUG și reglementări locale",
+    "Date despre autorizațiile de construire emise",
+    "Informații despre zonarea urbană și restricțiile de construire",
+    "Rapoarte despre construcțiile ilegale identificate",
+    "Date despre taxele și tarifele pentru urbanism",
+    "Informații despre procedurile de autorizare",
+    "Rapoarte despre modificările de PUG și PUZ",
+    "Date despre investițiile în infrastructură urbană"
+  ],
+  "procedura_544": {
+    "contact_cereri": "urbanism@primaria{localitate}.ro",
+    "departament_responsabil": "Arhitect Șef / Director Urbanism",
+    "observatii": "PUG și PUZ sunt documente publice accesibile cetățenilor"
+  },
+  "documente_principale": {
+    "certificat_urbanism": "Document informativ despre regim juridic teren, 30 zile valabilitate pentru informare, 12 luni pentru autorizare",
+    "autorizatie_construire": "Permis legal pentru executarea lucrărilor, valabilitate 12-36 luni",
+    "autorizatie_desfiintare": "Aprobare pentru demolare clădiri",
+    "proces_verbal_receptie": "Confirmare finalizare lucrări conform autorizației"
+  },
+  "termene_proceduri": {
+    "certificat_urbanism": "10-30 zile de la depunere",
+    "autorizatie_construire": "30-45 zile cu avize",
+    "autorizatie_desfiintare": "15-30 zile",
+    "receptie_lucrari": "La finalizare, prezență comisie"
+  }
+}

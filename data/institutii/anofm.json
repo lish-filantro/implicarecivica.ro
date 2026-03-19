@@ -1,0 +1,95 @@
+{
+  "id": "ANOFM",
+  "tip_institutie": "Agenție Națională",
+  "nivel": "National",
+  "nume_oficial": "Agenția Națională pentru Ocuparea Forței de Muncă",
+  "nume_scurt": "ANOFM",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Strada Avalanșei nr. 20-22, Sector 4, București",
+    "cod_postal": "040305",
+    "telefon": "021.9309",
+    "email": "anofm@anofm.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.anofm.ro/",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/136511"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 151/2012 privind aprobarea Statutului propriu pentru organizarea și funcționarea Agenției Naționale pentru Ocuparea Forței de Muncă",
+    "actualizari": []
+  },
+  "atributii_principale": [
+    "Organizează, prestează și finanțează servicii de formare profesională pentru persoanele neincadrate în muncă",
+    "Orientează și consiliere persoane șomere și mediere între acestea și angajatori",
+    "Administrează bugetul asigurărilor pentru șomaj",
+    "Face propuneri privind elaborarea proiectului de buget al asigurărilor pentru șomaj",
+    "Propune proiecte de acte normative în domeniul ocupării și formării profesionale",
+    "Asigură și coordonează aplicarea politicilor în domeniul ocupării și formării profesionale",
+    "Organizează și asigură informare, consiliere și orientare profesională pentru persoane în căutarea unui loc de muncă",
+    "Coordonează serviciile de pre-pensionare în caz de disponibilizări în masă",
+    "Administrează sistemul de identificare și analiza locurilor de muncă",
+    "Coordonează implementarea politicilor de ocupare și circulație a muncii la nivel național și internațional"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția Națională pentru Ocuparea Forței de Muncă",
+      "ANOFM",
+      "Agenția Județeană pentru Ocuparea Forței de Muncă",
+      "AJOFM"
+    ],
+    "termeni_populari": [
+      "Agenție ocupare",
+      "Birou pentru ocupare",
+      "ANOFM",
+      "Servicii de ocupare"
+    ],
+    "probleme_cetatean": [
+      "Căutare loc de muncă",
+      "Formare profesională gratuită",
+      "Indemnizație șomaj",
+      "Program ocupare",
+      "Asigurare socială șomaj",
+      "Consiliere ocupare"
+    ],
+    "domenii_semantice": [
+      "Ocupare forță de muncă",
+      "Formare profesională",
+      "Șomaj",
+      "Piața muncii",
+      "Drepturi muncitorești"
+    ],
+    "termeni_gresiti": [
+      "ANOM",
+      "Agenția pentru Muncă",
+      "Oficiul Ocupării"
+    ],
+    "contexte_situationale": [
+      "Am pierdut locul de muncă",
+      "Caut program de formare",
+      "Am nevoie de indemnizație șomaj",
+      "Vreau să mă reînscriu ca șomer",
+      "Caut birou AJOFM"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre programe de formare profesională disponibile",
+    "Cerere de acces la date privind plățile indemnizațiilor de șomaj",
+    "Informații despre statisticile pieței muncii și locuri de muncă vacante",
+    "Cerere privind criteriile de eligibilitate pentru beneficii șomaj",
+    "Solicitare privind rezultatele auditului intern al ANOFM",
+    "Informații despre contractele încheiate de ANOFM cu furnizori de formare",
+    "Cerere de rapoarte anuale asupra executării bugetului asigurărilor pentru șomaj"
+  ],
+  "procedura_544": {
+    "contact_cereri": "relatiicupublicul@anofm.gov.ro",
+    "departament_responsabil": "Departamentul de Relații cu Publicul",
+    "call_center": "021.9309"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2012",
+    "subordinea": "Ministerul Muncii și Solidarității Sociale",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

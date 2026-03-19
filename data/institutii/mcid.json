@@ -1,0 +1,113 @@
+{
+  "id": "MINISTER_CERCETARE_INOVATIE_DIGITALIZARE",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Cercetării, Inovării și Digitalizării",
+  "nume_scurt": "MCID",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Mendeleev nr. 21-25, sector 1, București 010362",
+    "telefon": "+40 21 319 23 26",
+    "telefon_secundar": "+40 21 319 23 27, +40 21 319 23 28",
+    "email": "[NEVERIFICAT] contact@mcid.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mcid.gov.ro",
+    "adr": "https://www.adr.gov.ro",
+    "e_government": "https://ghiseul.ro",
+    "cercetare": "https://www.research.gov.ro",
+    "transparenta": "https://www.mcid.gov.ro/transparenta-decizionala-2/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 371/2021 privind organizarea și funcționarea Ministerului Cercetării, Inovării și Digitalizării",
+    "publicare_MO": "MO nr. 333/1 aprilie 2021",
+    "modificari_recente": "Modificări prin OUG nr. 153/2024"
+  },
+  "atributii_principale": [
+    "Elaborarea și implementarea politicii naționale de cercetare, dezvoltare și inovație",
+    "Coordonarea și finanțarea activităților de cercetare și dezvoltare experimentală",
+    "Implementarea strategiei naționale de digitalizare a economiei și administrației",
+    "Coordonarea și supervizarea Autorității pentru Digitalizarea României (ADR)",
+    "Reglementarea și monitorizarea serviciilor de comunicații electronice și poștale",
+    "Gestionarea politicii de cybersecurity și apărare cibernetică",
+    "Promovarea și suportul pentru inovație și dezvoltare de start-up-uri",
+    "Administrarea platformelor e-government și serviciilor digitale publice (ghiseul.ro)",
+    "Coordonarea transformării digitale a administrației publice centrale și locale",
+    "Gestionarea spectrul radiocomunicații și autorizare servicii de telecomunicații",
+    "Elaborarea standardelor tehnice și interoperabilității pentru servicii digitale",
+    "Reprezentarea țării în negocierile și politicile internaționale privind cercetare și digitalizare"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "digitalizare",
+      "e-government",
+      "cercetare și dezvoltare",
+      "inovație",
+      "cybersecurity",
+      "servicii publice digitale",
+      "transformare digitală"
+    ],
+    "termeni_populari": [
+      "ghiseul.ro",
+      "servicii online",
+      "permis digital",
+      "certificat electronic",
+      "internet",
+      "securitate cibernetică",
+      "aplicații mobile guvern"
+    ],
+    "probleme_cetatean": [
+      "vreau să accesez un serviciu public online prin ghiseul.ro",
+      "am probleme cu autentificarea pe platforme e-government",
+      "solicit informații despre cum să obțin certificat digital",
+      "vreau să cunosc procedura de plată online pentru servicii publice",
+      "plângere privind disponibilitatea și funcționarea platformelor digitale",
+      "doresc să aflu cum se protejează datele mele personale în serviciile online"
+    ],
+    "domenii_semantice": [
+      "transformare digitală",
+      "e-governance",
+      "inovație și startup",
+      "securitate informațională",
+      "interoperabilitate sistemelor",
+      "servicii publice",
+      "economie digitală"
+    ],
+    "contexte_situationale": [
+      "cetățean dorind să acceseze servicii publice în mediul online",
+      "researcher solicitând finanțare pentru proiect de cercetare",
+      "antreprenor cu idee de start-up căutând sprijin",
+      "autoritate locală dorind digitalizare a serviciilor",
+      "utilizator cu preocupări de securitate cibernetică",
+      "persoană solicitând asistență tehnică cu platforme e-gov"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Informații despre serviciile digitale disponibile și cum se accesează acestea",
+    "Proceduri și documentații tehnice privind autentificare și identitate digitală",
+    "Date privind disponibilitatea și performanța platformelor ghiseul.ro și servicii online",
+    "Ghiduri și tutoriale pentru utilizarea serviciilor publice digitale",
+    "Structura organizatorică și responsabilități ale departamentelor MCID și ADR",
+    "Politici și standarde pentru cybersecurity și protecția datelor",
+    "Programe de finanțare pentru cercetare, inovație și start-up-uri",
+    "Planuri și strategii naț de digitalizare și transformare digitală",
+    "Informații privind reglementări în domeniu telecomunicații și poștă electronică",
+    "Costurile și taxele aplicabile pentru serviciile și certificatele digitale"
+  ],
+  "procedura_544": {
+    "contact_cereri": "www.mcid.gov.ro/contact/",
+    "departament_responsabil": "Serviciul Comunicare și Relații Publice",
+    "Email": "[NEVERIFICAT] relatii_publice@mcid.gov.ro",
+    "termin_raspuns": "5-10 zile lucrătoare conform Legii 544/2001"
+  },
+  "structura_organizatorica": {
+    "subordinea": "Guvernul României",
+    "personalitate_juridica": "Da",
+    "institutii_subordinate": [
+      "Autoritatea pentru Digitalizarea României (ADR)",
+      "Autoritatea Națională pentru Cercetare (ANCS)",
+      "Direcția Națională de Cybersecurity (DNSC)"
+    ]
+  },
+  "template_pattern": null
+}

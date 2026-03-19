@@ -1,0 +1,103 @@
+{
+  "id": "bnr",
+  "tip_institutie": "Banca Centrală",
+  "nivel": "National",
+  "nume_oficial": "Banca Națională a României",
+  "nume_scurt": "BNR",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Lipscani nr. 25, sector 3",
+    "cod_postal": "030031",
+    "telefon": "+40 21 312 4400",
+    "email": "info@bnr.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.bnr.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 312/2004 privind Statutul Băncii Naționale a României",
+    "actualizari": [
+      "Tratatul privind funcționarea Uniunii Europene (TFUE) - capitolul privind politica monetară",
+      "Regulamentul (UE) nr. 1024/2013 privind supraveghere bancar macroprudențială",
+      "Directiva 2013/36/UE privind accesul la activitatea instituțiilor de credit"
+    ]
+  },
+  "atributii_principale": [
+    "Emisiunea bannotelor și monedelor cu curs legal",
+    "Elaborarea și aplicarea politicii monetare",
+    "Elaborarea și aplicarea politicii de curs de schimb",
+    "Administrarea și conservarea rezervelor de valută ale statului",
+    "Autorizare și supraveghere prudențială a instituțiilor de credit",
+    "Supraveghere macroprudențială a sistemului bancar",
+    "Executare a funcțiilor de bancher al statului și gestionar de trezorerie",
+    "Participare la plăți internaționale și sistemul de compensare",
+    "Promovare a funcționării eficiente a sistemelor de plăți și decontare",
+    "Prevenire și gestionare a riscurilor sistemice în sectorul bancar",
+    "Coordonare a politicilor de stabilitate financiară"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "politică monetară",
+      "curs de schimb",
+      "bănci",
+      "rate de dobândă",
+      "inflație",
+      "rezerve valutare",
+      "leu",
+      "euro"
+    ],
+    "termeni_populari": [
+      "bani",
+      "dobândă",
+      "curs valutar",
+      "euro-leu",
+      "putere de cumpărare",
+      "prețuri"
+    ],
+    "probleme_cetatean": [
+      "neînțelegerea ratelor dobânzilor la credite",
+      "probleme cu curs de schimb la transfer internațional",
+      "stabilitate economică și a banilor",
+      "putere de cumpărare scăzută",
+      "inflație și prețuri în creștere",
+      "depuneri în bănci"
+    ],
+    "domenii_semantice": [
+      "politică economică",
+      "stabilitate monetară",
+      "supraveghere financiară",
+      "sistemul bancar",
+      "piața de bani"
+    ],
+    "termeni_gresiti": [
+      "Banca Centrală",
+      "Ministerul Finanțelor",
+      "Banca de Stat"
+    ],
+    "contexte_situationale": [
+      "informații despre cursurile valutare",
+      "solicitare de informații despre politica monetară",
+      "cerere de date despre stabilitatea economică",
+      "probleme cu banca comercială - reclamație la BNR"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la rapoarte și date privind politica monetară BNR",
+    "Cerere de informații despre rate de dobândă și cursuri de schimb oficiale",
+    "Solicitare de date și statistici privind rezervele valutare ale României",
+    "Cerere de acces la deciziile și ordinele BNR în materie de supraveghere bancar",
+    "Solicitare de informații despre metodologia de calcul a indicilor și ratelor",
+    "Cerere de date privind instituțiile de credit autorizate și supravegheate",
+    "Solicitare de informații despre investigații și sancțiuni aplicate institutiilor de credit"
+  ],
+  "procedura_544": {
+    "contact_cereri": "info@bnr.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul și Comunicare"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "1880",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

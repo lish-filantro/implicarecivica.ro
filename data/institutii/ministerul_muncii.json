@@ -1,0 +1,112 @@
+{
+  "id": "MINISTER_MUNCII_SOLIDARITATE",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Muncii, Familiei, Tineretului și Solidarității Sociale",
+  "nume_scurt": "MMFTSS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Dem. I. Dobrescu nr. 2-4, sector 1, București 010026",
+    "telefon": "+40 21 313 62 67",
+    "email": "contact@mmuncii.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://mmuncii.gov.ro",
+    "servicii_publice": "https://servicii.mmuncii.gov.ro",
+    "transparenta": "https://mmuncii.gov.ro/buletin-informativlegea-544-2001/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 29/2025 privind organizarea și funcționarea Ministerului Muncii, Familiei, Tineretului și Solidarității Sociale",
+    "ordonanta_urgenta": "OUG nr. 153/2024 privind stabilizarea măsurilor la nivelul administrației publice centrale",
+    "publicare_MO": "MO nr. 104/4 februarie 2025"
+  },
+  "atributii_principale": [
+    "Implementarea politicii naționale de ocupare a forței de muncă și profesionalizare",
+    "Administrarea și reglementarea sistemului de protecție socială și asistență socială",
+    "Gestionarea politicii de pensii și a sistemului de asigurări sociale",
+    "Coordonarea activităților privind protecția copiilor și drepturile familiei",
+    "Promovarea egalității de género și non-discriminării în domeniul muncii",
+    "Monitorizarea și inspecția conformității cu normele de muncă și protecția socială",
+    "Administrarea beneficiilor de șomaj și indemnizații sociale",
+    "Coordonarea programelor de formare profesională și recalificare pentru şomeri",
+    "Reglementarea și monitorizarea serviciilor sociale și a protecției persoanelor vulnerabile",
+    "Elaborarea și implementarea strategiilor în domenii: ocupare, pensii, protecție socială",
+    "Asigurarea surselor de finanțare și administrarea fondurilor pentru protecția socială",
+    "Reprezentarea țării în relațiile internaționale privind munca, protecție socială și securitate socială"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "ocupare a forței de muncă",
+      "protecție socială",
+      "politică de pensii",
+      "asigurări sociale",
+      "drepturi familiei",
+      "egalitate de gen",
+      "formare profesională"
+    ],
+    "termeni_populari": [
+      "șomaj",
+      "indemnizație de șomaj",
+      "pensie",
+      "ajutor social",
+      "birou de ocupare",
+      "recalificare",
+      "protecție socială"
+    ],
+    "probleme_cetatean": [
+      "doresc să înscriu pentru ajutor de șomaj",
+      "întrebări despre calcul pensie",
+      "solicităm informații despre beneficii de maternitate",
+      "contestație privind refuzul unei pretenții de asistență socială",
+      "program de formare profesională pentru recalificare",
+      "plângere privind discriminare la locul de muncă",
+      "informații despre drepturi de muncitor"
+    ],
+    "domenii_semantice": [
+      "piață forță de muncă",
+      "politici sociale",
+      "securitate socială",
+      "drepturi muncitori",
+      "vulnerabilitate socială",
+      "venit minim garantat",
+      "protecție maternitate"
+    ],
+    "contexte_situationale": [
+      "om rămas fără loc de muncă",
+      "pensionar cu dispute privind valoarea pensiei",
+      "familie cu copil cu nevoi speciale",
+      "persoană cu dizabilitate solicitând beneficii",
+      "muncitor dorind contestare decizie de concediere"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Informații despre structura organizatorică și rolurile departamentelor MMFTSS",
+    "Date de contact și program de funcționare al birourilor locale și centrale",
+    "Proceduri și formulare pentru cereri de ajutor social, indemnizații de șomaj, alte beneficii",
+    "Documente legislative și strategii ale ministerului în domenii: muncă, pensii, protecție socială",
+    "Información privind condiții și criterii pentru acordarea beneficiilor sociale",
+    "Rapoarte anuale și date statistice privind ocupare, șomaj, beneficii sociale",
+    "Costuri administrative și buget alocat pentru programe și servicii",
+    "Liste cu instituții subordinate: ANOFM, ANPIS, INSPECȚIA MUNCII, ANSPDCP",
+    "Regulamente interne și norme de procedură pentru handled-uri publice",
+    "Informații privind controluri și contestații de decizii"
+  ],
+  "procedura_544": {
+    "contact_cereri": "mmuncii.gov.ro/transparență-decizională",
+    "departament_responsabil": "Serviciul Informare și Relații Publice",
+    "Email": "[NEVERIFICAT] relatii_publice@mmuncii.gov.ro",
+    "termin_raspuns": "5-10 zile lucrătoare conform Legii 544/2001"
+  },
+  "structura_organizatorica": {
+    "subordinea": "Guvernul României",
+    "personalitate_juridica": "Da",
+    "institutii_subordinate": [
+      "Agenția Națională pentru Ocuparea Forței de Muncă (ANOFM)",
+      "Agenția Națională pentru Plăți și Inspecție Socială (ANPIS)",
+      "Inspecția Muncii",
+      "Autoritatea Națională pentru Protecția Drepturilor Copilului",
+      "Autoritatea Națională pentru Egalitate de Șanse între Femei și Bărbați"
+    ]
+  },
+  "template_pattern": null
+}

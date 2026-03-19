@@ -1,0 +1,107 @@
+{
+  "id": "CJAS_TEMPLATE",
+  "tip_institutie": "Instituție de asigurări sociale de sănătate",
+  "nivel": "Județean",
+  "nume_oficial": "Casa Județeană de Asigurări de Sănătate {JUDET}",
+  "nume_scurt": "CJAS {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "nume_format": "Casa Județeană de Asigurări de Sănătate {judet}",
+    "site_format": "https://cas{judet}.ro",
+    "email_format": "contact@cas{judet}.ro",
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 95/2006 privind reforma în domeniul sănătății",
+    "reglementari_specifice": [
+      "Hotărârea Guvernului nr. 972/2006 pentru aprobarea Statutului Casei Naționale de Asigurări de Sănătate",
+      "Ordin de ministru pentru aprobarea statutului caselor de asigurări de sănătate",
+      "Normele de aplicare ale Legii 95/2006"
+    ]
+  },
+  "atributii_principale": [
+    "Eliberarea și administrarea cardurilor de asigurări de sănătate",
+    "Gestionarea plafoanelor de contribuții la asigurarea de sănătate",
+    "Procesarea și verificarea dosarelor de asigurare",
+    "Acordarea acreditării furnizorilor de servicii medicale",
+    "Asigurarea veniturilor și efectuării plăților pentru servicii medicale",
+    "Reglementarea și controlul serviciilor medicale",
+    "Elaborarea contractelor-cadru cu furnizorii de servicii medicale",
+    "Stabilirea și aplicarea regulilor pentru acoperirea costurilor medicale",
+    "Coordonarea cu alte instituții în domeniu pentru asigurarea uniformității aplicării legislației",
+    "Rezolvarea contestațiilor din domeniul asigurării de sănătate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "carte de asigurări",
+      "contribuție CASS",
+      "asigurare de sănătate",
+      "servicii medicale",
+      "reimbursare medicamente",
+      "furnizor medical",
+      "contract-cadru",
+      "acreditare spital"
+    ],
+    "termeni_populari": [
+      "cardul de sănătate",
+      "banii pentru doctor",
+      "asigurare medicală",
+      "rambursare spital",
+      "banii pe medicamente",
+      "doctor contract",
+      "spital acreditat"
+    ],
+    "probleme_cetatean": [
+      "pierdut cardul de asigurări",
+      "nu pot plăti contribuția CASS",
+      "nu sunt asigurat",
+      "vreau să aflu ce spitale sunt în rețea",
+      "doctorul meu nu este în rețea",
+      "trebuie să plătesc integral la doctor",
+      "medicamentul nu este acoperit",
+      "nu am primit rambursarea"
+    ],
+    "domenii_semantice": [
+      "sănătate publică",
+      "sistem de asigurări",
+      "finanțare medicală",
+      "furnizori de servicii",
+      "reglementări sanitare"
+    ],
+    "termeni_gresiti": [
+      "Casa Județeană de Asigurări Medicale",
+      "CNAM",
+      "asigurări medicale private",
+      "poliță de sănătate"
+    ],
+    "contexte_situationale": [
+      "cetățean care se mută într-o altă localitate",
+      "muncitor care și-a pierdut locul de muncă",
+      "persoană care nu are loc de muncă",
+      "pensionar care se regândește contribuția",
+      "student care pleacă la studii în străinătate",
+      "persoană care are nevoie de servicii medicale urgente"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Cerere privind lista furnizorilor de servicii medicale acreditați în {judet}",
+    "Solicitare de informații despre plafoanele pentru medicamente și dispozitive medicale",
+    "Cerere de lămuriri pe tema contribuțiilor și drepturilor asiguraților",
+    "Solicitare de acces la contracte-cadru cu spitalele din {judet}",
+    "Cerere privind procedurile de reclamație pentru serviciile medicale",
+    "Solicitare de informații statistice despre asigurații din {judet}",
+    "Cerere de acces la regulamentul intern de funcționare al CJAS"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Departamentul Informații de Interes Public - CJAS {judet}",
+    "departament_responsabil": "Serviciul Informații Publice și Comunicare"
+  },
+  "structura": {
+    "compartimente_principale": [
+      "Directorate sau servicii administrative",
+      "Servicii de achiziție și contractare",
+      "Servicii financiar-contabile",
+      "Servicii de prevenire și combatere a fraudei"
+    ]
+  }
+}

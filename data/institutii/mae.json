@@ -1,0 +1,124 @@
+{
+  "id": "MINISTER_AFACERI_EXTERNE",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Afacerilor Externe",
+  "nume_scurt": "MAE",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Aleea Alexandru nr. 31, sector 1, 011822 București",
+    "telefon": "+40 21 319 21 08",
+    "telefon_secundar": "+40 21 319 21 25",
+    "fax": "+40 21 319 68 62",
+    "email": "opinia_ta@mae.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mae.ro",
+    "evisa": "https://evisa.mae.ro",
+    "alerte_travel": "https://alerte.mae.ro",
+    "servicii_publice": "https://serviciipublice.gov.ro/institutie/ministerul-afacerilor-externe",
+    "transparenta": "https://www.mae.ro/transparenta-decizionala"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 16/2017 privind organizarea și funcționarea Ministerului Afacerilor Externe",
+    "publicare_MO": "MO nr. 56/29 ianuarie 2004",
+    "contact_consular": "Departamentul Consular - presa@mae.ro",
+    "actualizari": [
+      "HG nr. 612/2024 — modificări semnificative",
+      "Anterior: HG nr. 8/2013 (abrogat)",
+      "Anterior: HG nr. 100/2004 (abrogat)"
+    ]
+  },
+  "atributii_principale": [
+    "Implementarea și reprezentarea politicii externe a României în relații diplomatice și consulare",
+    "Acreditare și coordonare a reprezentanțelor diplomatice și consulare ale României în străinătate",
+    "Emiterea și verificarea de vize pentru persoane care doresc să intre pe teritoriul României",
+    "Acordarea de pașapoarte și alte documente de călătorie pentru cetățeni români",
+    "Asigurarea asistenței consulare și protecției cetățenilor români în străinătate",
+    "Negocierea și semnarea de acorduri și tratate internaționale",
+    "Coordonarea relațiilor cu diaspora românească și promovarea prezenței românești în străinătate",
+    "Legalizarea și apostilare de documente destinate pentru folosire în străinătate",
+    "Managementul problematică de securitate și siguranță a reprezentanțelor externe",
+    "Elaborarea de ghiduri și informații privind cerințele Schengen și restricții de călătorie",
+    "Coordonarea și monitorizarea unui sistem de alerte pentru cetățeni cu privire la riscuri în anumite regiuni",
+    "Reprezentarea țării la organizații internaționale și negocieri multilaterale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "relații diplomatice",
+      "servicii consulare",
+      "vize Schengen",
+      "pașaport românesc",
+      "asistenție consulară",
+      "acorduri internaționale",
+      "relaț externe"
+    ],
+    "termeni_populari": [
+      "viza",
+      "pașaport",
+      "legalizare document",
+      "apostilă",
+      "consulat",
+      "ambasadă",
+      "călătorie în străinătate"
+    ],
+    "probleme_cetatean": [
+      "vreau să obțin o viză pentru a călători în Schengen",
+      "solicit o legalizare/apostilă de document",
+      "am probleme ca român în străinătate și am nevoie de asistență consulară",
+      "doresc să renesc pașaportul meu românesc",
+      "vreau informații despre cerințe pentru viață în altă țară UE",
+      "plângere privind refuzul unei vize",
+      "doresc să aflu despre drepturi pentru cetățenii ROM în diaspora"
+    ],
+    "domenii_semantice": [
+      "migrație și mobilitate",
+      "cerințe Schengen",
+      "protecție consulară",
+      "diplomație",
+      "relații internaționale",
+      "drepturi cetățeni străinătate",
+      "documente călătorie"
+    ],
+    "contexte_situationale": [
+      "persoană dorind să se mute în altă țară UE",
+      "cetățean roman în dificultate în străinătate",
+      "student solicitând viză pentru studii",
+      "antreprenor dorind să deschidă afacere în altă țară",
+      "muncitor sezonier căutând informații despre drepturi",
+      "pensionar dorind să se stabilească definitiv în străinătate",
+      "persoană solicitând repatriere din țară în situație de criză"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Informații despre proceduri și documente necesare pentru obținere de viză",
+    "Condiții și criterii de acordare a diferitelor tipuri de vize (turist, afaceri, rezidență, etc.)",
+    "Proceduri de legalizare și apostilare a documentelor",
+    "Date de contact și program de funcționare ai ambasadelor și consulatelor românești",
+    "Informații despre drepturi și protecție pentru cetățenii români în străinătate",
+    "Ghiduri și recomandări de călătorie pentru diferite țări",
+    "Structura organizatorică și responsabilități ale departamentelor MAE",
+    "Tarife și costuri pentru servicii consulare și de vize",
+    "Norme și reglementări privind documentele de identitate și pașapoarte",
+    "Informații despre acorduri bilaterale și multilaterale ale României"
+  ],
+  "procedura_544": {
+    "contact_cereri": "https://www.mae.ro/contact",
+    "departament_responsabil": "Departamentul Comunicare și Relații Publice",
+    "Email_general": "opinia_ta@mae.ro",
+    "Email_relatii_publice": "relatii_cu_publicul@mae.ro",
+    "Email_consular": "drco@mae.ro",
+    "Email_presa": "presa@mae.ro",
+    "termin_raspuns": "5-10 zile lucrătoare conform Legii 544/2001"
+  },
+  "structura_organizatorica": {
+    "subordinea": "Guvernul României",
+    "personalitate_juridica": "Da",
+    "reprezentante_externe": [
+      "Ambasade ale României în peste 100 țări",
+      "Consulte generale și consulte în principalele orașe din lume",
+      "Birou de Liaison și alte reprezentanțe speciale"
+    ]
+  },
+  "template_pattern": null
+}

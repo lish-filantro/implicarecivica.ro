@@ -1,0 +1,172 @@
+{
+  "id": "SPITAL_JUDETEAN_TEMPLATE",
+  "tip_institutie": "Spital Județean de Urgență",
+  "nivel": "Județean",
+  "nume_oficial": "Spitalul Județean de Urgență {JUDET}",
+  "nume_scurt": "Spitalul Județean {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe (cu denumiri variabile)",
+  "template_pattern": {
+    "nume_format": "Spitalul Județean de Urgență {judet} sau Spitalul Clinic Județean de Urgență {judet}",
+    "variante_denumire": [
+      "Spitalul Județean de Urgență {judet}",
+      "Spitalul Clinic Județean de Urgență {judet}",
+      "Spitalul Județean {judet}",
+      "Spitalul Clinic Județean {judet}",
+      "Spitalul Municipal {oras} (pentru reședințe de județ)"
+    ],
+    "site_format": "http://spitaljudetean{oras}.ro sau variante",
+    "email_format": "contact@spitaljudetean{oras}.ro sau secretariat@...",
+    "adresa_format": "În reședința de județ - adresă specifică fiecărui județ",
+    "telefon_format": "Cod zonă județ + centrală spital",
+    "coordonate_variabile": ["judet", "oras_resedinta", "denumire_completa", "tip_spital"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 95/2006 privind reforma în domeniul sănătății",
+    "reglementari_specifice": [
+      "Ordinul MS pentru structura organizatorică",
+      "ROF propriu aprobat de Consiliul de Administrație",
+      "Ordinul MS privind acreditarea spitalului",
+      "HCJ pentru înființare/reorganizare"
+    ],
+    "subordonare": "În coordonarea Ministerului Sănătății + Consiliul Județean (finanțare)"
+  },
+  "atributii_principale": [
+    "Furnizarea de servicii medicale de urgență și planificate",
+    "Asistență medicală spitalicească de specialitate",
+    "Servicii de urgență 24/7 prin UPU (Unitatea Primiri Urgențe)",
+    "Internări în regim continuu și de zi",
+    "Consultații de specialitate ambulatoriu",
+    "Investigații paraclinice (laboratoare, imagistică)",
+    "Servicii de chirurgie, medicină internă, pediatrie, obstetrică-ginecologie",
+    "Formare medicală continuă și rezidențiat (pentru spitale clinice)",
+    "Participare la programele naționale de sănătate",
+    "Coordonarea urgențelor medicale la nivel județean"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Spitalul Județean", "Spital Județean de Urgență", "Spital Clinic Județean",
+      "unitate sanitară publică", "UPU județean", "spital public"
+    ],
+    "termeni_populari": [
+      "spitalul judetean", "spital urgenta", "UPU", "spital de stat",
+      "spital public", "camera de garda", "urgente spital", "internare spital"
+    ],
+    "probleme_cetatean": [
+      "programare consultație spital", "internare urgentă",
+      "programare operație", "urgență medicală", "trimitere la spital",
+      "rețetă compensată", "bilet de trimitere", "ambulatoriu spital",
+      "rezultate analize", "lista de așteptare operație",
+      "vizită bolnav internat", "program vizite spital",
+      "plângere servicii medicale", "reclamație medic spital",
+      "factura spital", "costul serviciilor medicale"
+    ],
+    "domenii_semantice": [
+      "urgență medicală", "internare", "servicii spitalicești", "asistență medicală",
+      "chirurgie", "medicină internă", "consultație specialitate",
+      "investigații", "tratament", "îngrijiri medicale",
+      "ambulatoriu", "laborator", "radiologie", "imagistică",
+      "programare", "bilet de trimitere", "rețetă", "tratament compensat"
+    ],
+    "termeni_gresiti": [
+      "spitalul judetean", "spital urgente", "camera garda",
+      "spital de judet", "spital stat"
+    ],
+    "contexte_situationale": [
+      "unde mă duc la urgență", "cum mă programez la spital",
+      "vreau să mă internez", "cine mă operează",
+      "unde fac analize medicale", "cum obțin bilet de trimitere",
+      "unde depun plângere pentru servicii medicale",
+      "cât costă internarea la spital", "când pot vizita pe cineva internat"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre lista de așteptare pentru operații",
+    "Date despre achizițiile publice de echipamente și medicamente",
+    "Informații despre contractele cu furnizorii",
+    "Rapoarte privind calitatea serviciilor medicale",
+    "Date despre bugetul spitalului și alocarea resurselor",
+    "Informații despre structura de personal și posturi vacante",
+    "Date despre planul de dezvoltare și investiții",
+    "Rapoarte despre managementul financiar",
+    "Informații despre programele medicale derulate",
+    "Date statistice despre activitatea medicală"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Unitatea Primiri Urgențe (UPU)",
+      "atributii": "Servicii de urgență 24/7, triaj, stabilizare pacienți",
+      "contact": "112 sau număr direct UPU"
+    },
+    {
+      "nume": "Ambulatoriu Integrat",
+      "atributii": "Consultații de specialitate, programări, bilete de trimitere",
+      "contact": "Registratură ambulatoriu"
+    },
+    {
+      "nume": "Compartiment Relații cu Publicul",
+      "atributii": "Informații pentru pacienți, programări, plângeri și sesizări",
+      "contact": "relatiicupublicul@spital... sau secretariat"
+    },
+    {
+      "nume": "Direcție Medicală",
+      "atributii": "Coordonarea activității medicale, calitate servicii",
+      "contact": "Prin centrală spital"
+    },
+    {
+      "nume": "Direcție Financiar-Contabilă",
+      "atributii": "Gestionarea bugetului, achiziții, contracte",
+      "contact": "contabilitate@spital..."
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "Variabil per spital - secretariat@spital... sau relatiipublice@...",
+    "departament_responsabil": "Compartiment Relații cu Publicul / Biroul Juridic",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001", "Formular plângere/reclamație"],
+    "observatii": "Fiecare spital are proceduri proprii conform ROF"
+  },
+  "structura_tipica": {
+    "conducere": "Manager spital + Consiliu de Administrație + Director medical + Director financiar-contabil",
+    "sectii_medicale": [
+      "Medicină internă", "Chirurgie generală", "Ortopedie-Traumatologie",
+      "Cardiologie", "Neurologie", "ORL", "Oftalmologie",
+      "Obstetrică-Ginecologie", "Pediatrie", "Boli infecțioase",
+      "ATI (Anestezie și Terapie Intensivă)", "Radiologie-Imagistică"
+    ],
+    "servicii_suport": [
+      "Laborator analize medicale", "Farmacie", "Sterilizare",
+      "Bloc alimentar", "Spălătorie", "Mentenanță"
+    ]
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "nume_complet": "Spitalul Clinic Județean de Urgență Cluj-Napoca",
+      "oras_resedinta": "Cluj-Napoca",
+      "site_exemplu": "http://scju-cluj.ro",
+      "tip": "Spital clinic cu învățământ universitar",
+      "observatii": "Include funcția de bază clinică universitară"
+    },
+    {
+      "judet": "Iași",
+      "nume_complet": "Spitalul Clinic Județean de Urgență Sf. Spiridon Iași",
+      "oras_resedinta": "Iași",
+      "site_exemplu": "http://iasispitalsfspiridon.ro",
+      "tip": "Spital clinic de urgență",
+      "observatii": "Include denumire de sfânt patron"
+    },
+    {
+      "judet": "Suceava",
+      "nume_complet": "Spitalul Județean de Urgență Suceava",
+      "oras_resedinta": "Suceava",
+      "site_exemplu": "http://spitaljudeteansuceava.ro",
+      "tip": "Spital județean de urgență",
+      "observatii": "Denumire standard"
+    }
+  ],
+  "tipologii_spitale": {
+    "spital_clinic_judetean": "Cu funcție de învățământ medical universitar și rezidențiat",
+    "spital_judetean_urgenta": "Cu UPU și secții multiple de specialitate",
+    "spital_municipal": "În orașele reședință de județ, similar cu județeanul",
+    "spital_orășenesc": "În orașe mai mici, cu mai puține specialități"
+  }
+}

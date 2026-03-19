@@ -1,0 +1,119 @@
+{
+  "id": "MINISTERUL_EDUCATIEI_CERCETARII",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Educației și Cercetării",
+  "nume_scurt": "MEC",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. General Berthelot nr. 28-30, Sector 1, București",
+    "cod_postal": "010168",
+    "telefon": "021/405.62.00 / 021/405.63.00",
+    "email": "registratura@edu.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.edu.ro",
+    "legislatie_organizare": "https://lege5.ro/Gratuit/ge2tgmrugi2da/hotararea-nr-731-2024-privind-organizarea-si-functionarea-ministerului-educatiei",
+    "rof_complet": "https://www.edu.ro/sites/default/files/_fișiere/Minister/2024/div/HG_731_2024.pdf",
+    "transparenta": "https://www.edu.ro/transparenta-decizionala",
+    "formulare_544": "https://www.edu.ro/legea-544"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 731/2024 privind organizarea și funcționarea Ministerului Educației",
+    "actualizari": [
+      "HG nr. 187/2025 - modificare denumire în Ministerul Educației și Cercetării",
+      "Consultări publice 2024-2025 pentru modificări organizatorice",
+      "Reducere de la 5 la 4 secretari de stat (642 posturi total)"
+    ]
+  },
+  "atributii_principale": [
+    "Elaborarea politicilor în domeniul educației preuniversitare și universitare",
+    "Coordonarea sistemului național de educație și formare profesională",
+    "Cercetarea științifică universitară și dezvoltarea tehnologică",
+    "Coordonarea Autorității Naționale pentru Cercetare (în subordine)",
+    "Asigurarea resurselor pentru sistemul public de educație",
+    "Elaborarea strategiilor naționale de educație și cercetare",
+    "Supravegherea calității în învățământ prin ARACIS",
+    "Cooperarea internațională în educație și cercetare"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Educației și Cercetării", "MEC", "Minister Educației", "Autoritatea Națională pentru Cercetare",
+      "sistem național de educație", "politici educaționale", "cercetare științifică", "dezvoltare tehnologică"
+    ],
+    "termeni_populari": [
+      "ministrul educației", "ministerul educatiei", "minister educatie", "educația",
+      "învățământul", "școala", "universitatea", "cercetarea"
+    ],
+    "probleme_cetatean": [
+      "înscrierea la școală", "transferul școlar", "diploma de studii", "echivalarea diplomei",
+      "bursa de studii", "admiterea la facultate", "taxele școlare", "manualele școlare",
+      "programul școlar", "calendarul școlar", "evaluarea națională", "bacalaureatul"
+    ],
+    "domenii_semantice": [
+      "educație", "învățământ", "școală", "universitate", "facultate", "student", "elev",
+      "profesor", "cadru didactic", "cercetare", "știință", "inovare", "tehnologie",
+      "curriculum", "program școlar", "diplomă", "certificat", "calificare", "formare profesională"
+    ],
+    "termeni_gresiti": [
+      "ministerul educatiei", "ministeru educatiei", "minister invatamant",
+      "casa educatiei", "ministerul scolii"
+    ],
+    "contexte_situationale": [
+      "unde înscriu copilul la școală", "cum echivalez diploma în străinătate",
+      "vreau să știu despre programe de cercetare", "informații despre burse de studii",
+      "cine aprobă manualele școlare", "unde fac reclamație pentru profesor",
+      "cum funcționează admiterea la facultate", "informații despre taxele universitare"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul alocat școlilor pe județe",
+    "Date despre criteriile de distribuție a manualelor școlare gratuite",
+    "Informații despre programele de finanțare a cercetării științifice",
+    "Rapoarte despre calitatea învățământului și rezultatele evaluărilor",
+    "Date despre contractele cu furnizorii de servicii educaționale",
+    "Informații despre strategiile naționale de educație și implementarea lor",
+    "Rapoarte privind cooperarea internațională în educație și fondurile accesate",
+    "Date despre criteriile de acordare a burselor de studii",
+    "Informații despre reformele în curs în sistemul educațional"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Registratura - Serviciul Relații cu Publicul",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "registratura@edu.gov.ro, Tel: +40 (21) 315 50 99"
+    },
+    {
+      "nume": "Direcția Generală Învățământ Preuniversitar",
+      "atributii": "Politici și strategii pentru educația preuniversitară",
+      "contact": "Prin centrală MEC: 021/405.62.00"
+    },
+    {
+      "nume": "Direcția Generală Învățământ Superior",
+      "atributii": "Politici și strategii pentru învățământul superior",
+      "contact": "Prin centrală MEC: 021/405.62.00"
+    },
+    {
+      "nume": "Autoritatea Națională pentru Cercetare",
+      "atributii": "Coordonarea cercetării, dezvoltării tehnologice și inovării",
+      "contact": "În subordinea MEC"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "registratura@edu.gov.ro",
+    "telefon_cereri": "+40 (21) 315 50 99",
+    "departament_responsabil": "Registratura - Serviciul Relații cu Publicul",
+    "program_audiente": "Luni-Joi: 08:30-16:30, Vineri: 08:30-14:00",
+    "sediu_registratura": "Str. General Berthelot nr. 28-30, Sector 1, București",
+    "adresa_alternativa": "Str. Spiru Haret nr. 10, Sector 1, 010176, București",
+    "formulare_disponibile": ["Cerere informații publice", "Contestație răspuns", "Plângere întârziere răspuns"],
+    "rapoarte_anuale": "Publicate pentru anii 2016-2020"
+  },
+  "structura_noua_2025": {
+    "secretari_stat": "4 secretari de stat (reducere de la 5)",
+    "posturi_total": "642 posturi (exclusiv demnitari)",
+    "sedii": ["Str. General Berthelot 28-30", "Str. D.I. Mendeleev 21-25"],
+    "autoritati_subordonate": ["Autoritatea Națională pentru Cercetare", "ARACIS (prin coordonare)"]
+  },
+  "template_pattern": null
+}

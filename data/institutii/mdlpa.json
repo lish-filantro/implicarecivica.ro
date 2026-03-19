@@ -1,0 +1,110 @@
+{
+  "id": "MINISTER_DEZVOLTARE_LUCRARI_PUBLICE",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Dezvoltării, Lucrărilor Publice și Administrației",
+  "nume_scurt": "MDLPA",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Boulevard Libertății nr. 16, Latura Nord, sector 5, București 050706",
+    "telefon": "+40 372 111 309",
+    "fax": "[NEVERIFICAT] +40 21 ...",
+    "email": "[NEVERIFICAT] contact@mdlpa.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mdlpa.ro",
+    "urbanism": "https://www.mdlpa.ro/pages/urbanism",
+    "dateLocale": "https://datelocale.mdlpa.ro",
+    "servicii_publice": "https://serviciipublice.gov.ro/institutie/ministerul-dezvoltarii-lucrarilor-publice-si-administratiei"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 477/2020 privind organizarea și funcționarea Ministerului Lucrărilor Publice, Dezvoltării și Administrației",
+    "publicare_MO": "MO nr. 487/16 iunie 2020",
+    "modificari_recente": "Modificări prin OUG nr. 153/2024"
+  },
+  "atributii_principale": [
+    "Elaborarea și implementarea politicii de dezvoltare teritorială și administrație publică locală",
+    "Coordonarea și monitorizarea administrației publice locale la nivel de județe și localități",
+    "Reglementarea standardelor de planificare urbană și dezvoltare teritorială",
+    "Coordonarea lucrărilor publice și infrastructurii la nivel național",
+    "Autorizarea și supravegherea documentației de planificare urbană",
+    "Administrarea și repartiția fondurilor pentru dezvoltare regională și locală",
+    "Definirea standardelor și reglementări în domeniu construcții și urbanism",
+    "Coordonarea și monitorizarea serviciilor publice de utilități și transport",
+    "Gestionarea proprietăților publice și a locuirii sociale",
+    "Emisiunea de avize și acte de conformitate privind planuri de amenajament ale teritoriului",
+    "Coordonarea cu consiliile de dezvoltare regională",
+    "Implementarea programelor de infrastructură și coeziune teritorială finanțate din fonduri europene"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "administrație publică locală",
+      "planificare urbană",
+      "dezvoltare teritorială",
+      "infrastructură publică",
+      "urbanism",
+      "amenajament teritorial",
+      "construcții"
+    ],
+    "termeni_populari": [
+      "permit de construcție",
+      "plan urbanistic",
+      "dezvoltare comună",
+      "servicii publice locale",
+      "localități",
+      "și-și urbanism",
+      "drumuri și căi publice"
+    ],
+    "probleme_cetatean": [
+      "vreau să aflu despre procedura de obținere a unui permit de construcție",
+      "solicit informații privind planul de urbanism al localității mele",
+      "contest o decizie privind amplasamentul unei construcții",
+      "doresc să aflu despre standarde minime pentru servicii publice locale",
+      "plângere privind calitatea serviciilor publice de utilități",
+      "întrebare despre programele de locuire socială din zona mea"
+    ],
+    "domenii_semantice": [
+      "administrație locală",
+      "plănuire urbană",
+      "politici teritoriale",
+      "servicii de interes public",
+      "infrastructură",
+      "dezvoltare socio-economică",
+      "coeziune teritorială"
+    ],
+    "contexte_situationale": [
+      "cetățean vrea să construiască o casă în zona sa",
+      "primar au nevoie de clarificare privind standardele pentru servicii publice",
+      "developer contestă o decizie de refuz a planului urbanistic",
+      "locuitori nemulțumiți cu calitatea infrastructurii publice",
+      "autorități locale solicitând finanțare pentru lucrări publice"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Informații despre proceduri și condiții de emitere a autorizațiilor de urbanism",
+    "Date privind planurile de urbanism și amenajament ale unor localități specifice",
+    "Standarde și criterii minime pentru servicii publice la nivel local",
+    "Structura organizatorică și responsabilități ale departamentelor MDLPA",
+    "Programe și fonduri disponibile pentru infrastructură și dezvoltare locală",
+    "Condiții și proceduri de acces la programele de locuire socială",
+    "Registru de proprietăți publice și gestionarea imobilelor proprietate de stat",
+    "Rapoarte și statistici privind administrația publică locală și dezvoltarea teritorială",
+    "Costuri, taxe și tarife aplicabile pentru serviciile furnizate de minister",
+    "Bune practici și studii de caz în domeniu urbanism și dezvoltare"
+  ],
+  "procedura_544": {
+    "contact_cereri": "www.mdlpa.ro/pages/contact514",
+    "departament_responsabil": "Serviciul Comunicare și Relații Publice",
+    "Email": "[NEVERIFICAT] relatii_publice@mdlpa.gov.ro",
+    "termin_raspuns": "5-10 zile lucrătoare conform Legii 544/2001"
+  },
+  "structura_organizatorica": {
+    "subordinea": "Guvernul României",
+    "personalitate_juridica": "Da",
+    "institutii_asociate": [
+      "Consiliile de Dezvoltare Regională (8 organizații)",
+      "Autoritățile administrației publice locale"
+    ]
+  },
+  "template_pattern": null
+}

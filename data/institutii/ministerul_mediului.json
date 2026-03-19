@@ -1,0 +1,296 @@
+{
+  "id": "MINISTERUL_MEDIULUI",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Mediului, Apelor și Pădurilor",
+  "nume_scurt": "MMAP / Ministerul Mediului",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Libertății nr. 12, Sector 5, București",
+    "cod_postal": "040129",
+    "telefon": "+40 21 408 9642 (Registratură) / +40 21 408 9500 (Relații publice)",
+    "fax": "+40 21 408 9615",
+    "email": "registratura@mmediu.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://mmediu.ro",
+    "legislatie_organizare": "https://mmediu.ro/en/transparenta/proiecte-acte-normative/",
+    "rof_complet": "http://www.mmediu.ro/categorie/regulament-de-organizare-si-functionare/153",
+    "transparenta": "http://mmediu.ro/categorie/buletinul-informativ-legea-544-2001/162",
+    "formulare_544": "https://mmediu.ro/informatii-de-interes-public/solicitare-informatii/",
+    "contact_cereri_544": "solicitari544@mmediu.ro"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 43/2020 privind organizarea și funcționarea Ministerului Mediului, Apelor și Pădurilor",
+    "actualizari": [
+      "HG nr. 332/03.04.2025 - modificare HG 43/2020 pentru reducerea numărului de secretari de stat de la 5 la 3",
+      "OUG nr. 16/2025 - măsuri la nivelul administrației publice centrale",
+      "Ordinul 573/23.02.2023 - aprobarea Regulamentului de organizare și funcționare (ROF)"
+    ],
+    "cod_fiscal": "16335444"
+  },
+  "atributii_principale": [
+    "Elaborarea și implementarea politicii naționale în domeniul protecției mediului",
+    "Gestionarea și protecția resurselor de apă",
+    "Administrarea și conservarea fondului forestier național",
+    "Protecția biodiversității și gestionarea ariilor naturale protejate",
+    "Combaterea schimbărilor climatice și reducerea emisiilor de gaze cu efect de seră",
+    "Gestionarea deșeurilor și promovarea economiei circulare",
+    "Controlul și prevenirea poluării mediului (aer, apă, sol)",
+    "Evaluarea impactului activităților asupra mediului",
+    "Coordonarea implementării legislației europene de mediu",
+    "Administrarea Fondului pentru Mediu",
+    "Gestionarea resurselor naturale și dezvoltare durabilă",
+    "Educație și informare publică privind protecția mediului",
+    "Coordonarea reformelor și investițiilor din PNRR în domeniul mediului"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Mediului, Apelor și Pădurilor",
+      "MMAP",
+      "Ministerul Mediului",
+      "protecția mediului",
+      "ape",
+      "păduri",
+      "biodiversitate",
+      "schimbări climatice",
+      "dezvoltare durabilă",
+      "economie circulară"
+    ],
+    "termeni_populari": [
+      "ministerul mediului",
+      "minister mediu",
+      "protectia mediului",
+      "padurea nationala",
+      "ape si paduri",
+      "schimbari climatice",
+      "poluare",
+      "deseuri",
+      "reciclare",
+      "natura protejata"
+    ],
+    "probleme_cetatean": [
+      "tăiere ilegală pădure",
+      "defrisare",
+      "lemn ilegal",
+      "poluare râu",
+      "poluare apă",
+      "ape uzate",
+      "deversare poluanți",
+      "poluare aer",
+      "miros neplăcut",
+      "emisii noxe",
+      "fum fabrica",
+      "depozit deșeuri neautorizat",
+      "gunoi ilegal",
+      "deșeuri periculoase",
+      "distrugere arie protejată",
+      "parc național",
+      "rezervație naturală",
+      "animal protejat vânat",
+      "braconaj",
+      "trafic animale",
+      "autorizație de mediu",
+      "aviz mediu",
+      "evaluare impact mediu",
+      "certificat verde",
+      "emisii CO2",
+      "poluare auto",
+      "fond forestier",
+      "proprietate pădure",
+      "litigii păduri",
+      "fondul pentru mediu",
+      "finanțare proiect verde",
+      "granturi mediu",
+      "campanie împădurire",
+      "plantare copaci",
+      "refacere pădure",
+      "poluare fonică",
+      "zgomot industrial",
+      "poluare sonoră"
+    ],
+    "domenii_semantice": [
+      "mediu",
+      "protecție",
+      "ecologie",
+      "natură",
+      "verde",
+      "apă",
+      "râu",
+      "lac",
+      "Dunăre",
+      "resursă",
+      "hidric",
+      "pădure",
+      "lemn",
+      "forestier",
+      "arbore",
+      "copac",
+      "silvic",
+      "poluare",
+      "contaminare",
+      "emisii",
+      "deșeuri",
+      "gunoi",
+      "toxic",
+      "aer",
+      "atmosferă",
+      "calitate",
+      "miros",
+      "fum",
+      "biodiversitate",
+      "specie",
+      "animal",
+      "plantă",
+      "protejat",
+      "arie",
+      "parc",
+      "rezervație",
+      "Natura 2000",
+      "climă",
+      "schimbare",
+      "încălzire",
+      "globală",
+      "CO2",
+      "carbon",
+      "reciclare",
+      "circular",
+      "reutilizare",
+      "valorificare",
+      "autorizație",
+      "aviz",
+      "evaluare",
+      "impact",
+      "studiu",
+      "durabil",
+      "sustenabil",
+      "dezvoltare",
+      "ecologic"
+    ],
+    "termeni_gresiti": [
+      "ministerul mediului",
+      "minister de mediu",
+      "ministeru mediului",
+      "ministerul padurilor"
+    ],
+    "contexte_situationale": [
+      "vreau să raportez tăiere ilegală de pădure",
+      "unde sesizez defrisare",
+      "cum raportez poluare râu",
+      "unde reclam deversare în apă",
+      "vreau să sesizez poluare aer",
+      "unde reclam miros de la fabrică",
+      "cum raportez depozit ilegal de gunoi",
+      "unde sesizez deșeuri periculoase",
+      "cum obțin autorizație de mediu",
+      "unde depun cerere aviz mediu",
+      "vreau să investesc în proiecte verzi",
+      "cum accesez fonduri pentru mediu",
+      "cum particip la campanie de împădurire",
+      "unde mă înscriu la plantat copaci",
+      "vreau să raportez braconaj",
+      "unde sesizez trafic de animale protejate",
+      "cum verific dacă terenul este în arie protejată",
+      "ce restricții am în Natura 2000",
+      "vreau să obțin certificat verde pentru mașină",
+      "cum reduc emisiile de carbon"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre autorizațiile de mediu emise",
+    "Date despre bugetul MMAP și execuția bugetară",
+    "Informații despre contractele de achiziții publice",
+    "Rapoarte despre starea mediului în România",
+    "Date despre pădurile din domeniul public",
+    "Informații despre ariile naturale protejate",
+    "Rapoarte despre calitatea apei și a aerului",
+    "Date despre emisiile de gaze cu efect de seră",
+    "Informații despre strategiile și programele de mediu",
+    "Documente din PNRR privind componenta de mediu"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcția Generală Păduri",
+      "atributii": "Administrare fond forestier, combatere tăieri ilegale",
+      "contact": "Prin MMAP"
+    },
+    {
+      "nume": "Direcția Ape",
+      "atributii": "Gestionare resurse de apă, prevenire poluare apă",
+      "contact": "Prin MMAP și Apele Române"
+    },
+    {
+      "nume": "Direcția Biodiversitate",
+      "atributii": "Protecție biodiversitate, arii naturale protejate, Natura 2000",
+      "contact": "Prin MMAP"
+    },
+    {
+      "nume": "Direcția Schimbări Climatice",
+      "atributii": "Politici climă, reducere emisii, certificare verde",
+      "contact": "Prin MMAP"
+    },
+    {
+      "nume": "Direcția Evaluare Impact și Autorizare Mediu",
+      "atributii": "Evaluări impact, autorizații integrate de mediu",
+      "contact": "Prin MMAP"
+    },
+    {
+      "nume": "Agenția Națională pentru Protecția Mediului (ANPM)",
+      "atributii": "Coordonare APM-uri județene, monitorizare mediu",
+      "contact": "www.anpm.ro"
+    },
+    {
+      "nume": "Administrația Națională Apele Române",
+      "atributii": "Gestionare resurse apă, prevenire inundații",
+      "contact": "www.rowater.ro"
+    },
+    {
+      "nume": "Regia Națională a Pădurilor - Romsilva",
+      "atributii": "Administrare păduri din domeniul public",
+      "contact": "www.rosilva.ro"
+    },
+    {
+      "nume": "Administrația Fondului pentru Mediu (AFM)",
+      "atributii": "Finanțare proiecte verzi, granturi mediu",
+      "contact": "www.afm.ro"
+    },
+    {
+      "nume": "Garda Națională de Mediu",
+      "atributii": "Control și inspecție protecția mediului",
+      "contact": "www.gnm.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "solicitari544@mmediu.ro",
+    "telefon": "+40 21 408 9605",
+    "departament_responsabil": "Direcția Comunicare - Consilier Elena SZELE",
+    "formulare_disponibile": [
+      "Cerere informații publice Legea 544/2001"
+    ],
+    "observatii": "Rapoarte anuale privind aplicarea Legii 544/2001 publicate pe site (2006-2024)"
+  },
+  "program_lucru": {
+    "luni_joi": "08:00 - 16:30",
+    "vineri": "08:00 - 14:00",
+    "relații_publice": {
+      "luni_marti_joi": "08:00 - 16:30",
+      "miercuri": "08:00 - 18:30",
+      "vineri": "08:00 - 14:00",
+      "telefon": "+40 21 408 9500",
+      "email": "petitii@mmediu.ro"
+    }
+  },
+  "structura_conducere": {
+    "ministru": "Ministrul Mediului, Apelor și Pădurilor",
+    "secretari_stat": "3 Secretari de stat (redus de la 5 în aprilie 2025 prin HG 332/2025)",
+    "secretar_general": "Secretar general - coordonare aparat central",
+    "institutii_subordonate": "ANPM, Apele Române, Romsilva, AFM, Garda de Mediu, APM-uri județene"
+  },
+  "pnrr_coordonare": {
+    "observatie": "MMAP este coordonator al reformelor și investițiilor din Planul Național de Redresare și Reziliență (PNRR) pentru domeniul de competență al ministerului, inclusiv componenta verde și de mediu."
+  },
+  "actualizari_2025": {
+    "modificare_structura": "HG nr. 332/03.04.2025 - reducere număr secretari de stat de la 5 la 3, în aplicarea OUG 16/2025",
+    "consultare_publica": "Proiect HG organizare și funcționare supus consultării publice în martie 2025"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "id": "ANF",
+  "tip_institutie": "Autoritate Națională",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională Fitosanitară",
+  "nume_scurt": "ANF",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Blvd. Voluntari nr. 11, Voluntari, Județul Ilfov",
+    "cod_postal": "077190",
+    "telefon": "0212703254",
+    "email": "anf@anfdf.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.anfdf.ro/",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocumentAfis/165483"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 43/2015 privind organizarea și funcționarea Autorității Naționale Fitosanitare",
+    "actualizari": []
+  },
+  "atributii_principale": [
+    "Organizează și execută controlul oficial fitosanitar pentru protejarea plantelor și produselor vegetale",
+    "Monitorizează și controlează arganismele dăunătoare și bolile plantelor",
+    "Analizează și monitorizează reziduurile de pesticide în fructe, legume și cereale",
+    "Evaluează, aprobă și realizează controlul post-comercializare a produselor de protecție a plantelor",
+    "Coordonează activitățile laboratoarelor de referință în domeniul fitosanitar",
+    "Eliberează și gestionează certificatele fitosanitare și re-export fitosanitare",
+    "Organizează și coordonează Poliția Fitosanitară la nivel național",
+    "Implementează măsuri de protecție fitosanitară privind importul, exportul și tranzitul plantelor",
+    "Stabilește și monitorează zone protejate și măsuri specifice pentru organisme dăunătoare",
+    "Colaborează cu autorități UE și internationale pentru armonizare măsuri fitosanitare"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Autoritatea Națională Fitosanitară",
+      "ANF",
+      "Certificat fitosanitar",
+      "Control fitosanitar"
+    ],
+    "termeni_populari": [
+      "Certificat plante",
+      "Protecție culturi",
+      "Fitosanitar",
+      "Certificat export plante"
+    ],
+    "probleme_cetatean": [
+      "Certificat fitosanitar export",
+      "Control boli plante",
+      "Import fructe și legume",
+      "Protecție culturi",
+      "Pesticide reglementate"
+    ],
+    "domenii_semantice": [
+      "Fitosanitar",
+      "Protecție plante",
+      "Organisme dăunătoare",
+      "Comerciu agricol",
+      "Siguranță produse agricole"
+    ],
+    "termeni_gresiti": [
+      "Agenția Fitosanitară",
+      "Serviciul Fitosanitar",
+      "ANFS"
+    ],
+    "contexte_situationale": [
+      "Export plante și trebuie certificat",
+      "Am pest pe culturi",
+      "Vreau info despre pesticidele permise",
+      "Import fructe și legume",
+      "Control oficial culturi"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare certificat fitosanitar pentru export de plante și produse vegetale",
+    "Cerere de informații despre organisme dăunătoare și măsuri de control",
+    "Informații despre regulile fitosanitare pentru import/export în UE",
+    "Solicitare date privind rezultatele de monitorizare a reziduurilor de pesticide",
+    "Cerere privind procedurile și taxa pentru controlul oficial fitosanitar",
+    "Informații despre zone protejate și restricții de transport pentru plante",
+    "Solicitare rapoarte anuale asupra activității de control fitosanitar"
+  ],
+  "procedura_544": {
+    "contact_cereri": "fitosanitar@anfdf.ro",
+    "departament_responsabil": "Departamentul de Relații cu Publicul și Transparență",
+    "call_center": "0212703254"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2015",
+    "subordinea": "Ministerul Agriculturii și Dezvoltării Rurale",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

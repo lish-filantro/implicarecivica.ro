@@ -1,0 +1,98 @@
+{
+  "id": "OCPI_JUDETEAN",
+  "tip_institutie": "Instituție de publicitate imobiliară și cadastru",
+  "nivel": "Județean",
+  "nume_oficial": "Oficiul de Cadastru și Publicitate Imobiliară {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 7/1996 privind cadastrul și publicitatea imobiliară",
+    "legi_complementare": [
+      "Legea 7/1996 actualizată (2024)",
+      "Regulamente ANCPI (Agenția Națională de Cadastru și Publicitate Imobiliară)"
+    ]
+  },
+  "atributii_principale": [
+    "Eliberare extras de carte funciară pentru informare",
+    "Înregistrare și intabulare de proprietăți imobiliare",
+    "Înregistrare restricții și sarcini asupra bunurilor imobile",
+    "Menținere și actualizare a registrului fonciar",
+    "Înregistrare drepturi reale (uzufruct, servitute, ipotecă)",
+    "Înregistrare modificări de proprietari și modificări datelor imobilelor",
+    "Eliberare extras și consulturi din cartea funciară",
+    "Gestionarea sistemului de evidență a parcelelor cadastrale",
+    "Participare la actualizarea planului cadastral de sector",
+    "Certificare de copii și apud acta a documentelor imobiliare",
+    "Preluare și procesare de cereri de intabulare de la notari",
+    "Consultarea și raportare date cadastrale pentru autoritățile publice"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "carte funciară",
+      "intabulare",
+      "cadastru",
+      "publicitate imobiliară",
+      "drepturi reale",
+      "proprietate imobiliară",
+      "înregistrare imobiliară"
+    ],
+    "termeni_populari": [
+      "extras de proprietate",
+      "extras din cartea funciară",
+      "înregistrare casă",
+      "înregistrare teren",
+      "transfer proprietate"
+    ],
+    "probleme_cetatean": [
+      "cum obțin extras de carte funciară",
+      "cum înregistrez o proprietate",
+      "cum verific proprietarul unui teren",
+      "cum înregistrez o sarcină pe imobil",
+      "probleme cu înregistrarea proprietății"
+    ],
+    "domenii_semantice": [
+      "imobiliare",
+      "proprietate",
+      "drepturi reale",
+      "cadastru",
+      "registrul fonciar"
+    ],
+    "contexte_situationale": [
+      "proces de cumpărare-vânzare imobil",
+      "moștenire imobiliară",
+      "ipotecă pentru credit",
+      "verificare titlu de proprietate",
+      "divorț și împărțire bunuri"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de informații privind parcelele cadastrale dintr-o zonă",
+    "Cerere de acces la planurile cadastrale și documente de înregistrare",
+    "Solicitare lista proprietăților înregistrate sub anumit nume",
+    "Cerere privind istoricul modificărilor de proprietari"
+  ],
+  "procedura_544": {
+    "timp_raspuns": "10-30 de zile (conform Legea 544/2001)",
+    "format_cerere": "Scrisoare cu datele solicitantului și descrierea clară a informației cerute",
+    "contact": "Birourile de relații cu publicul ale OCPI din fiecare județ"
+  },
+  "structura": {
+    "departamente_principale": [
+      "Birou carte funciară (înregistrare și consultare)",
+      "Birou cadastru (întreținere date cadastrale)",
+      "Birou relații cu publicul (emitere acte și consulturi)"
+    ]
+  },
+  "servicii_online": {
+    "platform": "MyEterra (cu ROeID)",
+    "descriere": "Acces online la extras de carte funciară și informații cadastrale",
+    "link": "https://ancpi.online/"
+  },
+  "observatii": {
+    "timp_emitere_normale": "2-5 zile lucratoare",
+    "taxe": "[NEVERIFICAT - taxe variabile pentru servicii]",
+    "documente_necesare": "Cerere tipizată, legitimare, identificare clar a imobilului (adresă sau identificator cadastral)"
+  }
+}

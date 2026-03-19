@@ -1,0 +1,120 @@
+{
+  "id": "SPCEEPS_JUDETEAN",
+  "tip_institutie": "Serviciu public comunitar pentru pașapoarte",
+  "nivel": "Județean",
+  "nume_oficial": "Serviciul Public Comunitar pentru Eliberarea și Evidența Pașapoartelor Simple {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 248/2005 privind regimul liberei circulații a cetățenilor români în străinătate",
+    "legi_complementare": [
+      "Legea 133/2018 privind modificarea și completarea Legii 248/2005",
+      "Regulamente MAI (Ministerul Afacerilor Interne) - Direcția Generală de Pașapoarte"
+    ]
+  },
+  "atributii_principale": [
+    "Emitere pașapoarte simple electronice",
+    "Emitere pașapoarte simple temporare (urgență)",
+    "Primire și prelucrare cereri de pașapoarte",
+    "Colectare date biometrice (amprentă digitală)",
+    "Gestionare programări online pentru solicitanți",
+    "Verificare documente și identitate solicitanți",
+    "Înregistrare și arhivare documente pașapoarte",
+    "Coordonare cu Direcția Generală de Pașapoarte (nivel central)",
+    "Remitere pașapoarte (acasă sau colectare)",
+    "Gestionare conturi și acces MyID (ROeID) pentru aplicanți",
+    "Informare cetățeni privind proceduri și cerințe",
+    "Gestionare dosare și urmărire status aplicații"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "pașaport simplu electronic",
+      "pașaport temporar",
+      "emitere pașaport",
+      "programare pașaport",
+      "serviciu public comunitar pașapoarte",
+      "libera circulație"
+    ],
+    "termeni_populari": [
+      "pașaport",
+      "pasaport românesc",
+      "cu cât timp obțin pașaport",
+      "unde mă programez la pașapoarte",
+      "pașaport urgent",
+      "pașaport copil"
+    ],
+    "probleme_cetatean": [
+      "cum mă programez la pașapoarte",
+      "ce documente trebuie pentru pașaport",
+      "cât costă un pașaport",
+      "cât timp durează obținerea pașaportului",
+      "cum verific status cererii pașaport",
+      "cum returnez pașaportul expirat"
+    ],
+    "domenii_semantice": [
+      "documente de călătorie",
+      "libera circulație",
+      "travel documents",
+      "identitate",
+      "registru pașapoarte"
+    ],
+    "contexte_situationale": [
+      "pregătire pentru călătorie în străinătate",
+      "pașaport prima oară",
+      "renovare pașaport expirat",
+      "pașaport pentru copil minor",
+      "nevoie urgentă de pașaport",
+      "pierdere sau deteriorare pașaport"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații privind documentele necesare",
+    "Cerere copie dosarului pașaport",
+    "Acces la date privind termenul de emitere",
+    "Informații privind programări disponibile"
+  ],
+  "procedura_544": {
+    "timp_raspuns": "10-30 de zile (conform Legea 544/2001)",
+    "format_cerere": "Scrisoare cu datele complete ale solicitantului și cererea specifică",
+    "contact": "Serviciul Public Comunitar de Pașapoarte - Birou relații publice"
+  },
+  "procedura_emitere": {
+    "denumire_procedurii": "Emitere pașaport simplu electronic",
+    "timp_procesare": "5-15 zile lucratoare (București: 5 zile; alte județe: până 15 zile)",
+    "conditii_minime": "15 zile lucratoare din data depunerii pentru ridicare în țară",
+    "doc_necesare": [
+      "Formular completat oficial (F1)",
+      "Act de identitate valid (CI sau pașaport vechi)",
+      "Certificat de naștere",
+      "Dovada domiciliu",
+      "Fotografie biometrică (4x6 cm)",
+      "Declarație pe proprie răspundere (pentru minori: semnează părinți)"
+    ],
+    "etape": [
+      "Programare online pe epasapoarte.ro",
+      "Prezentare la programul stabilit cu documente",
+      "Preluare date biometrice (scan amprentă)",
+      "Semnare declarații și preluare documente",
+      "Procesare și emitere pașaport",
+      "Notificare cititor pentru ridicare sau livrare"
+    ]
+  },
+  "servicii_online": {
+    "platform": "epasapoarte.ro",
+    "descriere": "Programare online pentru solicitare pașaport",
+    "link": "https://epasapoarte.ro/"
+  },
+  "optiuni_livrare": {
+    "ridicare_locala": "La sediul serviciului din județ",
+    "livrare_acasa": "Livrare gratuită în România",
+    "ridicare_alta_locatie": "[NEVERIFICAT - disponibilitate în alte județe]"
+  },
+  "observatii": {
+    "valabilitate_electric": "10 ani pentru persoane majore (peste 18 ani)",
+    "valabilitate_minor": "5 ani pentru minori (sub 18 ani)",
+    "taxa_serviciu": "[NEVERIFICAT - valori variabile]",
+    "corespondenta_externa": "Acces garantat la orice serviciu din România indiferent de domiciliu"
+  }
+}

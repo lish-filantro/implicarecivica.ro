@@ -1,0 +1,132 @@
+{
+  "id": "ANPC_COMISARIAT_JUDETEAN",
+  "tip_institutie": "Comisariat teritorial pentru protecția consumatorilor",
+  "nivel": "Județean",
+  "nume_oficial": "Comisariatul Județean pentru Protecția Consumatorilor {JUDET}",
+  "aplicabilitate": "Fiecare județ + București (componente ale ANPC)",
+  "template_pattern": {
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 21/1992 privind consumatorii (modificată și completată)",
+    "legi_complementare": [
+      "Ordinul ANPC pentru reglementări interne",
+      "Regulamente ANPC (Autoritatea Națională pentru Protecția Consumatorilor)",
+      "Directive europene transpuse în legislația română"
+    ]
+  },
+  "atributii_principale": [
+    "Primire și analiză sesizări și reclamații de la consumatori",
+    "Investigare reclamații privind produse și servicii defectuoase",
+    "Inspecții de piață și controale la comercianți și furnizori",
+    "Verificare conformitate produse cu standardele de siguranță",
+    "Evaluare respectare drepturi consumatorilor",
+    "Emitere avertismente și ordine de remediere",
+    "Aplicare sancțiuni (amenzi) pentru încălcări",
+    "Mediație și rezolvare conflicte consumator-furnizor",
+    "Rapoarte și statistici despre reclamații și controale",
+    "Educație și informare consumatori privind drepturi",
+    "Coordonare cu alte instituții (Gărzile de Mediu, ANAF, etc.)",
+    "Colaborare cu comisariatul central ANPC"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "ANPC",
+      "comisariat județean",
+      "protecția consumatorilor",
+      "reclamație consumator",
+      "sesizare",
+      "control piață",
+      "drepturi consumator"
+    ],
+    "termeni_populari": [
+      "reclamație ANPC",
+      "produs defect",
+      "serviciu prost",
+      "nerespectare cumpărare",
+      "înșelătorie comerciant",
+      "garanție produse"
+    ],
+    "probleme_cetatean": [
+      "unde depun plângere pentru produs defect",
+      "cum mă plâng pentru serviciu slab",
+      "cum pot obține despăgubiri",
+      "ce drepturi am ca și consumator",
+      "cum verific autenticitate produse",
+      "unde depun sesizare ANPC"
+    ],
+    "domenii_semantice": [
+      "protecție consumatori",
+      "drepturi consumator",
+      "produse",
+      "servicii",
+      "piață",
+      "publicitate"
+    ],
+    "contexte_situationale": [
+      "produs cumpărat nu corespunde descrierii",
+      "serviciu nu a fost realizat conform contract",
+      "produs deteriorat la primire",
+      "furnizor refuză reparație sub garanție",
+      "publicitate înșelătoare",
+      "preț discriminatoriu sau nerespectare prețuri afișate"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații privind drepturile consumatorilor",
+    "Cerere copie raportului unei investigații",
+    "Acces la informații privind controale efectuate",
+    "Solicitare date și program funcționare comisariat",
+    "Cerere informații statistice despre reclamații"
+  ],
+  "procedura_544": {
+    "timp_raspuns": "10-30 de zile (conform Legea 544/2001)",
+    "format_cerere": "Scrisoare cu datele solicitantului și cererea specifică",
+    "contact": "Comisariatul Județean - Birou relații publice"
+  },
+  "procedura_reclamatie": {
+    "denumire_procedurii": "Depunere și investigare reclamație consumator",
+    "timp_raspuns": "10-30 zile pentru investigare și comunicare rezultate",
+    "cine_poate_depune": "Orice consumator (persoană fizică) cu reclamație asupra unui produs/serviciu",
+    "format_depunere": [
+      "Scris la sediul comisariatului",
+      "Email la adresa comisariatului",
+      "Formular online (dacă disponibil)",
+      "Telefonic (pentru informații preliminare)"
+    ],
+    "doc_necesare": [
+      "Cerere tipizată sau scrisoare cu date solicitantului",
+      "Descrierea detaliată a problemei",
+      "Dovezi (bon fiscal, facturi, fotografii)",
+      "Date furnizor/comerciant",
+      "Încerc rezolvare directă (documente referitoare)"
+    ],
+    "etape": [
+      "Depunere reclamație completă",
+      "Înregistrare și deschidere dosar",
+      "Comunicare cu furnizorul/comerciantul",
+      "Investigare și inspecție dacă necesară",
+      "Comunicare rezultate și recomandări",
+      "Sancțiuni dacă se constată încălcări"
+    ]
+  },
+  "tipuri_controale": {
+    "control_reactiv": "La sesizarea consumatorului",
+    "control_proactiv": "Controale programate pe categorii de produse/servicii",
+    "control_tematic": "Controale pe teme specifice (Caravan Consumator, etc.)"
+  },
+  "servicii_online": {
+    "platforma_sesizari": "https://sesizari1.anpc.ro/",
+    "descriere": "Depunere electronică de sesizări"
+  },
+  "contact_urgent": {
+    "telefon": "0219551",
+    "descriere": "Linie consumator pentru informații și reclamații"
+  },
+  "observatii": {
+    "cine_nu_poate_depune": "Persoane juridice (companii) - doar consumatori persoane fizice",
+    "taxe": "Fără taxă pentru depunerea reclamației",
+    "despagubiri": "[NEVERIFICAT - procesul și rezultatele despăgubirilor depind de caz]",
+    "mediere": "Se oferă mediere între consumator și furnizor pentru rezolvare amiabilă"
+  }
+}

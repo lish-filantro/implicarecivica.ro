@@ -1,0 +1,183 @@
+{
+  "id": "MAI",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Afacerilor Interne",
+  "nume_scurt": "MAI",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Piața Revoluției nr. 1A, Sector 1, București",
+    "cod_postal": "010086",
+    "telefon": "021.650.31.04 / Contact Center pentru urgențe: 112",
+    "email": "relatii.publice@mai.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mai.gov.ro",
+    "legislatie_organizare": "https://www.mai.gov.ro/despre-noi/atributiile-ministerului-afacerilor-interne/",
+    "rof_complet": "https://www.mai.gov.ro/despre-noi/organizare/regulament-de-organizare-si-functionare/",
+    "transparenta": "https://www.mai.gov.ro/informatii-publice/buletinul-informativ-legea-544-2001/",
+    "formulare_544": "https://www.mai.gov.ro/informatii-publice/",
+    "contact_center": "https://www.mai.gov.ro/contact-center/"
+  },
+  "legislatie_baza": {
+    "document_principal": "OUG nr. 30/2007 privind organizarea și funcționarea MAI, aprobată prin Legea nr. 15/2008",
+    "actualizari": [
+      "HG nr. 416/2007 - structura organizatorică și statele de funcții ale MAI",
+      "Plan Strategic Instituțional PSI - MAI 2025-2028",
+      "Reconfigurare structurală și funcțională inițiată în septembrie 2025"
+    ]
+  },
+  "atributii_principale": [
+    "Asigurarea ordinii și siguranței publice pe întreg teritoriul țării",
+    "Prevenirea și combaterea criminalității și a actelor de terorism",
+    "Apărarea drepturilor și libertăților fundamentale ale persoanei",
+    "Supravegherea și controlul trecerii frontierei de stat",
+    "Gestionarea situațiilor de urgență și protecție civilă",
+    "Evidența populației și regimul actelor de identitate",
+    "Regimul pașapoartelor și permiselor de conducere",
+    "Înmatricularea vehiculelor și monitorizarea traficului rutier",
+    "Combaterea traficului de persoane și a migrației ilegale",
+    "Coordonarea prefecturilor și a instituțiilor prefectului",
+    "Gestionarea Arhivelor Naționale",
+    "Coordonarea sistemului de pensii pentru personalul MAI"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Afacerilor Interne", "MAI", "minister de interne",
+      "ordine publică", "siguranță națională", "poliție", "jandarmerie",
+      "pompieri", "protecție civilă", "situații de urgență"
+    ],
+    "termeni_populari": [
+      "ministerul de interne", "MAI România", "ministrul de interne",
+      "politia romana", "jandarmeria", "pompierii", "salvare",
+      "112 urgențe", "permis conducere", "pașaport", "carte identitate"
+    ],
+    "probleme_cetatean": [
+      "carte de identitate", "buletin", "CI", "pașaport",
+      "permis de conducere", "înmatriculare auto", "ITP",
+      "urgență 112", "pompieri", "ambulanță", "poliție",
+      "plângere poliție", "sesizare infracțiune", "furt", "agresiune",
+      "situație de urgență", "incendiu", "inundație", "cutremur",
+      "evidența populației", "schimbare domiciliu", "reședință",
+      "prefectură", "instituția prefectului",
+      "arhive naționale", "acte arhivă", "documente istorice",
+      "trafic de persoane", "migrație ilegală", "azil",
+      "jandarmi", "ordine publică", "protest", "manifestație",
+      "frontieră", "control frontieră", "vamă", "trecere frontieră"
+    ],
+    "domenii_semantice": [
+      "afaceri interne", "ordine", "siguranță", "securitate", "protecție",
+      "poliție", "jandarmerie", "pompieri", "salvare", "urgență",
+      "evidență", "populație", "acte", "identitate", "pașaport", "permis",
+      "înmatriculare", "vehicul", "auto", "trafic", "rutier",
+      "frontieră", "control", "migrație", "azil", "străini",
+      "prefectură", "prefect", "arhive", "documente",
+      "criminalitate", "infracțiune", "terorizm", "combatere",
+      "situații", "urgență", "incendiu", "inundație", "cutremur",
+      "trafic", "persoane", "siguranță", "națională"
+    ],
+    "termeni_gresiti": [
+      "ministerul afacerilor interne", "ministerul de interne",
+      "MAI romania", "ministerul internelor"
+    ],
+    "contexte_situationale": [
+      "unde îmi fac cartea de identitate", "cum obțin pașaport",
+      "vreau să raportez o infracțiune", "unde depun plângere la poliție",
+      "cum sun la pompieri", "număr urgență 112", "cum raportez un incendiu",
+      "unde îmi fac permis de conducere", "cum înmatric mașina",
+      "unde mă duc pentru schimbare domiciliu", "cum obțin viza de reședință",
+      "unde găsesc documente de arhivă", "cum accesez arhivele naționale",
+      "cine coordonează prefectura", "ce face instituția prefectului",
+      "cum raportez trafic de persoane", "unde sesizez migrație ilegală",
+      "cine se ocupă de situații de urgență", "unde sun la protecție civilă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre achizițiile publice ale MAI",
+    "Date despre bugetul MAI și execuția bugetară",
+    "Informații despre strategiile și programele MAI",
+    "Rapoarte despre activitatea structurilor subordonate",
+    "Date despre efectivele de personal din MAI",
+    "Informații despre decizii și strategii de securitate publică",
+    "Rapoarte despre situații de urgență gestionate",
+    "Date despre infracționalitate și criminalitate",
+    "Informații despre contractele și furnizori ai MAI",
+    "Documente privind organizarea și funcționarea MAI"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Poliția Română",
+      "atributii": "Ordine publică, siguranță cetățeni, combatere criminalitate",
+      "contact": "https://politiaromana.ro"
+    },
+    {
+      "nume": "Jandarmeria Română",
+      "atributii": "Ordine publică, misiuni speciale, pază obiective",
+      "contact": "https://jandarmeria.ro"
+    },
+    {
+      "nume": "Inspectoratul General pentru Situații de Urgență",
+      "atributii": "Pompieri, salvare, protecție civilă, situații de urgență",
+      "contact": "https://www.igsu.ro"
+    },
+    {
+      "nume": "Poliția de Frontieră Română",
+      "atributii": "Control frontieră, migrație, azil",
+      "contact": "https://www.politiadefrontiera.ro"
+    },
+    {
+      "nume": "Direcția Generală de Pașapoarte",
+      "atributii": "Eliberare pașapoarte, evidență pașapoarte",
+      "contact": "Prin MAI"
+    },
+    {
+      "nume": "Direcția Regim Permise de Conducere și Înmatriculare Vehicule (DRPCIV)",
+      "atributii": "Permise conducere, înmatriculări auto, ITP",
+      "contact": "https://www.drpciv.ro"
+    },
+    {
+      "nume": "Direcția pentru Evidența Persoanelor și Administrarea Bazelor de Date (DEPABD)",
+      "atributii": "Cărți identitate, evidență populație, baze de date naționale",
+      "contact": "Prin SPCLEP-uri locale"
+    },
+    {
+      "nume": "Inspectoratul General pentru Imigrări",
+      "atributii": "Migrație, azil, permise ședere străini",
+      "contact": "https://igi.mai.gov.ro"
+    },
+    {
+      "nume": "Agenția Națională Împotriva Traficului de Persoane (ANITP)",
+      "atributii": "Combatere trafic de persoane, protecție victime",
+      "contact": "https://anitp.mai.gov.ro"
+    },
+    {
+      "nume": "Arhivele Naționale",
+      "atributii": "Păstrare documente istorice, acces arhive publice",
+      "contact": "https://arhivelenationale.ro"
+    },
+    {
+      "nume": "Instituția Prefectului",
+      "atributii": "Reprezentant Guvern în județe, coordonare administrație",
+      "contact": "Prefecturi județene - 42 + București"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "relatii.publice@mai.gov.ro",
+    "departament_responsabil": "Direcția Relații Publice și Comunicare",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "observatii": "Buletin informativ Legea 544/2001 publicat periodic pe site"
+  },
+  "structura_conducere": {
+    "ministru": "Ministrul Afacerilor Interne - numit de Guvern",
+    "secretari_stat": "Secretari de stat - adjuncți ministrului",
+    "secretar_general": "Secretar general MAI - coordonează aparatul central",
+    "structuri_subordonate": "Poliție, Jandarmerie, Pompieri, Poliție Frontieră, Prefecturi, DRPCIV, IGI, Arhive Naționale, ANITP"
+  },
+  "plan_strategic_2025_2028": {
+    "observatie": "Plan Strategic Instituțional PSI - MAI 2025-2028 revizuit și aprobat în 2025, bazat pe Programul de Guvernare 2023-2024. Reconfigurare structurală și funcțională inițiată în septembrie 2025 pentru răspuns mai eficient la nevoile de securitate."
+  },
+  "contact_urgente": {
+    "numar_unic_urgenta": "112",
+    "observatie": "Pentru urgențe (poliție, pompieri, ambulanță) - apelați 112. Site-ul și email-ul MAI sunt doar pentru informații administrative, nu pentru raportare urgențe."
+  }
+}

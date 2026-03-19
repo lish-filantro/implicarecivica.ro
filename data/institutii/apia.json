@@ -1,0 +1,137 @@
+{
+  "id": "APIA",
+  "tip_institutie": "Agenție publică",
+  "nivel": "National",
+  "nume_oficial": "Agenția de Plăți și Intervenție pentru Agricultură",
+  "nume_scurt": "APIA",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Carol I nr. 17, Sector 2, București",
+    "cod_postal": "020922",
+    "telefon": "021.305.45.00",
+    "email": "info@apia.org.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://apia.org.ro",
+    "legislatie_organizare": "https://apia.org.ro/despre-apia/legislatie/",
+    "rof_complet": "https://apia.org.ro/despre-apia/prezentare-apia/",
+    "transparenta": "https://apia.org.ro/informatii-publice/",
+    "formulare_544": "https://apia.org.ro/contact/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 1/2004 privind înființarea, organizarea și funcționarea APIA",
+    "actualizari": [
+      "Modificări și completări ulterioare ale Legii 1/2004",
+      "Campania de primire cereri plăți 2025 - demarată 3 martie 2025"
+    ],
+    "subordonare": "În subordinea Ministerului Agriculturii și Dezvoltării Rurale"
+  },
+  "atributii_principale": [
+    "Gestionarea fondurilor europene din FEGA (Fondul European pentru Garantare în Agricultură)",
+    "Acordarea plăților directe la hectar pentru fermieri",
+    "Implementarea măsurilor de sprijin din Politica Agricolă Comună (PAC)",
+    "Administrarea Sistemului Integrat de Administrare și Control (IACS)",
+    "Primirea și verificarea cererilor de plată de la fermieri",
+    "Controlul și verificarea eligibilității beneficiarilor",
+    "Efectuarea plăților către fermieri eligibili",
+    "Implementarea mecanismelor comerciale și măsurilor de piață PAC",
+    "Gestionarea sistemului de identificare parcele agricole (LPIS)",
+    "Controlul pe teren al exploatațiilor agricole",
+    "Recuperarea plăților necuvenite",
+    "Raportare către Comisia Europeană"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția de Plăți și Intervenție pentru Agricultură", "APIA",
+      "plăți directe", "subvenții agricole", "FEGA", "PAC",
+      "Sistem Integrat de Administrare și Control", "IACS"
+    ],
+    "termeni_populari": [
+      "APIA", "subventii fermieri", "plati directe",
+      "ajutor agricol", "fonduri europene agricultura",
+      "cerere APIA", "depunere APIA"
+    ],
+    "probleme_cetatean": [
+      "subvenție fermier", "plată directă la hectar", "ajutor fermă",
+      "cerere unică de plată", "cerere APIA", "depunere cerere APIA",
+      "campanie APIA", "termen depunere APIA", "când depun la APIA",
+      "verificare plată APIA", "când primesc banii de la APIA", "status plată",
+      "declarație suprafață", "declarație culturi", "registru agricol",
+      "control APIA", "inspecție fermă", "verificare teren",
+      "corecție cerere", "modificare cerere APIA", "greșeală cerere",
+      "respingere cerere", "cerere respinsă APIA", "contestație APIA",
+      "recuperare plăți", "plată necuvenită", "returnare bani APIA",
+      "document lipsă", "acte necesare APIA", "ce documente trebuie",
+      "eco-scheme", "măsuri agro-climatice de mediu", "MADR APIA",
+      "centru județean APIA", "centru local APIA", "unde depun"
+    ],
+    "domenii_semantice": [
+      "APIA", "plată", "subvenție", "ajutor", "fonduri", "european",
+      "fermier", "agricultor", "exploatație", "agricol",
+      "hectar", "suprafață", "teren", "parcelă", "cultură",
+      "cerere", "declarație", "depunere", "termen", "campanie",
+      "direct", "FEGA", "PAC", "IACS", "LPIS",
+      "control", "verificare", "inspecție", "eligibil",
+      "status", "plată", "proces", "cerere", "respingere",
+      "document", "acte", "registru", "dovadă"
+    ],
+    "termeni_gresiti": [
+      "APIA plati", "subventii APIA", "fonduri APIA"
+    ],
+    "contexte_situationale": [
+      "vreau să primesc subvenție pentru fermă", "cum depun cerere la APIA",
+      "când este campania APIA 2025", "până când pot depune la APIA",
+      "cum verific dacă am primit plata de la APIA", "când primesc banii",
+      "am fost respins de APIA", "cum contest decizia APIA",
+      "vreau să corectez cererea depusă", "am greșit suprafața declarată",
+      "unde depun cererea APIA", "care este centrul APIA din județul meu",
+      "ce documente trebuie pentru APIA", "ce acte să pregătesc",
+      "cum declar culturile la APIA", "ce suprafețe sunt eligibile"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre criteriile de eligibilitate",
+    "Date despre plățile efectuate către fermieri",
+    "Informații despre calendarul campaniilor de plăți",
+    "Rapoarte despre controalele efectuate",
+    "Date despre respingerile și motivele acestora",
+    "Informații despre fondurile gestionate",
+    "Rapoarte despre beneficiarii de plăți directe"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Aparatul Central APIA",
+      "atributii": "Coordonare națională, raportare, strategii",
+      "contact": "București, Bd. Carol I nr. 17"
+    },
+    {
+      "nume": "42 Centre Județene APIA",
+      "atributii": "Primire cereri, verificare documente, plăți județ",
+      "contact": "În fiecare județ"
+    },
+    {
+      "nume": "262 Centre Locale APIA",
+      "atributii": "Asistență fermieri, primire cereri la nivel local",
+      "contact": "În comunele și orașele țării"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "info@apia.org.ro",
+    "departament_responsabil": "Compartiment Juridic / Relații Publice",
+    "observatii": "Informații publice disponibile pe site"
+  },
+  "structura_teritoriala": {
+    "aparat_central": "București - coordonare națională",
+    "centre_judetene": "42 centre - unul în fiecare județ",
+    "centre_locale": "262 centre - acoperire comunală/orășenească"
+  },
+  "campanie_2025": {
+    "data_start": "3 martie 2025",
+    "observatie": "Campania de primire a cererilor de plată în anul 2025 a fost demarată pe 3 martie 2025"
+  },
+  "fonduri_gestionate": {
+    "FEGA": "Fondul European pentru Garantare în Agricultură - plăți directe",
+    "PAC": "Politica Agricolă Comună - măsuri de piață și sprijin",
+    "observatie": "Din 1 ianuarie 2007, APIA derulează fonduri europene pentru sprijin agricol"
+  }
+}

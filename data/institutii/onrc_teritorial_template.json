@@ -1,0 +1,147 @@
+{
+  "id": "ONRC_OFICIU_TERITORIAL",
+  "tip_institutie": "Birou teritorial de înregistrare comercială",
+  "nivel": "Județean",
+  "nume_oficial": "Oficiul Registrului Comerțului de pe lângă Tribunalul {JUDET}",
+  "aplicabilitate": "42 Oficii teritoriale ONRC (41 județe + București)",
+  "template_pattern": {
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea 26/1990 privind Registrul Comerțului (modificată și completată)",
+    "legi_complementare": [
+      "Legea 31/1990 privind societățile comerciale",
+      "Ordinele ONRC de implementare",
+      "Regulamente ONRC pentru servicii"
+    ]
+  },
+  "atributii_principale": [
+    "Înregistrare de societăți comerciale (SRL, SRL-D, SA, SCS, SCA)",
+    "Înregistrare de persoane fizice autorizate și comercianți",
+    "Înregistrare de profesionisti (avocați, mediatori, etc.)",
+    "Modificare date înregistrate (sediu, acționari, dumnezei, etc.)",
+    "Ștergere din registru (dizolvare, lichidare, fuziune)",
+    "Eliberare certificate de înregistrare și extrase din registru",
+    "Eliberare apostile pentru documente comerciale",
+    "Gestionare și arhivare dosare comerciale",
+    "Consultare informații din registrul de comerț (public)",
+    "Recepție și prelucrare cereri online",
+    "Verificare și validare documentație depusă",
+    "Rapoarte și statistici privind înregistrări comerciale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "înregistrare comercială",
+      "Registrul Comerțului",
+      "ONRC",
+      "societate comercială",
+      "SRL",
+      "SA",
+      "comerciant autorizat",
+      "apostilă"
+    ],
+    "termeni_populari": [
+      "înregistrare firmă",
+      "deschidere afacere",
+      "SRL pe cui",
+      "certificate înregistrare",
+      "date firmă",
+      "certificat apostila"
+    ],
+    "probleme_cetatean": [
+      "cum înregistrez o SRL",
+      "cum verific dacă o firmă e înregistrată",
+      "cum obțin certificat de înregistrare",
+      "cum modific date în registru",
+      "cum obțin apostilă pentru documente",
+      "ce documente trebuie pentru înregistrare firmă"
+    ],
+    "domenii_semantice": [
+      "registrul comerțului",
+      "societăți comerciale",
+      "drepturi comerciale",
+      "drept al afacerilor",
+      "întreprinzători"
+    ],
+    "contexte_situationale": [
+      "vreau să deschid o afacere",
+      "trebuie să modific sediu firmei",
+      "trebuie să schimb acționari",
+      "vreau să fuzionez două companii",
+      "trebuie să șterg o firmă inactivă",
+      "vreau certificat pentru bancă/credit"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații privind documentele necesare pentru înregistrare",
+    "Cerere copie dosar comercial",
+    "Acces la informații privind o înregistrare specifică",
+    "Solicitare date privind firma (istoricul modificărilor)",
+    "Cerere informații privind procedurile și termene"
+  ],
+  "procedura_544": {
+    "timp_raspuns": "10-30 de zile (conform Legea 544/2001)",
+    "format_cerere": "Scrisoare cu datele solicitantului și identificare precisă a firmei",
+    "contact": "Oficiul Registrului Comerțului - Birou informații și relații publice"
+  },
+  "procedura_inregistrare_srl": {
+    "denumire_procedurii": "Înregistrare Societate cu Răspundere Limitată (SRL)",
+    "timp_procesare": "3-5 zile lucratoare de la depunere completă",
+    "etape_preliminare": [
+      "Obținere certificate pentru acționari/administratori (neav. penale)",
+      "Deschidere cont bancar provizoriu (dacă capital social)"
+    ],
+    "doc_necesare": [
+      "Cerere tipizată pe formular oficial",
+      "Actul constitutiv (statut) semnat notarial",
+      "Dovada plată capital social (dacă cazul)",
+      "Copii documente identitate acționari/administratori",
+      "Certificate de cazier (neav. penale)",
+      "Declarații pe proprie răspundere",
+      "Dovada sediu social (chiria, însuș. carte)"
+    ],
+    "etape": [
+      "Pregătire documentație",
+      "Certificare/autentificare acte la notar",
+      "Depunere cerere + documente la ONRC",
+      "Verificare completitudine documente",
+      "Inspecție (dacă necesară)",
+      "Înregistrare în registrul de comerț",
+      "Emitere certificat de înregistrare"
+    ]
+  },
+  "servicii_online": {
+    "platform": "MyPortal ONRC",
+    "descriere": "Depunere online documente și monitorizare status înregistrări",
+    "link": "https://myportal.onrc.ro"
+  },
+  "tipuri_societati_inregistrate": [
+    "SRL - Societate cu Răspundere Limitată",
+    "SRL-D - SRL pentru Debuttanți",
+    "SA - Societate pe Acțiuni",
+    "SCS - Societate în Comandită Simplă",
+    "SCA - Societate în Comandită pe Acțiuni",
+    "Persoană Fizică Autorizată (PFA)",
+    "Comerciant",
+    "Profesionisti (avocați, ingineri, etc.)",
+    "[NEVERIFICAT - alte tipuri specifice]"
+  ],
+  "serviciu_apostila": {
+    "descriere": "Eliberare apostilă pentru documente comerciale",
+    "documente_acoperite": "Certificate de înregistrare, extrase, hotărâri assemblei, etc.",
+    "timp_procesare": "[NEVERIFICAT - variabil]",
+    "taxa": "[NEVERIFICAT - valori variabile]"
+  },
+  "consulta_online": {
+    "descriere": "Acces public la date din registrul de comerț",
+    "link": "[NEVERIFICAT - link specific portal]",
+    "informatii_disponibile": "Firm înregistrate, acționari, administratori, sediu, CUI"
+  },
+  "observatii": {
+    "depunere_documente": "Online cu semnătură electronică avansată, la ghișeu, prin corespondență",
+    "certificat_digital": "Certificat digital acceptat pentru proceduri electronice",
+    "corespondenta": "Documente pot fi trimise prin corespondență înregistrată",
+    "taxe": "[NEVERIFICAT - taxe variabile în funcție de tip serviciu]",
+    "timp_standard": "3-5 zile lucratoare pentru procesare completă"
+  }
+}

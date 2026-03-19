@@ -1,0 +1,101 @@
+{
+  "id": "anspdcp",
+  "tip_institutie": "Autoritate Națională",
+  "nivel": "National",
+  "nume_oficial": "Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal",
+  "nume_scurt": "ANSPDCP",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "B-dul Ion Mihalache nr. 59, sector 1",
+    "cod_postal": "011975",
+    "telefon": "+40 21 308 06 68",
+    "email": "contact@dataprotection.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.dataprotection.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 102/2005 privind înfiinţarea, organizarea și funcţionarea ANSPDCP și Regulamentul UE 2016/679 (GDPR)",
+    "actualizari": [
+      "Legea nr. 677/2001 pentru protecția persoanelor cu privire la prelucrarea datelor cu caracter personal",
+      "Regulamentul UE 2016/679 (GDPR)",
+      "Legea nr. 129/2018 de modificare a legislației privind protecția datelor"
+    ]
+  },
+  "atributii_principale": [
+    "Supraveghere și control al respectării legislației privind protecția datelor cu caracter personal",
+    "Investigare și sancționare a încălcărilor drepturilor persoanelor ale căror date sunt prelucrate",
+    "Examinare a plângerilor și petițiilor privind prelucrarea datelor cu caracter personal",
+    "Acordul prealabil pentru prelucrări speciale de date",
+    "Autorizație pentru transferuri de date către țări terțe",
+    "Promovare a conștientizării privind drepturile și libertățile persoanelor ale căror date sunt prelucrate",
+    "Cooperare cu autorități similare din alte state ale UE",
+    "Evaluarea și monitorizare a evaluărilor de impact asupra protecției datelor",
+    "Menținerea unui registru public al prelucrărilor notificate",
+    "Acordarea de consultații specialiștilor și publicului cu privire la protecția datelor",
+    "Certificare și acreditare a sistematică a aderării la normele de protecție a datelor"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "protecția datelor cu caracter personal",
+      "GDPR",
+      "prelucrare date",
+      "drepturile persoanei",
+      "transfer date internațional",
+      "confidențialitate"
+    ],
+    "termeni_populari": [
+      "protecția datelor personale",
+      "piraterie de date",
+      "furt de identitate",
+      "probleme cu confidențialitate",
+      "date pe internet",
+      "siguranța informațiilor personale"
+    ],
+    "probleme_cetatean": [
+      "folosire neautorizată a datelor personale",
+      "refuzul companiei de a-și șterge datele",
+      "partajare neautorizată de date cu terți",
+      "spam și apeluri nesolictate",
+      "acces neautorizat la informații personale",
+      "vânzare de date către alți operatori"
+    ],
+    "domenii_semantice": [
+      "drepturile fundamentale",
+      "confidențialitate",
+      "reglementare europeană",
+      "protecție informații",
+      "drepturi digitale"
+    ],
+    "termeni_gresiti": [
+      "Autoritate Protecție Date",
+      "DPPC",
+      "Supraveghere Confidențialitate"
+    ],
+    "contexte_situationale": [
+      "depunere reclamație pentru prelucrare neautorizată a datelor",
+      "cerere de ștergere a datelor personale",
+      "sesizare despre transfer neautorizat de date",
+      "probleme cu dreptul de acces la datele proprii"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la dosarele plângerilor înregistrate privind prelucrarea datelor",
+    "Cerere de informații despre sancțiunile aplicate către companii pentru încălcări GDPR",
+    "Solicitare de date și statistici privind prelucrările notificate ANSPDCP",
+    "Cerere de acces la deciziile și hotărârile autorității privind evaluările de impact",
+    "Solicitare de informații despre avizele și consultațiile date de ANSPDCP",
+    "Cerere de date privind numărul și tipurile de reclamații primite anual",
+    "Solicitare de informații cu privire la transferurile de date internaționale autorizate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "contact@dataprotection.ro",
+    "departament_responsabil": "Departamentul Cereri de Acces la Informații Publice"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2005",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

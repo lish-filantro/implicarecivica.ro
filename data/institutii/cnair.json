@@ -1,0 +1,146 @@
+{
+  "id": "CNAIR",
+  "tip_institutie": "Companie de interes strategic național",
+  "nivel": "National",
+  "nume_oficial": "Compania Națională de Administrare a Infrastructurii Rutiere S.A.",
+  "nume_scurt": "CNAIR",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Dinicu Golescu nr. 38, Sector 1, București (Poarta A a Palatului CFR)",
+    "cod_postal": "010873",
+    "telefon": "021.316.08.86 / 021.316.08.68",
+    "email": "info@cnadnr.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "http://www.cnadnr.ro",
+    "legislatie_organizare": "http://www.cnadnr.ro/ro/companie",
+    "rof_complet": "http://www.cnadnr.ro/ro/companie/conducere",
+    "transparenta": "http://www.cnadnr.ro/ro/informatii-de-interes-public",
+    "formulare_544": "http://www.cnadnr.ro/ro/contact",
+    "contact": "http://www.cnadnr.ro/ro/contact"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG privind reorganizarea CNADNR și înființarea CNAIR și CNIR (2016)",
+    "actualizari": [
+      "În septembrie 2016, CNADNR a fost împărțită în CNAIR (administrare) și CNIR (investiții)",
+      "CNAIR preia infrastructura rutieră finalizată de CNIR"
+    ],
+    "cod_fiscal": "16054368",
+    "data_infiintare": "15 ianuarie 2004"
+  },
+  "atributii_principale": [
+    "Administrarea rețelei de autostrăzi din România",
+    "Administrarea drumurilor naționale",
+    "Întreținerea și repararea infrastructurii rutiere existente",
+    "Exploatarea autostrăzilor, drumurilor naționale și variantelor ocolitoare",
+    "Implementarea programelor de dezvoltare a rețelei de drumuri publice",
+    "Coordonarea lucrărilor de întreținere și reparații pe drumurile naționale",
+    "Gestionarea traficului pe autostrăzi și drumuri naționale",
+    "Monitorizarea stării tehnice a infrastructurii rutiere",
+    "Coordonarea deszăpezirii și întreținerii iarna",
+    "Gestionarea stațiilor de taxare și a sistemului de taxare rutieră",
+    "Administrarea sistemului RO-VINIETA pentru vehicule sub 3,5 tone",
+    "Asigurarea siguranței circulației pe drumurile administrate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Compania Națională de Administrare a Infrastructurii Rutiere", "CNAIR",
+      "fost CNADNR", "infrastructură rutieră", "autostrăzi", "drumuri naționale"
+    ],
+    "termeni_populari": [
+      "CNAIR", "CNADNR", "administratie autostrazi",
+      "drumuri nationale", "autostrada", "vinieta", "rovinieta"
+    ],
+    "probleme_cetatean": [
+      "rovinieta", "vinieta electronică", "taxă drum",
+      "autostradă închisă", "drum național închis", "trafic blocat",
+      "groapă autostradă", "drum deteriorat", "asfalt spart",
+      "lucrări autostradă", "restricții trafic", "închidere bandă",
+      "deszăpezire", "drum blocat zăpadă", "condiții meteo drum",
+      "taxa tir", "rovinieta camioane", "taxare electronică",
+      "stare drum național", "condiții circulație autostradă",
+      "accident autostradă", "siguranță drum", "parapete deteriorate",
+      "iluminat autostradă", "marcaje rutiere", "semnalizare drum",
+      "stație taxare", "punct taxare autostradă",
+      "reclamație drum", "sesizare groapă", "daune mașină groapă"
+    ],
+    "domenii_semantice": [
+      "infrastructură", "rutier", "drum", "cale", "circulație",
+      "autostradă", "național", "european", "DN", "A1", "A2", "A3",
+      "administrare", "întreținere", "reparație", "lucrare",
+      "vinieta", "rovinieta", "taxă", "taxare", "electronică",
+      "groapă", "asfalt", "bandă", "carosabil", "șosea",
+      "trafic", "circulație", "blocare", "restricție", "închidere",
+      "deszăpezire", "iarnă", "zăpadă", "polei", "condiții",
+      "siguranță", "accident", "risc", "pericol",
+      "marcaj", "semnalizare", "indicator", "parapete", "bariere"
+    ],
+    "termeni_gresiti": [
+      "CNADNR (vechi, acum CNAIR)", "compania autostrăzilor",
+      "administratia drumurilor", "rovinieta online"
+    ],
+    "contexte_situationale": [
+      "vreau să cumpăr rovinietă", "unde cumpăr vinieta electronică",
+      "vreau să raportez o groapă pe autostradă", "cum sesizez drum deteriorat",
+      "cum aflu dacă autostrada este deschisă", "condiții trafic autostradă",
+      "vreau despăgubiri pentru daune de la groapă", "cum reclam drum prost întreținut",
+      "când se deszăpezește drumul național", "cum aflu condiții iarnă pe drum",
+      "vreau să raportez marcaje șterse", "cum sesizez lipsa semnalizării",
+      "unde plătesc taxa pentru camion", "cum funcționează taxarea electronică TIR"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre contractele de întreținere a drumurilor",
+    "Date despre bugetul CNAIR și execuția bugetară",
+    "Informații despre achizițiile publice pentru lucrări rutiere",
+    "Rapoarte despre starea tehnică a infrastructurii",
+    "Date despre veniturile din taxe rutiere și rovinieta",
+    "Informații despre programele de întreținere și reparații",
+    "Rapoarte despre accidente și incidente pe autostrăzi",
+    "Date despre traficul pe drumurile naționale",
+    "Informații despre lucrările planificate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcții Regionale de Drumuri și Poduri",
+      "atributii": "Administrare locală drumuri naționale, întreținere regională",
+      "contact": "Prin CNAIR - 8 direcții regionale"
+    },
+    {
+      "nume": "Compartiment RO-VINIETA",
+      "atributii": "Gestionare sistem vinieta electronică",
+      "contact": "www.roviniete.ro"
+    },
+    {
+      "nume": "Direcția Exploatare Autostrăzi",
+      "atributii": "Operare și întreținere autostrăzi",
+      "contact": "Prin CNAIR"
+    },
+    {
+      "nume": "Direcția Întreținere și Reparații Drumuri",
+      "atributii": "Lucrări de întreținere curentă și deszăpezire",
+      "contact": "Prin CNAIR"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "info@cnadnr.ro",
+    "departament_responsabil": "Direcția Juridică / Relații Publice",
+    "observatii": "Informații de interes public disponibile pe site"
+  },
+  "subordonare": {
+    "minister_tutela": "Ministerul Transporturilor și Infrastructurii",
+    "natura_juridica": "Companie de interes strategic național (S.A.)",
+    "actionar_majoritar": "Statul Român prin Ministerul Transporturilor"
+  },
+  "efectiv_personal": {
+    "angajati": "Aproximativ 6.913 angajați (2024)",
+    "observatie": "Personal pentru administrare, întreținere și exploatare infrastructură"
+  },
+  "caen": {
+    "cod": "8413",
+    "descriere": "Reglementarea și eficientizarea activităților economice"
+  },
+  "reorganizare_2016": {
+    "observatie": "În septembrie 2016, CNADNR (Compania Națională de Autostrăzi și Drumuri Naționale) a fost reorganizată în două entități: CNAIR (pentru administrare și întreținere) și CNIR (pentru investiții și proiecte noi). Proiectele finalizate sunt transferate de la CNIR către CNAIR pentru administrare."
+  }
+}

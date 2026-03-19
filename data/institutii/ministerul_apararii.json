@@ -1,0 +1,151 @@
+{
+  "id": "MINISTERUL_APARARII",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Apărării Naționale",
+  "nume_scurt": "MApN",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Strada Izvor nr. 110, Sector 5, București",
+    "cod_postal": "050564",
+    "telefon": "021.319.56.60 / 021.319.58.64 (Tel/Fax)",
+    "email": "secretariat_general@mapn.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.mapn.ro",
+    "legislatie_organizare": "https://www.mapn.ro/legislatie/",
+    "rof_complet": "https://sg.mapn.ro",
+    "transparenta": "https://www.mapn.ro/informatii-publice/",
+    "formulare_544": "https://www.mapn.ro/contact/",
+    "statul_major": "https://www.defense.ro"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG privind organizarea și funcționarea Ministerului Apărării Naționale",
+    "actualizari": ["Modificări și completări periodice"]
+  },
+  "atributii_principale": [
+    "Elaborarea și implementarea politicii de apărare națională",
+    "Comandarea și coordonarea Forțelor Armate Române",
+    "Pregătirea apărării naționale în timp de pace, criză și război",
+    "Recrutarea, pregătirea și instruirea personalului militar",
+    "Achiziționarea și modernizarea echipamentelor militare",
+    "Gestionarea infrastructurii militare și bazelor militare",
+    "Participarea la operațiuni internaționale și misiuni de menținere a păcii",
+    "Îndeplinirea obligațiilor față de NATO și UE",
+    "Apărarea cibernetică și securitatea informațiilor",
+    "Gestionarea rezervelor militare și mobilizarea",
+    "Coordonarea serviciului militar și recrutării",
+    "Asigurarea logisticii și susținerii forțelor armate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Apărării Naționale", "MApN", "Forțe Armate Române",
+      "armata română", "apărare națională", "NATO", "serviciu militar"
+    ],
+    "termeni_populari": [
+      "ministerul apararii", "MApN", "armata romana",
+      "serviciu militar", "recrut", "soldat", "militar",
+      "inrolare armata"
+    ],
+    "probleme_cetatean": [
+      "recrutare armată", "înrolare armată", "carieră militară",
+      "serviciu militar", "recrut", "sold profesionist",
+      "academie militară", "școală militară", "admitere militară",
+      "rezervist", "mobilizare", "chemare sub arme",
+      "pensie militară", "drepturi militar", "indemnizație militar",
+      "dosar militar", "legitimație militar", "carnet militar",
+      "pierdere legitimație militară", "duplicat carnet militar",
+      "concediu militar", "permisie", "învoire",
+      "spital militar", "asistență medicală militari",
+      "veterani război", "drepturi veterani", "decorații militare",
+      "reclamație militar", "abuz militar", "hărțuire militară",
+      "admitere academie militară", "condiții înrolare",
+      "terenuri militare", "zone militare", "acces interzis militar"
+    ],
+    "domenii_semantice": [
+      "apărare", "națională", "armată", "militar", "forțe", "armate",
+      "soldat", "ofițer", "subofițer", "recrut", "rezervist",
+      "înrolare", "recrutare", "serviciu", "militar", "carieră",
+      "academie", "școală", "instruire", "antrenament", "pregătire",
+      "pensie", "drepturi", "indemnizație", "salariu", "militar",
+      "NATO", "alianță", "securitate", "apărare", "colectivă",
+      "echipament", "armament", "tehnică", "militară",
+      "bază", "unitate", "militar", "regiment", "brigadă",
+      "cyber", "apărare", "cibernetică", "securitate", "informații"
+    ],
+    "termeni_gresiti": [
+      "ministerul apararii", "minister de aparare",
+      "MApN armata"
+    ],
+    "contexte_situationale": [
+      "vreau să mă înrolez în armată", "cum devin soldat profesionist",
+      "vreau să dau admitere la academie militară", "condiții înrolare MApN",
+      "am pierdut carnetul militar", "unde obțin duplicat legitimație militară",
+      "vreau să aflu despre pensie militară", "drepturi militari în rezervă",
+      "vreau să raportez abuz militar", "unde depun plângere pentru hărțuire",
+      "cum accesez spital militar", "asistență medicală pentru militari",
+      "vreau să aflu despre mobilizare", "procedură chemare sub arme"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre achizițiile militare",
+    "Date despre bugetul apărării",
+    "Informații despre programele de înzestrare",
+    "Rapoarte despre efectivele armatei",
+    "Date despre misiunile internaționale",
+    "Informații despre procedurile de recrutare"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Statul Major al Apărării",
+      "atributii": "Comandă operațională forțe armate",
+      "contact": "https://www.defense.ro"
+    },
+    {
+      "nume": "Forțele Terestre Române",
+      "atributii": "Armată terestră",
+      "contact": "Prin MApN"
+    },
+    {
+      "nume": "Forțele Aeriene Române",
+      "atributii": "Aviație militară",
+      "contact": "Prin MApN"
+    },
+    {
+      "nume": "Forțele Navale Române",
+      "atributii": "Marină militară",
+      "contact": "Prin MApN"
+    },
+    {
+      "nume": "Comandamentul Apărării Cibernetice",
+      "atributii": "Apărare cibernetică, securitate IT",
+      "contact": "https://www.cybercommand.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "secretariat_general@mapn.ro",
+    "telefon_petitii": "021.402.34.00 int 1001.689/830 sau 021.410.40.40 int 1001.689/830",
+    "fax_petitii": "021.319.57.90",
+    "departament_responsabil": "Secretariatul General / Relații Publice",
+    "observatii": "Petiții pot fi trimise prin formular electronic sau poștă"
+  },
+  "program_lucru": {
+    "luni_vineri": "08:00 - 16:00"
+  },
+  "structura_conducere": {
+    "ministru": "Ministrul Apărării Naționale",
+    "secretari_stat": "Secretari de stat",
+    "sef_stat_major": "Șeful Statului Major al Apărării",
+    "subordonare": "Răspunde în fața Parlamentului, Guvernului și Consiliului Suprem de Apărare a Țării (CSAT)"
+  },
+  "structuri_militare": {
+    "forte_terestre": "Armata terestră",
+    "forte_aeriene": "Aviația militară",
+    "forte_navale": "Marina militară",
+    "forte_speciale": "Forțe pentru operațiuni speciale",
+    "cyber": "Comandamentul Apărării Cibernetice"
+  },
+  "nato_ue": {
+    "observatie": "MApN coordonează îndeplinirea obligațiilor României față de NATO și UE în domeniul apărării și securității"
+  }
+}

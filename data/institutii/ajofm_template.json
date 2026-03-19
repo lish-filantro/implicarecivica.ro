@@ -1,0 +1,109 @@
+{
+  "id": "AJOFM_TEMPLATE",
+  "tip_institutie": "Agenție de ocupare a forței de muncă",
+  "nivel": "Județean",
+  "nume_oficial": "Agenția Județeană pentru Ocuparea Forței de Muncă {JUDET}",
+  "nume_scurt": "AJOFM {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "nume_format": "AJOFM {judet}",
+    "site_format": "https://www.anofm.ro/{judet}",
+    "email_format": "contact@ajofm{judet}.ro",
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 76/2002 privind sistemul de asigurări pentru șomaj și stimularea ocupării forței de muncă",
+    "reglementari_specifice": [
+      "Ordin de ministru privind procedurile de acordare a indemnizației de șomaj",
+      "Norme de aplicare ale Legii 76/2002",
+      "Programe de formare profesională și intermediere a muncii"
+    ]
+  },
+  "atributii_principale": [
+    "Acordarea și administrarea indemnizației de șomaj pentru persoanele înregistrate",
+    "Intermedierea muncii prin medierea între oferta și cererea de forță de muncă",
+    "Furnizarea serviciilor de consiliere și orientare profesională",
+    "Organizarea și desfășurarea cursurilor de formare profesională",
+    "Acordarea de bonusuri de inserție pentru absolvenți angajați",
+    "Prevenirea șomajului prin programe active",
+    "Evidența persoanelor aflate în căutare de loc de muncă",
+    "Acordarea de servicii de sprijin pentru inițierea de afaceri",
+    "Gestionarea fondurilor pentru ocupare și formare profesională",
+    "Coordonarea cu angajatori și furnizori de training"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "indemnizație de șomaj",
+      "medierea muncii",
+      "formare profesională",
+      "drepturile șomerilor",
+      "locuri de muncă disponibile",
+      "certificat de competență",
+      "bonus de inserție",
+      "sprijin pentru antreprenori"
+    ],
+    "termeni_populari": [
+      "bani pentru șomaj",
+      "să găsesc de lucru",
+      "curs gratuit de lucru",
+      "cum primesc ajutor de șomaj",
+      "ce locuri sunt disponibile",
+      "cât primesc șomer",
+      "unde se înscriu șomeri",
+      "cât timp pot primi bani de șomaj"
+    ],
+    "probleme_cetatean": [
+      "mi-am pierdut slujba, ce fac",
+      "cum mă înscriu ca șomer",
+      "cât timp primesc bani de șomaj",
+      "vreau curs de formare profesională",
+      "nu găsesc de lucru",
+      "vreau să deschid o afacere",
+      "sunt absolvent, am drepturi de sprijin",
+      "cum găsesc o slujbă în domeniul meu"
+    ],
+    "domenii_semantice": [
+      "piață a muncii",
+      "ocupare a forței de muncă",
+      "protecție socială",
+      "formare și dezvoltare",
+      "sprijin pentru neapți"
+    ],
+    "termeni_gresiti": [
+      "agenție de plăci",
+      "serviciu de locuri de muncă",
+      "birou de angajări",
+      "agent de muncă"
+    ],
+    "contexte_situationale": [
+      "persoană care tocmai și-a pierdut locul de muncă",
+      "tânăr absolvent care caută primul loc de muncă",
+      "persoană din zona rurală care se mută în oraș",
+      "migrant care se întoarce în țară",
+      "persoană cu abilități specifice care caută schimbare",
+      "persoană care dorește să deschidă o afacere proprie"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Cerere privind locurile de muncă disponibile în {judet}",
+    "Solicitare de informații despre cursurile de formare profesională organizate",
+    "Cerere de acces la statistica șomajului în {judet}",
+    "Solicitare de lămuriri pe tema calculului indemnizației de șomaj",
+    "Cerere privind programele de stimulare a ocupării forței de muncă",
+    "Solicitare de informații despre sprijinul pentru tineri absolvenți",
+    "Cerere de acces la procedurile și formulare de înregistrare"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Departamentul Informații de Interes Public - AJOFM {judet}",
+    "departament_responsabil": "Serviciul Relații Publice și Comunicare"
+  },
+  "structura": {
+    "compartimente_principale": [
+      "Servicii de înregistrare și evidență a șomerilor",
+      "Servicii de medierea muncii",
+      "Servicii de formare și recalificare",
+      "Servicii de plată a indemnizațiilor",
+      "Servicii de sprijin pentru antreprenori"
+    ]
+  }
+}

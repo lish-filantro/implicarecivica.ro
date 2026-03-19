@@ -1,0 +1,103 @@
+{
+  "id": "STARE_CIVILA_TEMPLATE",
+  "tip_institutie": "Serviciu de Stare Civilă",
+  "nivel": "Local",
+  "nume_oficial": "Serviciul de Stare Civilă al {LOCALITATE}",
+  "nume_scurt": "Stare Civilă {LOCALITATE}",
+  "aplicabilitate": "Toate UAT-urile (comune, orașe, municipii)",
+  "template_pattern": {
+    "nume_format": "Serviciul de Stare Civilă {localitate}",
+    "variante": "Compartiment Stare Civilă (în comune mici)",
+    "site_format": "Pagină pe site-ul primăriei",
+    "email_format": "starecivila@primaria{localitate}.ro",
+    "adresa_format": "În sediul primăriei",
+    "coordonate_variabile": ["localitate", "judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 119/1996 privind actele de stare civilă",
+    "reglementari_specifice": [
+      "OUG nr. 97/2005 - evidența populației",
+      "Codul civil - carte I despre persoane",
+      "Regulamente proprii locale"
+    ],
+    "coordonare": "Sub coordonarea Direcției pentru Evidența Persoanelor și Administrarea Bazelor de Date (MAI)"
+  },
+  "atributii_principale": [
+    "Înregistrarea nașterilorși eliberarea certificatelor de naștere",
+    "Înregistrarea căsătoriilor și oficierea căsătoriilor civile",
+    "Înregistrarea deceselor și eliberarea certificatelor de deces",
+    "Întocmirea și eliberarea actelor de stare civilă (duplicate, copii)",
+    "Înregistrarea mențiunilor pe actele de stare civilă (divorț, schimbare nume)",
+    "Transcrierea actelor de stare civilă din străinătate",
+    "Rectificarea și anularea actelor de stare civilă",
+    "Eliberarea certificatelor de căsătorie, divorț",
+    "Păstrarea registrelor de stare civilă",
+    "Raportarea statistică a evenimentelor de stare civilă"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Serviciul de Stare Civilă", "stare civilă", "ofițer stare civilă",
+      "act de stare civilă", "certificat naștere", "certificat căsătorie", "certificat deces"
+    ],
+    "termeni_populari": [
+      "starea civila", "nasteri casatorii decese", "certificat nastere",
+      "casatorie civila", "certificat casatorie", "act deces"
+    ],
+    "probleme_cetatean": [
+      "certificat de naștere", "certificat naștere copil",
+      "certificat de căsătorie", "certificat căsătorie",
+      "certificat de deces", "act de deces",
+      "căsătorie civilă", "cununie civilă", "program căsătorii",
+      "duplicat certificat naștere", "copie legalizată act naștere",
+      "schimbare nume", "modificare prenume", "adăugare prenume",
+      "transcriere certificat străinătate", "apostilă act",
+      "divorț", "mențiune divorț pe certificat",
+      "recunoaștere paternitate", "stabilire filiație",
+      "rectificare act stare civilă", "eroare certificat"
+    ],
+    "domenii_semantice": [
+      "stare civilă", "naștere", "căsătorie", "deces", "divorț",
+      "certificat", "act", "duplicat", "copie", "mențiune",
+      "ofițer", "registru", "înregistrare", "transcriere",
+      "rectificare", "modificare", "schimbare", "nume", "prenume",
+      "căsătorie civilă", "cununie", "oficiator"
+    ],
+    "termeni_gresiti": [
+      "certificat de nastere", "certificat casatorie",
+      "starea civila", "biroul de stare civila"
+    ],
+    "contexte_situationale": [
+      "unde obțin certificat de naștere", "cum mă căsătoresc civil",
+      "vreau să programez o căsătorie", "unde declar un deces",
+      "cum obțin duplicat certificat naștere", "cum schimb numele",
+      "unde transcriu certificat din străinătate", "cum corectez o eroare pe certificat",
+      "cum obțin copie legalizată certificat căsătorie", "când pot face căsătoria civilă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de înregistrare",
+    "Date despre programul de căsătorii și disponibilitate",
+    "Informații despre taxele pentru acte de stare civilă",
+    "Date statistice despre evenimente înregistrate",
+    "Rapoarte despre activitatea serviciului",
+    "Informații despre procedurile de rectificare"
+  ],
+  "procedura_544": {
+    "contact_cereri": "starecivila@primaria{localitate}.ro",
+    "departament_responsabil": "Ofițer de stare civilă / Șef serviciu",
+    "observatii": "Program special pentru căsătorii (inclusiv sâmbăta)"
+  },
+  "acte_principale": {
+    "certificat_nastere": "Eliberat la înregistrarea nașterii, duplicat oricând",
+    "certificat_casatorie": "Eliberat după căsătoria civilă",
+    "certificat_deces": "Eliberat la înregistrarea decesului",
+    "copii_legalizate": "Pentru uz în străinătate sau instituții",
+    "mentiuni": "Adăugate pe actele existente (divorț, schimbare nume)"
+  },
+  "proceduri_speciale": {
+    "casatorie_civila": "Programare în prealabil, 10-14 zile de publicație",
+    "transcriere_acte": "Pentru acte obținute în străinătate",
+    "rectificare": "Procedură administrativă sau judiciară",
+    "schimbare_nume": "Cerere specială, aprobare comisie"
+  }
+}

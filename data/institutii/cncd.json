@@ -1,0 +1,104 @@
+{
+  "id": "cncd",
+  "tip_institutie": "Consiliu Național",
+  "nivel": "National",
+  "nume_oficial": "Consiliul Național pentru Combaterea Discriminării",
+  "nume_scurt": "CNCD",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Piața Valter Mărăcineanu nr. 1, sector 1",
+    "cod_postal": "010145",
+    "telefon": "+40 21 314 4170",
+    "email": "office@cncd.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.cncd.ro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Ordonanța de Urgență nr. 137/2000 privind prevenirea și sancționarea tuturor formelor de discriminare",
+    "actualizari": [
+      "HG nr. 1194/2001 privind organizarea și funcționarea CNCD",
+      "Legea nr. 48/2002 privind modificare și completare a OUG 137/2000",
+      "Legea nr. 202/2002 privind egalitatea între bărbați și femei"
+    ]
+  },
+  "atributii_principale": [
+    "Prevenire a actelor de discriminare prin campanii și programe de conștientizare",
+    "Investigare și constatare a actelor de discriminare",
+    "Medierea conflictelor generate de discriminare",
+    "Sancționare a actelor de discriminare cu avertisment sau amendă",
+    "Monitorizare a cazurilor de discriminare",
+    "Acordare de asistență juridică victimelor discriminării",
+    "Cooperare cu instituții similare din alte state",
+    "Promovare a egalității și nediscriminării",
+    "Elaborare a avizelor și recomandărilor privind legislația discriminării",
+    "Conducere a cercetărilor și studiilor în domeniu",
+    "Raportare periodică către Parlament"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "discriminare",
+      "nediscriminare",
+      "egalitate",
+      "prejudecată",
+      "rasă",
+      "religie",
+      "gen",
+      "orientare sexuală",
+      "handicap"
+    ],
+    "termeni_populari": [
+      "prejudeciu",
+      "nedreptate bazată pe etnie",
+      "excludere din grup",
+      "tratament inegal",
+      "stigmatizare",
+      "segregare"
+    ],
+    "probleme_cetatean": [
+      "refuzul angajării din motive de etnie",
+      "excludere din servicii din motive de religie",
+      "tratament inegal în instituții publice",
+      "discriminare bazată pe gen",
+      "refuzul accesului din motive de handicap",
+      "hărțuire din motive de orientare sexuală"
+    ],
+    "domenii_semantice": [
+      "drepturi fundamentale",
+      "egalitate de oportunități",
+      "toleranță și respect",
+      "drepturi omului",
+      "justiție socială"
+    ],
+    "termeni_gresiti": [
+      "Consiliu Nediscriminare",
+      "CND",
+      "Birou Egalitate"
+    ],
+    "contexte_situationale": [
+      "plângere pentru discriminare la angajare",
+      "sesizare privind discriminare în servicii publice",
+      "demers pentru discriminare în educație",
+      "depunere reclamație pentru tratament discriminator"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare de acces la dosarele investigațiilor CNCD privind cazuri de discriminare",
+    "Cerere de informații despre sancțiunile aplicate pentru acte de discriminare",
+    "Solicitare de date și statistici privind discriminarea pe baza de gen, rasă sau religie",
+    "Cerere de acces la deciziile și hotărârile CNCD în cazuri de discriminare",
+    "Solicitare de informații despre campaniile și programele de conștientizare ale CNCD",
+    "Cerere de date privind numărul și tipurile de cazuri investigate anual",
+    "Solicitare de informații despre cooperarea CNCD cu alte instituții în materia nediscriminării"
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@cncd.ro",
+    "departament_responsabil": "Departamentul Relații cu Publicul"
+  },
+  "structura_organizatorica": {
+    "data_infiintare": "2000",
+    "subordinea": "Parlamentul României",
+    "personalitate_juridica": "Da"
+  },
+  "template_pattern": null
+}

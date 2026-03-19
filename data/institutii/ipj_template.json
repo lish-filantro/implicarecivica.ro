@@ -1,0 +1,159 @@
+{
+  "id": "IPJ_TEMPLATE",
+  "tip_institutie": "Inspectorat de Poliție Județean",
+  "nivel": "Județean",
+  "nume_oficial": "Inspectoratul de Poliție Județean {JUDET}",
+  "nume_scurt": "IPJ {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București (DGPMB - Direcția Generală de Poliție a Municipiului București)",
+  "template_pattern": {
+    "nume_format": "Inspectoratul de Poliție Județean {judet}",
+    "bucuresti_special": "Direcția Generală de Poliție a Municipiului București (DGPMB)",
+    "site_format": "Pagini dedicate pe http://politiaromana.ro sau http://mai.gov.ro",
+    "email_format": "ipj{judet}@politiaromana.ro sau contact.{judet}@politiaromana.ro",
+    "telefon_urgenta": "112 (număr unic de urgență)",
+    "adresa_format": "În reședința de județ",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 218/2002 privind organizarea și funcționarea Poliției Române",
+    "reglementari_specifice": [
+      "OUG nr. 30/2007 privind organizarea MAI",
+      "Legea nr. 360/2002 privind Statutul polițistului",
+      "Codul de procedură penală",
+      "ROI al Poliției Române"
+    ],
+    "subordonare": "În cadrul Ministerului Afacerilor Interne (MAI) - prin Inspectoratul General al Poliției Române (IGPR)"
+  },
+  "atributii_principale": [
+    "Apărarea drepturilor și libertăților fundamentale ale persoanei",
+    "Prevenirea și descoperirea infracțiunilor",
+    "Păstrarea ordinii și liniștii publice",
+    "Asigurarea siguranței rutiere și fluenței traficului",
+    "Verificarea respectării normelor de convețuire socială",
+    "Înregistrarea și soluționarea sesizărilor și plângerilor",
+    "Efectuarea activităților de investigații criminale",
+    "Identificarea și prinderea persoanelor urmărite",
+    "Protecția victimelor violenței domestice",
+    "Cooperarea cu alte organe de urmărire penală"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Inspectoratul de Poliție Județean", "IPJ", "Poliția Română",
+      "poliție județeană", "ordine publică", "siguranță rutieră",
+      "investigații criminale"
+    ],
+    "termeni_populari": [
+      "politia", "IPJ judet", "politia romana", "politisti",
+      "sectia de politie", "ordine publica", "rutiera", "investigatii"
+    ],
+    "probleme_cetatean": [
+      "plângere penală", "sesizare infracțiune", "reclamație furt",
+      "declarație pierdere acte", "declarație furt",
+      "cazier judiciar", "certificat de cazier",
+      "accident rutier", "proces verbal contravenție", "amendă rutieră",
+      "violență domestică", "ordin de protecție",
+      "permis port armă", "armă letală", "autorizație armă",
+      "aviz psihologic permis", "taxă rutieră", "înmatriculare auto",
+      "viza pașaport", "pașaport copil", "carte de identitate",
+      "plângere împotriva polițistului", "abuz polițist"
+    ],
+    "domenii_semantice": [
+      "poliție", "ordine publică", "siguranță", "infracțiune", "crimă",
+      "furt", "tâlhărie", "viol", "omor", "violență",
+      "investigație", "anchetă", "urmărire penală", "probatoriu",
+      "rutieră", "circulație", "accident", "contravenție", "amendă",
+      "cazier", "antecedente penale", "certificat", "declarație",
+      "sesizare", "plângere", "reclamație"
+    ],
+    "termeni_gresiti": [
+      "politia judeteana", "IPJ bucuresti", "sectia politie",
+      "inspectoratul politiei", "casa politiei"
+    ],
+    "contexte_situationale": [
+      "unde depun plângere penală", "cum declar un furt",
+      "vreau să obțin cazier judiciar", "cum raportez un accident",
+      "unde contest un proces verbal", "cine mă ajută la violență domestică",
+      "cum obțin ordin de protecție", "unde declar pierderea actelor",
+      "cum solicit permis de port armă", "unde reclam un polițist",
+      "cum verific o amendă rutieră"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de depunere a plângerilor",
+    "Date statistice despre infracționalitatea din județ",
+    "Informații despre accidentele rutiere și siguranța traficului",
+    "Rapoarte despre activitățile de prevenire și combatere a criminalității",
+    "Date despre achizițiile publice de echipamente și autovehicule",
+    "Informații despre structura organizatorică și efectivele de personal",
+    "Rapoarte despre sesizările și plângerile soluționate",
+    "Date despre cooperarea cu alte instituții",
+    "Informații despre programele de siguranță comunitară",
+    "Rapoarte despre bugetul și cheltuielile IPJ"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Ordine Publică",
+      "atributii": "Menținerea ordinii publice, patrulare, intervenții",
+      "contact": "112 sau centrală IPJ"
+    },
+    {
+      "nume": "Serviciul Investigații Criminale",
+      "atributii": "Investigarea infracțiunilor, activități operative",
+      "contact": "Prin centrală IPJ"
+    },
+    {
+      "nume": "Serviciul Rutier",
+      "atributii": "Siguranța traficului rutier, contravenții, accidente",
+      "contact": "Biroul Rutier sau centrală IPJ"
+    },
+    {
+      "nume": "Serviciul de Investigare a Criminalității Economice",
+      "atributii": "Combaterea criminalității economice și financiare",
+      "contact": "Prin centrală IPJ"
+    },
+    {
+      "nume": "Compartiment Relații cu Publicul",
+      "atributii": "Informații cetățeni, primire sesizări și plângeri",
+      "contact": "relatii.publice@politiaromana.ro sau ghișeu IPJ"
+    },
+    {
+      "nume": "Serviciu Arme, Explozivi și Substanțe Periculoase",
+      "atributii": "Autorizări port armă, evidența armelor",
+      "contact": "Prin centrală IPJ"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "ipj{judet}@politiaromana.ro sau relatii.publice@politiaromana.ro",
+    "departament_responsabil": "Compartiment Relații cu Publicul / Biroul Juridic",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "portal_national": "http://politiaromana.ro",
+    "telefon_urgenta": "112",
+    "observatii": "Unele cereri pot fi depuse online prin portalul MAI"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "cod_judet": "CJ",
+      "nume_complet": "Inspectoratul de Poliție Județean Cluj",
+      "oras_resedinta": "Cluj-Napoca"
+    },
+    {
+      "judet": "Iași",
+      "cod_judet": "IS",
+      "nume_complet": "Inspectoratul de Poliție Județean Iași",
+      "oras_resedinta": "Iași"
+    },
+    {
+      "judet": "București",
+      "cod_judet": "B",
+      "nume_complet": "Direcția Generală de Poliție a Municipiului București",
+      "observatii": "Structură specială pentru București, cu 6 direcții de poliție (una per sector) + structuri centrale"
+    }
+  ],
+  "numere_utile": {
+    "urgente": "112",
+    "info_politie": "021.9544 (pentru București) sau centrala IPJ",
+    "violenta_domestica": "112",
+    "telverde_anticoruptie": "0800.806.806"
+  }
+}

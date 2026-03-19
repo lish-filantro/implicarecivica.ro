@@ -1,0 +1,143 @@
+{
+  "id": "ISJ_TEMPLATE",
+  "tip_institutie": "Inspectorat Școlar Județean",
+  "nivel": "Județean",
+  "nume_oficial": "Inspectoratul Școlar Județean {JUDET}",
+  "nume_scurt": "ISJ {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București (ISMB - Inspectoratul Școlar al Municipiului București)",
+  "template_pattern": {
+    "nume_format": "Inspectoratul Școlar Județean {judet}",
+    "bucuresti_special": "Inspectoratul Școlar al Municipiului București (ISMB)",
+    "site_format": "http://isj{cod_judet}.ro sau http://isj{judet}.ro",
+    "email_format": "office@isj{cod_judet}.ro sau secretariat@isj{judet}.ro",
+    "adresa_format": "În reședința de județ - adresă specifică",
+    "telefon_format": "Cod zonă județ + număr centrală",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea Educației Naționale nr. 1/2011",
+    "reglementari_specifice": [
+      "HG nr. 731/2024 - organizarea Ministerului Educației și Cercetării",
+      "ROF aprobat prin ordin al Ministrului Educației",
+      "ROFUIP - Regulament de Organizare și Funcționare a Unităților de Învățământ Preuniversitar"
+    ],
+    "subordonare": "În coordonarea Ministerului Educației și Cercetării"
+  },
+  "atributii_principale": [
+    "Aplicarea politicilor educaționale naționale la nivel județean",
+    "Coordonarea și monitorizarea activității unităților de învățământ preuniversitar",
+    "Organizarea examenelor naționale (Evaluare Națională, Bacalaureat)",
+    "Gestionarea rețelei școlare județene",
+    "Numirea și gestionarea personalului didactic",
+    "Autorizarea și acreditarea unităților de învățământ particular",
+    "Distribuirea resurselor financiare și materiale pentru școli",
+    "Consiliere și asistență metodică pentru cadrele didactice",
+    "Organizarea formării continue a profesorilor",
+    "Monitorizarea calității educației în județ"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Inspectoratul Școlar Județean", "ISJ", "inspectorat școlar",
+      "învățământ preuniversitar", "educație județeană", "autoritate educațională județeană"
+    ],
+    "termeni_populari": [
+      "inspectoratul scolar", "ISJ judet", "inspectie scolara",
+      "minister educatie judet", "seful de inspectorat", "inspector scolar"
+    ],
+    "probleme_cetatean": [
+      "înscrierea la școală", "transferul școlar", "repartizarea la liceu",
+      "contestație bacalaureat", "contestație evaluare națională",
+      "plângere profesor", "reclamație director școală",
+      "omologare diplomă", "echivalare studii străinătate",
+      "autorizație școală particulară", "acreditare școală",
+      "situație școlară elev", "exmatriculare elev",
+      "metodologia de înscriere", "adeverință școlarizare"
+    ],
+    "domenii_semantice": [
+      "educație", "învățământ", "școală", "liceu", "gimnaziu", "elev", "profesor",
+      "cadru didactic", "examen", "bacalaureat", "evaluare națională",
+      "înscrierea la școală", "admitere liceu", "situație școlară",
+      "program școlar", "calendar școlar", "vacanțe școlare",
+      "burse școlare", "rechizite gratuite", "manuale"
+    ],
+    "termeni_gresiti": [
+      "inspectoratul scolar", "ISJ bucuresti", "inspectie scolara",
+      "ministerul educatiei judet", "casa scolilor"
+    ],
+    "contexte_situationale": [
+      "unde înscriu copilul la școală", "cum transfer copilul la altă școală",
+      "vreau să contest nota la bacalaureat", "unde reclam un profesor",
+      "cine repartizează copiii la liceu", "cum omologhez diploma din străinătate",
+      "unde depun contestație la examen", "cine aprobă înființarea unei școli",
+      "cum obțin situația școlară", "unde sesizez probleme la școală"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare date despre rețeaua școlară și numărul de elevi pe județ",
+    "Informații despre criteriile de repartizare la liceu",
+    "Date despre bugetul alocat unităților de învățământ",
+    "Rapoarte despre rezultatele la examene naționale",
+    "Informații despre achizițiile publice de manuale și rechizite",
+    "Date despre structura de personal și posturile vacante",
+    "Rapoarte privind calitatea educației în județ",
+    "Informații despre programele educaționale implementate",
+    "Date despre plângerile și sesizările primite",
+    "Rapoarte despre infrastructura școlară și investiții"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Compartiment Resurse Umane și Management",
+      "atributii": "Gestionarea personalului didactic, numiri, detașări, concursuri",
+      "contact": "Prin centrală ISJ"
+    },
+    {
+      "nume": "Compartiment Învățământ Preuniversitar",
+      "atributii": "Coordonarea activității didactice, planuri de învățământ, programe școlare",
+      "contact": "Prin centrală ISJ"
+    },
+    {
+      "nume": "Compartiment Examinare și Evaluare",
+      "atributii": "Organizarea examenelor naționale, contestații, metodologii",
+      "contact": "Prin centrală ISJ"
+    },
+    {
+      "nume": "Compartiment Administrativ și Financiar",
+      "atributii": "Gestionarea bugetului, achiziții, contracte",
+      "contact": "Prin centrală ISJ"
+    },
+    {
+      "nume": "Serviciu Relații cu Publicul",
+      "atributii": "Informații pentru cetățeni, primirea petițiilor, răspunsuri la solicitări",
+      "contact": "office@isj... sau relatii.publice@isj..."
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@isj{cod_judet}.ro sau secretariat@isj{judet}.ro",
+    "departament_responsabil": "Serviciu Relații cu Publicul / Secretariat",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "observatii": "Fiecare ISJ publică rapoarte anuale de activitate"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "cod_judet": "CJ",
+      "nume_complet": "Inspectoratul Școlar Județean Cluj",
+      "site_exemplu": "http://isjcj.ro",
+      "oras_resedinta": "Cluj-Napoca"
+    },
+    {
+      "judet": "Iași",
+      "cod_judet": "IS",
+      "nume_complet": "Inspectoratul Școlar Județean Iași",
+      "site_exemplu": "http://isjiasi.ro",
+      "oras_resedinta": "Iași"
+    },
+    {
+      "judet": "București",
+      "cod_judet": "B",
+      "nume_complet": "Inspectoratul Școlar al Municipiului București",
+      "site_exemplu": "http://ismb.ro",
+      "observatii": "București are 6 sectoare, fiecare cu Director Adjunct"
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "id": "MINISTERUL_CULTURII",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Culturii",
+  "nume_scurt": "MC",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Bulevardul Unirii nr. 22, Sector 3, București",
+    "cod_postal": "030833",
+    "telefon": "021.222.85.35 (Registratură)",
+    "email": "registratura@cultura.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.cultura.ro",
+    "legislatie_organizare": "https://www.cultura.ro/despre-minister-2023/",
+    "rof_complet": "https://www.cultura.ro/despre-minister-2023/",
+    "transparenta": "https://www.cultura.ro/informatii-publice/",
+    "formulare_544": "http://www.cultura.ro/contact",
+    "cultura_ro": "https://www.cultura.ro/culturaro/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG privind organizarea și funcționarea Ministerului Culturii",
+    "cod_fiscal": "4192812",
+    "actualizari": ["Modificări și completări periodice"]
+  },
+  "atributii_principale": [
+    "Elaborarea și implementarea politicii naționale în domeniul culturii",
+    "Protejarea și valorificarea patrimoniului cultural național",
+    "Gestionarea monumentelor istorice și siturilor arheologice",
+    "Coordonarea muzeelor naționale și județene",
+    "Sprijinirea activității teatrelor, filarmonicilor și operelor",
+    "Promovarea artelor și meșteșugurilor tradiționale",
+    "Gestionarea bibliotecilor publice naționale",
+    "Protejarea drepturilor de autor și drepturilor conexe",
+    "Promovarea culturii românești în străinătate",
+    "Finanțarea proiectelor culturale și artistice",
+    "Coordonarea direcțiilor județene pentru cultură",
+    "Gestionarea Fondului Cultural Național",
+    "Implementarea programelor UE în domeniul culturii"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Culturii", "MC", "patrimoniu cultural",
+      "monument istoric", "direcție cultură", "fond cultural național"
+    ],
+    "termeni_populari": [
+      "ministerul culturii", "minister cultura",
+      "patrimoniu", "muzeu", "teatru", "opera",
+      "monument istoric", "Casa Memorială"
+    ],
+    "probleme_cetatean": [
+      "monument istoric", "clasare monument", "protejare clădire veche",
+      "patrimoniu UNESCO", "sit arheologic", "restaurare monument",
+      "muzeu național", "expoziție", "colecție muzeu",
+      "teatru național", "filarmonică", "operă",
+      "bibliotecă națională", "carte rară", "arhivă culturală",
+      "drept de autor", "copyright", "plagiat", "protecție operă artistică",
+      "finanțare proiect cultural", "grant cultură", "Fond Cultural Național",
+      "meșteșug tradițional", "artă populară", "datini",
+      "castel", "conac", "ctitorie", "biserică monument",
+      "direcție județeană cultură", "casa de cultură", "centru cultural"
+    ],
+    "domenii_semantice": [
+      "cultură", "artă", "patrimoniu", "istoric", "monument",
+      "muzeu", "teatru", "operă", "filarmonică", "bibliotecă",
+      "restaurare", "conservare", "protejare", "clasare",
+      "arheologie", "sit", "săpătură", "descoperire",
+      "autor", "artist", "creator", "operă", "copyright",
+      "finanțare", "grant", "fond", "proiect", "cultural",
+      "tradițional", "popular", "folclor", "meșteșug",
+      "expoziție", "spectacol", "concert", "festival"
+    ],
+    "termeni_gresiti": [
+      "ministerul culturii", "minister de cultura"
+    ],
+    "contexte_situationale": [
+      "vreau să clasez clădirea ca monument istoric", "cum protejez o casă veche",
+      "vreau să restaurez un monument istoric", "unde cer autorizație restaurare",
+      "cum accesez fonduri pentru proiect cultural", "unde depun cerere grant cultură",
+      "vreau să raportez degradare monument", "unde sesizez distrugere patrimoniu",
+      "cum protejez drepturile de autor", "unde raportez plagiat",
+      "vreau să organizez eveniment cultural", "cum obțin sprijin minister cultură"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare listă monumente istorice",
+    "Informații despre fondurile culturale acordate",
+    "Date despre proiectele culturale finanțate",
+    "Rapoarte despre starea patrimoniului cultural",
+    "Informații despre achizițiile publice",
+    "Date despre instituțiile subordonate"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcția Patrimoniu Cultural",
+      "atributii": "Protejare monumente, restaurare, clasare",
+      "contact": "021.224.36.82 / driae@cultura.ro"
+    },
+    {
+      "nume": "Direcțiile Județene pentru Cultură",
+      "atributii": "Implementare politici culturale la nivel local",
+      "contact": "În fiecare județ"
+    },
+    {
+      "nume": "Institutul Național al Patrimoniului",
+      "atributii": "Evidență monumente, cercetare patrimoniu",
+      "contact": "Instituție subordonată"
+    },
+    {
+      "nume": "Serviciul Afaceri și Proiecte Europene",
+      "atributii": "Fonduri UE pentru cultură",
+      "contact": "driae@cultura.ro"
+    },
+    {
+      "nume": "Serviciul Juridic",
+      "atributii": "Aspecte juridice, drepturi de autor",
+      "contact": "021.224.22.16"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "registratura@cultura.ro",
+    "departament_responsabil": "Serviciul Juridic / Relații Publice",
+    "observatii": "Informații publice pe site"
+  },
+  "program_lucru": {
+    "luni_joi": "08:30 - 17:00",
+    "vineri": "08:30 - 14:30"
+  },
+  "structura_conducere": {
+    "ministru": "András István Demeter (din 23 iulie 2025)",
+    "secretari_stat": "Secretari de stat",
+    "institutii_subordonate": "Muzee naționale, teatre, opere, filarmonici, biblioteci, institute"
+  },
+  "institutii_subordonate_selectie": [
+    "Muzeul Național de Artă al României",
+    "Teatrul Național București",
+    "Opera Națională București",
+    "Biblioteca Națională a României",
+    "Institutul Național al Patrimoniului"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "AJPIS_TEMPLATE",
+  "tip_institutie": "Agenție pentru plăți și inspecție socială",
+  "nivel": "Județean",
+  "nume_oficial": "Agenția Județeană pentru Plăți și Inspecție Socială {JUDET}",
+  "nume_scurt": "AJPIS {JUDET}",
+  "aplicabilitate": "Toate cele 41 județe + București",
+  "template_pattern": {
+    "nume_format": "AJPIS {judet}",
+    "site_format": "https://{judet}.mmanpis.ro",
+    "email_format": "contact@ajpis{judet}.ro",
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 416/2001 privind venitul minim garantat",
+    "reglementari_specifice": [
+      "Legea nr. 61/1993 privind alocația pentru copii",
+      "Legea nr. 234/2015 privind indemnizația de creștere a copilului",
+      "Ordin de ministru pentru determinarea sumelor pentru alocații și indemnizații",
+      "Norme de aplicare privind inspecția socială și controlul beneficiarilor"
+    ]
+  },
+  "atributii_principale": [
+    "Acordarea și administrarea alocației de stat pentru copii",
+    "Acordarea și plata indemnizației de creștere a copilului",
+    "Procesarea cererilor și acordarea ajutorului social și venitului minim garantat",
+    "Efectuarea plăților pentru beneficii sociale",
+    "Inspecția socială și controlul respectării condițiilor de acordare a beneficiilor",
+    "Evaluarea nevoilor și constatarea situației de sărăcie",
+    "Gestionarea dosarelor și evidența beneficiarilor",
+    "Colaborarea cu serviciile sociale locale pentru sprijin",
+    "Detectarea și combaterea fraudei în sistem",
+    "Rezolvarea contestațiilor privind beneficiile acordate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "alocație pentru copii",
+      "indemnizație de creștere",
+      "ajutor social",
+      "venit minim garantat",
+      "asistență socială",
+      "inspecție socială",
+      "stimulent inserție",
+      "beneficiu social",
+      "condiții de eligibilitate"
+    ],
+    "termeni_populari": [
+      "bani pentru copii",
+      "alocație copil",
+      "indemnizație mamă",
+      "ajutor la nevoi",
+      "venit minim",
+      "bani sociali",
+      "control social",
+      "cât primesc pentru copil"
+    ],
+    "probleme_cetatean": [
+      "alocația copilului meu s-a oprit",
+      "vreau să aflu dacă am drepturi de ajutor",
+      "nu știu cum mă înscriu la beneficii",
+      "cât trebuie să am venit ca să primesc ajutor",
+      "inspectorul social mă controlează prea des",
+      "m-au declarat neeligibil pentru beneficii",
+      "pierdut foile de la alocație",
+      "copilul meu împlinește 18 ani, cum e cu alocația"
+    ],
+    "domenii_semantice": [
+      "asistență socială",
+      "protecție familiei",
+      "sprijin pentru copii",
+      "combaterea sărăciei",
+      "servicii sociale"
+    ],
+    "termeni_gresiti": [
+      "agenție de ajutor",
+      "departament de asistență",
+      "serviciu de beneficii",
+      "control de sărăcie"
+    ],
+    "contexte_situationale": [
+      "familie monoparentală cu venituri reduse",
+      "familie cu mulți copii",
+      "mamă care stă acasă după naștere",
+      "persoană șomeră pe termen lung",
+      "persoană cu dizabilitate",
+      "familie de imigranți care încearcă să se stabilizeze",
+      "persoană care s-a întors din străinătate"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Cerere privind cuantumul alocațiilor și indemnizațiilor în {judet}",
+    "Solicitare de informații despre condiții de eligibilitate pentru beneficii",
+    "Cerere de acces la statistici privind beneficiarii din {judet}",
+    "Solicitare de lămuriri pe tema inspecției sociale și controlului",
+    "Cerere privind procedurile de contestație pentru refuzul beneficiilor",
+    "Solicitare de informații despre drepturi și obligații ale beneficiarilor",
+    "Cerere de acces la modelele de formular pentru cererile de beneficii"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Compartimentul Informații de Interes Public - AJPIS {judet}",
+    "departament_responsabil": "Serviciul Comunicare și Relații Publice"
+  },
+  "structura": {
+    "compartimente_principale": [
+      "Servicii de procesare a cererilor de beneficii",
+      "Servicii de plată a alocațiilor și indemnizațiilor",
+      "Servicii de inspecție și control social",
+      "Servicii administrative și financiar-contabile",
+      "Servicii de evidență a beneficiarilor"
+    ]
+  }
+}

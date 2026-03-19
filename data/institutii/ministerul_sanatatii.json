@@ -1,0 +1,105 @@
+{
+  "id": "MINISTERUL_SANATATII",
+  "tip_institutie": "Minister",
+  "nivel": "National",
+  "nume_oficial": "Ministerul Sănătății",
+  "nume_scurt": "MS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Str. Cristian Popișteanu nr. 1-3, Sector 1, București",
+    "cod_postal": "010024",
+    "telefon": "021 312 2212 / 021 317 4008",
+    "email": "relatii.publice@ms.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://www.ms.ro",
+    "legislatie_organizare": "https://legislatie.just.ro/Public/DetaliiDocument/116695",
+    "rof_complet": "https://www.ms.ro/ro/organizarea-ministerului/",
+    "transparenta": "https://www.ms.ro/ro/transparenta-decizionala/",
+    "formulare_544": "https://www.ms.ro/ro/informatii-de-interes-public/solicitare-informatii/"
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 144/2010 privind organizarea și funcționarea Ministerului Sănătății",
+    "actualizari": [
+      "HG nr. 357/2017 - modificare structură organizatorică",
+      "HG nr. 817/2023 - modificare număr posturi (421 posturi)",
+      "HG nr. 293/2025 - actualizare recentă (414 posturi)"
+    ]
+  },
+  "atributii_principale": [
+    "Elaborarea politicilor, strategiilor și programelor în domeniul sănătății",
+    "Monitorizarea și evaluarea stării de sănătate a populației",
+    "Reglementarea modului de organizare a sistemului de sănătate",
+    "Controlul și evaluarea instituțiilor sanitare",
+    "Asigurarea resurselor pentru sistemul public de sănătate",
+    "Coordonarea programelor naționale de sănătate",
+    "Supravegherea respectării legislației sanitare"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Ministerul Sănătății", "Minister Sănătății", "MS", "Direcția Generală de Sănătate Publică",
+      "politici de sănătate", "strategii naționale sănătate", "sistem de sănătate publică"
+    ],
+    "termeni_populari": [
+      "ministrul sănătății", "ministerul sanatatii", "minister sănătate", "sănătatea",
+      "casa de sănătate", "medicina", "doctori", "spitale de stat"
+    ],
+    "probleme_cetatean": [
+      "certificat medical", "vaccinare", "control sanitar", "autorizație sanitară",
+      "cabinet medical", "programare doctor", "consultație medicală", "investigații medicale",
+      "internare spital", "tratament medical", "medicament compensat", "concediu medical"
+    ],
+    "domenii_semantice": [
+      "sănătate", "medicină", "terapie", "tratament", "diagnostic", "clinică", "spital",
+      "farmacie", "epidemiologie", "prevenție", "îngrijire medicală", "asistență medicală",
+      "servicii medicale", "personal medical", "echipament medical", "infrastructură sanitară"
+    ],
+    "termeni_gresiti": [
+      "ministerul sanatatii", "ministeru sanatatii", "casa sanatatii", "minister medicina",
+      "ministeru de sanatate"
+    ],
+    "contexte_situationale": [
+      "unde mă duc pentru certificat medical", "cine se ocupă de vaccinare",
+      "vreau să aflu despre spitale", "am nevoie de autorizație sanitară",
+      "cine controlează medicii", "unde fac plângere pentru medic",
+      "informații despre programe de sănătate", "bugetul pentru spitale"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare date despre bugetul alocat spitalelor pe județe",
+    "Informații despre politicile de sănătate publică și strategiile naționale",
+    "Date despre contractele cu furnizorii de echipamente medicale",
+    "Informații despre programele naționale de vaccinare și costurile aferente",
+    "Rapoarte despre starea infrastructurii medicale pe regiuni",
+    "Date despre personalul medical din sistemul public",
+    "Informații despre criteriile de autorizare a unităților sanitare",
+    "Documente privind alocarea fondurilor pentru programe de sănătate",
+    "Rapoarte de monitorizare a calității serviciilor medicale"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Direcția Generală de Sănătate Publică",
+      "atributii": "Monitorizarea și supravegherea stării de sănătate publică",
+      "contact": "Prin centrală MS: 021 312 2212"
+    },
+    {
+      "nume": "Direcția Politici de Sănătate",
+      "atributii": "Elaborarea strategiilor și politicilor de sănătate",
+      "contact": "Prin centrală MS: 021 312 2212"
+    },
+    {
+      "nume": "Serviciul Relații Publice și Presă",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "Tel: 021.307.2514, Email: relatii.publice@ms.ro"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "relatii.publice@ms.ro",
+    "telefon_cereri": "021.307.2514",
+    "departament_responsabil": "Serviciul Relații Publice și Presă",
+    "email_propuneri": "propuneri@ms.ro",
+    "contestatii": "Plângere administrativă la conducerea instituției sau acțiune în instanță la tribunalul administrativ",
+    "rapoarte_anuale": "Publicate pe site pentru anii 2012-2022"
+  },
+  "template_pattern": null
+}

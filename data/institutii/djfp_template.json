@@ -1,0 +1,155 @@
+{
+  "id": "DJFP_TEMPLATE",
+  "tip_institutie": "Direcție Județeană a Finanțelor Publice",
+  "nivel": "Județean",
+  "nume_oficial": "Direcția Generală Regională a Finanțelor Publice {REGIUNE} - Administrația Județeană a Finanțelor Publice {JUDET}",
+  "nume_scurt": "AJFP {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București (structurat în 8 DGRFP)",
+  "template_pattern": {
+    "nume_format": "Administrația Județeană a Finanțelor Publice {judet}",
+    "structura_ierarhica": "DGRFP {regiune} > AJFP {judet}",
+    "site_format": "http://www.anaf.ro sau pagini dedicate pe portalul ANAF",
+    "email_format": "ajfp{judet}@anaf.ro sau office.{judet}@mfinante.gov.ro",
+    "adresa_format": "În reședința de județ",
+    "telefon_format": "Cod zonă județ + centrală",
+    "coordonate_variabile": ["judet", "regiune", "cod_judet", "oras_resedinta"]
+  },
+  "structura_regionala": {
+    "dgrfp_bucuresti": ["București", "Ilfov", "Călărași", "Giurgiu", "Ialomița"],
+    "dgrfp_constanta": ["Constanța", "Tulcea"],
+    "dgrfp_galati": ["Galați", "Brăila", "Vrancea", "Buzău"],
+    "dgrfp_iasi": ["Iași", "Bacău", "Botoșani", "Neamț", "Suceava", "Vaslui"],
+    "dgrfp_cluj": ["Cluj", "Bihor", "Bistrița-Năsăud", "Maramureș", "Satu Mare", "Sălaj"],
+    "dgrfp_brasov": ["Brașov", "Covasna", "Harghita", "Mureș", "Sibiu"],
+    "dgrfp_ploiesti": ["Prahova", "Argeș", "Dâmbovița", "Teleorman"],
+    "dgrfp_timisoara": ["Timiș", "Arad", "Caraș-Severin", "Hunedoara", "Dolj", "Gorj", "Mehedinți", "Olt", "Vâlcea"]
+  },
+  "legislatie_baza": {
+    "document_principal": "HG nr. 520/2013 privind organizarea ANAF",
+    "reglementari_specifice": [
+      "HG nr. 34/2009 privind organizarea Ministerului Finanțelor",
+      "Codul de procedură fiscală",
+      "Codul fiscal",
+      "ROF ANAF aprobat prin ordin al Președintelui ANAF"
+    ],
+    "subordonare": "Structură în cadrul ANAF (coordonare prin DGRFP)"
+  },
+  "atributii_principale": [
+    "Administrarea impozitelor, taxelor și contribuțiilor sociale",
+    "Înregistrarea fiscală a contribuabililor",
+    "Colectarea veniturilor bugetare",
+    "Controlul fiscal și inspecția fiscală",
+    "Combaterea evaziunii fiscale",
+    "Soluționarea contestațiilor fiscale",
+    "Acordarea de facilități fiscale (eșalonări, amânări)",
+    "Executarea silită a creanțelor fiscale",
+    "Emiterea certificatelor fiscale",
+    "Asistență și consiliere pentru contribuabili"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Administrația Județeană a Finanțelor Publice", "AJFP", "finanțe publice județene",
+      "ANAF județean", "administrația fiscală", "direcția finanțelor"
+    ],
+    "termeni_populari": [
+      "finantele publice", "ANAF judet", "fiscul", "fisc",
+      "administratia fiscala", "impozite taxe", "casa fiscului"
+    ],
+    "probleme_cetatean": [
+      "certificat fiscal", "certificat atestare fiscală",
+      "înregistrare cod fiscal", "PFA înregistrare",
+      "declarație unică", "declarație venit", "declarație 600",
+      "contestație impozit", "eșalonare datorii", "amânare plată",
+      "control fiscal", "inspecție fiscală", "dare de seamă",
+      "executare silită", "poprire cont", "sechestru bunuri",
+      "restituire taxe", "rambursare TVA", "deducere fiscală"
+    ],
+    "domenii_semantice": [
+      "impozit", "taxă", "contribuție", "fiscal", "finanțe", "venit",
+      "creanță", "datorie", "restituire", "declarație", "raportare",
+      "control", "inspecție", "sancțiune", "amendă", "penalități",
+      "certificat", "atestare", "cod fiscal", "CUI", "CIF",
+      "executare silită", "poprire", "sechestru"
+    ],
+    "termeni_gresiti": [
+      "finantele publice", "ANAF bucuresti", "casa impozitelor",
+      "directia fiscala", "administratia de impozite"
+    ],
+    "contexte_situationale": [
+      "unde obțin certificat fiscal", "cum mă înregistrez ca PFA",
+      "vreau să eșalonez datoriile la stat", "cum contest un impozit",
+      "unde depun declarația unică", "cine verifică declarația de venit",
+      "vreau certificat de atestare fiscală", "cum obțin restituirea taxelor",
+      "unde reclam executare silită abuzivă", "cum solicit amânare la plată"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre procedurile de colectare a impozitelor",
+    "Date despre volumul veniturilor colectate în județ",
+    "Informații despre facilitățile fiscale acordate",
+    "Rapoarte privind controalele fiscale efectuate",
+    "Date despre execuțiile silite în derulare",
+    "Informații despre contestațiile fiscale soluționate",
+    "Date statistice despre contribuabilii din județ",
+    "Rapoarte despre evaziunea fiscală depistată",
+    "Informații despre achizițiile publice și contractele",
+    "Date despre structura de personal și organizarea internă"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Inspecție Fiscală",
+      "atributii": "Efectuarea inspecțiilor fiscale la persoane juridice",
+      "contact": "Prin centrală AJFP"
+    },
+    {
+      "nume": "Serviciul Control Fiscal",
+      "atributii": "Verificări punctuale, control inopinat",
+      "contact": "Prin centrală AJFP"
+    },
+    {
+      "nume": "Serviciul Colectare și Executare Silită",
+      "atributii": "Colectarea creanțelor, executare silită, eșalonări",
+      "contact": "Prin centrală AJFP"
+    },
+    {
+      "nume": "Serviciul Asistență Contribuabili",
+      "atributii": "Informații pentru contribuabili, înregistrări, certificate",
+      "contact": "Relații cu publicul AJFP"
+    },
+    {
+      "nume": "Serviciul Soluționare Contestații",
+      "atributii": "Analizarea și soluționarea contestațiilor fiscale",
+      "contact": "Prin centrală AJFP"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "ajfp{judet}@anaf.ro sau prin portalul ANAF",
+    "departament_responsabil": "Compartiment Juridic / Compartiment DIP (Responsabil cu informațiile de interes public)",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "portal_national": "https://www.anaf.ro",
+    "observatii": "Cererile pot fi depuse și prin SPV (Spațiul Privat Virtual)"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "cod_judet": "CJ",
+      "regiune": "Cluj (DGRFP Cluj)",
+      "nume_complet": "Administrația Județeană a Finanțelor Publice Cluj",
+      "oras_resedinta": "Cluj-Napoca",
+      "dgrfp_coordonator": "DGRFP Cluj"
+    },
+    {
+      "judet": "București",
+      "cod_judet": "B",
+      "regiune": "București (DGRFP București)",
+      "nume_complet": "Direcția Generală Regională a Finanțelor Publice București",
+      "observatii": "București funcționează și ca DGRFP și ca structură județeană"
+    }
+  ],
+  "servicii_online": {
+    "spv": "Spațiul Privat Virtual - portal pentru contribuabili",
+    "e_factura": "Sistem național de e-Facturare",
+    "e_transport": "Sistem de raportare a transporturilor",
+    "ghiseul_ro": "Portal unificat ghiseul.ro pentru servicii publice"
+  }
+}

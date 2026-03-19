@@ -1,0 +1,145 @@
+{
+  "id": "CNAS",
+  "tip_institutie": "Instituție Autonomă",
+  "nivel": "National",
+  "nume_oficial": "Casa Națională de Asigurări de Sănătate",
+  "nume_scurt": "CNAS",
+  "aplicabilitate": "National",
+  "sediu": {
+    "adresa": "Calea Călărașilor nr. 248, Bl. S19, Sector 3, București",
+    "cod_postal": "030634",
+    "telefon": "0372.309.129 / +40 372 309 182",
+    "email": "relpubl1@cnas.gov.ro"
+  },
+  "link_uri_oficiale": {
+    "site_principal": "https://cnas.ro",
+    "legislatie_organizare": "https://lege5.ro/gratuit/g42tmnjsgi/organizarea-caselor-de-asigurari-de-sanatate-lege-95-2006",
+    "rof_complet": "https://cnas.ro/organizare/",
+    "transparenta": "https://cnas.ro/transparenta-decizionala/",
+    "formulare_544": "https://cnas.ro/lista-si-accesul-la-informatii/"
+  },
+  "legislatie_baza": {
+    "document_principal": "Statutul CNAS aprobat prin HG nr. 972/2006",
+    "actualizari": [
+      "Legea nr. 95/2006 privind reforma în domeniul sănătății",
+      "Ordin nr. 504/10.05.2021 - ROF CNAS",
+      "Ordin nr. 1693/01.10.2024 - Organigramă și structură actualizată"
+    ]
+  },
+  "atributii_principale": [
+    "Gestionarea Fondului național unic de asigurări sociale de sănătate",
+    "Contractarea serviciilor medicale cu furnizorii de servicii",
+    "Administrarea sistemului de asigurări de sănătate",
+    "Derularea programelor naționale de sănătate curative",
+    "Stabilirea și plata indemnizațiilor de asigurări sociale de sănătate",
+    "Controlul modului de utilizare a fondurilor publice în sănătate",
+    "Contractarea furnizorilor de servicii medicale",
+    "Monitorizarea calității serviciilor medicale contractate"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Casa Națională de Asigurări de Sănătate",
+      "CNAS",
+      "Fond național de asigurări de sănătate",
+      "case județene de asigurări",
+      "CJAS",
+      "Casa de Asigurări București",
+      "CASMB"
+    ],
+    "termeni_populari": [
+      "casa de asigurări",
+      "casa de sănătate",
+      "asigurările de sănătate",
+      "cnas romania",
+      "cardul de sănătate",
+      "card medical",
+      "casa județeană"
+    ],
+    "probleme_cetatean": [
+      "card de sănătate",
+      "consultație gratuită",
+      "medicament compensat",
+      "concediu medical",
+      "indemnizație medicală",
+      "investigații gratuite",
+      "trimitere specialist",
+      "internare spital",
+      "tratament ambulatoriu",
+      "controale medicale",
+      "asigurat sau neasigurat"
+    ],
+    "domenii_semantice": [
+      "asigurări sociale",
+      "sănătate publică",
+      "servicii medicale",
+      "contracte medicale",
+      "furnizori medicali",
+      "programe de sănătate",
+      "buget sănătate",
+      "contribuții sociale",
+      "sistem de sănătate",
+      "acces la servicii medicale",
+      "calitatea serviciilor medicale"
+    ],
+    "termeni_gresiti": [
+      "casa nationala asigurari",
+      "cnas bucuresti",
+      "casa de asigurari sanatate",
+      "casa asigurarilor",
+      "casa medicala nationala"
+    ],
+    "contexte_situationale": [
+      "unde îmi fac cardul de sănătate",
+      "cum accesez servicii medicale gratuite",
+      "vreau să știu ce medicamente sunt compensate",
+      "cine plătește concediul medical",
+      "care sunt drepturile mele ca asigurat",
+      "unde fac reclamație pentru medic de familie",
+      "cum funcționează programele naționale",
+      "informații despre contracte cu spitale"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul Fondului național de sănătate",
+    "Date despre contractele încheiate cu furnizorii de servicii medicale",
+    "Informații despre criteriile de contractare a medicilor de familie",
+    "Rapoarte despre cheltuielile pe programe naționale de sănătate",
+    "Liste cu medicamentele compensate și criteriile de includere",
+    "Date despre controalele efectuate la furnizori și sancțiunile aplicate",
+    "Informații despre indicatorii de calitate ai serviciilor medicale",
+    "Rapoarte privind eficiența cheltuirii fondurilor publice în sănătate",
+    "Date despre numărul de asigurați și distribuția pe județe"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Relații Publice",
+      "atributii": "Gestionarea cererilor pentru informații publice conform Legii 544",
+      "contact": "relpubl1@cnas.gov.ro, Tel: 0372.309.129"
+    },
+    {
+      "nume": "Direcția Contractare Servicii Medicale",
+      "atributii": "Contractarea și monitorizarea furnizorilor de servicii medicale",
+      "contact": "Prin centrală CNAS: 0372.309.129"
+    },
+    {
+      "nume": "Direcția Programe Naționale de Sănătate",
+      "atributii": "Implementarea și monitorizarea programelor naționale curative",
+      "contact": "Prin centrală CNAS: 0372.309.129"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "relpubl1@cnas.gov.ro",
+    "telefon_cereri": "0372.309.129",
+    "departament_responsabil": "Serviciul Relații Publice",
+    "program_audiente": "Luni-Joi: 09:00-16:00, Vineri: 09:00-13:00",
+    "sediu_registratura": "Calea Călărașilor 248, Bl. S19, Sector 3, București",
+    "transport_acces": "Tramvaie 40, 56; Autobuze 104, 123; Metro Piața Muncii",
+    "contestatii": "Plângere administrativă la conducerea instituției conform art. 21 para. (2) Legea 544/2001"
+  },
+  "structura_teritoriala": {
+    "case_judetene": "41 de Case Județene de Asigurări de Sănătate (CJAS)",
+    "casa_bucuresti": "Casa de Asigurări de Sănătate a Municipiului București (CASMB)",
+    "case_sectoriale": "Apărare, Transporturi, alte sectoare specializate"
+  },
+  "template_pattern": null
+}

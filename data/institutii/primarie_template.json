@@ -1,0 +1,230 @@
+{
+  "id": "PRIMARIE_TEMPLATE",
+  "tip_institutie": "Primărie",
+  "nivel": "Local",
+  "nume_oficial": "Primăria {LOCALITATE}",
+  "nume_scurt": "Primăria {LOCALITATE}",
+  "aplicabilitate": "Toate cele 3.181 UAT-uri (Unități Administrativ-Teritoriale) din România: comune, orașe, municipii",
+  "template_pattern": {
+    "nume_format": "Primăria {tip_localitate} {nume_localitate}",
+    "tipuri_localitati": [
+      "comună",
+      "oraș",
+      "municipiu"
+    ],
+    "site_format": "http://primaria{localitate}.ro sau http://{localitate}.ro",
+    "email_format": "primaria@{localitate}.ro sau office@primaria{localitate}.ro",
+    "adresa_format": "În centrul civic al localității",
+    "telefon_format": "Cod zonă + număr centrală",
+    "coordonate_variabile": [
+      "localitate",
+      "judet",
+      "tip_localitate",
+      "cod_postal"
+    ]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 215/2001 privind administrația publică locală",
+    "reglementari_specifice": [
+      "OUG nr. 57/2019 - Codul administrativ",
+      "Legea nr. 273/2006 - finanțele publice locale",
+      "ROF propriu adoptat prin HCL"
+    ],
+    "natura_juridica": "Autoritate executivă la nivel local"
+  },
+  "atributii_principale": [
+    "Executarea hotărârilor consiliului local",
+    "Administrarea domeniului public și privat al comunei/orașului/municipiului",
+    "Gestionarea serviciilor publice locale (salubritate, transport, iluminat)",
+    "Eliberarea de acte și autorizații (certificat urbanism, autorizație construcție)",
+    "Administrarea impozitelor și taxelor locale",
+    "Starea civilă (prin compartimentul de stare civilă al primăriei — nașteri, decese, căsătorii, divorțuri)",
+    "Servicii sociale și asistență socială locală",
+    "Dezvoltarea și întreținerea infrastructurii locale (străzi, parcuri, spații verzi)",
+    "Dezvoltare economică locală și atragere investiții",
+    "Cultură, sport și tineret la nivel local"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Primăria",
+      "primar",
+      "viceprimar",
+      "secretar general UAT",
+      "administrație publică locală",
+      "executiv local",
+      "hotărâre consiliu local"
+    ],
+    "termeni_populari": [
+      "primaria",
+      "primarul",
+      "sectia primarie",
+      "casa primariei",
+      "ghiseul primariei",
+      "registratura",
+      "biroul primarului"
+    ],
+    "probleme_cetatean": [
+      "carte de identitate",
+      "buletin",
+      "pașaport",
+      "certificat de naștere",
+      "certificat de căsătorie",
+      "certificat de deces",
+      "stare civilă",
+      "certificat fiscal local",
+      "impozite locale",
+      "taxe locale",
+      "certificat urbanism",
+      "autorizație de construire",
+      "demolare",
+      "branșament apă",
+      "branșament canal",
+      "racord gaze",
+      "colectare gunoi",
+      "salubritate",
+      "ridicare gunoaie",
+      "transport local",
+      "abonament transport",
+      "parcare reședință",
+      "locuință socială",
+      "ajutor social",
+      "venit minim garantat",
+      "alocație familie",
+      "bursa socială",
+      "cantină socială",
+      "căsătorie civilă",
+      "divorț",
+      "schimbare nume",
+      "cimitir local",
+      "loc veci",
+      "monument funerar"
+    ],
+    "domenii_semantice": [
+      "primărie",
+      "primar",
+      "administrație",
+      "local",
+      "consiliu local",
+      "acte",
+      "certificat",
+      "autorizație",
+      "impozit",
+      "taxă",
+      "urbanism",
+      "construcție",
+      "demolare",
+      "stare civilă",
+      "evidență populație",
+      "carte identitate",
+      "pașaport",
+      "asistență socială",
+      "ajutor",
+      "servicii sociale",
+      "salubritate",
+      "gunoi",
+      "transport",
+      "străzi",
+      "parcuri",
+      "dezvoltare locală",
+      "investiții",
+      "licitații"
+    ],
+    "termeni_gresiti": [
+      "primaria orasului",
+      "casa primariei",
+      "biroul primariei",
+      "sectia primarie",
+      "ministerul primarului"
+    ],
+    "contexte_situationale": [
+      "unde îmi fac cartea de identitate",
+      "cum obțin certificat urbanism",
+      "vreau să plătesc impozitul pe casă",
+      "unde depun certificat fiscal",
+      "cum obțin autorizație de construire",
+      "unde reclam gunoiul necolectat",
+      "cine repară străzile",
+      "unde mă căsătoresc civil",
+      "cum obțin ajutor social",
+      "unde depun cerere locuință socială",
+      "cine se ocupă de iluminatul public",
+      "unde sesizez câine maidanez"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul local și execuția bugetară",
+    "Date despre achizițiile publice și licitațiile organizate",
+    "Informații despre proiectele de investiții locale",
+    "Rapoarte despre contractele încheiate de primărie",
+    "Date despre impozitele și taxele locale încasate",
+    "Informații despre hotărârile consiliului local",
+    "Rapoarte despre serviciile publice locale",
+    "Date despre patrimoniul localității",
+    "Informații despre spațiile și terenurile disponibile",
+    "Rapoarte despre sistemele de colectare a deșeurilor"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Serviciul Public Comunitar Local de Evidență a Persoanelor (SPCLEP)",
+      "atributii": "Eliberare cărți de identitate, pașapoarte, evidența populației",
+      "contact": "Compartiment Evidență Populație"
+    },
+    {
+      "nume": "Serviciul de Stare Civilă",
+      "atributii": "Certificate naștere, căsătorie, deces, căsătorii civile",
+      "contact": "Biroul Stare Civilă"
+    },
+    {
+      "nume": "Compartiment Urbanism și Autorizări Construcții",
+      "atributii": "Certificate urbanism, autorizații construcție, demolări",
+      "contact": "Biroul Urbanism"
+    },
+    {
+      "nume": "Serviciul Fiscal / Direcția de Impozite și Taxe Locale",
+      "atributii": "Administrarea impozitelor și taxelor locale",
+      "contact": "Compartiment Fiscal"
+    },
+    {
+      "nume": "Compartiment Asistență Socială",
+      "atributii": "Ajutoare sociale, locuințe sociale, cantină socială",
+      "contact": "Asistent social"
+    },
+    {
+      "nume": "Serviciu Relații cu Publicul",
+      "atributii": "Informații cetățeni, primire cereri și sesizări",
+      "contact": "Registratură / Relații publice"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "primaria@{localitate}.ro sau registratura@primaria{localitate}.ro",
+    "departament_responsabil": "Serviciu Relații cu Publicul / Compartiment Juridic",
+    "formulare_disponibile": [
+      "Cerere informații publice Legea 544/2001"
+    ],
+    "observatii": "HCL-urile sunt publice și afișate pe site și la avizier"
+  },
+  "structura_conducere": {
+    "primar": "Ales direct de cetățeni pentru 4 ani",
+    "viceprimari": "1-2 viceprimari în funcție de mărimea localității",
+    "secretar_general": "Funcționar public de conducere - coordonează aparatul propriu",
+    "consiliu_local": "Autoritate deliberativă - adoptă HCL-uri"
+  },
+  "exemple_concrete": [
+    {
+      "tip": "comună",
+      "nume": "Florești, jud. Cluj",
+      "observatii": "Comună cu peste 20.000 locuitori"
+    },
+    {
+      "tip": "oraș",
+      "nume": "Câmpia Turzii, jud. Cluj",
+      "observatii": "Oraș cu administrație locală complexă"
+    },
+    {
+      "tip": "municipiu",
+      "nume": "Cluj-Napoca",
+      "observatii": "Municipiu reședință de județ, cu structură complexă"
+    }
+  ],
+  "nota_actualizare": "Evidența populației este gestionată de SPCLEP (instituție separată cu personalitate juridică proprie, nu de primărie). Primăria gestionează starea civilă prin compartimentul propriu."
+}

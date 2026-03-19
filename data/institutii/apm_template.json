@@ -1,0 +1,134 @@
+{
+  "id": "APM_TEMPLATE",
+  "tip_institutie": "Agenție pentru Protecția Mediului",
+  "nivel": "Județean",
+  "nume_oficial": "Agenția pentru Protecția Mediului {JUDET}",
+  "nume_scurt": "APM {JUDET}",
+  "aplicabilitate": "Toate cele 42 județe + București (APM București)",
+  "template_pattern": {
+    "nume_format": "Agenția pentru Protecția Mediului {judet}",
+    "site_format": "http://apm{cod_judet}.anpm.ro sau http://apm.{judet}.ro",
+    "email_format": "office@apm{cod_judet}.anpm.ro",
+    "adresa_format": "În reședința de județ",
+    "telefon_format": "Cod zonă județ + număr",
+    "coordonate_variabile": ["judet", "cod_judet", "oras_resedinta"]
+  },
+  "legislatie_baza": {
+    "document_principal": "OUG nr. 195/2005 privind protecția mediului",
+    "reglementari_specifice": [
+      "Legea nr. 104/2011 privind calitatea aerului",
+      "Legea apelor nr. 107/1996",
+      "Legea nr. 211/2011 privind regimul deșeurilor",
+      "ROF aprobat de ANPM"
+    ],
+    "subordonare": "În coordonarea Agenției Naționale pentru Protecția Mediului (ANPM)"
+  },
+  "atributii_principale": [
+    "Monitorizarea calității factorilor de mediu (aer, apă, sol)",
+    "Eliberarea autorizațiilor de mediu și avizelor de mediu",
+    "Controlul și inspecția operatorilor economici privind respectarea legislației de mediu",
+    "Evaluarea impactului asupra mediului pentru proiecte noi",
+    "Gestionarea procedurilor de evaluare strategică de mediu",
+    "Monitorizarea siturilor contaminate și a depozitelor de deșeuri",
+    "Raportarea emisiilor de gaze cu efect de seră",
+    "Educație și conștientizare ecologică",
+    "Implementarea programelor de protecție a mediului",
+    "Aplicarea de sancțiuni pentru încălcarea legislației de mediu"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "Agenția pentru Protecția Mediului", "APM", "agenție județeană mediu",
+      "protecția mediului", "autorizație de mediu", "aviz de mediu",
+      "impact asupra mediului"
+    ],
+    "termeni_populari": [
+      "agentia de mediu", "APM judet", "politia de mediu",
+      "autorizatie mediu", "aviz ecologic", "control ecologic"
+    ],
+    "probleme_cetatean": [
+      "poluare aer", "poluare apă", "poluare sonoră",
+      "miros neplăcut", "fum industrial", "deșeuri necolectate",
+      "depozit ilegal deșeuri", "tăiere ilegală arbori",
+      "reclamație poluare", "sesizare mediu",
+      "autorizație mediu firmă", "aviz construcție mediu",
+      "impact mediu proiect", "raport calitate aer"
+    ],
+    "domenii_semantice": [
+      "mediu", "ecologie", "protecția mediului", "poluare", "deșeuri",
+      "aer", "apă", "sol", "factori de mediu", "emisii", "gaze",
+      "calitatea aerului", "calitatea apei", "impact ecologic",
+      "autorizare", "control ambiental", "monitorizare", "evaluare"
+    ],
+    "termeni_gresiti": [
+      "agentia mediului", "APM bucuresti", "politia ecologica",
+      "garda de mediu", "inspectoratul de mediu"
+    ],
+    "contexte_situationale": [
+      "unde reclam poluarea aerului", "cum sesizez tăiere ilegală arbori",
+      "vreau autorizație de mediu pentru firmă", "cine controlează poluarea",
+      "unde obțin aviz de mediu pentru construcție", "cum raportez depozit ilegal deșeuri",
+      "cine verifică calitatea aerului", "unde reclam miros neplăcut industrial"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare date despre calitatea aerului în județ",
+    "Informații despre autorizațiile de mediu eliberate",
+    "Date despre controalele efectuate și sancțiunile aplicate",
+    "Rapoarte privind situația deșeurilor în județ",
+    "Informații despre evaluările de impact asupra mediului",
+    "Date despre siturile contaminate și monitorizarea lor",
+    "Rapoarte privind emisiile industriale de poluanți",
+    "Informații despre programele de protecție a mediului implementate",
+    "Date despre sesizările primite și rezolvarea lor",
+    "Rapoarte despre starea mediului în județ"
+  ],
+  "departamente_relevante": [
+    {
+      "nume": "Compartiment Autorizări și Avize de Mediu",
+      "atributii": "Eliberarea autorizațiilor și avizelor de mediu",
+      "contact": "Prin centrală APM"
+    },
+    {
+      "nume": "Compartiment Control și Monitorizare",
+      "atributii": "Inspecții la operatori economici, aplicarea sancțiunilor",
+      "contact": "Prin centrală APM"
+    },
+    {
+      "nume": "Compartiment Evaluare Impact asupra Mediului",
+      "atributii": "Coordonarea procedurilor de EIM și evaluare strategică",
+      "contact": "Prin centrală APM"
+    },
+    {
+      "nume": "Compartiment Calitatea Aerului și Schimbări Climatice",
+      "atributii": "Monitorizarea calității aerului, raportare emisii GES",
+      "contact": "Prin centrală APM"
+    },
+    {
+      "nume": "Compartiment Gestionarea Deșeurilor",
+      "atributii": "Monitorizarea activităților de gestionare a deșeurilor",
+      "contact": "Prin centrală APM"
+    }
+  ],
+  "procedura_544": {
+    "contact_cereri": "office@apm{cod_judet}.anpm.ro",
+    "departament_responsabil": "Compartiment Juridic / Secretariat",
+    "formulare_disponibile": ["Cerere informații publice Legea 544/2001"],
+    "observatii": "APM-urile publică rapoarte anuale despre starea mediului"
+  },
+  "exemple_concrete": [
+    {
+      "judet": "Cluj",
+      "cod_judet": "CJ",
+      "nume_complet": "Agenția pentru Protecția Mediului Cluj",
+      "site_exemplu": "http://apmcj.anpm.ro",
+      "oras_resedinta": "Cluj-Napoca"
+    },
+    {
+      "judet": "București",
+      "cod_judet": "B",
+      "nume_complet": "Agenția pentru Protecția Mediului București",
+      "site_exemplu": "http://apmb.anpm.ro",
+      "observatii": "Acoperă Municipiul București"
+    }
+  ]
+}
