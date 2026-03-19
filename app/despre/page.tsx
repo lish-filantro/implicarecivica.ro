@@ -134,32 +134,6 @@ export default function DesprePage() {
         </div>
       </section>
 
-      {/* Principii */}
-      <section className="py-16 px-6 bg-gray-50 dark:bg-gray-800/50">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-civic-blue-500 dark:text-civic-blue-400 mb-8">
-            Cum lucrăm
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            {[
-              { titlu: 'Non-partizan', desc: 'Nu susținem partide sau candidați. Susținem transparența, indiferent cine e la putere.' },
-              { titlu: 'Constructiv', desc: 'Nu căutăm scandal. Cerem informații la care avem dreptul legal și urmărim dacă sunt furnizate.' },
-              { titlu: 'Deschis', desc: 'Datele colectate sunt publice. Metodologia e transparentă. Codul va fi open source.' },
-              { titlu: 'Persistent', desc: 'O cerere ignorată nu e un eșec — e începutul unei campanii. Nu ne oprim la primul refuz.' },
-            ].map((p, i) => (
-              <div key={i} className="p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-1.5">
-                  {p.titlu}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {p.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-20 px-6">
         <div className="max-w-2xl mx-auto text-center">
