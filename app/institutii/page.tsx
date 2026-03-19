@@ -36,6 +36,12 @@ export default function InstitutiiPage() {
           <div className="flex items-center gap-3">
             <DarkModeToggle />
             <Link
+              href="/institutii"
+              className="text-sm font-medium text-civic-blue-600 dark:text-civic-blue-400"
+            >
+              Instituții
+            </Link>
+            <Link
               href="/login"
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
             >

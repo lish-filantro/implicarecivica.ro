@@ -23,6 +23,12 @@ export default function Home() {
           <div className="flex items-center gap-3">
 <DarkModeToggle />
             <Link
+              href="/institutii"
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
+            >
+              Instituții
+            </Link>
+            <Link
               href="/login"
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
             >

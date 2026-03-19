@@ -23,16 +23,9 @@ function InstitutieCard({ inst }: { inst: Institutie }) {
       href={`/institutii/${inst.slug}`}
       className="block p-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-civic-blue-300 dark:hover:border-civic-blue-600 hover:shadow-md dark:hover:shadow-civic-blue-900/20 transition-all group"
     >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-civic-blue-600 dark:group-hover:text-civic-blue-400 transition-colors">
-          {inst.nume_scurt}
-        </h3>
-        {inst.is_template && (
-          <span className="flex-shrink-0 text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
-            Generic
-          </span>
-        )}
-      </div>
+      <h3 className="text-base font-semibold text-gray-900 dark:text-white group-hover:text-civic-blue-600 dark:group-hover:text-civic-blue-400 transition-colors mb-2 leading-snug">
+        {inst.nume_oficial}
+      </h3>
 
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
         {inst.tip_institutie}
