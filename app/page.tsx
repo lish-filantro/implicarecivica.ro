@@ -28,9 +28,9 @@ export default function Home() {
             priority
           />
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-[1.1] tracking-tight">
-            Administrația lucrează
+            Administrația publică trebuie
             <br />
-            pentru tine.
+            să lucreze pentru cetățeni.
           </h1>
           <p className="mt-4 text-2xl md:text-3xl font-semibold text-civic-blue-500 dark:text-civic-blue-400 tracking-tight">
             Noi te ajutăm să o verifici.
