@@ -67,7 +67,7 @@ export default function Home() {
             Noi te ajutăm să o verifici.
           </p>
           <p className="hero-stagger hero-delay-4 mt-6 text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
-            Unelte civice pentru a înțelege, interoga și responsabiliza instituțiile publice din România. Începând de la primărie.
+            Unelte civice pentru a <strong className="text-gray-700 dark:text-gray-200">înțelege</strong>, <strong className="text-gray-700 dark:text-gray-200">interoga</strong> și <strong className="text-gray-700 dark:text-gray-200">responsabiliza</strong> instituțiile publice din România. Începând de la administrația locală.
           </p>
           <div className="hero-stagger hero-delay-5 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
