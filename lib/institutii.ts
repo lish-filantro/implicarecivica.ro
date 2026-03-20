@@ -1,6 +1,15 @@
 import fs from 'fs'
 import path from 'path'
 
+export interface Procedura544 {
+  contact_cereri?: string
+  telefon_cereri?: string
+  departament_responsabil?: string
+  email_propuneri?: string
+  contestatii?: string
+  rapoarte_anuale?: string
+}
+
 export interface Institutie {
   id: string
   slug: string
@@ -22,6 +31,7 @@ export interface Institutie {
     document_principal?: string
     [key: string]: unknown
   }
+  procedura_544?: Procedura544
   is_template: boolean
   nivel_categorie: 'National' | 'Județean' | 'Local'
 }
@@ -68,6 +78,7 @@ export function getAllInstitutii(): Institutie[] {
         atributii_principale: raw.atributii_principale || [],
         cazuri_utilizare_544: raw.cazuri_utilizare_544 || [],
         legislatie_baza: raw.legislatie_baza,
+        procedura_544: raw.procedura_544,
         is_template: isTemplate,
         nivel_categorie: categorizeNivel(raw.nivel),
       } satisfies Institutie
