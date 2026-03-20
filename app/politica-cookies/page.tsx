@@ -1,40 +1,18 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { DarkModeToggle } from '@/components/shared/DarkModeToggle'
+import type { Metadata } from 'next'
+import { PublicNavbar } from '@/components/shared/PublicNavbar'
+import { PublicFooter } from '@/components/shared/PublicFooter'
+
+export const metadata: Metadata = {
+  title: 'Cookies & Confidențialitate | Implicare Civică',
+  description:
+    'Politica de cookies și confidențialitate a platformei Implicare Civică. Informații despre datele colectate și drepturile tale GDPR.',
+}
 
 export default function PoliticaCookiesPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       {/* Nav */}
-      <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 z-50">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/">
-            <Image
-              src="/assets/implicare_civica_logo_navbar.png"
-              alt="Implicare Civică"
-              width={140}
-              height={40}
-              className="h-8 w-auto"
-              priority
-            />
-          </Link>
-          <div className="flex items-center gap-3">
-            <DarkModeToggle />
-            <Link href="/institutii" className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors">
-              Instituții
-            </Link>
-            <Link href="/despre" className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors">
-              Despre
-            </Link>
-            <Link href="/login" className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors">
-              Autentificare
-            </Link>
-            <Link href="/register" className="text-sm px-4 py-2 bg-civic-blue-500 text-white rounded-md hover:bg-civic-blue-600 transition-colors">
-              Creează cont
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <PublicNavbar />
 
       {/* Content */}
       <section className="pt-28 pb-20 px-6">
@@ -134,19 +112,7 @@ export default function PoliticaCookiesPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-6 border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400 dark:text-gray-500">
-          <div className="flex items-center gap-6">
-            <Image src="/assets/implicare_civica_logo_navbar.png" alt="Implicare Civică" width={120} height={34} className="h-6 w-auto opacity-60" />
-            <a href="mailto:lish@filantro.ro" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">lish@filantro.ro</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/contact" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Contact</Link>
-            <span className="text-gray-200 dark:text-gray-700">|</span>
-            <span>Versiune beta</span>
-          </div>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   )
 }

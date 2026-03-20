@@ -1,8 +1,15 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { getAllInstitutii, type Institutie } from '@/lib/institutii'
-import { DarkModeToggle } from '@/components/shared/DarkModeToggle'
+import { PublicNavbar } from '@/components/shared/PublicNavbar'
+import { PublicFooter } from '@/components/shared/PublicFooter'
 import { InstitutiiTabs } from './tabs'
+
+export const metadata: Metadata = {
+  title: 'Instituții publice | Implicare Civică',
+  description:
+    'Explorează instituțiile publice din România. Află ce informații poți cere pe Legea 544/2001 de la fiecare instituție.',
+}
 
 const niveluri = ['National', 'Județean', 'Local'] as const
 
@@ -20,48 +27,8 @@ export default function InstitutiiPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      {/* Nav — same as landing */}
-      <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 z-50">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/">
-            <Image
-              src="/assets/implicare_civica_logo_navbar.png"
-              alt="Implicare Civică"
-              width={140}
-              height={40}
-              className="h-8 w-auto"
-              priority
-            />
-          </Link>
-          <div className="flex items-center gap-3">
-            <DarkModeToggle />
-            <Link
-              href="/institutii"
-              className="text-sm font-medium text-civic-blue-600 dark:text-civic-blue-400"
-            >
-              Instituții
-            </Link>
-            <Link
-              href="/despre"
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
-            >
-              Despre
-            </Link>
-            <Link
-              href="/login"
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors"
-            >
-              Autentificare
-            </Link>
-            <Link
-              href="/register"
-              className="text-sm px-4 py-2 bg-civic-blue-500 text-white rounded-md hover:bg-civic-blue-600 transition-colors"
-            >
-              Creează cont
-            </Link>
-          </div>
-        </div>
-      </nav>
+      {/* Nav */}
+      <PublicNavbar activePage="/institutii" />
 
       {/* Header */}
       <section className="pt-24 pb-8 px-6">
@@ -89,14 +56,7 @@ export default function InstitutiiPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-6 border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto text-center text-sm text-gray-400 dark:text-gray-500">
-          <Link href="/" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            implicarecivica.ro
-          </Link>
-          {' '}&mdash; Platformă în versiune beta
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   )
 }
