@@ -18,7 +18,7 @@ export default function Home() {
           <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-civic-blue-100/30 dark:bg-civic-blue-900/10 blur-3xl" />
         </div>
 
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center">
           <Image
             src="/assets/implicare_civica_logo.png"
             alt="Implicare Civică"
@@ -72,7 +72,7 @@ export default function Home() {
 
       {/* ─── Ce construim ─── */}
       <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-civic-blue-500 dark:text-civic-blue-400 mb-10 text-center">
             Ce construim
           </h2>
@@ -118,7 +118,7 @@ export default function Home() {
 
       {/* ─── Cum funcționează ─── */}
       <section className="py-20 px-6 bg-gray-50 dark:bg-gray-800/50">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-civic-blue-500 dark:text-civic-blue-400 mb-12 text-center">
             Cum funcționează
           </h2>
