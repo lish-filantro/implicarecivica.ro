@@ -1,0 +1,83 @@
+{
+  "id": "SERVICIU_SALUBRITATE_TEMPLATE",
+  "tip_institutie": "Serviciu de Salubritate",
+  "nivel": "Local",
+  "nume_oficial": "Serviciul de Salubritate {LOCALITATE}",
+  "nume_scurt": "Salubritate {LOCALITATE}",
+  "aplicabilitate": "Toate localitățile — operator de salubritate local sau delegat",
+  "template_pattern": {
+    "variante": "Direcția de Salubritate / Regie de Salubritate / Serviciul de Salubrizare / operator delegat",
+    "coordonate_variabile": ["localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea serviciului de salubrizare nr. 101/2006 (republicată)",
+    "reglementari_specifice": [
+      "OUG nr. 92/2021 privind gestionarea deșeurilor",
+      "Legea nr. 211/2011 privind regimul deșeurilor",
+      "Regulamentul local al serviciului de salubrizare"
+    ]
+  },
+  "atributii_principale": [
+    "Colectarea și transportul deșeurilor menajere și similare",
+    "Colectarea selectivă a deșeurilor reciclabile",
+    "Măturatul, spălatul și întreținerea căilor publice",
+    "Curățarea și transportul zăpezii de pe căile publice",
+    "Colectarea deșeurilor voluminoase și a celor din construcții",
+    "Dezinsecția, dezinfecția și deratizarea spațiilor publice",
+    "Gestionarea punctelor de colectare și a platformelor de deșeuri"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "serviciu de salubritate", "salubrizare", "operator de salubritate",
+      "gestiune deșeuri", "colectare selectivă"
+    ],
+    "termeni_populari": [
+      "gunoi", "gunoaie", "salubritate", "măturat stradal",
+      "firma de gunoi", "colectare gunoi", "pubele", "containere"
+    ],
+    "probleme_cetatean": [
+      "nu a venit mașina de gunoi", "gunoi neridicat",
+      "program colectare gunoi", "când vine mașina de gunoi",
+      "taxa de salubritate", "cât costă gunoiul",
+      "container plin", "pubelă distrusă", "pubelă nouă",
+      "colectare selectivă cum", "unde arunc moloz",
+      "unde arunc mobila veche", "deșeuri voluminoase",
+      "dezinsecție țânțari", "deratizare bloc",
+      "gândaci dezinsecție", "câine mort pe stradă",
+      "miros gunoi", "groapă de gunoi", "depozit deșeuri",
+      "curățenie stradă", "zăpadă pe stradă", "deszăpezire"
+    ],
+    "domenii_semantice": [
+      "salubritate", "deșeu", "gunoi", "reciclare", "colectare",
+      "selectiv", "măturat", "curățenie", "zăpadă", "deszăpezire",
+      "dezinsecție", "deratizare", "dezinfecție", "container",
+      "pubelă", "depozit", "transport", "stradal"
+    ],
+    "termeni_gresiti": [
+      "salubritatea", "firma de salubrizare", "gunoi oras",
+      "curatenie stradala", "masina de gunoi"
+    ],
+    "contexte_situationale": [
+      "nu a ridicat nimeni gunoiul de o săptămână",
+      "unde arunc mobilă veche sau electronice",
+      "când se face deszăpezire pe strada mea",
+      "vreau să fac colectare selectivă dar nu am pubele",
+      "miros puternic de la groapa de gunoi"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre contractul de salubritate și tarifele aplicate",
+    "Date despre frecvența colectării deșeurilor pe zone/străzi",
+    "Informații despre cantitățile de deșeuri colectate și rata de reciclare",
+    "Rapoarte despre programul de dezinsecție, deratizare și dezinfecție",
+    "Date despre investițiile în echipamente și flota de vehicule",
+    "Informații despre reclamațiile cetățenilor și modul de soluționare",
+    "Date despre costurile serviciului și subvențiile primite de la bugetul local",
+    "Informații despre programul de deszăpezire și resursele alocate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin primărie sau direct la operatorul de salubritate",
+    "departament_responsabil": "Direcția Servicii Publice din primărie / Conducerea operatorului",
+    "observatii": "Dacă serviciul e delegat unei firme private, cererea merge la primărie ca autoritate contractantă"
+  }
+}

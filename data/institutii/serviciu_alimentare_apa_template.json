@@ -1,0 +1,81 @@
+{
+  "id": "SERVICIU_ALIMENTARE_APA_TEMPLATE",
+  "tip_institutie": "Serviciu de Alimentare cu Apă și Canalizare",
+  "nivel": "Local/Județean",
+  "nume_oficial": "Serviciul de Apă și Canalizare {LOCALITATE}",
+  "nume_scurt": "Apă-Canal {LOCALITATE}",
+  "aplicabilitate": "Toate localitățile — operator regional sau local de apă-canal",
+  "template_pattern": {
+    "variante": "Companie de Apă / Regie de Apă / Operator Regional de Apă / APA-CANAL",
+    "coordonate_variabile": ["localitate", "judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 241/2006 a serviciului de alimentare cu apă și de canalizare",
+    "reglementari_specifice": [
+      "Legea nr. 51/2006 a serviciilor comunitare de utilități publice",
+      "Regulamentul-cadru al serviciului (ANRSC)",
+      "Contractul de delegare a gestiunii"
+    ]
+  },
+  "atributii_principale": [
+    "Captarea, tratarea și distribuția apei potabile",
+    "Colectarea și epurarea apelor uzate",
+    "Întreținerea și dezvoltarea rețelei de apă și canalizare",
+    "Montarea și citirea contoarelor de apă",
+    "Intervenția la avarii pe rețeaua de apă și canalizare",
+    "Controlul calității apei potabile distribuite",
+    "Facturarea și încasarea contravalorii serviciilor"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "serviciu de alimentare cu apă", "operator de apă", "canalizare",
+      "companie de apă", "regie de apă", "apă-canal"
+    ],
+    "termeni_populari": [
+      "apa", "apa de la robinet", "compania de apa", "apa canal",
+      "factura apa", "contor apa", "canalizare"
+    ],
+    "probleme_cetatean": [
+      "nu am apă", "apă oprită", "avarie apă",
+      "presiune mică apă", "apă tulbure", "apă galbenă",
+      "calitate apă", "analize apă",
+      "branșament apă", "racord canalizare",
+      "contor apă", "citire contor", "verificare contor",
+      "factură apă", "plată factură", "preț apă",
+      "scurgere canalizare", "canal înfundat", "canalizare blocată",
+      "miros canal", "gură de canal deschisă",
+      "întrerupere apă programată", "program oprire apă"
+    ],
+    "domenii_semantice": [
+      "apă", "canal", "canalizare", "potabilă", "rețea",
+      "contor", "branșament", "racord", "factură",
+      "avarie", "presiune", "calitate", "epurare",
+      "tratare", "distribuție", "uzată"
+    ],
+    "termeni_gresiti": [
+      "compania de apa", "apa canal", "regia apei"
+    ],
+    "contexte_situationale": [
+      "nu am apă de azi dimineață",
+      "apa de la robinet e galbenă",
+      "vreau să mă branșez la rețeaua de apă",
+      "factura la apă mi se pare prea mare",
+      "canal înfundat pe stradă"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre calitatea apei potabile — analize și rapoarte",
+    "Date despre tarifele aplicate și fundamentarea prețului apei",
+    "Informații despre investițiile în rețeaua de apă și canalizare",
+    "Rapoarte despre avariile pe rețea și timpii de intervenție",
+    "Date despre pierderile de apă din rețea și măsurile de reducere",
+    "Informații despre planurile de extindere a rețelei de canalizare",
+    "Date despre contractul de delegare și obligațiile operatorului",
+    "Informații despre programul de întreruperi planificate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin primărie/consiliu județean sau direct la operatorul de apă",
+    "departament_responsabil": "Direcția Tehnică / Relații cu Publicul a operatorului",
+    "observatii": "Operatorul regional răspunde la cereri 544 ca prestator de serviciu public"
+  }
+}

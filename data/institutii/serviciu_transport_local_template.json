@@ -1,0 +1,82 @@
+{
+  "id": "SERVICIU_TRANSPORT_LOCAL_TEMPLATE",
+  "tip_institutie": "Serviciu de Transport Public Local",
+  "nivel": "Local",
+  "nume_oficial": "Serviciul de Transport Public {LOCALITATE}",
+  "nume_scurt": "Transport Public {LOCALITATE}",
+  "aplicabilitate": "Municipii și orașe — operatori de transport public local",
+  "template_pattern": {
+    "variante": "Regie de Transport / Societate de Transport Public / STB / CTP / RATB / operator delegat",
+    "coordonate_variabile": ["localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 92/2007 a serviciilor publice de transport persoane în unitățile administrativ-teritoriale",
+    "reglementari_specifice": [
+      "Regulamentul (CE) nr. 1370/2007 privind serviciile publice de transport",
+      "Legea nr. 51/2006 a serviciilor comunitare de utilități publice",
+      "Contractul de delegare a gestiunii serviciului"
+    ]
+  },
+  "atributii_principale": [
+    "Operarea liniilor de autobuz, tramvai, troleibuz și metrou ușor",
+    "Planificarea traseelor și a orarelor de funcționare",
+    "Vânzarea și validarea titlurilor de călătorie",
+    "Întreținerea și modernizarea flotei de vehicule",
+    "Întreținerea infrastructurii: stații, depouri, linii de tramvai",
+    "Informarea călătorilor despre trasee, orare și tarife",
+    "Adaptarea serviciului pentru persoane cu dizabilități"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "transport public local", "operator de transport", "regie de transport",
+      "societate de transport public", "serviciu de mobilitate urbană"
+    ],
+    "termeni_populari": [
+      "autobuz", "tramvai", "troleibuz", "stb", "ratb", "ctp",
+      "transport in comun", "abonament autobuz", "bilet autobuz",
+      "metrou ușor"
+    ],
+    "probleme_cetatean": [
+      "orar autobuz", "când vine autobuzul", "traseu autobuz",
+      "abonament transport", "cât costă abonamentul",
+      "bilet transport public", "unde cumpăr bilet",
+      "card transport", "reîncărcare card",
+      "autobuz întârziat", "autobuz anulat",
+      "stație nouă", "modificare traseu",
+      "transport noapte", "program weekend",
+      "accesibilitate handicap", "rampă scaun rulant",
+      "reclamație transport", "condiții autobuz"
+    ],
+    "domenii_semantice": [
+      "transport", "autobuz", "tramvai", "troleibuz",
+      "călătorie", "bilet", "abonament", "card",
+      "traseu", "orar", "stație", "linie",
+      "flotă", "vehicul", "călător", "mobilitate"
+    ],
+    "termeni_gresiti": [
+      "transportul public", "ratb", "autobus", "tramvaiu"
+    ],
+    "contexte_situationale": [
+      "care e orarul autobuzului pe linia mea",
+      "cât costă un abonament lunar",
+      "unde cumpăr card de transport",
+      "de ce întârzie mereu autobuzul",
+      "vreau să fac reclamație pentru transport"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre contractul de delegare și obligațiile operatorului",
+    "Date despre subvențiile primite de la bugetul local",
+    "Informații despre numărul de călători transportați pe linii/luni",
+    "Rapoarte despre starea flotei de vehicule și vârsta medie",
+    "Date despre investițiile în vehicule noi și modernizări",
+    "Informații despre veniturile din bilete/abonamente și gratuități acordate",
+    "Date despre reclamațiile călătorilor și timpul de răspuns",
+    "Informații despre traseele planificate și modificările recente"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin primărie sau direct la operatorul de transport",
+    "departament_responsabil": "Direcția Transport din primărie / Conducerea operatorului",
+    "observatii": "Operatorul (chiar dacă e societate comercială) răspunde la cereri 544 dacă gestionează un serviciu public"
+  }
+}

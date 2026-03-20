@@ -1,0 +1,78 @@
+{
+  "id": "MUZEU_LOCAL_TEMPLATE",
+  "tip_institutie": "Muzeu Public",
+  "nivel": "Local/Județean",
+  "nume_oficial": "Muzeul {LOCALITATE/JUDET}",
+  "nume_scurt": "Muzeul {LOCALITATE}",
+  "aplicabilitate": "Municipal și județean — muzee de istorie, artă, etnografie, științe",
+  "template_pattern": {
+    "nume_format": "Muzeul {tip} {localitate/județ}",
+    "variante": "Muzeu de Istorie / Muzeu de Artă / Muzeu de Etnografie / Complex Muzeal / Muzeu Județean",
+    "coordonate_variabile": ["localitate", "judet", "tip_muzeu"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 311/2003 a muzeelor și colecțiilor publice",
+    "reglementari_specifice": [
+      "Normele de clasificare a muzeelor (Ord. MC nr. 2057/2007)",
+      "Legea patrimoniului cultural național nr. 182/2000",
+      "HCL/HCJ de înființare și organizare"
+    ]
+  },
+  "atributii_principale": [
+    "Cercetarea, colectarea și conservarea patrimoniului cultural mobil",
+    "Organizarea expozițiilor permanente și temporare",
+    "Restaurarea și conservarea obiectelor de patrimoniu",
+    "Activități educaționale și de mediere culturală",
+    "Evidența și gestiunea colecțiilor de patrimoniu",
+    "Publicații de specialitate: cataloage, studii, monografii",
+    "Colaborarea cu alte muzee și instituții de cultură naționale și internaționale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "muzeu", "muzeu public", "complex muzeal",
+      "muzeu de istorie", "muzeu de artă", "muzeu etnografie",
+      "patrimoniu cultural", "colecție publică"
+    ],
+    "termeni_populari": [
+      "muzeul din oras", "muzeul orasului", "muzeul judetean",
+      "muzeu de istorie", "muzeu de arta", "expozitie"
+    ],
+    "probleme_cetatean": [
+      "program muzeu", "bilet muzeu", "cât costă intrarea la muzeu",
+      "vizită ghidată muzeu", "tur muzeu", "expoziție temporară",
+      "muzeu copii", "activități educative muzeu", "atelier muzeu",
+      "donație obiecte muzeu", "cum donez la muzeu",
+      "cercetare muzeu", "acces colecții", "catalog muzeu"
+    ],
+    "domenii_semantice": [
+      "muzeu", "expoziție", "patrimoniu", "colecție", "artefact",
+      "istorie", "artă", "etnografie", "arheologie", "restaurare",
+      "conservare", "educație", "ghid", "vizită", "catalog"
+    ],
+    "termeni_gresiti": [
+      "muzeu public", "muzeu municipal", "galeria de arta"
+    ],
+    "contexte_situationale": [
+      "care e programul muzeului din oraș",
+      "cât costă biletul la muzeu",
+      "ce expoziții are muzeul acum",
+      "vreau să vizitez muzeul cu copiii",
+      "cum donez obiecte vechi la muzeu"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul muzeului și execuția bugetară",
+    "Date despre achizițiile de obiecte de patrimoniu și costurile acestora",
+    "Informații despre numărul de vizitatori și veniturile din bilete",
+    "Rapoarte despre starea de conservare a colecțiilor",
+    "Date despre contractele de restaurare și furnizorii de servicii",
+    "Informații despre proiectele de finanțare depuse și rezultatele lor",
+    "Date despre personalul muzeului, calificări și organigrama",
+    "Informații despre planurile de dezvoltare și investiții ale muzeului"
+  ],
+  "procedura_544": {
+    "contact_cereri": "secretariat@muzeu{localitate}.ro sau prin consiliul local/județean",
+    "departament_responsabil": "Director / Secretariat",
+    "observatii": "Instituție publică cu personalitate juridică, obligată să răspundă la cereri 544"
+  }
+}

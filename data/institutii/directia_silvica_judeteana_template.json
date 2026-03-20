@@ -1,0 +1,76 @@
+{
+  "id": "DIRECTIA_SILVICA_JUDETEANA_TEMPLATE",
+  "tip_institutie": "Direcție Silvică Județeană",
+  "nivel": "Județean",
+  "nume_oficial": "Direcția Silvică {JUDET}",
+  "nume_scurt": "DS {JUDET}",
+  "aplicabilitate": "Județean — administrarea fondului forestier de stat",
+  "template_pattern": {
+    "variante": "Direcție Silvică / Ocol Silvic de Stat",
+    "coordonate_variabile": ["judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Codul silvic — Legea nr. 46/2008 (republicat)",
+    "reglementari_specifice": [
+      "HG nr. 229/2009 privind reorganizarea RNP Romsilva",
+      "Regulamentul de organizare a Romsilva"
+    ]
+  },
+  "atributii_principale": [
+    "Administrarea și paza fondului forestier de stat din județ",
+    "Exploatarea și valorificarea masei lemnoase conform amenajamentelor",
+    "Regenerarea și împădurirea suprafețelor exploatate",
+    "Prevenirea și combaterea tăierilor ilegale de pădure",
+    "Gestionarea fondului cinegetic și organizarea vânătorii",
+    "Paza și conservarea ariilor naturale protejate din administrare",
+    "Administrarea drumurilor forestiere"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "direcție silvică", "ocol silvic", "Romsilva",
+      "fond forestier", "administrare pădure"
+    ],
+    "termeni_populari": [
+      "padure", "paduri", "silvic", "romsilva", "lemn",
+      "taiere padure", "lemne foc", "vanatoare"
+    ],
+    "probleme_cetatean": [
+      "tăiere ilegală pădure", "defrișare", "lemne de foc",
+      "preț lemne", "cumpăr lemne de la stat",
+      "permis vânătoare", "fond cinegetic",
+      "drum forestier blocat", "acces pădure",
+      "împădurire", "plantare copaci",
+      "reclamație tăiere pădure", "pădure distrusă"
+    ],
+    "domenii_semantice": [
+      "pădure", "silvic", "lemn", "arbore", "copac",
+      "exploatare", "defrișare", "împădurire", "regenerare",
+      "cinegetic", "vânătoare", "fond forestier", "ocol"
+    ],
+    "termeni_gresiti": [
+      "romsilva", "directia silvica", "ocolul silvic"
+    ],
+    "contexte_situationale": [
+      "vreau să cumpăr lemne de foc de la stat",
+      "cineva taie ilegal pădure lângă mine",
+      "cum sesizez o tăiere ilegală",
+      "vreau permis de vânătoare",
+      "drumul forestier e blocat și nu pot ajunge"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre volumul de masă lemnoasă exploatată pe an",
+    "Date despre veniturile și cheltuielile direcției silvice",
+    "Informații despre suprafețele împădurite și cele defrișate",
+    "Rapoarte despre tăierile ilegale constatate și sancțiunile aplicate",
+    "Date despre contractele de exploatare forestieră și beneficiarii lor",
+    "Informații despre ariile naturale protejate administrate",
+    "Date despre starea drumurilor forestiere și investițiile realizate",
+    "Informații despre fondul cinegetic și cotele de vânătoare alocate"
+  ],
+  "procedura_544": {
+    "contact_cereri": "secretariat@{judet}.rosilva.ro",
+    "departament_responsabil": "Secretariat / Biroul Juridic",
+    "observatii": "Structură teritorială a RNP Romsilva, regie autonomă de interes național"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "CRESA_PUBLICA_TEMPLATE",
+  "tip_institutie": "Creșă Publică",
+  "nivel": "Local",
+  "nume_oficial": "Creșa {LOCALITATE}",
+  "nume_scurt": "Creșa {LOCALITATE}",
+  "aplicabilitate": "Municipal și orășenesc — creșe publice pentru copii 0-3 ani",
+  "template_pattern": {
+    "variante": "Creșă publică / Centru de zi pentru copii / Creșă de cartier",
+    "coordonate_variabile": ["localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 263/2007 privind înființarea, organizarea și funcționarea creșelor",
+    "reglementari_specifice": [
+      "HG nr. 1252/2012 — Metodologia de organizare a creșelor",
+      "Legea educației naționale nr. 1/2011 (educație antepreșcolară)",
+      "Standardele de calitate pentru creșe (ANPDCA)"
+    ]
+  },
+  "atributii_principale": [
+    "Îngrijirea și supravegherea copiilor cu vârsta între 0 și 3 ani",
+    "Activități educaționale pentru dezvoltarea timpurie a copilului",
+    "Asigurarea hranei și a condițiilor de igienă pentru copii",
+    "Supravegherea medicală și administrarea tratamentelor prescrise",
+    "Socializarea copiilor și pregătirea pentru integrarea în grădiniță",
+    "Consilierea părinților privind dezvoltarea copilului"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "creșă", "creșă publică", "centru de zi copii",
+      "educație antepreșcolară", "servicii de îngrijire copii"
+    ],
+    "termeni_populari": [
+      "cresa", "cresa publica", "cresa de stat", "cresa gratis",
+      "loc la cresa", "inscrie copil la cresa"
+    ],
+    "probleme_cetatean": [
+      "înscriere creșă", "loc la creșă", "listă așteptare creșă",
+      "acte necesare creșă", "taxă creșă", "cât costă creșa",
+      "program creșă", "orar creșă", "meniu creșă",
+      "educatoare creșă", "supraveghere copii creșă",
+      "condiții creșă", "curățenie creșă", "igienă creșă",
+      "creșă aproape de mine", "creșe disponibile"
+    ],
+    "domenii_semantice": [
+      "creșă", "copil", "îngrijire", "educație timpurie",
+      "dezvoltare", "hrană", "igienă", "socializare",
+      "părinte", "antepreșcolar", "supraveghere"
+    ],
+    "termeni_gresiti": [
+      "cresa publica", "cresa de stat", "cresa copii"
+    ],
+    "contexte_situationale": [
+      "cum înscriu copilul la creșă",
+      "câte locuri sunt la creșa din oraș",
+      "cât costă creșa publică",
+      "care sunt actele necesare pentru creșă",
+      "ce program are creșa"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre numărul de locuri disponibile și lista de așteptare",
+    "Date despre bugetul creșei și costul per copil",
+    "Informații despre personalul angajat și calificările acestuia",
+    "Date despre condițiile de igienă și rapoartele de control sanitar",
+    "Informații despre meniul zilnic și furnizorii de alimente",
+    "Rapoarte despre achizițiile de echipamente și jucării",
+    "Date despre criteriile de admitere și procedura de înscriere",
+    "Informații despre investițiile planificate și extinderea capacității"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin primărie sau direct la conducerea creșei",
+    "departament_responsabil": "Director creșă / Direcția de Asistență Socială din primărie",
+    "observatii": "Instituție publică finanțată din bugetul local"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "CASA_DE_CULTURA_TEMPLATE",
+  "tip_institutie": "Casă de Cultură",
+  "nivel": "Local/Județean",
+  "nume_oficial": "Casa de Cultură {LOCALITATE}",
+  "nume_scurt": "Casa de Cultură {LOCALITATE}",
+  "aplicabilitate": "Toate nivelurile - comunal, orășenesc, municipal, județean",
+  "template_pattern": {
+    "nume_format": "Casa de Cultură a {Municipiului/Orașului/Comunei} {nume}",
+    "variante": "Centru Cultural / Cămin Cultural / Casă de Cultură",
+    "coordonate_variabile": ["localitate", "judet"]
+  },
+  "legislatie_baza": {
+    "document_principal": "OG nr. 21/2007 privind instituțiile și companiile de spectacole și concerte",
+    "reglementari_specifice": [
+      "Legea nr. 292/2003 privind organizarea și funcționarea așezămintelor culturale",
+      "HCL/HCJ de înființare și organizare"
+    ]
+  },
+  "atributii_principale": [
+    "Organizarea de spectacole, concerte, festivaluri și evenimente culturale",
+    "Administrarea sălilor de spectacol și a spațiilor culturale",
+    "Susținerea creației artistice locale și a ansamblurilor folclorice",
+    "Organizarea cursurilor și atelierelor de educație artistică",
+    "Promovarea tradițiilor și patrimoniului cultural local",
+    "Colaborarea cu artiști, trupe de teatru și formații muzicale",
+    "Organizarea de expoziții de artă și târguri culturale"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "casă de cultură", "centru cultural", "cămin cultural",
+      "așezământ cultural", "instituție de spectacole"
+    ],
+    "termeni_populari": [
+      "casa de cultura", "centrul cultural", "caminul cultural",
+      "sala de spectacole", "concert primarie", "teatru local"
+    ],
+    "probleme_cetatean": [
+      "spectacol casa de cultura", "cursuri dans", "cursuri pictură",
+      "cursuri chitară", "ateliere copii", "festival local",
+      "program casa de cultura", "bilete spectacol", "sala de nuntă",
+      "închiriere sală", "ansamblu folcloric", "cor local",
+      "expoziție artă", "eveniment cultural", "concert local"
+    ],
+    "domenii_semantice": [
+      "cultură", "spectacol", "concert", "festival", "teatru",
+      "dans", "muzică", "artă", "folclor", "tradiție",
+      "atelier", "curs", "educație artistică", "eveniment"
+    ],
+    "termeni_gresiti": [
+      "casa culturii", "centru de cultura", "camin culturii"
+    ],
+    "contexte_situationale": [
+      "unde pot face cursuri de dans în oraș",
+      "când sunt spectacole la casa de cultură",
+      "vreau să închiriez sala de spectacole",
+      "ce evenimente culturale sunt în localitate",
+      "cum mă înscriu la ansamblul folcloric"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre bugetul casei de cultură și cheltuielile pe evenimente",
+    "Date despre contractele cu artiștii și trupele de spectacol",
+    "Informații despre veniturile din închirieri de săli și sponsorizări",
+    "Rapoarte despre numărul de evenimente organizate și participanți",
+    "Date despre achizițiile de echipamente (sunet, lumini, scenă)",
+    "Informații despre salariile personalului și organigrama instituției",
+    "Date despre proiectele culturale depuse și finanțările obținute"
+  ],
+  "procedura_544": {
+    "contact_cereri": "secretariat@casadecultura{localitate}.ro sau prin primărie/consiliu județean",
+    "departament_responsabil": "Director / Secretariat",
+    "observatii": "Instituție publică cu buget propriu, obligată să răspundă la cereri 544"
+  }
+}

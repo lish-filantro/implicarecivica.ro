@@ -1,0 +1,78 @@
+{
+  "id": "SERVICIU_TERMOFICARE_TEMPLATE",
+  "tip_institutie": "Serviciu de Termoficare",
+  "nivel": "Local",
+  "nume_oficial": "Serviciul de Termoficare {LOCALITATE}",
+  "nume_scurt": "Termoficare {LOCALITATE}",
+  "aplicabilitate": "Municipii și orașe cu sistem centralizat de încălzire",
+  "template_pattern": {
+    "variante": "Regie de Termoficare / Companie de Termoficare / RADET / Colterm / Operator delegat",
+    "coordonate_variabile": ["localitate"]
+  },
+  "legislatie_baza": {
+    "document_principal": "Legea nr. 325/2006 a serviciului public de alimentare cu energie termică",
+    "reglementari_specifice": [
+      "Legea nr. 51/2006 a serviciilor comunitare de utilități publice",
+      "Ordinele ANRSC privind reglementarea serviciului",
+      "Contractul de delegare a gestiunii"
+    ]
+  },
+  "atributii_principale": [
+    "Producerea, transportul și distribuția energiei termice",
+    "Întreținerea și modernizarea rețelei de termoficare",
+    "Furnizarea de apă caldă și căldură către consumatori",
+    "Citirea contoarelor și facturarea energiei termice",
+    "Intervenția la avarii pe rețeaua de termoficare",
+    "Pregătirea sistemului pentru sezonul rece"
+  ],
+  "keywords_cautare": {
+    "termeni_oficiali": [
+      "serviciu de termoficare", "alimentare cu energie termică",
+      "operator de termoficare", "sistem centralizat de încălzire"
+    ],
+    "termeni_populari": [
+      "termoficare", "calorifer", "caldura", "apa calda",
+      "centrala termica", "incalzire", "radet"
+    ],
+    "probleme_cetatean": [
+      "nu am căldură", "calorifer rece", "nu vine apa caldă",
+      "avarie termoficare", "țeavă spartă termoficare",
+      "factură termoficare", "cât costă gigacaloria",
+      "debranșare termoficare", "reconectare termoficare",
+      "când pornește căldura", "sezon încălzire",
+      "contor căldură", "repartitor costuri",
+      "ajutor încălzire", "subvenție termoficare"
+    ],
+    "domenii_semantice": [
+      "termoficare", "căldură", "încălzire", "calorifer",
+      "apă caldă", "energie termică", "gigacalorie",
+      "rețea", "centrală", "contor", "factură",
+      "sezon", "avarie", "debranșare"
+    ],
+    "termeni_gresiti": [
+      "termoficare", "caldura din calorifere", "apa calda de la stat"
+    ],
+    "contexte_situationale": [
+      "nu am căldură în apartament de două zile",
+      "de ce e factura la termoficare atât de mare",
+      "vreau să mă debranșez de la termoficare",
+      "când pornesc caloriferele în acest an",
+      "apă caldă nu vine deloc dimineața"
+    ]
+  },
+  "cazuri_utilizare_544": [
+    "Solicitare informații despre prețul gigacaloriei și fundamentarea tarifului",
+    "Date despre subvențiile primite de la bugetul local pentru termoficare",
+    "Informații despre pierderile din rețeaua de transport și distribuție",
+    "Rapoarte despre investițiile în modernizarea rețelei",
+    "Date despre avariile din ultimul sezon și timpii de remediere",
+    "Informații despre numărul de debranșări și reconectări",
+    "Date despre datoriile operatorului și situația financiară",
+    "Informații despre programul de pregătire pentru sezonul rece"
+  ],
+  "procedura_544": {
+    "contact_cereri": "Prin primărie sau direct la operatorul de termoficare",
+    "departament_responsabil": "Relații cu Publicul / Direcția Tehnică a operatorului",
+    "observatii": "Operator de serviciu public, obligat să răspundă la cereri 544"
+  }
+}

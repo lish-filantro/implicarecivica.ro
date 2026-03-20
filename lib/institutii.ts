@@ -130,8 +130,8 @@ export const DOMENII: Domeniu[] = [
     id: 'sanatate',
     label: 'Sănătate',
     icon: '🏥',
-    description: 'Spitale, medici, programe de sănătate, asigurări',
-    patterns: ['MINISTERUL_SANATATII', 'MS', 'CJAS', 'CNAS', 'DSP', 'ANMCS', 'ANMDMR', 'SPITAL'],
+    description: 'Spitale, medici, programe de sănătate, asigurări, creșe',
+    patterns: ['MINISTERUL_SANATATII', 'MS', 'CJAS', 'CNAS', 'DSP', 'ANMCS', 'ANMDMR', 'SPITAL', 'CRESA'],
   },
   {
     id: 'educatie',
@@ -158,8 +158,8 @@ export const DOMENII: Domeniu[] = [
     id: 'mediu',
     label: 'Mediu & Energie',
     icon: '🌿',
-    description: 'Protecția mediului, reglementare energie, ape',
-    patterns: ['MMAP', 'MINISTERUL_MEDIULUI', 'APM', 'ANPM', 'GNM', 'COMISARIAT_GARDA_MEDIU', 'ANRE', 'ANSVSA'],
+    description: 'Protecția mediului, energie, ape, păduri, salubritate',
+    patterns: ['MMAP', 'MINISTERUL_MEDIULUI', 'APM', 'ANPM', 'GNM', 'COMISARIAT_GARDA_MEDIU', 'ANRE', 'ANSVSA', 'SERVICIU_SALUBRITATE', 'DIRECTIA_SILVICA'],
   },
   {
     id: 'administratie',
@@ -172,8 +172,8 @@ export const DOMENII: Domeniu[] = [
     id: 'transport',
     label: 'Transport & Infrastructură',
     icon: '🛣️',
-    description: 'Drumuri, auto, construcții, dezvoltare regională',
-    patterns: ['MTI', 'MINISTERUL_TRANSPORTURILOR', 'CNAIR', 'RAR', 'MDLPA', 'MINISTER_DEZVOLTARE'],
+    description: 'Drumuri, auto, construcții, transport public, utilități',
+    patterns: ['MTI', 'MINISTERUL_TRANSPORTURILOR', 'CNAIR', 'RAR', 'MDLPA', 'MINISTER_DEZVOLTARE', 'SERVICIU_TRANSPORT', 'SERVICIU_ALIMENTARE_APA', 'SERVICIU_TERMOFICARE'],
   },
   {
     id: 'economie',
@@ -186,8 +186,8 @@ export const DOMENII: Domeniu[] = [
     id: 'aparare',
     label: 'Apărare & Siguranță',
     icon: '🛡️',
-    description: 'Armată, situații de urgență, afaceri externe, drepturi',
-    patterns: ['MAPN', 'MINISTERUL_APARARII', 'MAI', 'MINISTERUL_AFACERILOR_INTERNE', 'ISU', 'IJSU', 'MAE', 'MINISTER_AFACERI_EXTERNE', 'MINISTERUL_AFACERILOR_EXTERNE', 'AVOCATUL_POPORULUI', 'ANSPDCP', 'CNCD', 'ANI', 'MC', 'MINISTERUL_CULTURII', 'ANF', 'ANCPI', 'OCPI', 'POLITIE_LOCALA'],
+    description: 'Armată, situații de urgență, afaceri externe, drepturi, cultură',
+    patterns: ['MAPN', 'MINISTERUL_APARARII', 'MAI', 'MINISTERUL_AFACERILOR_INTERNE', 'ISU', 'IJSU', 'MAE', 'MINISTER_AFACERI_EXTERNE', 'MINISTERUL_AFACERILOR_EXTERNE', 'AVOCATUL_POPORULUI', 'ANSPDCP', 'CNCD', 'ANI', 'MC', 'MINISTERUL_CULTURII', 'ANF', 'ANCPI', 'OCPI', 'POLITIE_LOCALA', 'CASA_DE_CULTURA', 'MUZEU_LOCAL'],
   },
 ]
 
