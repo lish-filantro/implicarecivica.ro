@@ -5,6 +5,7 @@ import {
   DOMENII,
   getInstitutiiByDomeniu,
   getCazuriPopulare,
+  getSearchIndex,
 } from '@/lib/institutii'
 import { PublicNavbar } from '@/components/shared/PublicNavbar'
 import { PublicFooter } from '@/components/shared/PublicFooter'
@@ -21,26 +22,7 @@ export default function InstitutiiPage() {
   const toate = getAllInstitutii()
   const cazuriPopulare = getCazuriPopulare(8)
 
-  // Build search index
-  const searchItems = [
-    ...toate.map(inst => ({
-      label: inst.nume_oficial,
-      sublabel: inst.tip_institutie,
-      href: `/institutii/${inst.slug}`,
-      type: 'institutie' as const,
-    })),
-    ...toate.flatMap(inst =>
-      inst.cazuri_utilizare_544
-        .filter(c => !c.includes('{'))
-        .slice(0, 3)
-        .map(caz => ({
-          label: caz,
-          sublabel: inst.nume_scurt,
-          href: `/institutii/${inst.slug}`,
-          type: 'cerere' as const,
-        }))
-    ),
-  ]
+  const searchIndex = getSearchIndex()
 
   // Build domain data
   const domeniiData = DOMENII.map(d => ({
@@ -72,7 +54,7 @@ export default function InstitutiiPage() {
             Legea 544/2001 îți dă dreptul să întrebi.
           </p>
           <div className="mt-8">
-            <CautareInstitutii items={searchItems} />
+            <CautareInstitutii index={searchIndex} />
           </div>
         </div>
       </section>

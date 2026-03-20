@@ -1,36 +1,62 @@
 'use client'
 
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 
-interface SearchItem {
-  label: string
-  sublabel: string
-  href: string
-  type: 'institutie' | 'cerere'
+interface SearchEntry {
+  slug: string
+  numeScurt: string
+  numeOficial: string
+  haystack: string
 }
 
 interface Props {
-  items: SearchItem[]
+  index: SearchEntry[]
 }
 
-export function CautareInstitutii({ items }: Props) {
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[ăâ]/g, 'a')
+    .replace(/[îï]/g, 'i')
+    .replace(/[șş]/g, 's')
+    .replace(/[țţ]/g, 't')
+}
+
+export function CautareInstitutii({ index }: Props) {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
+  const [activeIdx, setActiveIdx] = useState(-1)
   const ref = useRef<HTMLDivElement>(null)
 
   const results = useMemo(() => {
     if (query.length < 2) return []
-    const q = query.toLowerCase()
-    return items
-      .filter(
-        item =>
-          item.label.toLowerCase().includes(q) ||
-          item.sublabel.toLowerCase().includes(q)
-      )
-      .slice(0, 8)
-  }, [query, items])
+    const words = normalize(query).split(/\s+/).filter(w => w.length >= 2)
+    if (words.length === 0) return []
 
+    const scored = index.map(entry => {
+      let score = 0
+      for (const word of words) {
+        if (entry.haystack.includes(word)) {
+          score++
+          const normName = normalize(entry.numeScurt + ' ' + entry.numeOficial)
+          if (normName.includes(word)) score += 2
+        }
+      }
+      return { entry, score }
+    })
+
+    return scored
+      .filter(s => s.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
+      .map(s => s.entry)
+  }, [query, index])
+
+  // Reset active index when results change
+  useEffect(() => setActiveIdx(-1), [results])
+
+  // Close on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
@@ -38,6 +64,26 @@ export function CautareInstitutii({ items }: Props) {
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (!open || results.length === 0) return
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setActiveIdx(i => (i + 1) % results.length)
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setActiveIdx(i => (i <= 0 ? results.length - 1 : i - 1))
+      } else if (e.key === 'Enter' && activeIdx >= 0) {
+        e.preventDefault()
+        const entry = results[activeIdx]
+        window.location.href = `/institutii/${entry.slug}`
+      } else if (e.key === 'Escape') {
+        setOpen(false)
+      }
+    },
+    [open, results, activeIdx]
+  )
 
   return (
     <div ref={ref} className="relative w-full max-w-2xl mx-auto">
@@ -63,32 +109,35 @@ export function CautareInstitutii({ items }: Props) {
             setOpen(true)
           }}
           onFocus={() => setOpen(true)}
-          placeholder="Caută instituție sau ce informație vrei să afli..."
+          onKeyDown={handleKeyDown}
+          placeholder="Caută instituție sau descrie ce vrei să afli..."
           className="w-full pl-12 pr-4 py-4 text-base rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-civic-blue-400 dark:focus:border-civic-blue-500 focus:outline-none focus:ring-4 focus:ring-civic-blue-100 dark:focus:ring-civic-blue-900/30 transition-all"
         />
       </div>
 
       {open && results.length > 0 && (
         <div className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
-          {results.map((item, i) => (
+          {results.map((entry, i) => (
             <Link
-              key={i}
-              href={item.href}
+              key={entry.slug}
+              href={`/institutii/${entry.slug}`}
               onClick={() => {
                 setOpen(false)
                 setQuery('')
               }}
-              className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors border-b border-gray-100 dark:border-gray-700/50 last:border-b-0"
+              className={`flex items-center gap-3 px-4 py-3 transition-colors border-b border-gray-100 dark:border-gray-700/50 last:border-b-0 ${
+                i === activeIdx
+                  ? 'bg-civic-blue-50 dark:bg-civic-blue-900/20'
+                  : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+              }`}
             >
-              <span className="mt-0.5 text-sm">
-                {item.type === 'institutie' ? '🏛️' : '📋'}
-              </span>
+              <span className="text-sm shrink-0">🏛️</span>
               <div className="min-w-0">
                 <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                  {item.label}
+                  {entry.numeOficial}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                  {item.sublabel}
+                  {entry.numeScurt}
                 </p>
               </div>
             </Link>

@@ -10,6 +10,15 @@ export interface Procedura544 {
   rapoarte_anuale?: string
 }
 
+export interface KeywordsCautare {
+  termeni_oficiali?: string[]
+  termeni_populari?: string[]
+  probleme_cetatean?: string[]
+  domenii_semantice?: string[]
+  termeni_gresiti?: string[]
+  contexte_situationale?: string[]
+}
+
 export interface Institutie {
   id: string
   slug: string
@@ -32,6 +41,7 @@ export interface Institutie {
     [key: string]: unknown
   }
   procedura_544?: Procedura544
+  keywords_cautare?: KeywordsCautare
   is_template: boolean
   nivel_categorie: 'National' | 'Județean' | 'Local'
 }
@@ -79,6 +89,7 @@ export function getAllInstitutii(): Institutie[] {
         cazuri_utilizare_544: raw.cazuri_utilizare_544 || [],
         legislatie_baza: raw.legislatie_baza,
         procedura_544: raw.procedura_544,
+        keywords_cautare: raw.keywords_cautare,
         is_template: isTemplate,
         nivel_categorie: categorizeNivel(raw.nivel),
       } satisfies Institutie
@@ -238,4 +249,89 @@ export function getCazuriPopulare(limit = 8): CazPopular[] {
     if (!picked.includes(c)) picked.push(c)
   }
   return picked
+}
+
+/* ── Search index ── */
+
+/** Normalize Romanian diacritics and lowercase for search matching */
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[ăâ]/g, 'a')
+    .replace(/[îï]/g, 'i')
+    .replace(/[șş]/g, 's')
+    .replace(/[țţ]/g, 't')
+}
+
+export interface SearchEntry {
+  /** The institution this entry points to */
+  slug: string
+  numeScurt: string
+  numeOficial: string
+  /** All searchable text for this institution, normalized, joined with | */
+  haystack: string
+}
+
+let cachedIndex: SearchEntry[] | null = null
+
+export function getSearchIndex(): SearchEntry[] {
+  if (cachedIndex) return cachedIndex
+
+  cachedIndex = getAllInstitutii().map(inst => {
+    const parts: string[] = [
+      inst.nume_oficial,
+      inst.nume_scurt,
+      inst.tip_institutie,
+      ...inst.cazuri_utilizare_544,
+      ...inst.atributii_principale,
+    ]
+
+    const kw = inst.keywords_cautare
+    if (kw) {
+      if (kw.termeni_oficiali) parts.push(...kw.termeni_oficiali)
+      if (kw.termeni_populari) parts.push(...kw.termeni_populari)
+      if (kw.probleme_cetatean) parts.push(...kw.probleme_cetatean)
+      if (kw.domenii_semantice) parts.push(...kw.domenii_semantice)
+      if (kw.termeni_gresiti) parts.push(...kw.termeni_gresiti)
+      if (kw.contexte_situationale) parts.push(...kw.contexte_situationale)
+    }
+
+    return {
+      slug: inst.slug,
+      numeScurt: inst.nume_scurt,
+      numeOficial: inst.nume_oficial,
+      haystack: normalize(parts.join(' | ')),
+    }
+  })
+
+  return cachedIndex
+}
+
+export function searchInstitutii(query: string, limit = 8): SearchEntry[] {
+  if (query.length < 2) return []
+
+  const index = getSearchIndex()
+  const words = normalize(query).split(/\s+/).filter(w => w.length >= 2)
+  if (words.length === 0) return []
+
+  // Score each entry: how many query words match
+  const scored = index.map(entry => {
+    let score = 0
+    for (const word of words) {
+      if (entry.haystack.includes(word)) {
+        score++
+        // Bonus for matching the name directly
+        if (normalize(entry.numeScurt).includes(word) || normalize(entry.numeOficial).includes(word)) {
+          score += 2
+        }
+      }
+    }
+    return { entry, score }
+  })
+
+  return scored
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(s => s.entry)
 }
