@@ -51,28 +51,36 @@ export default function Home() {
       </nav>
 
       {/* ─── Hero ─── */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="relative pt-28 pb-24 px-6 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-civic-blue-100/30 dark:bg-civic-blue-900/10 blur-3xl" />
+        </div>
+
         <div className="max-w-3xl mx-auto text-center">
           <Image
             src="/assets/implicare_civica_logo.png"
             alt="Implicare Civică"
             width={180}
             height={180}
-            className="mx-auto mb-8 w-36 md:w-44 h-auto"
+            className="mx-auto mb-10 w-32 md:w-40 h-auto drop-shadow-lg"
             priority
           />
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">
-            Administrația lucrează pentru tine.
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-[1.1] tracking-tight">
+            Administrația lucrează
             <br />
-            <span className="text-civic-blue-500 dark:text-civic-blue-400">Noi te ajutăm să o verifici.</span>
+            pentru tine.
           </h1>
-          <p className="mt-6 text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 text-2xl md:text-3xl font-semibold text-civic-blue-500 dark:text-civic-blue-400 tracking-tight">
+            Noi te ajutăm să o verifici.
+          </p>
+          <p className="mt-6 text-lg text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
             Unelte civice pentru a înțelege, interoga și responsabiliza instituțiile publice din România. Începând de la primărie.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/register"
-              className="px-8 py-3.5 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors text-base"
+              className="px-8 py-3.5 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 shadow-lg shadow-civic-blue-500/25 hover:shadow-civic-blue-500/40 transition-all text-base"
             >
               Trimite prima cerere
             </Link>
@@ -207,10 +215,10 @@ export default function Home() {
       <section className="py-24 px-6 bg-civic-blue-500 dark:bg-civic-blue-600">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-3">
-            Platforma e în construcție. Mișcarea a început deja.
+            E gratuit. E simplu. E dreptul tău.
           </h2>
           <p className="mt-4 text-civic-blue-100 max-w-lg mx-auto">
-            Fiecare cerere trimisă e un semnal că cineva urmărește. Creează-ți un cont și trimite prima cerere.
+            Creează-ți un cont și trimite prima cerere. Fiecare cerere trimisă e un semnal că cineva urmărește.
           </p>
           <div className="mt-8">
             <Link
@@ -239,9 +247,11 @@ export default function Home() {
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <span>Versiune beta</span>
+            <a href="mailto:contact@implicarecivica.ro?subject=Feedback%20platformă" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              Trimite feedback și sugestii
+            </a>
             <span className="text-gray-200 dark:text-gray-700">|</span>
-            <span>2026</span>
+            <span>Versiune beta</span>
           </div>
         </div>
         <div className="max-w-4xl mx-auto mt-4">

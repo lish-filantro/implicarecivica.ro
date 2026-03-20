@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { DarkModeToggle } from '@/components/shared/DarkModeToggle'
 
-const piloni = [
+const ceConstructim = [
   {
     titlu: 'Înțelege cine te guvernează',
     desc: 'Informații clare despre instituțiile publice din România — ce fac, ce obligații au, ce poți cere de la ele. Începând de la primărie.',
@@ -13,7 +13,7 @@ const piloni = [
   },
   {
     titlu: 'Transformă răspunsurile în date deschise',
-    desc: 'Fiecare răspuns primit devine o bucată de open data. Analizăm cum performează instituțiile: cine răspunde, cine ignoră, cine întârzie.',
+    desc: 'Fiecare răspuns primit devine open data. Analizăm cum performează instituțiile: cine răspunde, cine ignoră, cine întârzie.',
   },
   {
     titlu: 'Campanii de presiune civică',
@@ -75,12 +75,12 @@ export default function DesprePage() {
       <section className="pt-28 pb-16 px-6">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
-            Administrația lucrează pentru tine.
+            Construim unelte civice pentru
             <br />
-            <span className="text-civic-blue-500 dark:text-civic-blue-400">Noi te ajutăm să o verifici.</span>
+            <span className="text-civic-blue-500 dark:text-civic-blue-400">o administrație care răspunde.</span>
           </h1>
           <p className="mt-6 text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-            Implicare Civică este o platformă care pune la dispoziția cetățenilor uneltele necesare pentru a înțelege, interoga și responsabiliza instituțiile publice din România.
+            Implicare Civică este o platformă care pune la dispoziția cetățenilor instrumentele necesare pentru a înțelege cum funcționează instituțiile publice, pentru a cere informații de interes public și pentru a crea presiune civică acolo unde transparența lipsește.
           </p>
         </div>
       </section>
@@ -115,7 +115,7 @@ export default function DesprePage() {
             Ce construim
           </h2>
           <div className="space-y-8">
-            {piloni.map((p, i) => (
+            {ceConstructim.map((p, i) => (
               <div key={i} className="flex gap-5">
                 <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-civic-blue-100 dark:bg-civic-blue-900/40 text-civic-blue-600 dark:text-civic-blue-400 flex items-center justify-center text-sm font-bold mt-0.5">
                   {i + 1}
@@ -135,19 +135,17 @@ export default function DesprePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 bg-civic-blue-500 dark:bg-civic-blue-600">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Platforma e în construcție.
-            <br />
-            Mișcarea a început deja.
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            E gratuit. E simplu. E dreptul tău.
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-lg mx-auto">
+          <p className="text-civic-blue-100 mb-8 max-w-lg mx-auto">
             Creează-ți un cont și trimite prima cerere. Fiecare cerere trimisă e un semnal că cineva urmărește.
           </p>
           <Link
             href="/register"
-            className="inline-block px-8 py-3.5 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors text-base"
+            className="inline-block px-8 py-3.5 bg-white text-civic-blue-600 font-semibold rounded-md hover:bg-gray-50 transition-colors text-base"
           >
             Începe acum
           </Link>
@@ -156,11 +154,26 @@ export default function DesprePage() {
 
       {/* Footer */}
       <footer className="py-10 px-6 border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto text-center text-sm text-gray-400 dark:text-gray-500">
-          <Link href="/" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            implicarecivica.ro
-          </Link>
-          {' '}&mdash; Platformă în versiune beta
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400 dark:text-gray-500">
+          <div className="flex items-center gap-6">
+            <Image
+              src="/assets/implicare_civica_logo_navbar.png"
+              alt="Implicare Civică"
+              width={120}
+              height={34}
+              className="h-6 w-auto opacity-60"
+            />
+            <a href="mailto:contact@implicarecivica.ro" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              contact@implicarecivica.ro
+            </a>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="mailto:contact@implicarecivica.ro?subject=Feedback%20platformă" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              Trimite feedback și sugestii
+            </a>
+            <span className="text-gray-200 dark:text-gray-700">|</span>
+            <span>Versiune beta</span>
+          </div>
         </div>
       </footer>
     </div>
