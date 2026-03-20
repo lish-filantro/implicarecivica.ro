@@ -150,10 +150,9 @@ export default async function InstitutieDetailPage({ params }: PageProps) {
                   </h2>
                   <div className="grid gap-3 sm:grid-cols-2">
                     {inst.cazuri_utilizare_544.map((caz, i) => (
-                      <Link
+                      <div
                         key={i}
-                        href="/register"
-                        className="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-civic-blue-300 dark:hover:border-civic-blue-600 hover:shadow-sm transition-all group"
+                        className="flex items-start gap-3 p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
                       >
                         <span className="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-civic-blue-50 dark:bg-civic-blue-900/30 flex items-center justify-center">
                           <svg
@@ -166,40 +165,38 @@ export default async function InstitutieDetailPage({ params }: PageProps) {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={2}
-                              d="M9 5l7 7-7 7"
+                              d="M5 13l4 4L19 7"
                             />
                           </svg>
                         </span>
-                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-civic-blue-600 dark:group-hover:text-civic-blue-400 transition-colors leading-snug">
+                        <span className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
                           {caz}
                         </span>
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 </section>
               )}
 
-              {/* Atribuții — first one already shown in header, rest expandable */}
+              {/* Atribuții — visible */}
               {inst.atributii_principale.length > 1 && (
                 <section>
-                  <Colapsabil
-                    title="Ce face această instituție"
-                    subtitle={`${inst.atributii_principale.length} atribuții principale`}
-                  >
-                    <ul className="space-y-2.5">
-                      {inst.atributii_principale.map((attr, i) => (
-                        <li
-                          key={i}
-                          className="flex gap-3 text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed"
-                        >
-                          <span className="flex-shrink-0 text-gray-300 dark:text-gray-600 mt-0.5">
-                            &bull;
-                          </span>
-                          {attr}
-                        </li>
-                      ))}
-                    </ul>
-                  </Colapsabil>
+                  <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-4">
+                    Ce face această instituție
+                  </h2>
+                  <ul className="space-y-2.5">
+                    {inst.atributii_principale.map((attr, i) => (
+                      <li
+                        key={i}
+                        className="flex gap-3 text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed"
+                      >
+                        <span className="flex-shrink-0 text-gray-300 dark:text-gray-600 mt-0.5">
+                          &bull;
+                        </span>
+                        {attr}
+                      </li>
+                    ))}
+                  </ul>
                 </section>
               )}
 
