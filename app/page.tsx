@@ -242,14 +242,14 @@ export default function Home() {
               height={34}
               className="h-6 w-auto opacity-60"
             />
-            <a href="mailto:contact@implicarecivica.ro" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-              contact@implicarecivica.ro
+            <a href="mailto:lish@filantro.ro" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+              lish@filantro.ro
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <a href="mailto:contact@implicarecivica.ro?subject=Feedback%20platformă" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-              Trimite feedback și sugestii
-            </a>
+            <Link href="/contact" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Contact</Link>
+            <span className="text-gray-200 dark:text-gray-700">|</span>
+            <Link href="/politica-cookies" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Cookies</Link>
             <span className="text-gray-200 dark:text-gray-700">|</span>
             <span>Versiune beta</span>
           </div>

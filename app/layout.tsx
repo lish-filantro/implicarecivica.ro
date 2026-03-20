@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { CookieConsent } from "@/components/shared/CookieConsent";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body className="antialiased">
         <AuthProvider>
           {children}
+          <CookieConsent />
         </AuthProvider>
       </body>
     </html>
