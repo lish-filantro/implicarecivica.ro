@@ -5,7 +5,7 @@ import { DarkModeToggle } from '@/components/shared/DarkModeToggle'
 const navLinks = [
   { href: '/institutii', label: 'Instituții' },
   { href: '/despre', label: 'Despre' },
-  { href: '/login', label: 'Autentificare' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 interface PublicNavbarProps {
@@ -42,10 +42,10 @@ export function PublicNavbar({ activePage }: PublicNavbarProps) {
             </Link>
           ))}
           <Link
-            href="/register"
+            href="/login"
             className="text-sm px-4 py-2 bg-civic-blue-500 text-white rounded-md hover:bg-civic-blue-600 transition-colors"
           >
-            Creează cont
+            Intră în cont
           </Link>
         </div>
       </div>
