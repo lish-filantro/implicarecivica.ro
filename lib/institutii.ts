@@ -264,12 +264,13 @@ function normalize(s: string): string {
 }
 
 export interface SearchEntry {
-  /** The institution this entry points to */
   slug: string
   numeScurt: string
   numeOficial: string
-  /** All searchable text for this institution, normalized, joined with | */
+  /** Full text, normalized — for exact substring matching */
   haystack: string
+  /** Unique words (3+ chars), normalized — for fuzzy word-to-word matching */
+  words: string[]
 }
 
 let cachedIndex: SearchEntry[] | null = null
@@ -296,42 +297,19 @@ export function getSearchIndex(): SearchEntry[] {
       if (kw.contexte_situationale) parts.push(...kw.contexte_situationale)
     }
 
+    const fullText = normalize(parts.join(' | '))
+    const uniqueWords = [...new Set(
+      fullText.split(/[^a-z]+/).filter(w => w.length >= 3)
+    )]
+
     return {
       slug: inst.slug,
       numeScurt: inst.nume_scurt,
       numeOficial: inst.nume_oficial,
-      haystack: normalize(parts.join(' | ')),
+      haystack: fullText,
+      words: uniqueWords,
     }
   })
 
   return cachedIndex
-}
-
-export function searchInstitutii(query: string, limit = 8): SearchEntry[] {
-  if (query.length < 2) return []
-
-  const index = getSearchIndex()
-  const words = normalize(query).split(/\s+/).filter(w => w.length >= 2)
-  if (words.length === 0) return []
-
-  // Score each entry: how many query words match
-  const scored = index.map(entry => {
-    let score = 0
-    for (const word of words) {
-      if (entry.haystack.includes(word)) {
-        score++
-        // Bonus for matching the name directly
-        if (normalize(entry.numeScurt).includes(word) || normalize(entry.numeOficial).includes(word)) {
-          score += 2
-        }
-      }
-    }
-    return { entry, score }
-  })
-
-  return scored
-    .filter(s => s.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
-    .map(s => s.entry)
 }

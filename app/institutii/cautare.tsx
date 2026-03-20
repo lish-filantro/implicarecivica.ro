@@ -8,12 +8,14 @@ interface SearchEntry {
   numeScurt: string
   numeOficial: string
   haystack: string
+  words: string[]
 }
 
 interface Props {
   index: SearchEntry[]
 }
 
+/** Strip diacritics and lowercase */
 function normalize(s: string): string {
   return s
     .toLowerCase()
@@ -21,6 +23,83 @@ function normalize(s: string): string {
     .replace(/[îï]/g, 'i')
     .replace(/[șş]/g, 's')
     .replace(/[țţ]/g, 't')
+}
+
+/**
+ * Edit distance between two short strings (Levenshtein).
+ * Bails out early if distance exceeds maxDist.
+ */
+function editDistance(a: string, b: string, maxDist: number): number {
+  if (Math.abs(a.length - b.length) > maxDist) return maxDist + 1
+  const m = a.length
+  const n = b.length
+  // Single-row DP
+  const row = Array.from({ length: n + 1 }, (_, i) => i)
+  for (let i = 1; i <= m; i++) {
+    let prev = i - 1
+    row[0] = i
+    let rowMin = i
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1
+      const val = Math.min(row[j] + 1, row[j - 1] + 1, prev + cost)
+      prev = row[j]
+      row[j] = val
+      if (val < rowMin) rowMin = val
+    }
+    if (rowMin > maxDist) return maxDist + 1
+  }
+  return row[n]
+}
+
+/** Max allowed edit distance based on word length */
+function maxTypos(len: number): number {
+  if (len <= 3) return 0
+  if (len <= 4) return 1
+  return 2
+}
+
+/**
+ * Score a query word against an entry.
+ * Returns 0 (no match) or a positive score.
+ */
+function scoreWord(
+  qWord: string,
+  entry: SearchEntry,
+  normName: string
+): number {
+  // 1. Exact substring in full haystack — best signal
+  if (entry.haystack.includes(qWord)) {
+    return normName.includes(qWord) ? 7 : 3
+  }
+
+  // 2. Fuzzy: find the closest word in the entry's word list
+  const allowed = maxTypos(qWord.length)
+  if (allowed === 0) return 0
+
+  let bestDist = allowed + 1
+  for (const w of entry.words) {
+    // Only compare words of similar length
+    if (Math.abs(w.length - qWord.length) > allowed) continue
+    const d = editDistance(qWord, w, allowed)
+    if (d < bestDist) bestDist = d
+    if (d <= 1) break // good enough, stop early
+  }
+
+  if (bestDist <= allowed) {
+    const fuzzyScore = 2 - bestDist * 0.5 // 2 for dist=0 (shouldn't happen), 1.5 for dist=1, 1 for dist=2
+    // Check if fuzzy match is in the name
+    const nameWords = normName.split(/[^a-z]+/).filter(w => w.length >= 3)
+    for (const nw of nameWords) {
+      if (Math.abs(nw.length - qWord.length) <= allowed) {
+        if (editDistance(qWord, nw, allowed) <= allowed) {
+          return fuzzyScore + 3
+        }
+      }
+    }
+    return fuzzyScore
+  }
+
+  return 0
 }
 
 export function CautareInstitutii({ index }: Props) {
@@ -31,19 +110,16 @@ export function CautareInstitutii({ index }: Props) {
 
   const results = useMemo(() => {
     if (query.length < 2) return []
-    const words = normalize(query).split(/\s+/).filter(w => w.length >= 2)
-    if (words.length === 0) return []
+    const qWords = normalize(query).split(/\s+/).filter(w => w.length >= 2)
+    if (qWords.length === 0) return []
 
     const scored = index.map(entry => {
-      let score = 0
-      for (const word of words) {
-        if (entry.haystack.includes(word)) {
-          score++
-          const normName = normalize(entry.numeScurt + ' ' + entry.numeOficial)
-          if (normName.includes(word)) score += 2
-        }
+      const normName = normalize(entry.numeScurt + ' ' + entry.numeOficial)
+      let total = 0
+      for (const qw of qWords) {
+        total += scoreWord(qw, entry, normName)
       }
-      return { entry, score }
+      return { entry, score: total }
     })
 
     return scored
@@ -53,10 +129,8 @@ export function CautareInstitutii({ index }: Props) {
       .map(s => s.entry)
   }, [query, index])
 
-  // Reset active index when results change
   useEffect(() => setActiveIdx(-1), [results])
 
-  // Close on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
