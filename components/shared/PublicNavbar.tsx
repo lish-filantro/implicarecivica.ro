@@ -4,6 +4,7 @@ import { DarkModeToggle } from '@/components/shared/DarkModeToggle'
 
 const navLinks = [
   { href: '/institutii', label: 'Instituții' },
+  { href: '/quiz', label: 'Quiz' },
   { href: '/despre', label: 'Despre' },
   { href: '/contact', label: 'Contact' },
 ]
