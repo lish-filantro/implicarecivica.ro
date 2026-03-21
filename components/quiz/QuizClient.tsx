@@ -110,82 +110,100 @@ export function QuizClient() {
           </div>
         </div>
 
-        {/* Question */}
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-6">
-          {current.text}
-        </h2>
-
-        {/* Options */}
-        <div className="space-y-3">
-          {current.options.map((option, i) => {
-            let classes =
-              'w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-200 text-base'
-
-            if (!answered) {
-              classes +=
-                ' border-gray-200 dark:border-gray-700 hover:border-civic-blue-400 dark:hover:border-civic-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer'
-            } else if (i === current.correctIndex) {
-              classes +=
-                ' border-green-500 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300'
-            } else if (i === selectedIndex) {
-              classes +=
-                ' border-red-500 bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300'
-            } else {
-              classes +=
-                ' border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-400 dark:text-gray-600'
-            }
-
-            return (
-              <button
-                key={i}
-                onClick={() => handleSelect(i)}
-                disabled={answered}
-                className={classes}
-              >
-                <span className="font-medium mr-3 text-sm opacity-60">
-                  {String.fromCharCode(65 + i)}.
-                </span>
-                {option}
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Feedback */}
-        {answered && (
+        {/* Flip card */}
+        <div className="[perspective:1200px]">
           <div
-            className={`mt-6 p-5 rounded-lg border-l-4 ${
-              isCorrect
-                ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                : 'border-red-500 bg-red-50 dark:bg-red-900/20'
+            className={`relative transition-transform duration-600 [transform-style:preserve-3d] ${
+              answered ? '[transform:rotateY(180deg)]' : ''
             }`}
           >
-            <p
-              className={`font-semibold mb-1 ${
-                isCorrect
-                  ? 'text-green-700 dark:text-green-400'
-                  : 'text-red-700 dark:text-red-400'
-              }`}
-            >
-              {isCorrect ? 'Corect!' : 'Greșit'}
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-              {current.explanation}
-            </p>
-          </div>
-        )}
+            {/* FRONT — Question + Options */}
+            <div className="[backface-visibility:hidden]">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-6">
+                {current.text}
+              </h2>
+              <div className="space-y-3">
+                {current.options.map((option, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSelect(i)}
+                    disabled={answered}
+                    className="w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-200 text-base border-gray-200 dark:border-gray-700 hover:border-civic-blue-400 dark:hover:border-civic-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
+                  >
+                    <span className="font-medium mr-3 text-sm opacity-60">
+                      {String.fromCharCode(65 + i)}.
+                    </span>
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        {/* Next */}
-        {answered && (
-          <div className="mt-6 flex justify-end">
-            <button
-              onClick={handleNext}
-              className="px-6 py-3 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors"
-            >
-              {currentIndex + 1 >= total ? 'Vezi rezultatul' : 'Următoarea'}
-            </button>
+            {/* BACK — Feedback */}
+            {answered && (
+              <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                <div
+                  className={`rounded-xl border-2 p-8 h-full flex flex-col justify-center ${
+                    isCorrect
+                      ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                      : 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                  }`}
+                >
+                  {/* Status */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
+                        isCorrect
+                          ? 'bg-green-100 dark:bg-green-800/40'
+                          : 'bg-red-100 dark:bg-red-800/40'
+                      }`}
+                    >
+                      {isCorrect ? '\u2713' : '\u2717'}
+                    </div>
+                    <p
+                      className={`text-xl font-bold ${
+                        isCorrect
+                          ? 'text-green-700 dark:text-green-400'
+                          : 'text-red-700 dark:text-red-400'
+                      }`}
+                    >
+                      {isCorrect ? 'Corect!' : 'Greșit'}
+                    </p>
+                  </div>
+
+                  {/* Correct answer (shown when wrong) */}
+                  {!isCorrect && (
+                    <div className="mb-4 px-4 py-3 rounded-lg bg-green-100/60 dark:bg-green-800/20 border border-green-300 dark:border-green-700">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                        Răspunsul corect:
+                      </p>
+                      <p className="font-semibold text-green-800 dark:text-green-300">
+                        {current.options[current.correctIndex]}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Explanation */}
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+                    {current.explanation}
+                  </p>
+
+                  {/* Next button */}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleNext}
+                      className="px-6 py-3 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors"
+                    >
+                      {currentIndex + 1 >= total
+                        ? 'Vezi rezultatul'
+                        : 'Următoarea'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     )
   }

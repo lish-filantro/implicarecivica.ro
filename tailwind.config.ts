@@ -178,6 +178,9 @@ const config: Config = {
         'glow-orange': '0 0 20px rgba(255, 102, 0, 0.3)',
         'glow-blue': '0 0 20px rgba(26, 102, 204, 0.3)',
       },
+      transitionDuration: {
+        '600': '600ms',
+      },
       animation: {
         // Activist animations - smooth & modern
         'pulse-activist': 'pulse-activist 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
