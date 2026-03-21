@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { questions, type Question } from '@/lib/quiz/questions'
+import { useState } from 'react'
+import { questions } from '@/lib/quiz/questions'
 
 type Phase = 'start' | 'question' | 'result'
+// After selecting: 'selected' briefly, then 'revealed' shows explanation
+type AnswerPhase = 'idle' | 'selected' | 'revealed'
 
 interface Answer {
   questionId: number
@@ -16,8 +18,8 @@ export function QuizClient() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [answers, setAnswers] = useState<Answer[]>([])
-  const [showFeedback, setShowFeedback] = useState(false)
-  const [sliding, setSliding] = useState(false)
+  const [answerPhase, setAnswerPhase] = useState<AnswerPhase>('idle')
+  const [exiting, setExiting] = useState(false)
 
   const current = questions[currentIndex]
   const total = questions.length
@@ -27,14 +29,15 @@ export function QuizClient() {
     setPhase('question')
     setCurrentIndex(0)
     setSelectedIndex(null)
-    setShowFeedback(false)
-    setSliding(false)
+    setAnswerPhase('idle')
+    setExiting(false)
     setAnswers([])
   }
 
   function handleSelect(index: number) {
-    if (selectedIndex !== null) return
+    if (answerPhase !== 'idle') return
     setSelectedIndex(index)
+    setAnswerPhase('selected')
     setAnswers((prev) => [
       ...prev,
       {
@@ -43,29 +46,31 @@ export function QuizClient() {
         correct: index === current.correctIndex,
       },
     ])
-    // Small delay then slide in the feedback
-    setTimeout(() => setShowFeedback(true), 300)
+    // After options collapse, reveal explanation
+    setTimeout(() => setAnswerPhase('revealed'), 500)
   }
 
   function handleNext() {
-    // Slide out both panels
-    setSliding(true)
+    setExiting(true)
     setTimeout(() => {
       if (currentIndex + 1 >= total) {
         setPhase('result')
       } else {
         setCurrentIndex((i) => i + 1)
         setSelectedIndex(null)
-        setShowFeedback(false)
-        setSliding(false)
+        setAnswerPhase('idle')
+        setExiting(false)
       }
-    }, 400)
+    }, 350)
   }
 
   function getResultMessage() {
-    if (score >= 13) return 'Excelent! Cunoști foarte bine drepturile tale civice.'
-    if (score >= 9) return 'Bine! Ai o bază solidă, dar mai sunt lucruri de învățat.'
-    if (score >= 5) return 'Un început bun. Explorează platforma pentru a afla mai multe.'
+    if (score >= 13)
+      return 'Excelent! Cunoști foarte bine drepturile tale civice.'
+    if (score >= 9)
+      return 'Bine! Ai o bază solidă, dar mai sunt lucruri de învățat.'
+    if (score >= 5)
+      return 'Un început bun. Explorează platforma pentru a afla mai multe.'
     return 'Nu-i nimic — tocmai de-aia există această platformă!'
   }
 
@@ -99,11 +104,17 @@ export function QuizClient() {
 
   // --- QUESTION ---
   if (phase === 'question') {
-    const answered = selectedIndex !== null
-    const isCorrect = selectedIndex === current.correctIndex
+    const isCorrect =
+      selectedIndex !== null && selectedIndex === current.correctIndex
 
     return (
-      <div className="max-w-2xl mx-auto">
+      <div
+        className="max-w-2xl mx-auto transition-all duration-300"
+        style={{
+          opacity: exiting ? 0 : 1,
+          transform: exiting ? 'translateY(-20px)' : 'translateY(0)',
+        }}
+      >
         {/* Progress */}
         <div className="mb-8">
           <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
@@ -122,118 +133,149 @@ export function QuizClient() {
           </div>
         </div>
 
-        {/* Slide Stack Container */}
-        <div className="relative overflow-hidden">
-          {/* Question card — slides left when feedback appears, slides out on next */}
+        {/* Question text */}
+        <h2
+          className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-6 transition-opacity duration-300"
+          style={{ opacity: answerPhase === 'revealed' ? 0.4 : 1 }}
+        >
+          {current.text}
+        </h2>
+
+        {/* Options */}
+        <div className="space-y-3">
+          {current.options.map((option, i) => {
+            const isSelected = selectedIndex === i
+            const isCorrectOption = i === current.correctIndex
+            const idle = answerPhase === 'idle'
+            const selected = answerPhase === 'selected'
+            const revealed = answerPhase === 'revealed'
+            const otherOption =
+              !isSelected && !isCorrectOption && !idle
+
+            // Determine styles per phase
+            let containerStyle: React.CSSProperties = {}
+            let classes =
+              'w-full text-left px-5 py-4 rounded-lg border-2 text-base transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] origin-center'
+
+            if (idle) {
+              // Default interactive state
+              classes +=
+                ' border-gray-200 dark:border-gray-700 hover:border-civic-blue-400 dark:hover:border-civic-blue-500 hover:shadow-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer'
+            } else if (isSelected && isCorrectOption) {
+              // Selected AND correct — grow into hero
+              classes +=
+                ' border-green-500 bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+              if (revealed) {
+                containerStyle = { transform: 'scale(1.02)' }
+              }
+            } else if (isSelected && !isCorrectOption) {
+              // Selected but wrong — shrink with red
+              classes +=
+                ' border-red-400 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
+              if (revealed) {
+                containerStyle = {
+                  opacity: 0.6,
+                  transform: 'scale(0.97)',
+                }
+              }
+            } else if (isCorrectOption) {
+              // Not selected but IS the correct answer — highlight it
+              classes +=
+                ' border-green-500 bg-green-50 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+              if (revealed) {
+                containerStyle = { transform: 'scale(1.02)' }
+              }
+            } else {
+              // Other wrong options — collapse away
+              classes +=
+                ' border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 text-gray-400 dark:text-gray-500'
+              if (selected) {
+                containerStyle = { opacity: 0.5, transform: 'scale(0.97)' }
+              }
+              if (revealed) {
+                containerStyle = {
+                  opacity: 0,
+                  maxHeight: 0,
+                  marginTop: 0,
+                  padding: 0,
+                  border: 'none',
+                  overflow: 'hidden',
+                  transform: 'scale(0.9)',
+                }
+              }
+            }
+
+            return (
+              <button
+                key={i}
+                onClick={() => handleSelect(i)}
+                disabled={!idle}
+                className={classes}
+                style={{
+                  ...containerStyle,
+                  transitionProperty:
+                    'all',
+                  transitionDuration: revealed ? '500ms' : '300ms',
+                  transitionTimingFunction:
+                    'cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-medium mr-3 text-sm opacity-60">
+                      {String.fromCharCode(65 + i)}.
+                    </span>
+                    {option}
+                  </div>
+                  {/* Indicator icons after selection */}
+                  {!idle && isCorrectOption && (
+                    <span className="ml-3 text-green-600 dark:text-green-400 font-bold text-lg flex-shrink-0">
+                      &#x2713;
+                    </span>
+                  )}
+                  {!idle && isSelected && !isCorrectOption && (
+                    <span className="ml-3 text-red-500 dark:text-red-400 font-bold text-lg flex-shrink-0">
+                      &#x2717;
+                    </span>
+                  )}
+                </div>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Explanation — grows in below the surviving options */}
+        <div
+          className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style={{
+            maxHeight: answerPhase === 'revealed' ? '300px' : '0px',
+            opacity: answerPhase === 'revealed' ? 1 : 0,
+            marginTop: answerPhase === 'revealed' ? '24px' : '0px',
+          }}
+        >
           <div
-            className="transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-            style={{
-              transform: sliding
-                ? 'translateX(-120%)'
-                : showFeedback
-                  ? 'translateX(-105%) scale(0.95)'
-                  : 'translateX(0)',
-              opacity: sliding ? 0 : showFeedback ? 0 : 1,
-            }}
+            className={`p-5 rounded-lg border-l-4 ${
+              isCorrect
+                ? 'border-green-500 bg-green-50/50 dark:bg-green-900/10'
+                : 'border-red-500 bg-red-50/50 dark:bg-red-900/10'
+            }`}
           >
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-6">
-              {current.text}
-            </h2>
-            <div className="space-y-3">
-              {current.options.map((option, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleSelect(i)}
-                  disabled={answered}
-                  className="w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-200 text-base border-gray-200 dark:border-gray-700 hover:border-civic-blue-400 dark:hover:border-civic-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
-                >
-                  <span className="font-medium mr-3 text-sm opacity-60">
-                    {String.fromCharCode(65 + i)}.
-                  </span>
-                  {option}
-                </button>
-              ))}
-            </div>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              {current.explanation}
+            </p>
           </div>
 
-          {/* Feedback card — slides in from right */}
-          {answered && (
-            <div
-              className="absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{
-                transform: sliding
-                  ? 'translateX(-120%)'
-                  : showFeedback
-                    ? 'translateX(0)'
-                    : 'translateX(110%)',
-                opacity: sliding ? 0 : 1,
-              }}
+          {/* Next button */}
+          <div className="mt-5 flex justify-end">
+            <button
+              onClick={handleNext}
+              className="px-6 py-3 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors"
             >
-              <div
-                className={`rounded-xl border-2 p-8 min-h-[280px] flex flex-col justify-center ${
-                  isCorrect
-                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                    : 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                }`}
-              >
-                {/* Status */}
-                <div className="flex items-center gap-3 mb-5">
-                  <div
-                    className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold ${
-                      isCorrect
-                        ? 'bg-green-100 dark:bg-green-800/40 text-green-600 dark:text-green-400'
-                        : 'bg-red-100 dark:bg-red-800/40 text-red-600 dark:text-red-400'
-                    }`}
-                  >
-                    {isCorrect ? '\u2713' : '\u2717'}
-                  </div>
-                  <div>
-                    <p
-                      className={`text-xl font-bold ${
-                        isCorrect
-                          ? 'text-green-700 dark:text-green-400'
-                          : 'text-red-700 dark:text-red-400'
-                      }`}
-                    >
-                      {isCorrect ? 'Corect!' : 'Greșit'}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {currentIndex + 1} din {total}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Correct answer (shown when wrong) */}
-                {!isCorrect && (
-                  <div className="mb-4 px-4 py-3 rounded-lg bg-green-100/60 dark:bg-green-800/20 border border-green-300 dark:border-green-700">
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-                      Răspunsul corect:
-                    </p>
-                    <p className="font-semibold text-green-800 dark:text-green-300">
-                      {current.options[current.correctIndex]}
-                    </p>
-                  </div>
-                )}
-
-                {/* Explanation */}
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  {current.explanation}
-                </p>
-
-                {/* Next button */}
-                <div className="flex justify-end">
-                  <button
-                    onClick={handleNext}
-                    className="px-6 py-3 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors"
-                  >
-                    {currentIndex + 1 >= total
-                      ? 'Vezi rezultatul'
-                      : 'Următoarea \u2192'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+              {currentIndex + 1 >= total
+                ? 'Vezi rezultatul'
+                : 'Următoarea \u2192'}
+            </button>
+          </div>
         </div>
       </div>
     )
