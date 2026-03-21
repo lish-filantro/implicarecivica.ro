@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { questions, type Question } from '@/lib/quiz/questions'
 
 type Phase = 'start' | 'question' | 'result'
@@ -16,6 +16,8 @@ export function QuizClient() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [answers, setAnswers] = useState<Answer[]>([])
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [sliding, setSliding] = useState(false)
 
   const current = questions[currentIndex]
   const total = questions.length
@@ -25,6 +27,8 @@ export function QuizClient() {
     setPhase('question')
     setCurrentIndex(0)
     setSelectedIndex(null)
+    setShowFeedback(false)
+    setSliding(false)
     setAnswers([])
   }
 
@@ -39,15 +43,23 @@ export function QuizClient() {
         correct: index === current.correctIndex,
       },
     ])
+    // Small delay then slide in the feedback
+    setTimeout(() => setShowFeedback(true), 300)
   }
 
   function handleNext() {
-    if (currentIndex + 1 >= total) {
-      setPhase('result')
-    } else {
-      setCurrentIndex((i) => i + 1)
-      setSelectedIndex(null)
-    }
+    // Slide out both panels
+    setSliding(true)
+    setTimeout(() => {
+      if (currentIndex + 1 >= total) {
+        setPhase('result')
+      } else {
+        setCurrentIndex((i) => i + 1)
+        setSelectedIndex(null)
+        setShowFeedback(false)
+        setSliding(false)
+      }
+    }, 400)
   }
 
   function getResultMessage() {
@@ -110,56 +122,72 @@ export function QuizClient() {
           </div>
         </div>
 
-        {/* Flip card */}
-        <div className="[perspective:1200px]">
+        {/* Slide Stack Container */}
+        <div className="relative overflow-hidden">
+          {/* Question card — slides left when feedback appears, slides out on next */}
           <div
-            className={`relative transition-transform duration-600 [transform-style:preserve-3d] ${
-              answered ? '[transform:rotateY(180deg)]' : ''
-            }`}
+            className="transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              transform: sliding
+                ? 'translateX(-120%)'
+                : showFeedback
+                  ? 'translateX(-105%) scale(0.95)'
+                  : 'translateX(0)',
+              opacity: sliding ? 0 : showFeedback ? 0 : 1,
+            }}
           >
-            {/* FRONT — Question + Options */}
-            <div className="[backface-visibility:hidden]">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-6">
-                {current.text}
-              </h2>
-              <div className="space-y-3">
-                {current.options.map((option, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleSelect(i)}
-                    disabled={answered}
-                    className="w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-200 text-base border-gray-200 dark:border-gray-700 hover:border-civic-blue-400 dark:hover:border-civic-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
-                  >
-                    <span className="font-medium mr-3 text-sm opacity-60">
-                      {String.fromCharCode(65 + i)}.
-                    </span>
-                    {option}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* BACK — Feedback */}
-            {answered && (
-              <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                <div
-                  className={`rounded-xl border-2 p-8 h-full flex flex-col justify-center ${
-                    isCorrect
-                      ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                      : 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                  }`}
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-snug mb-6">
+              {current.text}
+            </h2>
+            <div className="space-y-3">
+              {current.options.map((option, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSelect(i)}
+                  disabled={answered}
+                  className="w-full text-left px-5 py-4 rounded-lg border-2 transition-all duration-200 text-base border-gray-200 dark:border-gray-700 hover:border-civic-blue-400 dark:hover:border-civic-blue-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 cursor-pointer"
                 >
-                  {/* Status */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
-                        isCorrect
-                          ? 'bg-green-100 dark:bg-green-800/40'
-                          : 'bg-red-100 dark:bg-red-800/40'
-                      }`}
-                    >
-                      {isCorrect ? '\u2713' : '\u2717'}
-                    </div>
+                  <span className="font-medium mr-3 text-sm opacity-60">
+                    {String.fromCharCode(65 + i)}.
+                  </span>
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Feedback card — slides in from right */}
+          {answered && (
+            <div
+              className="absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                transform: sliding
+                  ? 'translateX(-120%)'
+                  : showFeedback
+                    ? 'translateX(0)'
+                    : 'translateX(110%)',
+                opacity: sliding ? 0 : 1,
+              }}
+            >
+              <div
+                className={`rounded-xl border-2 p-8 min-h-[280px] flex flex-col justify-center ${
+                  isCorrect
+                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                    : 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                }`}
+              >
+                {/* Status */}
+                <div className="flex items-center gap-3 mb-5">
+                  <div
+                    className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold ${
+                      isCorrect
+                        ? 'bg-green-100 dark:bg-green-800/40 text-green-600 dark:text-green-400'
+                        : 'bg-red-100 dark:bg-red-800/40 text-red-600 dark:text-red-400'
+                    }`}
+                  >
+                    {isCorrect ? '\u2713' : '\u2717'}
+                  </div>
+                  <div>
                     <p
                       className={`text-xl font-bold ${
                         isCorrect
@@ -169,40 +197,43 @@ export function QuizClient() {
                     >
                       {isCorrect ? 'Corect!' : 'Greșit'}
                     </p>
-                  </div>
-
-                  {/* Correct answer (shown when wrong) */}
-                  {!isCorrect && (
-                    <div className="mb-4 px-4 py-3 rounded-lg bg-green-100/60 dark:bg-green-800/20 border border-green-300 dark:border-green-700">
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-                        Răspunsul corect:
-                      </p>
-                      <p className="font-semibold text-green-800 dark:text-green-300">
-                        {current.options[current.correctIndex]}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Explanation */}
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                    {current.explanation}
-                  </p>
-
-                  {/* Next button */}
-                  <div className="flex justify-end">
-                    <button
-                      onClick={handleNext}
-                      className="px-6 py-3 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors"
-                    >
-                      {currentIndex + 1 >= total
-                        ? 'Vezi rezultatul'
-                        : 'Următoarea'}
-                    </button>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {currentIndex + 1} din {total}
+                    </p>
                   </div>
                 </div>
+
+                {/* Correct answer (shown when wrong) */}
+                {!isCorrect && (
+                  <div className="mb-4 px-4 py-3 rounded-lg bg-green-100/60 dark:bg-green-800/20 border border-green-300 dark:border-green-700">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                      Răspunsul corect:
+                    </p>
+                    <p className="font-semibold text-green-800 dark:text-green-300">
+                      {current.options[current.correctIndex]}
+                    </p>
+                  </div>
+                )}
+
+                {/* Explanation */}
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+                  {current.explanation}
+                </p>
+
+                {/* Next button */}
+                <div className="flex justify-end">
+                  <button
+                    onClick={handleNext}
+                    className="px-6 py-3 bg-civic-blue-500 text-white font-semibold rounded-md hover:bg-civic-blue-600 transition-colors"
+                  >
+                    {currentIndex + 1 >= total
+                      ? 'Vezi rezultatul'
+                      : 'Următoarea \u2192'}
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     )
