@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -52,9 +52,7 @@ interface ResultEntry {
   prezenta: number;
 }
 
-interface PCJEntry extends ResultEntry {
-  // same shape but no uat
-}
+interface PCJEntry extends ResultEntry {}
 
 interface ThresholdItem {
   threshold: number;
@@ -113,10 +111,10 @@ type TabKey = "primari" | "consiliu_local" | "presedinte_cj";
 const fmtNum = (n: number) => n.toLocaleString("ro-RO");
 const fmtPct = (n: number) => n.toFixed(1) + "%";
 
-const TABS: { key: TabKey; label: string }[] = [
-  { key: "primari", label: "Primari" },
-  { key: "consiliu_local", label: "Consilii Locale" },
-  { key: "presedinte_cj", label: "Consilii Județene" },
+const TABS: { key: TabKey; label: string; desc: string }[] = [
+  { key: "primari", label: "Primari", desc: "Cursa pentru primar în fiecare localitate" },
+  { key: "consiliu_local", label: "Consilii Locale", desc: "Diferența dintre primele două partide/alianțe" },
+  { key: "presedinte_cj", label: "Consilii Județene", desc: "Cursa pentru președinte de consiliu județean" },
 ];
 
 const FUNNEL_THRESHOLDS = [5, 10, 50, 100, 500, 1000];
@@ -163,7 +161,7 @@ function InfoTip({ text }: { text: string }) {
     <span className="relative inline-block ml-1">
       <button
         type="button"
-        className="text-gray-400 hover:text-civic-blue-500 transition-colors"
+        className="text-gray-400 hover:text-blue-600 transition-colors"
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
         onClick={() => setShow(!show)}
@@ -171,11 +169,33 @@ function InfoTip({ text }: { text: string }) {
         <Info size={14} />
       </button>
       {show && (
-        <span className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg">
+        <span className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl leading-relaxed">
           {text}
         </span>
       )}
     </span>
+  );
+}
+
+/* ─── Section wrapper with explanation ──────────────────────────── */
+
+function Section({
+  title,
+  explanation,
+  children,
+}: {
+  title: string;
+  explanation: string | React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <h2 className="text-xl font-bold text-gray-900 mb-2">{title}</h2>
+      <div className="text-sm text-gray-600 mb-5 max-w-3xl leading-relaxed">
+        {typeof explanation === "string" ? <p>{explanation}</p> : explanation}
+      </div>
+      {children}
+    </section>
   );
 }
 
@@ -200,7 +220,6 @@ export default function AlegeriLocalePage() {
   const [page, setPage] = useState(1);
   const perPage = 50;
 
-  // Load summary on mount
   useEffect(() => {
     fetch("/data/alegeri-2024/summary.json")
       .then((r) => r.json())
@@ -208,17 +227,12 @@ export default function AlegeriLocalePage() {
         setSummary(d);
         setLoading(false);
       })
-      .catch((e) => {
-        console.error("Failed to load summary", e);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  // Load tab data
   useEffect(() => {
-    if (activeTab === "presedinte_cj") return; // data is in summary
+    if (activeTab === "presedinte_cj") return;
     if (tabData[activeTab]) return;
-
     setLoading(true);
     fetch(`/data/alegeri-2024/${activeTab}.json`)
       .then((r) => r.json())
@@ -226,13 +240,9 @@ export default function AlegeriLocalePage() {
         setTabData((prev) => ({ ...prev, [activeTab]: d }));
         setLoading(false);
       })
-      .catch((e) => {
-        console.error(`Failed to load ${activeTab}`, e);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, [activeTab, tabData]);
 
-  // Reset filters on tab change
   useEffect(() => {
     setFilterJudet("");
     setFilterSizeCat("");
@@ -257,12 +267,9 @@ export default function AlegeriLocalePage() {
   const isPrimari = activeTab === "primari";
   const isPCJ = activeTab === "presedinte_cj";
 
-  // ── Filtered & sorted data ──
-
   const filtered = useMemo(() => {
     const maxMargin = filterMargin ? parseInt(filterMargin) : Infinity;
     const search = searchText.toLowerCase().trim();
-
     return currentData.filter((r) => {
       if (filterJudet && r.judet !== filterJudet) return false;
       if (filterSizeCat && r.sizeCat !== filterSizeCat) return false;
@@ -307,10 +314,10 @@ export default function AlegeriLocalePage() {
 
   if (loading && !summary) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-civic-blue-600 mx-auto mb-4" />
-          <p className="text-gray-500">Se încarcă datele electorale...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-4" />
+          <p className="text-gray-500">Se incarca datele electorale...</p>
         </div>
       </div>
     );
@@ -318,32 +325,39 @@ export default function AlegeriLocalePage() {
 
   if (!summary) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
-        <p className="text-red-500">Eroare la încărcarea datelor.</p>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-red-600 font-medium">Eroare la incarcarea datelor.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 pt-20">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      {/* ── Header ── */}
+      <div className="bg-white border-b border-gray-200 pt-20">
         <div className="max-w-7xl mx-auto px-4 py-8">
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+          <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900">
             Alegeri Locale 2024
           </h1>
-          <p className="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
-            Cât de strâns s-a câștigat în fiecare localitate? Analiză interactivă a
-            diferențelor de voturi între câștigător și locul 2.
+          <p className="mt-3 text-lg text-gray-700 max-w-3xl leading-relaxed">
+            Cat de strans s-a castigat in fiecare localitate din Romania?
+            Aceasta pagina analizeaza <strong>diferenta de voturi</strong> dintre
+            castigator si locul 2, la alegerile locale din 9 iunie 2024.
           </p>
-          <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">
-            Date oficiale: Autoritatea Electorală Permanentă — 9 iunie 2024
+          <p className="mt-2 text-sm text-gray-500 max-w-3xl leading-relaxed">
+            <strong>De ce conteaza?</strong> Daca diferenta e mica, inseamna ca
+            un numar mic de cetateni care nu au votat ar fi putut schimba
+            rezultatul. Cu cat diferenta e mai mica, cu atat fiecare vot a
+            contat mai mult.
+          </p>
+          <p className="mt-2 text-xs text-gray-400">
+            Sursa datelor: Autoritatea Electorala Permanenta (AEP) — 9 iunie 2024
           </p>
         </div>
       </div>
 
-      {/* Tab nav */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-14 z-30">
+      {/* ── Tab nav ── */}
+      <div className="bg-white border-b border-gray-200 sticky top-14 z-30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex gap-1">
             {TABS.map((tab) => (
@@ -352,8 +366,8 @@ export default function AlegeriLocalePage() {
                 onClick={() => setActiveTab(tab.key)}
                 className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                   activeTab === tab.key
-                    ? "border-civic-blue-600 text-civic-blue-600 dark:text-civic-blue-400"
-                    : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    ? "border-blue-600 text-blue-700"
+                    : "border-transparent text-gray-500 hover:text-gray-800"
                 }`}
               >
                 {tab.label}
@@ -363,41 +377,51 @@ export default function AlegeriLocalePage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
-        {/* ─── PCJ special view ─── */}
+      {/* ── Tab description ── */}
+      <div className="max-w-7xl mx-auto px-4 pt-6">
+        <p className="text-sm text-gray-500 italic">
+          {TABS.find((t) => t.key === activeTab)?.desc}
+        </p>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
         {isPCJ && <PCJView data={summary.presedinteCJ} />}
 
-        {/* ─── Standard view (P / CL) ─── */}
         {!isPCJ && currentSummary && (
           <>
-            {/* HERO CARDS */}
             <HeroSection summary={currentSummary} isPrimari={isPrimari} />
-
-            {/* FUNNEL */}
             <FunnelSection summary={currentSummary} isPrimari={isPrimari} />
-
-            {/* HISTOGRAM */}
             <HistogramSection
               summary={currentSummary}
               histMode={histMode}
               setHistMode={setHistMode}
               isPrimari={isPrimari}
             />
-
-            {/* CATEGORIES */}
             <CategoriesSection summary={currentSummary} isPrimari={isPrimari} />
 
-            {/* DETAIL TABLE */}
-            <section>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                Toate {isPrimari ? "localitățile" : "localitățile"} — detaliu
-              </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                {isPrimari
-                  ? "Fiecare rând reprezintă o localitate. Sortează sau filtrează pentru a găsi cele mai strânse curse."
-                  : "Fiecare rând arată diferența dintre primele două partide ca număr total de voturi la nivel de localitate."}
-              </p>
-
+            {/* ── DETAIL TABLE ── */}
+            <Section
+              title={`Toate ${isPrimari ? "localitățile" : "consiliile locale"} — tabel detaliat`}
+              explanation={
+                isPrimari ? (
+                  <p>
+                    Fiecare rand reprezinta o localitate (comuna, oras sau municipiu).
+                    <strong> Castigatorul</strong> e candidatul cu cele mai multe voturi,
+                    iar <strong>Locul 2</strong> e urmatorul clasat.
+                    Coloana <strong>Diferenta</strong> (evidentiata) arata cate voturi au
+                    despartit primii doi. Poti sorta, filtra dupa judet sau categorie, si
+                    cauta dupa nume.
+                  </p>
+                ) : (
+                  <p>
+                    Fiecare rand arata diferenta dintre <strong>primele doua partide sau
+                    aliante</strong> ca numar total de voturi la nivel de localitate.
+                    Nu e vorba de mandate, ci de voturile brute. Diferenta mica inseamna
+                    ca o mobilizare minima ar fi schimbat echilibrul de forte in consiliu.
+                  </p>
+                )
+              }
+            >
               {/* Filters */}
               <div className="flex flex-wrap gap-2 mb-3">
                 <div className="relative">
@@ -407,57 +431,42 @@ export default function AlegeriLocalePage() {
                   />
                   <input
                     type="text"
-                    placeholder="Caută localitate sau candidat..."
+                    placeholder="Cauta localitate sau candidat..."
                     value={searchText}
                     onChange={(e) => {
                       setSearchText(e.target.value);
                       setPage(1);
                     }}
-                    className="pl-9 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-civic-blue-500 focus:border-transparent w-64"
+                    className="pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
                   />
                 </div>
                 <select
                   value={filterJudet}
-                  onChange={(e) => {
-                    setFilterJudet(e.target.value);
-                    setPage(1);
-                  }}
-                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  onChange={(e) => { setFilterJudet(e.target.value); setPage(1); }}
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900"
                 >
-                  <option value="">Toate județele</option>
+                  <option value="">Toate judetele</option>
                   {summary.judete.map((j) => (
-                    <option key={j} value={j}>
-                      {j}
-                    </option>
+                    <option key={j} value={j}>{j}</option>
                   ))}
                 </select>
                 <select
                   value={filterSizeCat}
-                  onChange={(e) => {
-                    setFilterSizeCat(e.target.value);
-                    setPage(1);
-                  }}
-                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  onChange={(e) => { setFilterSizeCat(e.target.value); setPage(1); }}
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900"
                 >
                   <option value="">Toate categoriile</option>
                   {summary.sizeCategories.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
+                    <option key={c} value={c}>{c}</option>
                   ))}
                 </select>
                 <select
                   value={filterMargin}
-                  onChange={(e) => {
-                    setFilterMargin(e.target.value);
-                    setPage(1);
-                  }}
-                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  onChange={(e) => { setFilterMargin(e.target.value); setPage(1); }}
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900"
                 >
                   {MARGIN_OPTIONS.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
+                    <option key={o.value} value={o.value}>{o.label}</option>
                   ))}
                 </select>
               </div>
@@ -466,145 +475,99 @@ export default function AlegeriLocalePage() {
                 {fmtNum(filtered.length)} rezultate din {fmtNum(currentData.length)}
               </p>
 
+              {/* Column legend */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 text-xs text-gray-700 space-y-1">
+                <p className="font-semibold text-blue-800 mb-1">Ce inseamna coloanele:</p>
+                <p><strong>Diferenta</strong> — numarul de voturi care au despartit castigatorul de locul 2.
+                  <span className="text-red-600 font-semibold"> Rosu</span> = sub 100 voturi (extrem de strans),
+                  <span className="text-amber-600 font-semibold"> portocaliu</span> = sub 500 voturi (strans).</p>
+                <p><strong>% Elig.</strong> — diferenta ca procent din toti alegatorii inscrisi. Ex: 0.5% inseamna ca doar 1 din 200 de cetateni a facut diferenta.</p>
+                <p><strong>% Absenti</strong> — diferenta ca procent din cei care <em>nu au votat</em>. Daca e 2%, inseamna ca daca doar 2% din absentii la vot ar fi venit, rezultatul se putea schimba.</p>
+                <p><strong>Eligibili</strong> — toti cetatenii cu drept de vot din acea localitate. <strong>Prezenta</strong> — procentul celor care au votat efectiv.</p>
+              </div>
+
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
+              <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-left">
+                    <tr className="bg-gray-100 text-gray-700 text-left">
                       <SortTh col="judet" current={sortCol} dir={sortDir} onSort={handleSort}>
-                        Județ
+                        Judet
                       </SortTh>
                       <SortTh col="uat" current={sortCol} dir={sortDir} onSort={handleSort}>
                         Localitate
                       </SortTh>
-                      <th className="px-2 py-2 font-medium hidden lg:table-cell">Categorie</th>
-                      <th className="px-2 py-2 font-medium">
-                        {isPrimari ? "Câștigător" : "Locul 1"}
+                      <th className="px-2 py-2.5 font-medium text-gray-500 hidden lg:table-cell">Categorie</th>
+                      <th className="px-2 py-2.5 font-medium">
+                        {isPrimari ? "Castigator" : "Locul 1"}
                       </th>
-                      <SortTh
-                        col="firstVotes"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right"
-                      >
+                      <SortTh col="firstVotes" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right">
                         Voturi
                       </SortTh>
-                      <th className="px-2 py-2 font-medium">Locul 2</th>
-                      <SortTh
-                        col="secondVotes"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right"
-                      >
+                      <th className="px-2 py-2.5 font-medium">Locul 2</th>
+                      <SortTh col="secondVotes" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right">
                         Voturi
                       </SortTh>
-                      <SortTh
-                        col="margin"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right"
-                      >
-                        Diferența
+                      <SortTh col="margin" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right bg-yellow-50">
+                        Diferenta
                       </SortTh>
-                      <SortTh
-                        col="marginPctElig"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right hidden md:table-cell"
-                      >
+                      <SortTh col="marginPctElig" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right hidden md:table-cell">
                         % Elig.
-                        <InfoTip text="Diferența raportată la toți alegătorii înscriși. Cu cât e mai mic, cu atât mai puțini cetățeni au decis soarta alegerilor." />
                       </SortTh>
-                      <SortTh
-                        col="marginPctNonVoters"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right hidden md:table-cell"
-                      >
-                        % Absenți
-                        <InfoTip text="Procentul din cetățenii care nu au votat care ar fi fost suficient să schimbe rezultatul. Cu cât e mai mic, cu atât era mai ușor de schimbat." />
+                      <SortTh col="marginPctNonVoters" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right hidden md:table-cell">
+                        % Absenti
                       </SortTh>
-                      <SortTh
-                        col="eligible"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right hidden lg:table-cell"
-                      >
+                      <SortTh col="eligible" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right hidden lg:table-cell">
                         Eligibili
                       </SortTh>
-                      <SortTh
-                        col="prezenta"
-                        current={sortCol}
-                        dir={sortDir}
-                        onSort={handleSort}
-                        className="text-right hidden lg:table-cell"
-                      >
-                        Prezența
+                      <SortTh col="prezenta" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right hidden lg:table-cell">
+                        Prezenta
                       </SortTh>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                  <tbody className="divide-y divide-gray-100">
                     {paginated.map((r, i) => (
-                      <tr
-                        key={`${r.judet}-${r.uat}-${i}`}
-                        className="hover:bg-gray-50 dark:hover:bg-gray-900/50 bg-white dark:bg-gray-950"
-                      >
-                        <td className="px-2 py-2 text-gray-500">{r.judet}</td>
-                        <td className="px-2 py-2 font-medium text-gray-900 dark:text-white">
-                          {r.uat}
-                        </td>
-                        <td className="px-2 py-2 text-gray-400 text-xs hidden lg:table-cell">
-                          {r.sizeCat}
-                        </td>
+                      <tr key={`${r.judet}-${r.uat}-${i}`} className="hover:bg-blue-50/50 bg-white">
+                        <td className="px-2 py-2 text-gray-600">{r.judet}</td>
+                        <td className="px-2 py-2 font-medium text-gray-900">{r.uat}</td>
+                        <td className="px-2 py-2 text-gray-400 text-xs hidden lg:table-cell">{r.sizeCat}</td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <PartyBadge abbrev={r.firstAbbrev} color={r.firstColor} />
-                            <span className="text-gray-900 dark:text-white truncate max-w-[140px]">
+                            <span className="text-gray-900 truncate max-w-[140px]">
                               {isPrimari ? formatCandName(r.firstCand) : r.firstParty}
                             </span>
                           </div>
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums font-medium">
+                        <td className="px-2 py-2 text-right tabular-nums font-medium text-gray-800">
                           {fmtNum(r.firstVotes)}
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <PartyBadge abbrev={r.secondAbbrev} color={r.secondColor} />
-                            <span className="text-gray-600 dark:text-gray-300 truncate max-w-[140px]">
+                            <span className="text-gray-700 truncate max-w-[140px]">
                               {isPrimari ? formatCandName(r.secondCand) : r.secondParty}
                             </span>
                           </div>
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-700">
                           {fmtNum(r.secondVotes)}
                         </td>
-                        <td
-                          className={`px-2 py-2 text-right tabular-nums font-bold ${
-                            r.margin <= 100
-                              ? "text-red-600"
-                              : r.margin <= 500
-                              ? "text-amber-600"
-                              : "text-gray-900 dark:text-white"
-                          }`}
-                        >
+                        <td className={`px-2 py-2 text-right tabular-nums font-bold bg-yellow-50 ${
+                          r.margin <= 100 ? "text-red-700" : r.margin <= 500 ? "text-amber-700" : "text-gray-900"
+                        }`}>
                           {fmtNum(r.margin)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 hidden md:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-600 hidden md:table-cell">
                           {fmtPct(r.marginPctElig)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 hidden md:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-600 hidden md:table-cell">
                           {fmtPct(r.marginPctNonVoters)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-400 hidden lg:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 hidden lg:table-cell">
                           {fmtNum(r.eligible)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-400 hidden lg:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 hidden lg:table-cell">
                           {r.prezenta}%
                         </td>
                       </tr>
@@ -613,7 +576,6 @@ export default function AlegeriLocalePage() {
                 </table>
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-1 mt-4">
                   <PagBtn onClick={() => setPage(1)} disabled={page === 1}>
@@ -622,8 +584,8 @@ export default function AlegeriLocalePage() {
                   <PagBtn onClick={() => setPage(page - 1)} disabled={page === 1}>
                     <ChevronLeft size={16} />
                   </PagBtn>
-                  <span className="px-3 py-1 text-sm text-gray-600 dark:text-gray-400">
-                    {page} / {totalPages}
+                  <span className="px-3 py-1 text-sm text-gray-600">
+                    Pagina {page} din {totalPages}
                   </span>
                   <PagBtn onClick={() => setPage(page + 1)} disabled={page === totalPages}>
                     <ChevronRight size={16} />
@@ -633,24 +595,25 @@ export default function AlegeriLocalePage() {
                   </PagBtn>
                 </div>
               )}
-            </section>
+            </Section>
           </>
         )}
       </div>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-6 mt-10">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
-          Date:{" "}
-          <a
-            href="https://www.roaep.ro/"
-            target="_blank"
-            rel="noopener"
-            className="text-civic-blue-600 hover:underline"
-          >
-            Autoritatea Electorală Permanentă
-          </a>{" "}
-          — Alegeri locale 9 iunie 2024
+      <footer className="bg-white border-t border-gray-200 py-8 mt-10">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500 space-y-2">
+          <p>
+            Date oficiale:{" "}
+            <a href="https://www.roaep.ro/" target="_blank" rel="noopener" className="text-blue-600 hover:underline">
+              Autoritatea Electorala Permanenta
+            </a>{" "}
+            — Alegeri locale 9 iunie 2024
+          </p>
+          <p className="text-xs text-gray-400">
+            Aceasta pagina afiseaza date publice. Diferenta = voturile castigatorului minus voturile locului 2.
+            Nu include turul 2 sau alegerile din Bucuresti.
+          </p>
         </div>
       </footer>
     </div>
@@ -661,43 +624,29 @@ export default function AlegeriLocalePage() {
 
 function formatCandName(name: string): string {
   if (!name) return "";
-  // Convert "DRĂGUŞIN TEODOR-GEORGIAN" -> "Drăguşin T.-G."
-  // Keep it simple: just title-case the surname
   const parts = name.split(" ");
   if (parts.length === 0) return name;
   const surname = parts[0].charAt(0) + parts[0].slice(1).toLowerCase();
-  const initials = parts
-    .slice(1)
-    .map((p) => p.charAt(0) + ".")
-    .join("");
+  const initials = parts.slice(1).map((p) => p.charAt(0) + ".").join("");
   return `${surname} ${initials}`;
 }
 
 function SortTh({
-  col,
-  current,
-  dir,
-  onSort,
-  children,
-  className = "",
+  col, current, dir, onSort, children, className = "",
 }: {
-  col: string;
-  current: string;
-  dir: 1 | -1;
-  onSort: (col: string) => void;
-  children: React.ReactNode;
-  className?: string;
+  col: string; current: string; dir: 1 | -1; onSort: (col: string) => void;
+  children: React.ReactNode; className?: string;
 }) {
   const isActive = current === col;
   return (
     <th
-      className={`px-2 py-2 font-medium cursor-pointer select-none hover:text-civic-blue-600 ${className}`}
+      className={`px-2 py-2.5 font-medium cursor-pointer select-none hover:text-blue-700 ${className}`}
       onClick={() => onSort(col)}
     >
       <span className="inline-flex items-center gap-1">
         {children}
         {isActive ? (
-          <span className="text-civic-blue-600">{dir === 1 ? "▲" : "▼"}</span>
+          <span className="text-blue-600">{dir === 1 ? "▲" : "▼"}</span>
         ) : (
           <ArrowUpDown size={12} className="text-gray-300" />
         )}
@@ -706,20 +655,12 @@ function SortTh({
   );
 }
 
-function PagBtn({
-  onClick,
-  disabled,
-  children,
-}: {
-  onClick: () => void;
-  disabled: boolean;
-  children: React.ReactNode;
-}) {
+function PagBtn({ onClick, disabled, children }: { onClick: () => void; disabled: boolean; children: React.ReactNode }) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className="p-1.5 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
+      className="p-1.5 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
     >
       {children}
     </button>
@@ -732,78 +673,69 @@ function HeroSection({ summary, isPrimari }: { summary: Summary; isPrimari: bool
   const total = summary.total;
   const under500 = summary.globalAbsolute.find((x) => x.threshold === 500);
   const under100 = summary.globalAbsolute.find((x) => x.threshold === 100);
-  const under5PctElig = summary.globalPctElig.find((x) => x.threshold === 5);
-
-  const entityName = isPrimari ? "primari" : "consilii locale";
-  const entitySg = isPrimari ? "primarul" : "consiliul";
+  const under5PctNonVot = summary.globalPctNonVoters.find((x) => x.threshold === 5);
 
   return (
-    <section>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">La un pas de altfel</h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        Câte {isPrimari ? "funcții de primar" : "consilii locale"} s-au decis la diferențe minime de voturi
-      </p>
+    <Section
+      title="La un pas de altfel"
+      explanation={
+        isPrimari
+          ? "Aceste cifre arata cat de strans a fost rezultatul in multe localitati. O diferenta mica inseamna ca un numar foarte mic de cetateni — uneori doar cateva familii — au decis cine va fi primarul pentru urmatorii 4 ani."
+          : "Aceste cifre arata cat de strans a fost clasamentul pe partide. O diferenta mica de voturi putea schimba echilibrul de forte in consiliul local."
+      }
+    >
       <div className="grid md:grid-cols-3 gap-4">
         <HeroCard
           icon={<BarChart3 className="text-red-500" size={28} />}
           value={under500 ? fmtPct((under500.count / total) * 100) : "—"}
-          desc={`${isPrimari ? "Câștigate" : "Decise"} cu sub 500 de voturi`}
-          sub={
-            isPrimari
-              ? "Într-o comună tipică, un sat mic ar fi putut schimba primarul"
-              : "Suficient de puțin încât câteva familii din sat ar fi făcut diferența"
-          }
+          valueDetail={under500 ? `(${fmtNum(under500.count)} din ${fmtNum(total)})` : ""}
+          desc={isPrimari ? "Primari castigati cu sub 500 de voturi" : "Consilii decise cu sub 500 de voturi diferenta"}
+          sub={isPrimari
+            ? "Intr-o comuna tipica, un sat mic ar fi putut schimba primarul"
+            : "Suficient de putin incat cateva familii din sat ar fi facut diferenta"}
           accent="red"
         />
         <HeroCard
           icon={<Users className="text-amber-500" size={28} />}
-          value={under100 ? fmtNum(under100.count) : "—"}
-          desc={`${isPrimari ? "Localități" : "Consilii"} decise de sub 100 de voturi`}
-          sub="Mai puțin decât elevii unei singure școli"
+          value={under100 ? fmtNum(under100.count) + " localitati" : "—"}
+          valueDetail={under100 ? `(${fmtPct((under100.count / total) * 100)} din total)` : ""}
+          desc={isPrimari ? "Decise de sub 100 de voturi" : "Diferenta sub 100 de voturi"}
+          sub="Mai putin decat elevii unei singure scoli"
           accent="amber"
         />
         <HeroCard
-          icon={<TrendingUp className="text-civic-blue-500" size={28} />}
-          value={under5PctElig ? fmtPct((under5PctElig.count / total) * 100) : "—"}
-          desc="Diferență sub 5% din alegătorii înscriși"
-          sub={`Dacă doar 1 din 20 de cetățeni ar fi votat diferit, ${entitySg} ar fi fost altul`}
+          icon={<TrendingUp className="text-blue-500" size={28} />}
+          value={under5PctNonVot ? fmtPct((under5PctNonVot.count / total) * 100) : "—"}
+          valueDetail={under5PctNonVot ? `(${fmtNum(under5PctNonVot.count)} localitati)` : ""}
+          desc="Diferenta sub 5% din cei care nu au votat"
+          sub={isPrimari
+            ? "Daca doar 1 din 20 de absenti venea la vot, primarul putea fi altul"
+            : "Daca doar 1 din 20 de absenti venea la vot, rezultatul se schimba"}
           accent="blue"
         />
       </div>
-    </section>
+    </Section>
   );
 }
 
 function HeroCard({
-  icon,
-  value,
-  desc,
-  sub,
-  accent,
+  icon, value, valueDetail, desc, sub, accent,
 }: {
-  icon: React.ReactNode;
-  value: string;
-  desc: string;
-  sub: string;
-  accent: string;
+  icon: React.ReactNode; value: string; valueDetail: string;
+  desc: string; sub: string; accent: string;
 }) {
-  const borderColor =
-    accent === "red"
-      ? "border-red-200 dark:border-red-900/50"
-      : accent === "amber"
-      ? "border-amber-200 dark:border-amber-900/50"
-      : "border-civic-blue-200 dark:border-civic-blue-900/50";
+  const border = accent === "red" ? "border-red-200" : accent === "amber" ? "border-amber-200" : "border-blue-200";
+  const bg = accent === "red" ? "bg-red-50" : accent === "amber" ? "bg-amber-50" : "bg-blue-50";
 
   return (
-    <div
-      className={`bg-white dark:bg-gray-900 rounded-xl border ${borderColor} p-5`}
-    >
+    <div className={`${bg} rounded-xl border ${border} p-5`}>
       <div className="flex items-start gap-3">
         <div className="mt-0.5">{icon}</div>
         <div>
-          <div className="text-3xl font-bold text-gray-900 dark:text-white">{value}</div>
-          <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">{desc}</div>
-          <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{sub}</div>
+          <div className="text-3xl font-bold text-gray-900">{value}</div>
+          {valueDetail && <div className="text-xs text-gray-500 mt-0.5">{valueDetail}</div>}
+          <div className="text-sm font-medium text-gray-800 mt-1.5">{desc}</div>
+          <div className="text-xs text-gray-500 mt-1 italic">{sub}</div>
         </div>
       </div>
     </div>
@@ -814,66 +746,64 @@ function HeroCard({
 
 function FunnelSection({ summary, isPrimari }: { summary: Summary; isPrimari: boolean }) {
   return (
-    <section>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-        Câte {isPrimari ? "localități" : "consilii"} au fost decise la limită?
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        O diferență de sub 50 de voturi înseamnă că dacă doar 26 de oameni ar fi votat diferit,
-        rezultatul se schimba.
-      </p>
+    <Section
+      title={`Cate ${isPrimari ? "localitati" : "consilii"} au fost decise la limita?`}
+      explanation={
+        <>
+          <p>
+            Citeste asa: &quot;&lt; 50 voturi&quot; inseamna ca diferenta dintre castigator
+            si locul 2 a fost de cel mult 49 de voturi. Practic, daca doar 26 de oameni
+            ar fi votat diferit (de la un candidat la celalalt), rezultatul se schimba.
+          </p>
+          <p className="mt-1">
+            <strong>Analogiile</strong> din paranteze iti arata cat de putini oameni
+            sunt in joc — o familie, o ulita, o clasa de elevi.
+          </p>
+        </>
+      }
+    >
       <div className="space-y-2">
         {FUNNEL_THRESHOLDS.map((t) => {
           const item = summary.globalAbsolute.find((x) => x.threshold === t);
           if (!item) return null;
           const analogy = FUNNEL_ANALOGIES[t];
           return (
-            <div
-              key={t}
-              className="relative bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden"
-            >
+            <div key={t} className="relative bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
               <div
-                className="absolute inset-y-0 left-0 bg-civic-blue-50 dark:bg-civic-blue-900/20"
+                className="absolute inset-y-0 left-0 bg-blue-100"
                 style={{ width: `${Math.max(item.pct, 2)}%` }}
               />
               <div className="relative flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-bold text-gray-900 dark:text-white min-w-[100px]">
+                  <span className="text-sm font-bold text-gray-900 min-w-[110px]">
                     &lt; {fmtNum(t)} voturi
                   </span>
                   {analogy && (
-                    <span className="text-xs text-gray-400 italic hidden sm:inline">
+                    <span className="text-xs text-gray-500 italic hidden sm:inline">
                       ({analogy})
                     </span>
                   )}
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-bold text-civic-blue-600">
-                    {fmtNum(item.count)}
-                  </span>
-                  <span className="text-xs text-gray-400 ml-1">({item.pct}%)</span>
+                  <span className="text-sm font-bold text-blue-700">{fmtNum(item.count)}</span>
+                  <span className="text-xs text-gray-500 ml-1.5">({item.pct}%)</span>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 }
 
 /* ─── Histogram Section ─────────────────────────────────────────── */
 
 function HistogramSection({
-  summary,
-  histMode,
-  setHistMode,
-  isPrimari,
+  summary, histMode, setHistMode, isPrimari,
 }: {
-  summary: Summary;
-  histMode: string;
-  setHistMode: (m: "absolute" | "pctElig" | "pctNonVot") => void;
-  isPrimari: boolean;
+  summary: Summary; histMode: string;
+  setHistMode: (m: "absolute" | "pctElig" | "pctNonVot") => void; isPrimari: boolean;
 }) {
   const chartData = useMemo(() => {
     if (histMode === "absolute") {
@@ -882,8 +812,7 @@ function HistogramSection({
         values: summary.histogram.map((h) => h.count),
       };
     }
-    const source =
-      histMode === "pctElig" ? summary.globalPctElig : summary.globalPctNonVoters;
+    const source = histMode === "pctElig" ? summary.globalPctElig : summary.globalPctNonVoters;
     let prev = 0;
     const labels: string[] = [];
     const values: number[] = [];
@@ -896,99 +825,112 @@ function HistogramSection({
   }, [summary, histMode]);
 
   const modeButtons = [
-    { key: "absolute" as const, label: "Nr. voturi" },
-    { key: "pctElig" as const, label: "% eligibili" },
-    { key: "pctNonVot" as const, label: "% absenți" },
+    { key: "absolute" as const, label: "Nr. voturi", help: "Diferenta bruta in voturi" },
+    { key: "pctElig" as const, label: "% din eligibili", help: "Raportata la toti alegatorii" },
+    { key: "pctNonVot" as const, label: "% din absenti", help: "Raportata la cei care nu au votat" },
   ];
 
-  const dynamicTitle =
-    histMode === "absolute"
-      ? `Jumătate din ${isPrimari ? "primari" : "consilii"} au câștigat cu sub ${fmtNum(summary.medianMargin)} voturi diferență`
-      : histMode === "pctElig"
-      ? "Distribuția diferențelor ca procent din alegătorii înscriși"
-      : "Distribuția diferențelor ca procent din cei care nu au votat";
-
   return (
-    <section>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-        Distribuția diferențelor
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{dynamicTitle}</p>
-      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4">
-        {/* Legend */}
-        <div className="mb-3 text-xs text-gray-500 dark:text-gray-400 space-y-1">
+    <Section
+      title="Distributia diferentelor"
+      explanation={
+        <>
           <p>
-            <strong>Nr. voturi</strong> — diferența brută între primii doi clasați
+            Graficul arata <strong>cate {isPrimari ? "localitati" : "consilii"}</strong> (axa verticala)
+            au avut o anumita diferenta de voturi (axa orizontala). Bara cea mai inalta
+            indica intervalul cel mai frecvent.
           </p>
-          <p>
-            <strong>% eligibili</strong> — diferența raportată la toți oamenii cu drept de vot
+          <p className="mt-1.5">
+            <strong>Mediana:</strong> jumatate din {isPrimari ? "primari" : "consilii"} au
+            castigat cu mai putin de <strong>{fmtNum(summary.medianMargin)} voturi</strong> diferenta.
           </p>
-          <p>
-            <strong>% absenți</strong> — diferența raportată la cei care{" "}
-            <em>nu au ieșit la vot</em>. Dacă e mic, o mică mobilizare suplimentară schimba
-            rezultatul.
+          <p className="mt-1.5">
+            Schimba perspectiva cu butoanele de mai jos:
           </p>
-        </div>
-
-        {/* Mode toggle */}
-        <div className="flex gap-1 mb-4">
+          <ul className="mt-1 ml-4 list-disc space-y-0.5">
+            <li><strong>Nr. voturi</strong> — diferenta bruta (cate voturi au despartit primii doi)</li>
+            <li><strong>% din eligibili</strong> — diferenta raportata la toti cetatenii cu drept de vot.
+              Arata ce procent din populatie a fost de fapt decisiv.</li>
+            <li><strong>% din absenti</strong> — diferenta raportata la cei care nu au votat.
+              Daca e mic (ex: 2%), inseamna ca o mobilizare minima a absentilor schimba totul.</li>
+          </ul>
+        </>
+      }
+    >
+      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <div className="flex flex-wrap gap-1 mb-4">
           {modeButtons.map((m) => (
             <button
               key={m.key}
               onClick={() => setHistMode(m.key)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 histMode === m.key
-                  ? "bg-civic-blue-600 text-white"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
+              title={m.help}
             >
               {m.label}
             </button>
           ))}
         </div>
-
-        {/* Chart */}
         <div className="h-64">
           <Bar
             data={{
               labels: chartData.labels,
-              datasets: [
-                {
-                  label: "Localități",
-                  data: chartData.values,
-                  backgroundColor: "rgba(26, 102, 204, 0.5)",
-                  borderColor: "rgba(26, 102, 204, 1)",
-                  borderWidth: 1,
-                  borderRadius: 4,
-                },
-              ],
+              datasets: [{
+                label: "Localitati",
+                data: chartData.values,
+                backgroundColor: "rgba(37, 99, 235, 0.4)",
+                borderColor: "rgba(37, 99, 235, 1)",
+                borderWidth: 1,
+                borderRadius: 4,
+              }],
             }}
             options={{
               responsive: true,
               maintainAspectRatio: false,
               plugins: {
                 tooltip: {
+                  backgroundColor: "#1f2937",
+                  titleColor: "#fff",
+                  bodyColor: "#e5e7eb",
                   callbacks: {
-                    label: (ctx) => `${(ctx.parsed.y ?? 0).toLocaleString("ro-RO")} localități`,
+                    title: (ctx) => {
+                      const label = ctx[0].label;
+                      return histMode === "absolute"
+                        ? `Diferenta: ${label} voturi`
+                        : histMode === "pctElig"
+                        ? `Diferenta: ${label} din eligibili`
+                        : `Diferenta: ${label} din absenti`;
+                    },
+                    label: (ctx) => `${(ctx.parsed.y ?? 0).toLocaleString("ro-RO")} localitati`,
                   },
                 },
               },
               scales: {
                 y: {
                   beginAtZero: true,
-                  grid: { color: "rgba(128,128,128,0.1)" },
-                  ticks: { color: "#9ca3af" },
+                  grid: { color: "rgba(0,0,0,0.06)" },
+                  ticks: { color: "#6b7280" },
+                  title: { display: true, text: "Nr. localitati", color: "#374151", font: { size: 12 } },
                 },
                 x: {
                   grid: { display: false },
-                  ticks: { color: "#9ca3af" },
+                  ticks: { color: "#6b7280" },
+                  title: {
+                    display: true,
+                    text: histMode === "absolute" ? "Diferenta (nr. voturi)" : histMode === "pctElig" ? "Diferenta (% din eligibili)" : "Diferenta (% din absenti)",
+                    color: "#374151",
+                    font: { size: 12 },
+                  },
                 },
               },
             }}
           />
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -996,79 +938,79 @@ function HistogramSection({
 
 function CategoriesSection({ summary, isPrimari }: { summary: Summary; isPrimari: boolean }) {
   return (
-    <section>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-        Contează diferit în funcție de mărimea localității
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        O diferență de 100 de voturi e uriașă într-o comună mică, dar nesemnificativă într-un
-        municipiu. Pragurile de mai jos sunt adaptate la fiecare categorie.
-      </p>
-      <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
+    <Section
+      title="Conteaza diferit in functie de marimea localitatii"
+      explanation={
+        <>
+          <p>
+            O diferenta de 100 de voturi e uriasa intr-o comuna mica (unde sunt 800 de alegatori),
+            dar nesemnificativa intr-un municipiu mare (cu 200.000 de alegatori).
+          </p>
+          <p className="mt-1.5">
+            De aceea, localitățile sunt grupate in 10 categorii de marime. Pragurile din tabel
+            sunt adaptate la fiecare categorie:
+          </p>
+          <ul className="mt-1 ml-4 list-disc space-y-0.5">
+            <li><span className="text-red-700 font-semibold">Extrem de strans</span> — diferenta sub ~1% din eligibili</li>
+            <li><span className="text-amber-700 font-semibold">Foarte strans</span> — diferenta sub ~3% din eligibili</li>
+            <li><span className="text-green-700 font-semibold">Strans</span> — diferenta sub ~5% din eligibili</li>
+            <li><span className="text-gray-500 font-semibold">Confortabil</span> — diferenta sub ~10% din eligibili</li>
+          </ul>
+          <p className="mt-1.5">
+            <strong>Mediana dif.</strong> = jumatate din localitatile din categoria respectiva
+            au o diferenta mai mica decat aceasta valoare.
+          </p>
+        </>
+      }
+    >
+      <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
-              <th className="px-3 py-2 text-left font-medium">Categorie</th>
-              <th className="px-3 py-2 text-right font-medium">Nr.</th>
-              <th className="px-3 py-2 text-right font-medium hidden sm:table-cell">
-                Media elig.
+            <tr className="bg-gray-100 text-gray-700">
+              <th className="px-3 py-2.5 text-left font-medium">Categorie</th>
+              <th className="px-3 py-2.5 text-right font-medium">Nr. localitati</th>
+              <th className="px-3 py-2.5 text-right font-medium hidden sm:table-cell">
+                Media eligibili
+                <InfoTip text="Media numarului de cetateni cu drept de vot din localitatile din aceasta categorie." />
               </th>
-              <th className="px-3 py-2 text-right font-medium hidden sm:table-cell">Prezența</th>
-              <th className="px-3 py-2 text-right font-medium">Mediană dif.</th>
-              {["Extrem de strâns", "Foarte strâns", "Strâns", "Confortabil"].map((lbl, i) => (
-                <th
-                  key={lbl}
-                  className={`px-3 py-2 text-right font-medium hidden md:table-cell ${
-                    i === 0
-                      ? "text-red-600"
-                      : i === 1
-                      ? "text-amber-600"
-                      : i === 2
-                      ? "text-green-600"
-                      : "text-gray-400"
-                  }`}
-                >
-                  {lbl}
-                </th>
-              ))}
+              <th className="px-3 py-2.5 text-right font-medium hidden sm:table-cell">
+                Prezenta medie
+                <InfoTip text="Ce procent din cetateni au votat, in medie, in localitatile din aceasta categorie." />
+              </th>
+              <th className="px-3 py-2.5 text-right font-medium bg-yellow-50">
+                Mediana dif.
+                <InfoTip text="Jumatate din localitati au diferenta mai mica decat aceasta valoare, jumatate mai mare." />
+              </th>
+              <th className="px-3 py-2.5 text-right font-medium text-red-700 hidden md:table-cell">Extrem de strans</th>
+              <th className="px-3 py-2.5 text-right font-medium text-amber-700 hidden md:table-cell">Foarte strans</th>
+              <th className="px-3 py-2.5 text-right font-medium text-green-700 hidden md:table-cell">Strans</th>
+              <th className="px-3 py-2.5 text-right font-medium text-gray-500 hidden md:table-cell">Confortabil</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+          <tbody className="divide-y divide-gray-100">
             {summary.categories.map((cat) => (
-              <tr
-                key={cat.name}
-                className="bg-white dark:bg-gray-950 hover:bg-gray-50 dark:hover:bg-gray-900/50"
-              >
-                <td className="px-3 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                  {cat.name}
-                </td>
-                <td className="px-3 py-2 text-right tabular-nums">{fmtNum(cat.count)}</td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-500 hidden sm:table-cell">
+              <tr key={cat.name} className="bg-white hover:bg-blue-50/40">
+                <td className="px-3 py-2.5 font-medium text-gray-900 whitespace-nowrap">{cat.name}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-700">{fmtNum(cat.count)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden sm:table-cell">
                   {fmtNum(cat.avgEligible)}
                 </td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-500 hidden sm:table-cell">
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden sm:table-cell">
                   {cat.avgPrezenta}%
                 </td>
-                <td className="px-3 py-2 text-right tabular-nums font-bold text-gray-900 dark:text-white">
-                  {fmtNum(cat.medianMargin)}
+                <td className="px-3 py-2.5 text-right tabular-nums font-bold text-gray-900 bg-yellow-50">
+                  {fmtNum(cat.medianMargin)} voturi
                 </td>
                 {cat.adaptiveThresholds.map((t, i) => (
                   <td
                     key={t.threshold}
-                    className={`px-3 py-2 text-right tabular-nums hidden md:table-cell ${
-                      i === 0
-                        ? "text-red-600"
-                        : i === 1
-                        ? "text-amber-600"
-                        : i === 2
-                        ? "text-green-600"
-                        : "text-gray-400"
+                    className={`px-3 py-2.5 text-right tabular-nums hidden md:table-cell ${
+                      i === 0 ? "text-red-700" : i === 1 ? "text-amber-700" : i === 2 ? "text-green-700" : "text-gray-500"
                     }`}
                   >
-                    <div className="text-xs">
-                      &lt;{fmtNum(t.threshold)}v
-                    </div>
-                    <div className="font-medium">{t.pct}%</div>
+                    <div className="text-[10px] text-gray-400">&lt;{fmtNum(t.threshold)} vot.</div>
+                    <div className="font-semibold">{t.pct}%</div>
+                    <div className="text-[10px] text-gray-400">({t.count})</div>
                   </td>
                 ))}
               </tr>
@@ -1076,7 +1018,7 @@ function CategoriesSection({ summary, isPrimari }: { summary: Summary; isPrimari
           </tbody>
         </table>
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -1084,96 +1026,85 @@ function CategoriesSection({ summary, isPrimari }: { summary: Summary; isPrimari
 
 function PCJView({ data }: { data: { total: number; results: PCJEntry[] } }) {
   return (
-    <section>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-        Președinte Consiliu Județean — Toate județele
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-        {data.total} județe, ordonate de la cel mai strâns rezultat la cel mai confortabil
+    <Section
+      title="Presedinte Consiliu Judetean — Toate judetele"
+      explanation={
+        <>
+          <p>
+            Tabelul arata cursa pentru presedintia fiecarui consiliu judetean, ordonata
+            de la cel mai strans rezultat la cel mai confortabil. <strong>Diferenta</strong> =
+            voturile castigatorului minus voturile locului 2, la nivel de judet intreg.
+          </p>
+          <p className="mt-1.5">
+            <strong>% Elig.</strong> = diferenta ca procent din toti alegatorii din judet.
+            <strong> % Absenti</strong> = diferenta raportata la cei care nu au votat.
+            Daca e mic, inseamna ca un numar foarte mic de absenti ar fi putut rasturna rezultatul.
+          </p>
+        </>
+      }
+    >
+      <p className="text-sm text-gray-500 mb-3">
+        {data.total} judete analizate
       </p>
-      <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
+
+      {/* Column legend for PCJ */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 text-xs text-gray-700 space-y-1">
+        <p className="font-semibold text-blue-800 mb-1">Ce inseamna coloanele:</p>
+        <p><strong>Diferenta</strong> — numarul de voturi care au despartit castigatorul de locul 2.
+          <span className="text-red-600 font-semibold"> Rosu</span> = sub 5.000 voturi (strans pentru un judet),
+          <span className="text-amber-600 font-semibold"> portocaliu</span> = sub 20.000 voturi.</p>
+        <p><strong>% Elig.</strong> — diferenta ca procent din toti alegatorii inscrisi in judet.</p>
+        <p><strong>% Absenti</strong> — diferenta ca procent din cetatenii care nu au votat. Cu cat e mai mic, cu atat era mai usor de schimbat rezultatul.</p>
+      </div>
+
+      <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-left">
-              <th className="px-3 py-2 font-medium">Județ</th>
-              <th className="px-3 py-2 font-medium">Câștigător</th>
-              <th className="px-3 py-2 text-right font-medium">Voturi</th>
-              <th className="px-3 py-2 font-medium">Locul 2</th>
-              <th className="px-3 py-2 text-right font-medium">Voturi</th>
-              <th className="px-3 py-2 text-right font-medium">Diferența</th>
-              <th className="px-3 py-2 text-right font-medium hidden md:table-cell">
-                % Elig.
-              </th>
-              <th className="px-3 py-2 text-right font-medium hidden md:table-cell">
-                % Absenți
-              </th>
-              <th className="px-3 py-2 text-right font-medium hidden lg:table-cell">
-                Eligibili
-              </th>
-              <th className="px-3 py-2 text-right font-medium hidden lg:table-cell">
-                Prezența
-              </th>
+            <tr className="bg-gray-100 text-gray-700 text-left">
+              <th className="px-3 py-2.5 font-medium">Judet</th>
+              <th className="px-3 py-2.5 font-medium">Castigator</th>
+              <th className="px-3 py-2.5 text-right font-medium">Voturi</th>
+              <th className="px-3 py-2.5 font-medium">Locul 2</th>
+              <th className="px-3 py-2.5 text-right font-medium">Voturi</th>
+              <th className="px-3 py-2.5 text-right font-medium bg-yellow-50">Diferenta</th>
+              <th className="px-3 py-2.5 text-right font-medium hidden md:table-cell">% Elig.</th>
+              <th className="px-3 py-2.5 text-right font-medium hidden md:table-cell">% Absenti</th>
+              <th className="px-3 py-2.5 text-right font-medium hidden lg:table-cell">Eligibili</th>
+              <th className="px-3 py-2.5 text-right font-medium hidden lg:table-cell">Prezenta</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+          <tbody className="divide-y divide-gray-100">
             {data.results.map((r) => (
-              <tr
-                key={r.judet}
-                className="bg-white dark:bg-gray-950 hover:bg-gray-50 dark:hover:bg-gray-900/50"
-              >
-                <td className="px-3 py-2 font-medium text-gray-900 dark:text-white">
-                  {r.judet}
-                </td>
-                <td className="px-3 py-2">
+              <tr key={r.judet} className="bg-white hover:bg-blue-50/40">
+                <td className="px-3 py-2.5 font-medium text-gray-900">{r.judet}</td>
+                <td className="px-3 py-2.5">
                   <div className="flex items-center gap-1.5">
                     <PartyBadge abbrev={r.firstAbbrev} color={r.firstColor} />
-                    <span className="text-gray-900 dark:text-white truncate max-w-[160px]">
-                      {formatCandName(r.firstCand)}
-                    </span>
+                    <span className="text-gray-900 truncate max-w-[160px]">{formatCandName(r.firstCand)}</span>
                   </div>
                 </td>
-                <td className="px-3 py-2 text-right tabular-nums font-medium">
-                  {fmtNum(r.firstVotes)}
-                </td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2.5 text-right tabular-nums font-medium text-gray-800">{fmtNum(r.firstVotes)}</td>
+                <td className="px-3 py-2.5">
                   <div className="flex items-center gap-1.5">
                     <PartyBadge abbrev={r.secondAbbrev} color={r.secondColor} />
-                    <span className="text-gray-600 dark:text-gray-300 truncate max-w-[160px]">
-                      {formatCandName(r.secondCand)}
-                    </span>
+                    <span className="text-gray-700 truncate max-w-[160px]">{formatCandName(r.secondCand)}</span>
                   </div>
                 </td>
-                <td className="px-3 py-2 text-right tabular-nums">
-                  {fmtNum(r.secondVotes)}
-                </td>
-                <td
-                  className={`px-3 py-2 text-right tabular-nums font-bold ${
-                    r.margin <= 5000
-                      ? "text-red-600"
-                      : r.margin <= 20000
-                      ? "text-amber-600"
-                      : "text-gray-900 dark:text-white"
-                  }`}
-                >
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-700">{fmtNum(r.secondVotes)}</td>
+                <td className={`px-3 py-2.5 text-right tabular-nums font-bold bg-yellow-50 ${
+                  r.margin <= 5000 ? "text-red-700" : r.margin <= 20000 ? "text-amber-700" : "text-gray-900"
+                }`}>
                   {fmtNum(r.margin)}
                 </td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-500 hidden md:table-cell">
-                  {fmtPct(r.marginPctElig)}
-                </td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-500 hidden md:table-cell">
-                  {fmtPct(r.marginPctNonVoters)}
-                </td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-400 hidden lg:table-cell">
-                  {fmtNum(r.eligible)}
-                </td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-400 hidden lg:table-cell">
-                  {r.prezenta}%
-                </td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden md:table-cell">{fmtPct(r.marginPctElig)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden md:table-cell">{fmtPct(r.marginPctNonVoters)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-500 hidden lg:table-cell">{fmtNum(r.eligible)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-500 hidden lg:table-cell">{r.prezenta}%</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </section>
+    </Section>
   );
 }
