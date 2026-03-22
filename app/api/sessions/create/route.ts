@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
+const DAILY_LIMIT = 10;
+
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -17,6 +19,33 @@ export async function POST(request: NextRequest) {
         { error: 'Câmpuri lipsă: subject, institution_name, questions sunt obligatorii' },
         { status: 400 },
       );
+    }
+
+    // Check daily rate limit for this user + institution email
+    if (institution_email) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { count, error: countError } = await supabase
+        .from('requests')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .eq('institution_email', institution_email)
+        .gte('date_sent', today.toISOString());
+
+      if (!countError) {
+        const sentToday = count ?? 0;
+        const remaining = Math.max(0, DAILY_LIMIT - sentToday);
+
+        if (questions.length > remaining) {
+          return NextResponse.json({
+            error: `Ai atins limita de cereri către această instituție azi. Mai poți trimite ${remaining}.`,
+            sent_today: sentToday,
+            remaining,
+            limit: DAILY_LIMIT,
+          }, { status: 429 });
+        }
+      }
     }
 
     // Create session

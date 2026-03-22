@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getResend } from '@/lib/resend';
 
+const DAILY_LIMIT = 10;
+
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -36,6 +38,24 @@ export async function POST(request: NextRequest) {
 
     const displayName = profile.display_name || 'Utilizator';
     const fromEmail = `${displayName} <${profile.mailcow_email}>`;
+
+    // Safety net: check daily rate limit for this institution email
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const { count: sentCount } = await supabase
+      .from('requests')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('institution_email', to)
+      .gte('date_sent', today.toISOString());
+
+    if ((sentCount ?? 0) >= DAILY_LIMIT) {
+      return NextResponse.json(
+        { error: `Limita zilnică de ${DAILY_LIMIT} cereri către această adresă a fost atinsă.` },
+        { status: 429 },
+      );
+    }
 
     // Send via Resend
     const { data: resendData, error: resendError } = await getResend().emails.send({

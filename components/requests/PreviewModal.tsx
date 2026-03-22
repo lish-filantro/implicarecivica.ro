@@ -29,21 +29,53 @@ const FOIA_MESSAGES = [
   'Transparența nu slăbește instituțiile — le legitimează.',
 ];
 
+interface RateLimitInfo {
+  sent_today: number;
+  remaining: number;
+  limit: number;
+}
+
 interface PreviewModalProps {
   wizard: ReturnType<typeof useRequestWizard>;
   onClose: () => void;
+  existingSessionId?: string;
 }
 
-export function PreviewModal({ wizard, onClose }: PreviewModalProps) {
+export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModalProps) {
   const router = useRouter();
   const [isSending, setIsSending] = useState(false);
   const [sendProgress, setSendProgress] = useState({ sent: 0, total: 0 });
   const [sendError, setSendError] = useState<string | null>(null);
   const [foiaIndex, setFoiaIndex] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
+  const [rateLimit, setRateLimit] = useState<RateLimitInfo | null>(null);
+  const [rateLimitLoading, setRateLimitLoading] = useState(true);
 
   const selectedQuestions = wizard.getSelectedQuestions();
   const { formData, conversationId } = wizard;
+
+  // Fetch rate limit on mount
+  useEffect(() => {
+    if (!formData.institutionEmail) {
+      setRateLimitLoading(false);
+      return;
+    }
+    async function checkLimit() {
+      try {
+        const res = await fetch(`/api/rate-limit/check?email=${encodeURIComponent(formData.institutionEmail)}`);
+        if (res.ok) {
+          setRateLimit(await res.json());
+        }
+      } catch {
+        // silently fail — allow sending
+      } finally {
+        setRateLimitLoading(false);
+      }
+    }
+    checkLimit();
+  }, [formData.institutionEmail]);
+
+  const exceedsLimit = rateLimit !== null && selectedQuestions.length > rateLimit.remaining;
 
   // Cycle FOIA messages every 4s while sending
   useEffect(() => {
@@ -72,30 +104,42 @@ export function PreviewModal({ wizard, onClose }: PreviewModalProps) {
   }, [isSending]);
 
   const handleSendAll = async () => {
-    if (isSending) return;
+    if (isSending || exceedsLimit) return;
 
     setIsSending(true);
     setSendError(null);
     setSendProgress({ sent: 0, total: selectedQuestions.length });
 
     try {
-      // Step 1: Create session + requests
-      const sessionResponse = await fetch('/api/sessions/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.sessionName || undefined,
-          subject: FIXED_SUBJECT,
-          institution_name: formData.institutionName,
-          institution_email: formData.institutionEmail,
-          conversation_id: conversationId || undefined,
-          questions: selectedQuestions.map(q => q.text),
-        }),
-      });
+      // Step 1: Create session + requests (or add to existing session)
+      let sessionResponse: Response;
+
+      if (existingSessionId) {
+        sessionResponse = await fetch(`/api/sessions/${existingSessionId}/add-requests`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            questions: selectedQuestions.map(q => q.text),
+          }),
+        });
+      } else {
+        sessionResponse = await fetch('/api/sessions/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.sessionName || undefined,
+            subject: FIXED_SUBJECT,
+            institution_name: formData.institutionName,
+            institution_email: formData.institutionEmail,
+            conversation_id: conversationId || undefined,
+            questions: selectedQuestions.map(q => q.text),
+          }),
+        });
+      }
 
       if (!sessionResponse.ok) {
         const data = await sessionResponse.json();
-        throw new Error(data.error || 'Eroare la crearea sesiunii');
+        throw new Error(data.error || 'Eroare la crearea cererilor');
       }
 
       const { requests } = await sessionResponse.json();
@@ -199,6 +243,42 @@ export function PreviewModal({ wizard, onClose }: PreviewModalProps) {
               </div>
             </div>
 
+            {/* Rate limit info */}
+            {!rateLimitLoading && rateLimit !== null && (
+              <div className={`mx-6 mt-2 flex items-start gap-3 p-3 rounded-lg border ${
+                exceedsLimit
+                  ? 'bg-protest-red-50 dark:bg-protest-red-900/10 border-protest-red-200 dark:border-protest-red-800/30'
+                  : 'bg-civic-blue-50 dark:bg-civic-blue-900/10 border-civic-blue-200 dark:border-civic-blue-800/30'
+              }`}>
+                <Shield className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
+                  exceedsLimit
+                    ? 'text-protest-red-600 dark:text-protest-red-400'
+                    : 'text-civic-blue-600 dark:text-civic-blue-400'
+                }`} />
+                <div className={`text-xs space-y-1 ${
+                  exceedsLimit
+                    ? 'text-protest-red-800 dark:text-protest-red-300'
+                    : 'text-civic-blue-800 dark:text-civic-blue-300'
+                }`}>
+                  <p>
+                    Limita zilnică: <strong>{rateLimit.limit} cereri</strong> per instituție.
+                    {rateLimit.sent_today > 0 && (
+                      <> Azi ai trimis <strong>{rateLimit.sent_today}</strong>.</>
+                    )}
+                    {' '}Mai poți trimite <strong>{rateLimit.remaining}</strong>.
+                  </p>
+                  {exceedsLimit && (
+                    <p className="font-semibold">
+                      Ai selectat {selectedQuestions.length} cereri, dar mai poți trimite doar {rateLimit.remaining}.
+                      {rateLimit.remaining === 0
+                        ? ' Încearcă din nou mâine.'
+                        : ' Reduce numărul de cereri selectate.'}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Scrollable content — dimmed during send */}
             <div className={`flex-1 overflow-y-auto px-6 py-4 space-y-3 scrollbar-modern transition-opacity duration-300 ${
               isSending ? 'opacity-30 pointer-events-none' : ''
@@ -276,7 +356,8 @@ export function PreviewModal({ wizard, onClose }: PreviewModalProps) {
                   </button>
                   <button
                     onClick={handleSendAll}
-                    className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold bg-grassroots-green-600 hover:bg-grassroots-green-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    disabled={exceedsLimit || rateLimitLoading}
+                    className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold bg-grassroots-green-600 hover:bg-grassroots-green-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none"
                   >
                     <Send className="h-4 w-4" />
                     Trimite toate cele {selectedQuestions.length}

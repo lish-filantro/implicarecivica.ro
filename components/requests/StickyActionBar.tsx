@@ -8,9 +8,10 @@ interface StickyActionBarProps {
   onBack: () => void;
   onPreview: () => void;
   isDisabled: boolean;
+  dailyLimitInfo?: { remaining: number };
 }
 
-export function StickyActionBar({ selectedCount, onBack, onPreview, isDisabled }: StickyActionBarProps) {
+export function StickyActionBar({ selectedCount, onBack, onPreview, isDisabled, dailyLimitInfo }: StickyActionBarProps) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3">
       <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -22,13 +23,24 @@ export function StickyActionBar({ selectedCount, onBack, onPreview, isDisabled }
           <span className="hidden sm:inline">Înapoi</span>
         </button>
 
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-          <span className="text-civic-blue-600 dark:text-civic-blue-400 font-semibold">
-            {selectedCount}
+        <div className="text-center">
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            <span className="text-civic-blue-600 dark:text-civic-blue-400 font-semibold">
+              {selectedCount}
+            </span>
+            {' '}
+            {selectedCount === 1 ? 'cerere selectată' : 'cereri selectate'}
           </span>
-          {' '}
-          {selectedCount === 1 ? 'cerere selectată' : 'cereri selectate'}
-        </span>
+          {dailyLimitInfo && (
+            <span className={`block text-xs mt-0.5 ${
+              dailyLimitInfo.remaining === 0 || selectedCount > dailyLimitInfo.remaining
+                ? 'text-protest-red-600 dark:text-protest-red-400'
+                : 'text-gray-400 dark:text-gray-500'
+            }`}>
+              Limită: {dailyLimitInfo.remaining} cereri rămase azi
+            </span>
+          )}
+        </div>
 
         <button
           onClick={onPreview}

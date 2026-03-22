@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react';
 import type { RequestSessionWithRequests } from '@/lib/types/session';
 import { SessionRequestItem } from './SessionRequestItem';
 import {
@@ -17,6 +19,7 @@ interface SessionDetailModalProps {
 }
 
 export function SessionDetailModal({ session, onClose }: SessionDetailModalProps) {
+  const router = useRouter();
   const statusColor = getSessionStatusColor(session.cached_status);
   const progress = getSessionProgress(session);
   const daysLeft = getSessionDaysUntilDeadline(session);
@@ -156,6 +159,20 @@ export function SessionDetailModal({ session, onClose }: SessionDetailModalProps
               Nu există cereri în această sesiune
             </p>
           )}
+        </div>
+
+        {/* Footer — add more requests */}
+        <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50 shrink-0">
+          <button
+            onClick={() => {
+              onClose();
+              router.push(`/requests/add?session=${session.id}`);
+            }}
+            className="flex items-center gap-2 w-full justify-center px-4 py-2.5 text-sm font-semibold text-civic-blue-700 dark:text-civic-blue-300 bg-civic-blue-50 dark:bg-civic-blue-900/20 hover:bg-civic-blue-100 dark:hover:bg-civic-blue-900/30 border border-civic-blue-200 dark:border-civic-blue-800/40 rounded-xl transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            Trimite alte cereri către {session.institution_name}
+          </button>
         </div>
       </div>
     </div>
