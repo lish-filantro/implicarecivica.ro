@@ -29,7 +29,6 @@ export function PublicNavbar({ activePage }: PublicNavbarProps) {
           />
         </Link>
         <div className="flex items-center gap-3">
-          <DarkModeToggle />
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -49,6 +48,7 @@ export function PublicNavbar({ activePage }: PublicNavbarProps) {
           >
             Intră în cont
           </Link>
+          <DarkModeToggle />
         </div>
       </div>
     </nav>
