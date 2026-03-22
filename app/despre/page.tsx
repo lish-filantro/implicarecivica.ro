@@ -72,6 +72,38 @@ export default function DesprePage() {
               Începem de jos în sus. Când administrația locală devine transparentă, presiunea urcă natural spre județ și nivel central.
             </p>
           </div>
+
+          {/* Argumente din alegeri */}
+          <div className="mt-8 rounded-xl border border-civic-blue-200 dark:border-civic-blue-800 bg-civic-blue-50/50 dark:bg-civic-blue-950/30 p-5">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-civic-blue-600 dark:text-civic-blue-400 mb-3">
+              Cât de mult contează fiecare vot la nivel local
+            </h3>
+            <div className="grid sm:grid-cols-3 gap-4 mb-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">52%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">din primari câștigați cu sub 500 de voturi diferență</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">378</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">primari decisi de sub 100 de voturi — mai puțin decât elevii unei școli</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">25</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">localități unde sub 5 voturi au făcut diferența — o singură familie</div>
+              </div>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+              La alegerile locale din iunie 2024, jumătate din primarii României au câștigat cu mai puțin de 500 de voturi. Asta înseamnă că un grup mic de cetățeni activi — care cer socoteală, care pun întrebări, care nu uită — poate influența direct cine conduce comunitatea. Presiunea civică nu e abstractă: într-o comună unde primarul a câștigat la limită, fiecare cerere de informații publice e un semnal că cineva urmărește.
+            </p>
+            <div className="mt-3">
+              <Link
+                href="/alegeri-locale-2024"
+                className="text-sm font-medium text-civic-blue-600 dark:text-civic-blue-400 hover:underline"
+              >
+                Vezi analiza completă a alegerilor locale 2024 →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
