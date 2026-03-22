@@ -689,8 +689,8 @@ function HeroSection({ summary, isPrimari }: { summary: Summary; isPrimari: bool
       <div className="grid md:grid-cols-3 gap-4">
         <HeroCard
           icon={<BarChart3 className="text-red-500" size={28} />}
-          value={under500 ? fmtPct((under500.count / total) * 100) : "—"}
-          valueDetail={under500 ? `(${fmtNum(under500.count)} din ${fmtNum(total)})` : ""}
+          value={under500 ? `${fmtNum(under500.count)} din ${fmtNum(total)}` : "—"}
+          valueDetail={under500 ? fmtPct((under500.count / total) * 100) : ""}
           desc={isPrimari ? "Primari castigati cu sub 500 de voturi" : "Consilii decise cu sub 500 de voturi diferenta"}
           sub={isPrimari
             ? "Intr-o comuna tipica, un sat mic ar fi putut schimba primarul"
@@ -699,16 +699,16 @@ function HeroSection({ summary, isPrimari }: { summary: Summary; isPrimari: bool
         />
         <HeroCard
           icon={<Users className="text-amber-500" size={28} />}
-          value={under100 ? fmtNum(under100.count) + " localitati" : "—"}
-          valueDetail={under100 ? `(${fmtPct((under100.count / total) * 100)} din total)` : ""}
+          value={under100 ? `${fmtNum(under100.count)} din ${fmtNum(total)}` : "—"}
+          valueDetail={under100 ? fmtPct((under100.count / total) * 100) : ""}
           desc={isPrimari ? "Decise de sub 100 de voturi" : "Diferenta sub 100 de voturi"}
           sub="Mai putin decat elevii unei singure scoli"
           accent="amber"
         />
         <HeroCard
           icon={<TrendingUp className="text-blue-500" size={28} />}
-          value={under5PctNonVot ? fmtPct((under5PctNonVot.count / total) * 100) : "—"}
-          valueDetail={under5PctNonVot ? `(${fmtNum(under5PctNonVot.count)} localitati)` : ""}
+          value={under5PctNonVot ? `${fmtNum(under5PctNonVot.count)} din ${fmtNum(total)}` : "—"}
+          valueDetail={under5PctNonVot ? fmtPct((under5PctNonVot.count / total) * 100) : ""}
           desc="Diferenta sub 5% din cei care nu au votat"
           sub={isPrimari
             ? "Daca doar 1 din 20 de absenti venea la vot, primarul putea fi altul"
@@ -734,8 +734,8 @@ function HeroCard({
       <div className="flex items-start gap-3">
         <div className="mt-0.5">{icon}</div>
         <div>
-          <div className="text-3xl font-bold text-gray-900 dark:text-white">{value}</div>
-          {valueDetail && <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{valueDetail}</div>}
+          <div className="text-2xl font-bold text-gray-900 dark:text-white">{value}</div>
+          {valueDetail && <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-0.5">{valueDetail}</div>}
           <div className="text-sm font-medium text-gray-800 dark:text-gray-200 mt-1.5">{desc}</div>
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">{sub}</div>
         </div>

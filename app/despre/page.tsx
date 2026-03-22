@@ -80,15 +80,18 @@ export default function DesprePage() {
             </h3>
             <div className="grid sm:grid-cols-3 gap-4 mb-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">52%</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">din primari câștigați cu sub 500 de voturi diferență</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">1.596 <span className="text-base font-normal text-gray-500 dark:text-gray-400">din 3.052</span></div>
+                <div className="text-xs font-semibold text-civic-blue-600 dark:text-civic-blue-400">52,3%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">primari câștigați cu sub 500 de voturi diferență</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">378</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">378 <span className="text-base font-normal text-gray-500 dark:text-gray-400">din 3.052</span></div>
+                <div className="text-xs font-semibold text-civic-blue-600 dark:text-civic-blue-400">12,4%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">primari decisi de sub 100 de voturi — mai puțin decât elevii unei școli</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">25</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">25 <span className="text-base font-normal text-gray-500 dark:text-gray-400">din 3.052</span></div>
+                <div className="text-xs font-semibold text-civic-blue-600 dark:text-civic-blue-400">0,8%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">localități unde sub 5 voturi au făcut diferența — o singură familie</div>
               </div>
             </div>
