@@ -96,7 +96,13 @@ export default function DesprePage() {
               </div>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-              La alegerile locale din iunie 2024, jumătate din primarii României au câștigat cu mai puțin de 500 de voturi. Asta înseamnă că un grup mic de cetățeni activi — care cer socoteală, care pun întrebări, care nu uită — poate influența direct cine conduce comunitatea. Presiunea civică nu e abstractă: într-o comună unde primarul a câștigat la limită, fiecare cerere de informații publice e un semnal că cineva urmărește.
+              La alegerile locale din iunie 2024, jumătate din primarii României au câștigat cu mai puțin de 500 de voturi. Asta înseamnă că un grup mic de cetățeni activi — care cer socoteală, care pun întrebări, care nu uită — poate influența direct cine conduce comunitatea.
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mt-2">
+              Un ales local care a câștigat la limită știe că la următoarele alegeri pierde dacă nu răspunde așteptărilor. Fiecare cerere de informații publice, fiecare întrebare despre cum se cheltuie banii, fiecare solicitare ignorată sau refuzată devine un argument electoral concret. Nu trebuie să fii activist — trebuie doar să ceri ce ți se cuvine prin lege, iar primarul care a câștigat cu 200 de voturi diferență nu-și permite să te ignore.
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mt-2">
+              Presiunea civică nu e abstractă: când administrația știe că cetățenii urmăresc, decide altfel. Iar datele arată clar — în majoritatea localităților din România, electoratul care poate înclina balanța e surprinzător de mic.
             </p>
             <div className="mt-3">
               <Link
