@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { PublicNavbar } from "@/components/shared/PublicNavbar";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -333,6 +334,7 @@ export default function AlegeriLocalePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
+      <PublicNavbar activePage="/alegeri-locale-2024" />
       {/* ── Header ── */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 pt-20">
         <div className="max-w-7xl mx-auto px-4 py-8">
