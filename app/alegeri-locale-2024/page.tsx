@@ -190,8 +190,8 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="text-xl font-bold text-gray-900 mb-2">{title}</h2>
-      <div className="text-sm text-gray-600 mb-5 max-w-3xl leading-relaxed">
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
+      <div className="text-sm text-gray-600 dark:text-gray-300 mb-5 max-w-3xl leading-relaxed">
         {typeof explanation === "string" ? <p>{explanation}</p> : explanation}
       </div>
       {children}
@@ -314,10 +314,10 @@ export default function AlegeriLocalePage() {
 
   if (loading && !summary) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
         <div className="text-center">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-4" />
-          <p className="text-gray-500">Se incarca datele electorale...</p>
+          <p className="text-gray-500 dark:text-gray-400">Se incarca datele electorale...</p>
         </div>
       </div>
     );
@@ -325,39 +325,39 @@ export default function AlegeriLocalePage() {
 
   if (!summary) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-950">
         <p className="text-red-600 font-medium">Eroare la incarcarea datelor.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       {/* ── Header ── */}
-      <div className="bg-white border-b border-gray-200 pt-20">
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 pt-20">
         <div className="max-w-7xl mx-auto px-4 py-8">
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900">
+          <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
             Alegeri Locale 2024
           </h1>
-          <p className="mt-3 text-lg text-gray-700 max-w-3xl leading-relaxed">
+          <p className="mt-3 text-lg text-gray-700 dark:text-gray-200 max-w-3xl leading-relaxed">
             Cat de strans s-a castigat in fiecare localitate din Romania?
             Aceasta pagina analizeaza <strong>diferenta de voturi</strong> dintre
             castigator si locul 2, la alegerile locale din 9 iunie 2024.
           </p>
-          <p className="mt-2 text-sm text-gray-500 max-w-3xl leading-relaxed">
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-3xl leading-relaxed">
             <strong>De ce conteaza?</strong> Daca diferenta e mica, inseamna ca
             un numar mic de cetateni care nu au votat ar fi putut schimba
             rezultatul. Cu cat diferenta e mai mica, cu atat fiecare vot a
             contat mai mult.
           </p>
-          <p className="mt-2 text-xs text-gray-400">
+          <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
             Sursa datelor: Autoritatea Electorala Permanenta (AEP) — 9 iunie 2024
           </p>
         </div>
       </div>
 
       {/* ── Tab nav ── */}
-      <div className="bg-white border-b border-gray-200 sticky top-14 z-30">
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-14 z-30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex gap-1">
             {TABS.map((tab) => (
@@ -366,8 +366,8 @@ export default function AlegeriLocalePage() {
                 onClick={() => setActiveTab(tab.key)}
                 className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                   activeTab === tab.key
-                    ? "border-blue-600 text-blue-700"
-                    : "border-transparent text-gray-500 hover:text-gray-800"
+                    ? "border-blue-600 text-blue-700 dark:text-blue-400"
+                    : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 {tab.label}
@@ -379,7 +379,7 @@ export default function AlegeriLocalePage() {
 
       {/* ── Tab description ── */}
       <div className="max-w-7xl mx-auto px-4 pt-6">
-        <p className="text-sm text-gray-500 italic">
+        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
           {TABS.find((t) => t.key === activeTab)?.desc}
         </p>
       </div>
@@ -437,13 +437,13 @@ export default function AlegeriLocalePage() {
                       setSearchText(e.target.value);
                       setPage(1);
                     }}
-                    className="pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
+                    className="pl-9 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
                   />
                 </div>
                 <select
                   value={filterJudet}
                   onChange={(e) => { setFilterJudet(e.target.value); setPage(1); }}
-                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900"
+                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
                   <option value="">Toate judetele</option>
                   {summary.judete.map((j) => (
@@ -453,7 +453,7 @@ export default function AlegeriLocalePage() {
                 <select
                   value={filterSizeCat}
                   onChange={(e) => { setFilterSizeCat(e.target.value); setPage(1); }}
-                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900"
+                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
                   <option value="">Toate categoriile</option>
                   {summary.sizeCategories.map((c) => (
@@ -463,7 +463,7 @@ export default function AlegeriLocalePage() {
                 <select
                   value={filterMargin}
                   onChange={(e) => { setFilterMargin(e.target.value); setPage(1); }}
-                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white text-gray-900"
+                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
                   {MARGIN_OPTIONS.map((o) => (
                     <option key={o.value} value={o.value}>{o.label}</option>
@@ -471,13 +471,13 @@ export default function AlegeriLocalePage() {
                 </select>
               </div>
 
-              <p className="text-xs text-gray-500 mb-2">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
                 {fmtNum(filtered.length)} rezultate din {fmtNum(currentData.length)}
               </p>
 
               {/* Column legend */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 text-xs text-gray-700 space-y-1">
-                <p className="font-semibold text-blue-800 mb-1">Ce inseamna coloanele:</p>
+              <div className="bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-3 text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                <p className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Ce inseamna coloanele:</p>
                 <p><strong>Diferenta</strong> — numarul de voturi care au despartit castigatorul de locul 2.
                   <span className="text-red-600 font-semibold"> Rosu</span> = sub 100 voturi (extrem de strans),
                   <span className="text-amber-600 font-semibold"> portocaliu</span> = sub 500 voturi (strans).</p>
@@ -487,17 +487,17 @@ export default function AlegeriLocalePage() {
               </div>
 
               {/* Table */}
-              <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+              <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-100 text-gray-700 text-left">
+                    <tr className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-left">
                       <SortTh col="judet" current={sortCol} dir={sortDir} onSort={handleSort}>
                         Judet
                       </SortTh>
                       <SortTh col="uat" current={sortCol} dir={sortDir} onSort={handleSort}>
                         Localitate
                       </SortTh>
-                      <th className="px-2 py-2.5 font-medium text-gray-500 hidden lg:table-cell">Categorie</th>
+                      <th className="px-2 py-2.5 font-medium text-gray-500 dark:text-gray-400 hidden lg:table-cell">Categorie</th>
                       <th className="px-2 py-2.5 font-medium">
                         {isPrimari ? "Castigator" : "Locul 1"}
                       </th>
@@ -508,7 +508,7 @@ export default function AlegeriLocalePage() {
                       <SortTh col="secondVotes" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right">
                         Voturi
                       </SortTh>
-                      <SortTh col="margin" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right bg-yellow-50">
+                      <SortTh col="margin" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right bg-yellow-50 dark:bg-yellow-900/20">
                         Diferenta
                       </SortTh>
                       <SortTh col="marginPctElig" current={sortCol} dir={sortDir} onSort={handleSort} className="text-right hidden md:table-cell">
@@ -525,49 +525,49 @@ export default function AlegeriLocalePage() {
                       </SortTh>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                     {paginated.map((r, i) => (
-                      <tr key={`${r.judet}-${r.uat}-${i}`} className="hover:bg-blue-50/50 bg-white">
-                        <td className="px-2 py-2 text-gray-600">{r.judet}</td>
-                        <td className="px-2 py-2 font-medium text-gray-900">{r.uat}</td>
-                        <td className="px-2 py-2 text-gray-400 text-xs hidden lg:table-cell">{r.sizeCat}</td>
+                      <tr key={`${r.judet}-${r.uat}-${i}`} className="hover:bg-blue-50/50 dark:hover:bg-gray-800/50 bg-white dark:bg-gray-900">
+                        <td className="px-2 py-2 text-gray-600 dark:text-gray-300">{r.judet}</td>
+                        <td className="px-2 py-2 font-medium text-gray-900 dark:text-white">{r.uat}</td>
+                        <td className="px-2 py-2 text-gray-400 dark:text-gray-500 text-xs hidden lg:table-cell">{r.sizeCat}</td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <PartyBadge abbrev={r.firstAbbrev} color={r.firstColor} />
-                            <span className="text-gray-900 truncate max-w-[140px]">
+                            <span className="text-gray-900 dark:text-white truncate max-w-[140px]">
                               {isPrimari ? formatCandName(r.firstCand) : r.firstParty}
                             </span>
                           </div>
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums font-medium text-gray-800">
+                        <td className="px-2 py-2 text-right tabular-nums font-medium text-gray-800 dark:text-gray-100">
                           {fmtNum(r.firstVotes)}
                         </td>
                         <td className="px-2 py-2">
                           <div className="flex items-center gap-1.5">
                             <PartyBadge abbrev={r.secondAbbrev} color={r.secondColor} />
-                            <span className="text-gray-700 truncate max-w-[140px]">
+                            <span className="text-gray-700 dark:text-gray-300 truncate max-w-[140px]">
                               {isPrimari ? formatCandName(r.secondCand) : r.secondParty}
                             </span>
                           </div>
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-700">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-700 dark:text-gray-300">
                           {fmtNum(r.secondVotes)}
                         </td>
-                        <td className={`px-2 py-2 text-right tabular-nums font-bold bg-yellow-50 ${
-                          r.margin <= 100 ? "text-red-700" : r.margin <= 500 ? "text-amber-700" : "text-gray-900"
+                        <td className={`px-2 py-2 text-right tabular-nums font-bold bg-yellow-50 dark:bg-yellow-900/20 ${
+                          r.margin <= 100 ? "text-red-700 dark:text-red-400" : r.margin <= 500 ? "text-amber-700 dark:text-amber-400" : "text-gray-900 dark:text-white"
                         }`}>
                           {fmtNum(r.margin)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-600 hidden md:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-600 dark:text-gray-400 hidden md:table-cell">
                           {fmtPct(r.marginPctElig)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-600 hidden md:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-600 dark:text-gray-400 hidden md:table-cell">
                           {fmtPct(r.marginPctNonVoters)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 hidden lg:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 dark:text-gray-400 hidden lg:table-cell">
                           {fmtNum(r.eligible)}
                         </td>
-                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 hidden lg:table-cell">
+                        <td className="px-2 py-2 text-right tabular-nums text-gray-500 dark:text-gray-400 hidden lg:table-cell">
                           {r.prezenta}%
                         </td>
                       </tr>
@@ -584,7 +584,7 @@ export default function AlegeriLocalePage() {
                   <PagBtn onClick={() => setPage(page - 1)} disabled={page === 1}>
                     <ChevronLeft size={16} />
                   </PagBtn>
-                  <span className="px-3 py-1 text-sm text-gray-600">
+                  <span className="px-3 py-1 text-sm text-gray-600 dark:text-gray-400">
                     Pagina {page} din {totalPages}
                   </span>
                   <PagBtn onClick={() => setPage(page + 1)} disabled={page === totalPages}>
@@ -601,16 +601,16 @@ export default function AlegeriLocalePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8 mt-10">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500 space-y-2">
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 mt-10">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400 space-y-2">
           <p>
             Date oficiale:{" "}
-            <a href="https://www.roaep.ro/" target="_blank" rel="noopener" className="text-blue-600 hover:underline">
+            <a href="https://www.roaep.ro/" target="_blank" rel="noopener" className="text-blue-600 dark:text-blue-400 hover:underline">
               Autoritatea Electorala Permanenta
             </a>{" "}
             — Alegeri locale 9 iunie 2024
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 dark:text-gray-500">
             Aceasta pagina afiseaza date publice. Diferenta = voturile castigatorului minus voturile locului 2.
             Nu include turul 2 sau alegerile din Bucuresti.
           </p>
@@ -640,7 +640,7 @@ function SortTh({
   const isActive = current === col;
   return (
     <th
-      className={`px-2 py-2.5 font-medium cursor-pointer select-none hover:text-blue-700 ${className}`}
+      className={`px-2 py-2.5 font-medium cursor-pointer select-none hover:text-blue-700 dark:hover:text-blue-400 ${className}`}
       onClick={() => onSort(col)}
     >
       <span className="inline-flex items-center gap-1">
@@ -660,7 +660,7 @@ function PagBtn({ onClick, disabled, children }: { onClick: () => void; disabled
     <button
       onClick={onClick}
       disabled={disabled}
-      className="p-1.5 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+      className="p-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
     >
       {children}
     </button>
@@ -724,18 +724,18 @@ function HeroCard({
   icon: React.ReactNode; value: string; valueDetail: string;
   desc: string; sub: string; accent: string;
 }) {
-  const border = accent === "red" ? "border-red-200" : accent === "amber" ? "border-amber-200" : "border-blue-200";
-  const bg = accent === "red" ? "bg-red-50" : accent === "amber" ? "bg-amber-50" : "bg-blue-50";
+  const border = accent === "red" ? "border-red-200 dark:border-red-800" : accent === "amber" ? "border-amber-200 dark:border-amber-800" : "border-blue-200 dark:border-blue-800";
+  const bg = accent === "red" ? "bg-red-50 dark:bg-red-950/40" : accent === "amber" ? "bg-amber-50 dark:bg-amber-950/40" : "bg-blue-50 dark:bg-blue-950/40";
 
   return (
     <div className={`${bg} rounded-xl border ${border} p-5`}>
       <div className="flex items-start gap-3">
         <div className="mt-0.5">{icon}</div>
         <div>
-          <div className="text-3xl font-bold text-gray-900">{value}</div>
-          {valueDetail && <div className="text-xs text-gray-500 mt-0.5">{valueDetail}</div>}
-          <div className="text-sm font-medium text-gray-800 mt-1.5">{desc}</div>
-          <div className="text-xs text-gray-500 mt-1 italic">{sub}</div>
+          <div className="text-3xl font-bold text-gray-900 dark:text-white">{value}</div>
+          {valueDetail && <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{valueDetail}</div>}
+          <div className="text-sm font-medium text-gray-800 dark:text-gray-200 mt-1.5">{desc}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">{sub}</div>
         </div>
       </div>
     </div>
@@ -768,25 +768,25 @@ function FunnelSection({ summary, isPrimari }: { summary: Summary; isPrimari: bo
           if (!item) return null;
           const analogy = FUNNEL_ANALOGIES[t];
           return (
-            <div key={t} className="relative bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+            <div key={t} className="relative bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
               <div
-                className="absolute inset-y-0 left-0 bg-blue-100"
+                className="absolute inset-y-0 left-0 bg-blue-100 dark:bg-blue-900/40"
                 style={{ width: `${Math.max(item.pct, 2)}%` }}
               />
               <div className="relative flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-bold text-gray-900 min-w-[110px]">
+                  <span className="text-sm font-bold text-gray-900 dark:text-white min-w-[110px]">
                     &lt; {fmtNum(t)} voturi
                   </span>
                   {analogy && (
-                    <span className="text-xs text-gray-500 italic hidden sm:inline">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 italic hidden sm:inline">
                       ({analogy})
                     </span>
                   )}
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-bold text-blue-700">{fmtNum(item.count)}</span>
-                  <span className="text-xs text-gray-500 ml-1.5">({item.pct}%)</span>
+                  <span className="text-sm font-bold text-blue-700 dark:text-blue-400">{fmtNum(item.count)}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 ml-1.5">({item.pct}%)</span>
                 </div>
               </div>
             </div>
@@ -857,7 +857,7 @@ function HistogramSection({
         </>
       }
     >
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
         <div className="flex flex-wrap gap-1 mb-4">
           {modeButtons.map((m) => (
             <button
@@ -866,7 +866,7 @@ function HistogramSection({
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 histMode === m.key
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200"
               }`}
               title={m.help}
             >
@@ -951,10 +951,10 @@ function CategoriesSection({ summary, isPrimari }: { summary: Summary; isPrimari
             sunt adaptate la fiecare categorie:
           </p>
           <ul className="mt-1 ml-4 list-disc space-y-0.5">
-            <li><span className="text-red-700 font-semibold">Extrem de strans</span> — diferenta sub ~1% din eligibili</li>
-            <li><span className="text-amber-700 font-semibold">Foarte strans</span> — diferenta sub ~3% din eligibili</li>
-            <li><span className="text-green-700 font-semibold">Strans</span> — diferenta sub ~5% din eligibili</li>
-            <li><span className="text-gray-500 font-semibold">Confortabil</span> — diferenta sub ~10% din eligibili</li>
+            <li><span className="text-red-700 dark:text-red-400 font-semibold">Extrem de strans</span> — diferenta sub ~1% din eligibili</li>
+            <li><span className="text-amber-700 dark:text-amber-400 font-semibold">Foarte strans</span> — diferenta sub ~3% din eligibili</li>
+            <li><span className="text-green-700 dark:text-green-400 font-semibold">Strans</span> — diferenta sub ~5% din eligibili</li>
+            <li><span className="text-gray-500 dark:text-gray-400 font-semibold">Confortabil</span> — diferenta sub ~10% din eligibili</li>
           </ul>
           <p className="mt-1.5">
             <strong>Mediana dif.</strong> = jumatate din localitatile din categoria respectiva
@@ -963,10 +963,10 @@ function CategoriesSection({ summary, isPrimari }: { summary: Summary; isPrimari
         </>
       }
     >
-      <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-100 text-gray-700">
+            <tr className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
               <th className="px-3 py-2.5 text-left font-medium">Categorie</th>
               <th className="px-3 py-2.5 text-right font-medium">Nr. localitati</th>
               <th className="px-3 py-2.5 text-right font-medium hidden sm:table-cell">
@@ -977,35 +977,35 @@ function CategoriesSection({ summary, isPrimari }: { summary: Summary; isPrimari
                 Prezenta medie
                 <InfoTip text="Ce procent din cetateni au votat, in medie, in localitatile din aceasta categorie." />
               </th>
-              <th className="px-3 py-2.5 text-right font-medium bg-yellow-50">
+              <th className="px-3 py-2.5 text-right font-medium bg-yellow-50 dark:bg-yellow-900/20">
                 Mediana dif.
                 <InfoTip text="Jumatate din localitati au diferenta mai mica decat aceasta valoare, jumatate mai mare." />
               </th>
-              <th className="px-3 py-2.5 text-right font-medium text-red-700 hidden md:table-cell">Extrem de strans</th>
-              <th className="px-3 py-2.5 text-right font-medium text-amber-700 hidden md:table-cell">Foarte strans</th>
-              <th className="px-3 py-2.5 text-right font-medium text-green-700 hidden md:table-cell">Strans</th>
-              <th className="px-3 py-2.5 text-right font-medium text-gray-500 hidden md:table-cell">Confortabil</th>
+              <th className="px-3 py-2.5 text-right font-medium text-red-700 dark:text-red-400 hidden md:table-cell">Extrem de strans</th>
+              <th className="px-3 py-2.5 text-right font-medium text-amber-700 dark:text-amber-400 hidden md:table-cell">Foarte strans</th>
+              <th className="px-3 py-2.5 text-right font-medium text-green-700 dark:text-green-400 hidden md:table-cell">Strans</th>
+              <th className="px-3 py-2.5 text-right font-medium text-gray-500 dark:text-gray-400 hidden md:table-cell">Confortabil</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
             {summary.categories.map((cat) => (
-              <tr key={cat.name} className="bg-white hover:bg-blue-50/40">
-                <td className="px-3 py-2.5 font-medium text-gray-900 whitespace-nowrap">{cat.name}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-700">{fmtNum(cat.count)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden sm:table-cell">
+              <tr key={cat.name} className="bg-white dark:bg-gray-900 hover:bg-blue-50/40 dark:hover:bg-gray-800/50">
+                <td className="px-3 py-2.5 font-medium text-gray-900 dark:text-white whitespace-nowrap">{cat.name}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-700 dark:text-gray-300">{fmtNum(cat.count)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 dark:text-gray-400 hidden sm:table-cell">
                   {fmtNum(cat.avgEligible)}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden sm:table-cell">
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 dark:text-gray-400 hidden sm:table-cell">
                   {cat.avgPrezenta}%
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums font-bold text-gray-900 bg-yellow-50">
+                <td className="px-3 py-2.5 text-right tabular-nums font-bold text-gray-900 dark:text-white bg-yellow-50 dark:bg-yellow-900/20">
                   {fmtNum(cat.medianMargin)} voturi
                 </td>
                 {cat.adaptiveThresholds.map((t, i) => (
                   <td
                     key={t.threshold}
                     className={`px-3 py-2.5 text-right tabular-nums hidden md:table-cell ${
-                      i === 0 ? "text-red-700" : i === 1 ? "text-amber-700" : i === 2 ? "text-green-700" : "text-gray-500"
+                      i === 0 ? "text-red-700 dark:text-red-400" : i === 1 ? "text-amber-700 dark:text-amber-400" : i === 2 ? "text-green-700 dark:text-green-400" : "text-gray-500 dark:text-gray-400"
                     }`}
                   >
                     <div className="text-[10px] text-gray-400">&lt;{fmtNum(t.threshold)} vot.</div>
@@ -1043,13 +1043,13 @@ function PCJView({ data }: { data: { total: number; results: PCJEntry[] } }) {
         </>
       }
     >
-      <p className="text-sm text-gray-500 mb-3">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
         {data.total} judete analizate
       </p>
 
       {/* Column legend for PCJ */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3 text-xs text-gray-700 space-y-1">
-        <p className="font-semibold text-blue-800 mb-1">Ce inseamna coloanele:</p>
+      <div className="bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-3 text-xs text-gray-700 dark:text-gray-300 space-y-1">
+        <p className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Ce inseamna coloanele:</p>
         <p><strong>Diferenta</strong> — numarul de voturi care au despartit castigatorul de locul 2.
           <span className="text-red-600 font-semibold"> Rosu</span> = sub 5.000 voturi (strans pentru un judet),
           <span className="text-amber-600 font-semibold"> portocaliu</span> = sub 20.000 voturi.</p>
@@ -1057,49 +1057,49 @@ function PCJView({ data }: { data: { total: number; results: PCJEntry[] } }) {
         <p><strong>% Absenti</strong> — diferenta ca procent din cetatenii care nu au votat. Cu cat e mai mic, cu atat era mai usor de schimbat rezultatul.</p>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-100 text-gray-700 text-left">
+            <tr className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-left">
               <th className="px-3 py-2.5 font-medium">Judet</th>
               <th className="px-3 py-2.5 font-medium">Castigator</th>
               <th className="px-3 py-2.5 text-right font-medium">Voturi</th>
               <th className="px-3 py-2.5 font-medium">Locul 2</th>
               <th className="px-3 py-2.5 text-right font-medium">Voturi</th>
-              <th className="px-3 py-2.5 text-right font-medium bg-yellow-50">Diferenta</th>
+              <th className="px-3 py-2.5 text-right font-medium bg-yellow-50 dark:bg-yellow-900/20">Diferenta</th>
               <th className="px-3 py-2.5 text-right font-medium hidden md:table-cell">% Elig.</th>
               <th className="px-3 py-2.5 text-right font-medium hidden md:table-cell">% Absenti</th>
               <th className="px-3 py-2.5 text-right font-medium hidden lg:table-cell">Eligibili</th>
               <th className="px-3 py-2.5 text-right font-medium hidden lg:table-cell">Prezenta</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
             {data.results.map((r) => (
-              <tr key={r.judet} className="bg-white hover:bg-blue-50/40">
-                <td className="px-3 py-2.5 font-medium text-gray-900">{r.judet}</td>
+              <tr key={r.judet} className="bg-white dark:bg-gray-900 hover:bg-blue-50/40 dark:hover:bg-gray-800/50">
+                <td className="px-3 py-2.5 font-medium text-gray-900 dark:text-white">{r.judet}</td>
                 <td className="px-3 py-2.5">
                   <div className="flex items-center gap-1.5">
                     <PartyBadge abbrev={r.firstAbbrev} color={r.firstColor} />
-                    <span className="text-gray-900 truncate max-w-[160px]">{formatCandName(r.firstCand)}</span>
+                    <span className="text-gray-900 dark:text-white truncate max-w-[160px]">{formatCandName(r.firstCand)}</span>
                   </div>
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums font-medium text-gray-800">{fmtNum(r.firstVotes)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums font-medium text-gray-800 dark:text-gray-100">{fmtNum(r.firstVotes)}</td>
                 <td className="px-3 py-2.5">
                   <div className="flex items-center gap-1.5">
                     <PartyBadge abbrev={r.secondAbbrev} color={r.secondColor} />
-                    <span className="text-gray-700 truncate max-w-[160px]">{formatCandName(r.secondCand)}</span>
+                    <span className="text-gray-700 dark:text-gray-300 truncate max-w-[160px]">{formatCandName(r.secondCand)}</span>
                   </div>
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-700">{fmtNum(r.secondVotes)}</td>
-                <td className={`px-3 py-2.5 text-right tabular-nums font-bold bg-yellow-50 ${
-                  r.margin <= 5000 ? "text-red-700" : r.margin <= 20000 ? "text-amber-700" : "text-gray-900"
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-700 dark:text-gray-300">{fmtNum(r.secondVotes)}</td>
+                <td className={`px-3 py-2.5 text-right tabular-nums font-bold bg-yellow-50 dark:bg-yellow-900/20 ${
+                  r.margin <= 5000 ? "text-red-700 dark:text-red-400" : r.margin <= 20000 ? "text-amber-700 dark:text-amber-400" : "text-gray-900 dark:text-white"
                 }`}>
                   {fmtNum(r.margin)}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden md:table-cell">{fmtPct(r.marginPctElig)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 hidden md:table-cell">{fmtPct(r.marginPctNonVoters)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-500 hidden lg:table-cell">{fmtNum(r.eligible)}</td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-gray-500 hidden lg:table-cell">{r.prezenta}%</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 dark:text-gray-400 hidden md:table-cell">{fmtPct(r.marginPctElig)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-600 dark:text-gray-400 hidden md:table-cell">{fmtPct(r.marginPctNonVoters)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-500 dark:text-gray-400 hidden lg:table-cell">{fmtNum(r.eligible)}</td>
+                <td className="px-3 py-2.5 text-right tabular-nums text-gray-500 dark:text-gray-400 hidden lg:table-cell">{r.prezenta}%</td>
               </tr>
             ))}
           </tbody>
