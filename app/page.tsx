@@ -53,9 +53,9 @@ export default function Home() {
           <Image
             src="/assets/implicare_civica_logo.png"
             alt="Implicare Civică"
-            width={180}
-            height={180}
-            className="hero-stagger hero-delay-1 mx-auto mb-10 w-32 md:w-40 h-auto drop-shadow-lg"
+            width={450}
+            height={450}
+            className="hero-stagger hero-delay-1 mx-auto mb-10 w-80 md:w-[400px] h-auto drop-shadow-lg"
             priority
           />
           <h1 className="hero-stagger hero-delay-2 text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-[1.1] tracking-tight">
