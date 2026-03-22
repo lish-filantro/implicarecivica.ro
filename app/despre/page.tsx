@@ -74,28 +74,28 @@ export default function DesprePage() {
           </div>
 
           {/* Argumente din alegeri */}
-          <div className="mt-8 rounded-xl border border-civic-blue-200 dark:border-civic-blue-800 bg-civic-blue-50/50 dark:bg-civic-blue-950/30 p-5">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-civic-blue-600 dark:text-civic-blue-400 mb-3">
+          <div className="mt-8 rounded-xl border border-civic-blue-200 dark:border-blue-700/50 bg-civic-blue-50/50 dark:bg-gray-800 p-5">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-civic-blue-600 dark:text-blue-300 mb-3">
               Cât de mult contează fiecare vot la nivel local
             </h3>
             <div className="grid sm:grid-cols-3 gap-4 mb-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">1.596 <span className="text-base font-normal text-gray-500 dark:text-gray-400">din 3.052</span></div>
-                <div className="text-xs font-semibold text-civic-blue-600 dark:text-civic-blue-400">52,3%</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">primari câștigați cu sub 500 de voturi diferență</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">1.596 <span className="text-base font-normal text-gray-500 dark:text-gray-300">din 3.052</span></div>
+                <div className="text-xs font-semibold text-civic-blue-600 dark:text-blue-300">52,3%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">primari câștigați cu sub 500 de voturi diferență</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">378 <span className="text-base font-normal text-gray-500 dark:text-gray-400">din 3.052</span></div>
-                <div className="text-xs font-semibold text-civic-blue-600 dark:text-civic-blue-400">12,4%</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">primari decisi de sub 100 de voturi — mai puțin decât elevii unei școli</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">378 <span className="text-base font-normal text-gray-500 dark:text-gray-300">din 3.052</span></div>
+                <div className="text-xs font-semibold text-civic-blue-600 dark:text-blue-300">12,4%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">primari decisi de sub 100 de voturi — mai puțin decât elevii unei școli</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">25 <span className="text-base font-normal text-gray-500 dark:text-gray-400">din 3.052</span></div>
-                <div className="text-xs font-semibold text-civic-blue-600 dark:text-civic-blue-400">0,8%</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">localități unde sub 5 voturi au făcut diferența — o singură familie</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">25 <span className="text-base font-normal text-gray-500 dark:text-gray-300">din 3.052</span></div>
+                <div className="text-xs font-semibold text-civic-blue-600 dark:text-blue-300">0,8%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300 mt-1">localități unde sub 5 voturi au făcut diferența — o singură familie</div>
               </div>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
               La alegerile locale din iunie 2024, jumătate din primarii României au câștigat cu mai puțin de 500 de voturi. Asta înseamnă că un grup mic de cetățeni activi — care cer socoteală, care pun întrebări, care nu uită — poate influența direct cine conduce comunitatea. Presiunea civică nu e abstractă: într-o comună unde primarul a câștigat la limită, fiecare cerere de informații publice e un semnal că cineva urmărește.
             </p>
             <div className="mt-3">
