@@ -9,6 +9,7 @@ export interface Profile {
   notification_email: boolean;
   notification_deadline_days: number;
   theme: 'light' | 'dark' | 'system';
+  approved: boolean;
   created_at: string;
   updated_at: string;
 }

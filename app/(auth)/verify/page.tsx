@@ -91,8 +91,9 @@ export default function VerifyPage() {
       return
     }
 
-    // Success — user is now authenticated
-    router.push('/chat')
+    // Success — user is now authenticated, redirect to pending approval
+    // (middleware will redirect to dashboard if already approved)
+    router.push('/pending-approval')
     router.refresh()
   }
 

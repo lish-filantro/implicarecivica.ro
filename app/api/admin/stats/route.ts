@@ -25,6 +25,7 @@ export async function GET() {
     feedbackStatusRes,
     topInstitutionsRes,
     activeUsers30dRes,
+    pendingApprovalRes,
   ] = await Promise.all([
     // Total users
     supabase.from("profiles").select("*", { count: "exact", head: true }),
@@ -92,6 +93,12 @@ export async function GET() {
       .from("requests")
       .select("user_id")
       .gte("created_at", new Date(Date.now() - 30 * 86400000).toISOString()),
+
+    // Pending approval count
+    supabase
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .eq("approved", false),
   ]);
 
   // Aggregate daily signups into { day: count }
@@ -162,6 +169,7 @@ export async function GET() {
       new_7d: newUsers7dRes.count ?? 0,
       new_30d: newUsers30dRes.count ?? 0,
       active_30d: activeUserIds.size,
+      pending_approval: pendingApprovalRes.count ?? 0,
     },
     dailySignups: dailySignupsArray,
     activity: {

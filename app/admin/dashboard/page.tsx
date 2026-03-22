@@ -9,6 +9,7 @@ interface StatsData {
     new_7d: number;
     new_30d: number;
     active_30d: number;
+    pending_approval: number;
   };
   dailySignups: { day: string; count: number }[];
   activity: {
@@ -21,6 +22,15 @@ interface StatsData {
   requestStatus: Record<string, number>;
   feedbackStatus: Record<string, number>;
   topInstitutions: { name: string; total: number; answered: number }[];
+}
+
+interface PendingUser {
+  id: string;
+  email: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  display_name: string | null;
+  created_at: string;
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -37,9 +47,23 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<StatsData | null>(null);
+  const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
   const router = useRouter();
+
+  const loadPendingUsers = async () => {
+    try {
+      const res = await fetch('/api/admin/users/pending');
+      if (res.ok) {
+        const data = await res.json();
+        setPendingUsers(data.users || []);
+      }
+    } catch (err) {
+      console.error('Failed to load pending users:', err);
+    }
+  };
 
   useEffect(() => {
     async function load() {
@@ -52,6 +76,7 @@ export default function AdminDashboardPage() {
         if (!res.ok) throw new Error('Failed to load stats');
         const data = await res.json();
         setStats(data);
+        await loadPendingUsers();
       } catch (err) {
         console.error('Admin stats error:', err);
         setError('Nu am putut încărca statisticile.');
@@ -61,6 +86,43 @@ export default function AdminDashboardPage() {
     }
     load();
   }, [router]);
+
+  const handleApprove = async (userId: string) => {
+    setActionLoading(userId);
+    try {
+      const res = await fetch('/api/admin/users/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+      if (res.ok) {
+        setPendingUsers((prev) => prev.filter((u) => u.id !== userId));
+      }
+    } catch (err) {
+      console.error('Approve error:', err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleReject = async (userId: string) => {
+    if (!confirm('Ești sigur că vrei să ștergi acest cont? Acțiunea este ireversibilă.')) return;
+    setActionLoading(userId);
+    try {
+      const res = await fetch('/api/admin/users/reject', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+      if (res.ok) {
+        setPendingUsers((prev) => prev.filter((u) => u.id !== userId));
+      }
+    } catch (err) {
+      console.error('Reject error:', err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -94,7 +156,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
           <KPICard
             title="Total conturi"
             value={stats.users.total}
@@ -115,7 +177,77 @@ export default function AdminDashboardPage() {
             value={stats.users.active_30d}
             color="amber"
           />
+          <KPICard
+            title="În așteptare aprobare"
+            value={stats.users.pending_approval}
+            color="rose"
+          />
         </div>
+
+        {/* Pending Accounts */}
+        {pendingUsers.length > 0 && (
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-amber-200 dark:border-amber-800 p-6 mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+              <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Conturi în așteptarea aprobării ({pendingUsers.length})
+              </h2>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-2 pr-4 font-medium text-gray-500 dark:text-gray-400">Nume</th>
+                    <th className="text-left py-2 pr-4 font-medium text-gray-500 dark:text-gray-400">Email</th>
+                    <th className="text-left py-2 pr-4 font-medium text-gray-500 dark:text-gray-400">Data înregistrării</th>
+                    <th className="text-right py-2 font-medium text-gray-500 dark:text-gray-400">Acțiuni</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingUsers.map((user) => (
+                    <tr key={user.id} className="border-b border-gray-100 dark:border-gray-700/50 last:border-0">
+                      <td className="py-3 pr-4 text-gray-900 dark:text-gray-100 font-medium">
+                        {user.first_name || user.last_name
+                          ? `${user.first_name || ''} ${user.last_name || ''}`.trim()
+                          : user.display_name || '—'}
+                      </td>
+                      <td className="py-3 pr-4 text-gray-600 dark:text-gray-400">
+                        {user.email || '—'}
+                      </td>
+                      <td className="py-3 pr-4 text-gray-600 dark:text-gray-400">
+                        {new Date(user.created_at).toLocaleDateString('ro-RO', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </td>
+                      <td className="py-3 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleApprove(user.id)}
+                            disabled={actionLoading === user.id}
+                            className="px-3 py-1.5 text-xs font-medium rounded-lg bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:hover:bg-emerald-500/30 disabled:opacity-50 transition-colors"
+                          >
+                            {actionLoading === user.id ? '...' : 'Aprobă'}
+                          </button>
+                          <button
+                            onClick={() => handleReject(user.id)}
+                            disabled={actionLoading === user.id}
+                            className="px-3 py-1.5 text-xs font-medium rounded-lg bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-500/20 dark:text-red-300 dark:hover:bg-red-500/30 disabled:opacity-50 transition-colors"
+                          >
+                            Respinge
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         {/* Daily Signups Chart */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 mb-8">
@@ -278,6 +410,7 @@ function KPICard({ title, value, color }: { title: string; value: number; color:
     emerald: 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20',
     indigo: 'border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20',
     amber: 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20',
+    rose: 'border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/20',
   };
 
   const valueColorMap: Record<string, string> = {
@@ -285,6 +418,7 @@ function KPICard({ title, value, color }: { title: string; value: number; color:
     emerald: 'text-emerald-700 dark:text-emerald-300',
     indigo: 'text-indigo-700 dark:text-indigo-300',
     amber: 'text-amber-700 dark:text-amber-300',
+    rose: 'text-rose-700 dark:text-rose-300',
   };
 
   return (

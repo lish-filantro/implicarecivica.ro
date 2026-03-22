@@ -75,6 +75,25 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Check if approved user (for protected routes, excluding pending-approval page itself)
+  const isPendingPage = request.nextUrl.pathname === '/pending-approval'
+  if (user && (isProtectedRoute || isPendingPage)) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('approved')
+      .eq('id', user.id)
+      .single()
+
+    if (profile && !profile.approved && !isPendingPage) {
+      // Unapproved user trying to access protected route
+      return NextResponse.redirect(new URL('/pending-approval', request.url))
+    }
+    if (profile?.approved && isPendingPage) {
+      // Approved user on pending page — send to dashboard
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
+
   if (isAuthRoute && !isPasswordConfirm && user) {
     // Redirect to dashboard if accessing auth route while logged in
     const url = request.nextUrl.clone()
