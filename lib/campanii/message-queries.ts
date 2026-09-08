@@ -1,5 +1,5 @@
 import type { CampaignMessage } from "@/lib/campanii/types/campaign-message";
-import { createServiceClient } from "@/lib/supabase/service";
+import { createServiceClient } from "@m544/shared/db/clients";
 
 export async function getCampaignMessages(
   campaignId: string,

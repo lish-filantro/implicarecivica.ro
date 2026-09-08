@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/components/auth/AuthProvider';
+import { useAuth } from '@m544/ui/auth/AuthProvider';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 import { useProfileSettings } from '@m544/ui/settings/useProfileSettings';
 import StatusMessage from '@m544/ui/settings/StatusMessage';

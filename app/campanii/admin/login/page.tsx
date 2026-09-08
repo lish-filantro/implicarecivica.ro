@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { createBrowserClient as createClient } from "@m544/shared/db/browser-client";
 import { Lock } from "lucide-react";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 

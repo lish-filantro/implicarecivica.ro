@@ -62,3 +62,7 @@ next-env.d.ts
 
 # superpowers git worktrees
 .worktrees/
+
+# local dev server logs
+server.log
+*.log

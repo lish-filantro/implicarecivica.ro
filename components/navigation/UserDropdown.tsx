@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Settings, LogOut, ChevronDown } from 'lucide-react';
-import { useAuth } from '@/components/auth/AuthProvider';
+import { useAuth } from '@m544/ui/auth/AuthProvider';
 
 function getInitials(email: string | undefined): string {
   if (!email) return '?';

@@ -1,5 +1,5 @@
 import type { Campaign, CampaignStatus } from "@/lib/campanii/types/campaign";
-import { createServiceClient } from "@/lib/supabase/service";
+import { createServiceClient } from "@m544/shared/db/clients";
 
 export async function getCampaignBySlug(slug: string): Promise<Campaign | null> {
   const supabase = createServiceClient();

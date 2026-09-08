@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from '@/components/auth/AuthProvider'
+import { useAuth } from '@m544/ui/auth/AuthProvider'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { createBrowserClient as createClient } from '@m544/shared/db/browser-client'

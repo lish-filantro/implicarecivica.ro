@@ -1,4 +1,4 @@
-import { createServiceClient } from "@/lib/supabase/service";
+import { createServiceClient } from "@m544/shared/db/clients";
 
 const MAX_PARTICIPATIONS_PER_IP = 3;
 const WINDOW_HOURS = 24;

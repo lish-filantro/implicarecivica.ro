@@ -1,6 +1,6 @@
 # Refactor manager 544 — design
 
-Stare: PROPUNERE, așteaptă aprobare. Data: 2026-09-08. Baseline: commit `31cf945` pe `main`.
+Stare: IMPLEMENTAT pe branch-ul `refactor/manager-544` (2026-09-08). Baseline: commit `31cf945` pe `main`. Plan: `2026-09-08-manager-544-refactor-plan.md`; îmbunătățiri propuse: `2026-09-08-manager-544-improvements.md`.
 
 ## 1. Scop
 

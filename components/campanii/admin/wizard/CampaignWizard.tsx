@@ -2,7 +2,7 @@
 
 import type { Campaign, CampaignRecipient } from "@/lib/campanii/types/campaign";
 import { useCampaignWizard } from "@/lib/hooks/useCampaignWizard";
-import { StepperBar } from "@/components/requests/StepperBar";
+import { StepperBar } from "@m544/ui/requests/wizard/StepperBar";
 import { StepCauza } from "./StepCauza";
 import { StepEmail } from "./StepEmail";
 import { StepPreview } from "./StepPreview";

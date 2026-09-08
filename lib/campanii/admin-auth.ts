@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient as createClient } from "@m544/shared/db/clients";
 
 export async function verifyAdminSession(): Promise<boolean> {
   try {

@@ -1,4 +1,4 @@
-// Compatibility re-export — getResend moved to @m544/emails/resend-client (removed in refactor phase 6).
+// getResend lives in @m544/emails/resend-client; re-exported here for lib/campanii (out of the refactor scope).
 // EMAIL_DOMAIN stays here: it is only used by lib/campanii (out of the refactor scope).
 export { getResend } from '@m544/emails/resend-client';
 

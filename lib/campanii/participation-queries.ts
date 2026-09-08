@@ -1,5 +1,5 @@
 import type { CampaignParticipation } from "@/lib/campanii/types/campaign";
-import { createServiceClient } from "@/lib/supabase/service";
+import { createServiceClient } from "@m544/shared/db/clients";
 
 export async function createParticipation(
   participation: Omit<CampaignParticipation, "id" | "confirmed_at" | "created_at">

@@ -10,8 +10,15 @@ import { FlatCompat } from '@eslint/eslintrc';
 
 const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
 
-/** Paths outside the manager-544 refactor scope (campanii + public content) */
+/** Paths outside the manager-544 refactor scope (campanii + public content pages) */
 const OUT_OF_SCOPE = [
+  'app/page.tsx',
+  'app/despre/**',
+  'app/contact/**',
+  'app/politica-cookies/**',
+  'app/institutii/**',
+  'lib/institutii.ts',
+  'lib/institutii-search.ts',
   'app/campanii/**',
   'app/api/campanii/**',
   'components/campanii/**',
@@ -24,7 +31,7 @@ const OUT_OF_SCOPE = [
   'app/design-demo/**',
 ];
 
-export default [
+const config = [
   {
     ignores: [
       'node_modules/**',
@@ -37,17 +44,22 @@ export default [
       'data/**',
       'public/**',
       'supabase/**',
-      'scripts/**', // dead legacy scripts, deleted in phase 7
+      'tools/**',
       'cloudflare-email-worker/**',
-      'cloudflare-worker-campanii/**',
     ],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
-    // Legacy application code in scope: the 200-line cap is reported as a warning
-    // until phase 7 of the refactor moves everything under src/ (then it becomes an error).
+    // Application code in scope (manager 544): hard cap on file length.
     files: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}', 'lib/**/*.{ts,tsx}', 'middleware.ts'],
     ignores: OUT_OF_SCOPE,
+    rules: {
+      'max-lines': ['error', { max: 200, skipBlankLines: true, skipComments: true }],
+    },
+  },
+  {
+    // Out-of-scope public pages: report the cap, do not block
+    files: OUT_OF_SCOPE,
     rules: {
       'max-lines': ['warn', { max: 200, skipBlankLines: true, skipComments: true }],
     },
@@ -81,3 +93,5 @@ export default [
     },
   },
 ];
+
+export default config;
