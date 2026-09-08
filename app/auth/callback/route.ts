@@ -1,19 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+/**
+ * GET /auth/callback — Supabase PKCE code exchange, then redirect to `next`
+ * (same-origin paths only). Implementation: src/manager-544/shared/auth/callback.
+ */
+import { createAuthCallbackHandler } from '@m544/shared/auth/callback';
 
-export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
-  const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/chat'
-
-  if (code) {
-    const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
-    }
-  }
-
-  // Auth error — redirect to login with error
-  return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`)
-}
+export const GET = createAuthCallbackHandler();
