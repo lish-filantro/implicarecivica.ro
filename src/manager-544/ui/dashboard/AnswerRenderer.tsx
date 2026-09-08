@@ -4,7 +4,7 @@
  * Supports both structured JSON and legacy string formats
  */
 
-import type { AnswerSummary } from '@/lib/types/request';
+import type { AnswerSummary } from '@m544/shared/types/request';
 
 interface AnswerRendererProps {
   summary: AnswerSummary | undefined;

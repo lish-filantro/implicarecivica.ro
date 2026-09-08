@@ -1,6 +1,6 @@
 'use client';
 
-import type { Request } from '@/lib/types/request';
+import type { Request } from '@m544/shared/types/request';
 import { AnswerRenderer } from './AnswerRenderer';
 import {
   getRequestQuestion,
@@ -8,7 +8,7 @@ import {
   getEffectiveDeadline,
   getDaysUntilDeadline,
   isOverdueRequest,
-} from '@/lib/utils/requestUtils';
+} from '@m544/requests/utils';
 
 interface SessionRequestItemProps {
   request: Request;

@@ -8,7 +8,7 @@
 
 import { ReactNode } from 'react';
 
-interface KPICardProps {
+export interface KPICardProps {
   id: string;
   title: string;
   value: number;
@@ -24,7 +24,7 @@ interface KPICardProps {
 }
 
 export function KPICard({
-  id,
+  id: _id,
   title,
   value,
   subtitle,

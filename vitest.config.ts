@@ -2,6 +2,8 @@ import { defineConfig } from 'vitest/config';
 import path from 'path';
 
 export default defineConfig({
+  // React components under test use the automatic JSX runtime (no React import)
+  esbuild: { jsx: 'automatic' },
   resolve: {
     alias: {
       '@m544': path.resolve(__dirname, 'src/manager-544'),
@@ -17,6 +19,6 @@ export default defineConfig({
     // Run test suites sequentially (shared DB state)
     sequence: { concurrent: false },
     fileParallelism: false,
-    include: ['tests/**/*.test.ts'],
+    include: ['tests/**/*.test.{ts,tsx}'],
   },
 });

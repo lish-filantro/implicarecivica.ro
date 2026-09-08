@@ -3,15 +3,15 @@
 import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
-import type { RequestSessionWithRequests } from '@/lib/types/session';
+import type { RequestSessionWithRequests } from '@m544/shared/types/session';
 import { SessionRequestItem } from './SessionRequestItem';
 import {
   getSessionStatusLabel,
   getSessionStatusColor,
   getSessionProgress,
   getSessionDaysUntilDeadline,
-} from '@/lib/utils/sessionUtils';
-import { exportSessionToCsv } from '@/lib/utils/exportCsv';
+} from '@m544/requests/utils/session-stats';
+import { exportSessionToCsv } from '@m544/requests/export-csv';
 
 interface SessionDetailModalProps {
   session: RequestSessionWithRequests;
