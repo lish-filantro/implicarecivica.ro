@@ -6,8 +6,11 @@
   "nume_scurt": "Transport Public {LOCALITATE}",
   "aplicabilitate": "Municipii și orașe — operatori de transport public local",
   "template_pattern": {
+    "nume_format": "Serviciul de Transport Public {LOCALITATE}",
     "variante": "Regie de Transport / Societate de Transport Public / STB / CTP / RATB / operator delegat",
-    "coordonate_variabile": ["localitate"]
+    "coordonate_variabile": [
+      "localitate"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea nr. 92/2007 a serviciilor publice de transport persoane în unitățile administrativ-teritoriale",
@@ -28,33 +31,68 @@
   ],
   "keywords_cautare": {
     "termeni_oficiali": [
-      "transport public local", "operator de transport", "regie de transport",
-      "societate de transport public", "serviciu de mobilitate urbană"
+      "transport public local",
+      "operator de transport",
+      "regie de transport",
+      "societate de transport public",
+      "serviciu de mobilitate urbană"
     ],
     "termeni_populari": [
-      "autobuz", "tramvai", "troleibuz", "stb", "ratb", "ctp",
-      "transport in comun", "abonament autobuz", "bilet autobuz",
+      "autobuz",
+      "tramvai",
+      "troleibuz",
+      "stb",
+      "ratb",
+      "ctp",
+      "transport in comun",
+      "abonament autobuz",
+      "bilet autobuz",
       "metrou ușor"
     ],
     "probleme_cetatean": [
-      "orar autobuz", "când vine autobuzul", "traseu autobuz",
-      "abonament transport", "cât costă abonamentul",
-      "bilet transport public", "unde cumpăr bilet",
-      "card transport", "reîncărcare card",
-      "autobuz întârziat", "autobuz anulat",
-      "stație nouă", "modificare traseu",
-      "transport noapte", "program weekend",
-      "accesibilitate handicap", "rampă scaun rulant",
-      "reclamație transport", "condiții autobuz"
+      "orar autobuz",
+      "când vine autobuzul",
+      "traseu autobuz",
+      "abonament transport",
+      "cât costă abonamentul",
+      "bilet transport public",
+      "unde cumpăr bilet",
+      "card transport",
+      "reîncărcare card",
+      "autobuz întârziat",
+      "autobuz anulat",
+      "stație nouă",
+      "modificare traseu",
+      "transport noapte",
+      "program weekend",
+      "accesibilitate handicap",
+      "rampă scaun rulant",
+      "reclamație transport",
+      "condiții autobuz"
     ],
     "domenii_semantice": [
-      "transport", "autobuz", "tramvai", "troleibuz",
-      "călătorie", "bilet", "abonament", "card",
-      "traseu", "orar", "stație", "linie",
-      "flotă", "vehicul", "călător", "mobilitate"
+      "transport",
+      "autobuz",
+      "tramvai",
+      "troleibuz",
+      "călătorie",
+      "bilet",
+      "abonament",
+      "card",
+      "traseu",
+      "orar",
+      "stație",
+      "linie",
+      "flotă",
+      "vehicul",
+      "călător",
+      "mobilitate"
     ],
     "termeni_gresiti": [
-      "transportul public", "ratb", "autobus", "tramvaiu"
+      "transportul public",
+      "ratb",
+      "autobus",
+      "tramvaiu"
     ],
     "contexte_situationale": [
       "care e orarul autobuzului pe linia mea",

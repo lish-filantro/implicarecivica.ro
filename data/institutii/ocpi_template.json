@@ -5,7 +5,10 @@
   "nume_oficial": "Oficiul de Cadastru și Publicitate Imobiliară {JUDET}",
   "aplicabilitate": "Toate cele 41 județe + București",
   "template_pattern": {
-    "coordonate_variabile": ["judet"]
+    "nume_format": "Oficiul de Cadastru și Publicitate Imobiliară {JUDET}",
+    "coordonate_variabile": [
+      "judet"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea 7/1996 privind cadastrul și publicitatea imobiliară",

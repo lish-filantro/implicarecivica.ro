@@ -2,132 +2,25 @@
 
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-
-interface SearchEntry {
-  slug: string
-  numeScurt: string
-  numeOficial: string
-  haystack: string
-  words: string[]
-}
+import { useRouter } from 'next/navigation'
+import type { SearchEntry } from '@/lib/institutii'
+import { searchEntries } from '@/lib/institutii-search'
 
 interface Props {
   index: SearchEntry[]
 }
 
-/** Strip diacritics and lowercase */
-function normalize(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/[ăâ]/g, 'a')
-    .replace(/[îï]/g, 'i')
-    .replace(/[șş]/g, 's')
-    .replace(/[țţ]/g, 't')
-}
-
-/**
- * Edit distance between two short strings (Levenshtein).
- * Bails out early if distance exceeds maxDist.
- */
-function editDistance(a: string, b: string, maxDist: number): number {
-  if (Math.abs(a.length - b.length) > maxDist) return maxDist + 1
-  const m = a.length
-  const n = b.length
-  // Single-row DP
-  const row = Array.from({ length: n + 1 }, (_, i) => i)
-  for (let i = 1; i <= m; i++) {
-    let prev = i - 1
-    row[0] = i
-    let rowMin = i
-    for (let j = 1; j <= n; j++) {
-      const cost = a[i - 1] === b[j - 1] ? 0 : 1
-      const val = Math.min(row[j] + 1, row[j - 1] + 1, prev + cost)
-      prev = row[j]
-      row[j] = val
-      if (val < rowMin) rowMin = val
-    }
-    if (rowMin > maxDist) return maxDist + 1
-  }
-  return row[n]
-}
-
-/** Max allowed edit distance based on word length */
-function maxTypos(len: number): number {
-  if (len <= 3) return 0
-  if (len <= 4) return 1
-  return 2
-}
-
-/**
- * Score a query word against an entry.
- * Returns 0 (no match) or a positive score.
- */
-function scoreWord(
-  qWord: string,
-  entry: SearchEntry,
-  normName: string
-): number {
-  // 1. Exact substring in full haystack — best signal
-  if (entry.haystack.includes(qWord)) {
-    return normName.includes(qWord) ? 7 : 3
-  }
-
-  // 2. Fuzzy: find the closest word in the entry's word list
-  const allowed = maxTypos(qWord.length)
-  if (allowed === 0) return 0
-
-  let bestDist = allowed + 1
-  for (const w of entry.words) {
-    // Only compare words of similar length
-    if (Math.abs(w.length - qWord.length) > allowed) continue
-    const d = editDistance(qWord, w, allowed)
-    if (d < bestDist) bestDist = d
-    if (d <= 1) break // good enough, stop early
-  }
-
-  if (bestDist <= allowed) {
-    const fuzzyScore = 2 - bestDist * 0.5 // 2 for dist=0 (shouldn't happen), 1.5 for dist=1, 1 for dist=2
-    // Check if fuzzy match is in the name
-    const nameWords = normName.split(/[^a-z]+/).filter(w => w.length >= 3)
-    for (const nw of nameWords) {
-      if (Math.abs(nw.length - qWord.length) <= allowed) {
-        if (editDistance(qWord, nw, allowed) <= allowed) {
-          return fuzzyScore + 3
-        }
-      }
-    }
-    return fuzzyScore
-  }
-
-  return 0
-}
-
 export function CautareInstitutii({ index }: Props) {
+  const router = useRouter()
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
   const ref = useRef<HTMLDivElement>(null)
 
-  const results = useMemo(() => {
-    if (query.length < 2) return []
-    const qWords = normalize(query).split(/\s+/).filter(w => w.length >= 2)
-    if (qWords.length === 0) return []
-
-    const scored = index.map(entry => {
-      const normName = normalize(entry.numeScurt + ' ' + entry.numeOficial)
-      let total = 0
-      for (const qw of qWords) {
-        total += scoreWord(qw, entry, normName)
-      }
-      return { entry, score: total }
-    })
-
-    return scored
-      .filter(s => s.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 8)
-      .map(s => s.entry)
-  }, [query, index])
+  const results = useMemo(
+    () => searchEntries(index, query, 8).map(s => s.entry),
+    [query, index]
+  )
 
   useEffect(() => setActiveIdx(-1), [results])
 
@@ -151,12 +44,12 @@ export function CautareInstitutii({ index }: Props) {
       } else if (e.key === 'Enter' && activeIdx >= 0) {
         e.preventDefault()
         const entry = results[activeIdx]
-        window.location.href = `/institutii/${entry.slug}`
+        router.push(`/institutii/${entry.slug}`)
       } else if (e.key === 'Escape') {
         setOpen(false)
       }
     },
-    [open, results, activeIdx]
+    [open, results, activeIdx, router]
   )
 
   return (

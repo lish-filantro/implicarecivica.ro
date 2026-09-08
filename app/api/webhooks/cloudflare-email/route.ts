@@ -207,20 +207,6 @@ export async function POST(request: NextRequest) {
 
     console.log(`[CF Email] Received: from=${from}, to=${to}, subject=${subject}, r2=${r2_key}, size=${raw_size}`);
 
-    // Fetch raw email from R2
-    const rawBuffer = await fetchFromR2(r2_key);
-    console.log(`[CF Email] Fetched ${rawBuffer.byteLength} bytes from R2`);
-
-    // Parse raw MIME email
-    const parser = new PostalMime();
-    const parsed = await parser.parse(rawBuffer);
-    const body = parsed.html || parsed.text || '';
-    const parsedAttachments = (parsed.attachments || []).map((att) => ({
-      filename: att.filename || 'attachment',
-      mimeType: att.mimeType || 'application/octet-stream',
-      content: new Uint8Array(att.content as ArrayBuffer),
-    }));
-
     // Use service role to bypass RLS
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -243,7 +229,7 @@ export async function POST(request: NextRequest) {
       const cleanSubject = (subject || '').replace(/^(Re|Fwd|FW|RE):\s*/gi, '').trim();
 
       if (cleanSubject === matchedCampaign.email_subject) {
-        // Subject matches campaign template → count as confirmed participation
+        // Subject matches campaign template → count as confirmed participation (no need to download body)
         console.log(`[CF Email] Campaign counting: campaign=${matchedCampaign.id}, from=${extractEmail(from)}`);
         await confirmParticipation(matchedCampaign.id, extractEmail(from));
 
@@ -254,11 +240,11 @@ export async function POST(request: NextRequest) {
         console.log(`[CF Email] Campaign message: campaign=${matchedCampaign.id}, subject="${subject}"`);
 
         const rawBuffer = await fetchFromR2(r2_key);
+        console.log(`[CF Email] Fetched ${rawBuffer.byteLength} bytes from R2 for campaign message`);
         const parser = new PostalMime();
         const parsed = await parser.parse(rawBuffer);
         const messageBody = parsed.html || parsed.text || '';
 
-        // Save campaign attachments
         const parsedAtts = (parsed.attachments || []).map((att) => ({
           filename: att.filename || 'attachment',
           mimeType: att.mimeType || 'application/octet-stream',
@@ -287,6 +273,20 @@ export async function POST(request: NextRequest) {
     }
 
     // --- USER EMAIL FLOW ---
+    // Fetch raw email from R2 (only needed for user emails)
+    const rawBuffer = await fetchFromR2(r2_key);
+    console.log(`[CF Email] Fetched ${rawBuffer.byteLength} bytes from R2`);
+
+    // Parse raw MIME email
+    const parser = new PostalMime();
+    const parsed = await parser.parse(rawBuffer);
+    const body = parsed.html || parsed.text || '';
+    const parsedAttachments = (parsed.attachments || []).map((att) => ({
+      filename: att.filename || 'attachment',
+      mimeType: att.mimeType || 'application/octet-stream',
+      content: new Uint8Array(att.content as ArrayBuffer),
+    }));
+
     // Find user by mailcow_email
     const { data: matchedProfile } = await supabase
       .from('profiles')

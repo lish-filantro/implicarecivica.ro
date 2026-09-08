@@ -6,8 +6,11 @@
   "nume_scurt": "DS {JUDET}",
   "aplicabilitate": "Județean — administrarea fondului forestier de stat",
   "template_pattern": {
+    "nume_format": "Direcția Silvică {JUDET}",
     "variante": "Direcție Silvică / Ocol Silvic de Stat",
-    "coordonate_variabile": ["judet"]
+    "coordonate_variabile": [
+      "judet"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Codul silvic — Legea nr. 46/2008 (republicat)",
@@ -27,28 +30,56 @@
   ],
   "keywords_cautare": {
     "termeni_oficiali": [
-      "direcție silvică", "ocol silvic", "Romsilva",
-      "fond forestier", "administrare pădure"
+      "direcție silvică",
+      "ocol silvic",
+      "Romsilva",
+      "fond forestier",
+      "administrare pădure"
     ],
     "termeni_populari": [
-      "padure", "paduri", "silvic", "romsilva", "lemn",
-      "taiere padure", "lemne foc", "vanatoare"
+      "padure",
+      "paduri",
+      "silvic",
+      "romsilva",
+      "lemn",
+      "taiere padure",
+      "lemne foc",
+      "vanatoare"
     ],
     "probleme_cetatean": [
-      "tăiere ilegală pădure", "defrișare", "lemne de foc",
-      "preț lemne", "cumpăr lemne de la stat",
-      "permis vânătoare", "fond cinegetic",
-      "drum forestier blocat", "acces pădure",
-      "împădurire", "plantare copaci",
-      "reclamație tăiere pădure", "pădure distrusă"
+      "tăiere ilegală pădure",
+      "defrișare",
+      "lemne de foc",
+      "preț lemne",
+      "cumpăr lemne de la stat",
+      "permis vânătoare",
+      "fond cinegetic",
+      "drum forestier blocat",
+      "acces pădure",
+      "împădurire",
+      "plantare copaci",
+      "reclamație tăiere pădure",
+      "pădure distrusă"
     ],
     "domenii_semantice": [
-      "pădure", "silvic", "lemn", "arbore", "copac",
-      "exploatare", "defrișare", "împădurire", "regenerare",
-      "cinegetic", "vânătoare", "fond forestier", "ocol"
+      "pădure",
+      "silvic",
+      "lemn",
+      "arbore",
+      "copac",
+      "exploatare",
+      "defrișare",
+      "împădurire",
+      "regenerare",
+      "cinegetic",
+      "vânătoare",
+      "fond forestier",
+      "ocol"
     ],
     "termeni_gresiti": [
-      "romsilva", "directia silvica", "ocolul silvic"
+      "romsilva",
+      "directia silvica",
+      "ocolul silvic"
     ],
     "contexte_situationale": [
       "vreau să cumpăr lemne de foc de la stat",

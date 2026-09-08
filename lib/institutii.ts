@@ -42,6 +42,13 @@ export interface Institutie {
   }
   procedura_544?: Procedura544
   keywords_cautare?: KeywordsCautare
+  /** For template institutions: how to build the concrete name/email for a locality/county */
+  template_pattern?: {
+    nume_format?: string
+    email_format?: string
+    site_format?: string
+    [key: string]: unknown
+  }
   is_template: boolean
   nivel_categorie: 'National' | 'Județean' | 'Local'
 }
@@ -69,7 +76,9 @@ export function getAllInstitutii(): Institutie[] {
     .map(file => {
       const raw = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf-8'))
       const id: string = raw.id
-      const isTemplate = id.includes('TEMPLATE')
+      // Templates are either marked in the id or carry a {PLACEHOLDER} in the official name
+      // (e.g. IJSU_JUDETEAN → "Inspectoratul Județean pentru Situații de Urgență {JUDET}")
+      const isTemplate = id.includes('TEMPLATE') || /\{[A-Za-z_/ăâîșț]+\}/.test(raw.nume_oficial || '')
 
       return {
         id,
@@ -90,6 +99,7 @@ export function getAllInstitutii(): Institutie[] {
         legislatie_baza: raw.legislatie_baza,
         procedura_544: raw.procedura_544,
         keywords_cautare: raw.keywords_cautare,
+        template_pattern: raw.template_pattern,
         is_template: isTemplate,
         nivel_categorie: categorizeNivel(raw.nivel),
       } satisfies Institutie

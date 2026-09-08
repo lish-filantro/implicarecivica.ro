@@ -97,7 +97,32 @@
       "schimbare nume",
       "cimitir local",
       "loc veci",
-      "monument funerar"
+      "monument funerar",
+      "groapă în asfalt",
+      "gropi în carosabil",
+      "asfaltare stradă",
+      "stradă neasfaltată",
+      "trotuar deteriorat",
+      "bordură spartă",
+      "iluminat public stradal",
+      "stâlp de iluminat defect",
+      "parc neîngrijit",
+      "spații verzi",
+      "loc de joacă deteriorat",
+      "câini fără stăpân",
+      "parcare",
+      "semafor defect",
+      "indicator rutier",
+      "marcaje rutiere",
+      "canalizare înfundată",
+      "inundații stradale",
+      "deszăpezire",
+      "zăpadă neridicată",
+      "drum comunal",
+      "pistă de biciclete",
+      "mobilier urban",
+      "bănci în parc",
+      "cimitir"
     ],
     "domenii_semantice": [
       "primărie",
@@ -127,7 +152,13 @@
       "parcuri",
       "dezvoltare locală",
       "investiții",
-      "licitații"
+      "licitații",
+      "drumuri locale",
+      "trotuare",
+      "asfalt",
+      "iluminat public",
+      "spații verzi",
+      "infrastructură locală"
     ],
     "termeni_gresiti": [
       "primaria orasului",
@@ -148,7 +179,12 @@
       "cum obțin ajutor social",
       "unde depun cerere locuință socială",
       "cine se ocupă de iluminatul public",
-      "unde sesizez câine maidanez"
+      "unde sesizez câine maidanez",
+      "cine repară groapa din stradă",
+      "unde reclam trotuarul spart",
+      "cine se ocupă de parcul din cartier",
+      "unde sesizez lipsa iluminatului public",
+      "cine asfaltează strada mea"
     ]
   },
   "cazuri_utilizare_544": [

@@ -6,8 +6,11 @@
   "nume_scurt": "Termoficare {LOCALITATE}",
   "aplicabilitate": "Municipii și orașe cu sistem centralizat de încălzire",
   "template_pattern": {
+    "nume_format": "Serviciul de Termoficare {LOCALITATE}",
     "variante": "Regie de Termoficare / Companie de Termoficare / RADET / Colterm / Operator delegat",
-    "coordonate_variabile": ["localitate"]
+    "coordonate_variabile": [
+      "localitate"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea nr. 325/2006 a serviciului public de alimentare cu energie termică",
@@ -27,30 +30,57 @@
   ],
   "keywords_cautare": {
     "termeni_oficiali": [
-      "serviciu de termoficare", "alimentare cu energie termică",
-      "operator de termoficare", "sistem centralizat de încălzire"
+      "serviciu de termoficare",
+      "alimentare cu energie termică",
+      "operator de termoficare",
+      "sistem centralizat de încălzire"
     ],
     "termeni_populari": [
-      "termoficare", "calorifer", "caldura", "apa calda",
-      "centrala termica", "incalzire", "radet"
+      "termoficare",
+      "calorifer",
+      "caldura",
+      "apa calda",
+      "centrala termica",
+      "incalzire",
+      "radet"
     ],
     "probleme_cetatean": [
-      "nu am căldură", "calorifer rece", "nu vine apa caldă",
-      "avarie termoficare", "țeavă spartă termoficare",
-      "factură termoficare", "cât costă gigacaloria",
-      "debranșare termoficare", "reconectare termoficare",
-      "când pornește căldura", "sezon încălzire",
-      "contor căldură", "repartitor costuri",
-      "ajutor încălzire", "subvenție termoficare"
+      "nu am căldură",
+      "calorifer rece",
+      "nu vine apa caldă",
+      "avarie termoficare",
+      "țeavă spartă termoficare",
+      "factură termoficare",
+      "cât costă gigacaloria",
+      "debranșare termoficare",
+      "reconectare termoficare",
+      "când pornește căldura",
+      "sezon încălzire",
+      "contor căldură",
+      "repartitor costuri",
+      "ajutor încălzire",
+      "subvenție termoficare"
     ],
     "domenii_semantice": [
-      "termoficare", "căldură", "încălzire", "calorifer",
-      "apă caldă", "energie termică", "gigacalorie",
-      "rețea", "centrală", "contor", "factură",
-      "sezon", "avarie", "debranșare"
+      "termoficare",
+      "căldură",
+      "încălzire",
+      "calorifer",
+      "apă caldă",
+      "energie termică",
+      "gigacalorie",
+      "rețea",
+      "centrală",
+      "contor",
+      "factură",
+      "sezon",
+      "avarie",
+      "debranșare"
     ],
     "termeni_gresiti": [
-      "termoficare", "caldura din calorifere", "apa calda de la stat"
+      "termoficare",
+      "caldura din calorifere",
+      "apa calda de la stat"
     ],
     "contexte_situationale": [
       "nu am căldură în apartament de două zile",

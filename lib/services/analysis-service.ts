@@ -23,6 +23,30 @@ function getMistralClient(): Mistral {
   return _client;
 }
 
+/**
+ * Retry transient Mistral failures (429 rate limit, 5xx) with exponential backoff.
+ * Free/low tiers allow ~1 request/second, so a burst of emails easily trips 429.
+ */
+async function withRetry<T>(fn: () => Promise<T>, attempts = 4): Promise<T> {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err: unknown) {
+      lastErr = err;
+      const status = (err as { statusCode?: number; status?: number }).statusCode
+        ?? (err as { status?: number }).status
+        ?? (/Status (\d{3})/.exec((err as Error).message || '')?.[1] ? Number(/Status (\d{3})/.exec((err as Error).message)![1]) : undefined);
+      const retryable = status === 429 || (status !== undefined && status >= 500);
+      if (!retryable || i === attempts - 1) throw err;
+      const delayMs = 1500 * 2 ** i;
+      console.warn(`[Analysis] Mistral ${status}, retry ${i + 1}/${attempts - 1} in ${delayMs}ms`);
+      await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+  throw lastErr;
+}
+
 export interface AnalysisResult {
   category: EmailCategory;
   registration_number: string | null;
@@ -92,15 +116,20 @@ export async function analyzeEmailContent(input: {
 
   const userMessage = parts.join('\n');
 
-  const response = await client.chat.complete({
-    model: MISTRAL_ANALYSIS_MODEL,
-    messages: [
-      { role: 'system', content: EMAIL_ANALYSIS_SYSTEM_PROMPT },
-      { role: 'user', content: userMessage },
-    ],
-    temperature: 0.1, // Low temperature for deterministic extraction
-    responseFormat: { type: 'json_object' },
-  });
+  // Model can be overridden per environment (e.g. a Mistral tier without access to mistral-large)
+  const model = process.env.MISTRAL_ANALYSIS_MODEL || MISTRAL_ANALYSIS_MODEL;
+
+  const response = await withRetry(() =>
+    client.chat.complete({
+      model,
+      messages: [
+        { role: 'system', content: EMAIL_ANALYSIS_SYSTEM_PROMPT },
+        { role: 'user', content: userMessage },
+      ],
+      temperature: 0.1, // Low temperature for deterministic extraction
+      responseFormat: { type: 'json_object' },
+    }),
+  );
 
   const rawContent = response.choices?.[0]?.message?.content;
   if (!rawContent || typeof rawContent !== 'string') {

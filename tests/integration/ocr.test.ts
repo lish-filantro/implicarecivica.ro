@@ -7,7 +7,7 @@
  * Cost: ~37 OCR API calls on first run (cached after)
  * Time: ~3-5 minutes
  */
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import { runOcrFromBytes } from '@/lib/services/ocr-service';

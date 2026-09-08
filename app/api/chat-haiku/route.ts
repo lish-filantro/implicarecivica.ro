@@ -1,8 +1,8 @@
 /**
- * Chat endpoint — Claude Haiku 4.5 + RAG (ChromaDB) + Web Search (native Anthropic)
+ * Chat endpoint — Claude Haiku 4.5 + institution knowledge base + Web Search (native Anthropic)
  *
  * Tools:
- *   - rag_search (custom)         → ChromaDB local / Supabase pgvector
+ *   - rag_search (custom)         → keyword search over data/institutii (lib/rag/institutii-rag)
  *   - web_search (server-side)    → Anthropic native (Brave Search), executat automat
  *
  * Endpoint: POST /api/chat-haiku
@@ -29,12 +29,8 @@ import {
   sanitizeOutput,
   getFallbackResponse,
 } from '@/lib/output-validation';
-import {
-  SupabaseVectorStore,
-  type SearchResult,
-} from '@/lib/rag/vector-store';
-import { createClient } from '@supabase/supabase-js';
-import OpenAI from 'openai';
+import { searchInstitutii, type RagInstitutionResult } from '@/lib/rag/institutii-rag';
+import { createClient as createSupabaseServerClient } from '@/lib/supabase/server';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // CONFIG
@@ -62,22 +58,32 @@ const getAnthropicClient = () => {
  */
 function buildTools(localitate?: string): Anthropic.Tool[] {
   return [
-    // Custom tool — we execute this ourselves via ChromaDB
+    // Custom tool — executed locally over the curated institution knowledge base
     {
       name: 'rag_search',
       description:
-        'Cauta in baza de cunostinte informatii relevante despre Legea 544/2001, institutii publice din Romania, atributii institutionale si proceduri de acces la informatii publice. Foloseste acest tool cand ai nevoie de context despre lege, cine e responsabil pentru ce, sau exemple de probleme similare.',
+        'Cauta in baza de cunostinte cu 86 de tipuri de institutii publice din Romania (ministere, agentii, primarii, consilii judetene, inspectorate, servicii locale). ' +
+        'Returneaza pentru fiecare institutie: atributii, exemple de cereri 544, contact pentru cereri 544, tipar de email/site si, pentru institutiile generice (primarie, ISJ, DSP etc.), cum se formeaza numele concret pentru localitatea/judetul dat. ' +
+        'Foloseste-l OBLIGATORIU la STEP_2 pentru a decide cine este responsabil pentru problema descrisa. Formuleaza query-ul cu termeni concreti despre problema (ex: "groapa asfalt strada", "drum judetean", "scoala incalzire", "poluare aer fabrica"), nu cu numele institutiei.',
       input_schema: {
         type: 'object' as const,
         properties: {
           query: {
             type: 'string',
             description:
-              'Interogare de cautare in limba romana (ex: "Primaria atributii drumuri locale")',
+              'Termeni de cautare in limba romana care descriu problema sau domeniul (ex: "gropi asfalt strada iluminat")',
           },
           top_k: {
             type: 'number',
             description: 'Numar de rezultate (default: 5, max: 10)',
+          },
+          localitate: {
+            type: 'string',
+            description: 'Localitatea din problema (ex: "Pitești"), daca e cunoscuta — completeaza tiparele de nume/email',
+          },
+          judet: {
+            type: 'string',
+            description: 'Judetul din problema (ex: "Argeș"), daca e cunoscut',
           },
         },
         required: ['query'],
@@ -99,28 +105,15 @@ function buildTools(localitate?: string): Anthropic.Tool[] {
 // RAG EXECUTOR (only custom tool — web search is automatic)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
-
-const vectorStore = new SupabaseVectorStore(supabase, async (text: string) => {
-  const res = await openai.embeddings.create({
-    model: 'text-embedding-ada-002',
-    input: text,
-  });
-  return res.data[0].embedding;
-});
-
-async function executeRagSearch(
+function executeRagSearch(
   query: string,
   topK = 5,
-): Promise<SearchResult[]> {
-  console.log(`  RAG search: "${query}" (top ${topK})`);
-  const results = await vectorStore.search(query, Math.min(topK, 10));
-  console.log(`  RAG returned ${results.length} results`);
+  localitate?: string,
+  judet?: string,
+): RagInstitutionResult[] {
+  console.log(`  RAG search: "${query}" (top ${topK}, loc=${localitate || '-'}, jud=${judet || '-'})`);
+  const results = searchInstitutii(query, { topK: Math.min(topK, 10), localitate, judet });
+  console.log(`  RAG returned ${results.length} results: ${results.map((r) => r.slug).join(', ')}`);
   return results;
 }
 
@@ -261,6 +254,13 @@ interface ChatRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // ━━━ Auth: only logged-in users may spend Anthropic tokens / web searches ━━━
+    const supabase = await createSupabaseServerClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Neautorizat' }, { status: 401 });
+    }
+
     const {
       message,
       conversationHistory = [],
@@ -456,8 +456,16 @@ export async function POST(request: NextRequest) {
         let result: unknown;
         try {
           if (block.name === 'rag_search') {
-            const input = block.input as { query: string; top_k?: number };
-            result = await executeRagSearch(input.query, input.top_k || 5);
+            const input = block.input as { query: string; top_k?: number; localitate?: string; judet?: string };
+            const hits = executeRagSearch(
+              input.query,
+              input.top_k || 5,
+              input.localitate || localitate || undefined,
+              input.judet || undefined,
+            );
+            result = hits.length > 0
+              ? hits
+              : { rezultate: [], nota: 'Nicio institutie gasita pentru acesti termeni. Reformuleaza cu alte cuvinte cheie despre problema sau foloseste web_search.' };
           } else {
             result = { error: `Tool necunoscut: ${block.name}` };
           }
@@ -611,7 +619,7 @@ export async function GET() {
     status: 'online',
     model: HAIKU_MODEL,
     anthropicConfigured: anthropicOk,
-    ragBackend: 'supabase-pgvector',
+    ragBackend: 'local-institutii-index',
     tools: ['rag_search (custom)', 'web_search (server-side Anthropic/Brave)'],
     guardrailsEnabled: true,
   });

@@ -5,7 +5,10 @@
   "nume_oficial": "Oficiul Registrului Comerțului de pe lângă Tribunalul {JUDET}",
   "aplicabilitate": "42 Oficii teritoriale ONRC (41 județe + București)",
   "template_pattern": {
-    "coordonate_variabile": ["judet"]
+    "nume_format": "Oficiul Registrului Comerțului de pe lângă Tribunalul {JUDET}",
+    "coordonate_variabile": [
+      "judet"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea 26/1990 privind Registrul Comerțului (modificată și completată)",

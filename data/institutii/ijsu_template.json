@@ -5,7 +5,10 @@
   "nume_oficial": "Inspectoratul Județean pentru Situații de Urgență {JUDET}",
   "aplicabilitate": "Toate cele 41 județe + București",
   "template_pattern": {
-    "coordonate_variabile": ["judet"]
+    "nume_format": "Inspectoratul Județean pentru Situații de Urgență {JUDET}",
+    "coordonate_variabile": [
+      "judet"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea 307/2006 privind apărarea împotriva incendiilor",

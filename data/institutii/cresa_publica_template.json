@@ -6,8 +6,11 @@
   "nume_scurt": "Creșa {LOCALITATE}",
   "aplicabilitate": "Municipal și orășenesc — creșe publice pentru copii 0-3 ani",
   "template_pattern": {
+    "nume_format": "Creșa {LOCALITATE}",
     "variante": "Creșă publică / Centru de zi pentru copii / Creșă de cartier",
-    "coordonate_variabile": ["localitate"]
+    "coordonate_variabile": [
+      "localitate"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea nr. 263/2007 privind înființarea, organizarea și funcționarea creșelor",
@@ -27,28 +30,55 @@
   ],
   "keywords_cautare": {
     "termeni_oficiali": [
-      "creșă", "creșă publică", "centru de zi copii",
-      "educație antepreșcolară", "servicii de îngrijire copii"
+      "creșă",
+      "creșă publică",
+      "centru de zi copii",
+      "educație antepreșcolară",
+      "servicii de îngrijire copii"
     ],
     "termeni_populari": [
-      "cresa", "cresa publica", "cresa de stat", "cresa gratis",
-      "loc la cresa", "inscrie copil la cresa"
+      "cresa",
+      "cresa publica",
+      "cresa de stat",
+      "cresa gratis",
+      "loc la cresa",
+      "inscrie copil la cresa"
     ],
     "probleme_cetatean": [
-      "înscriere creșă", "loc la creșă", "listă așteptare creșă",
-      "acte necesare creșă", "taxă creșă", "cât costă creșa",
-      "program creșă", "orar creșă", "meniu creșă",
-      "educatoare creșă", "supraveghere copii creșă",
-      "condiții creșă", "curățenie creșă", "igienă creșă",
-      "creșă aproape de mine", "creșe disponibile"
+      "înscriere creșă",
+      "loc la creșă",
+      "listă așteptare creșă",
+      "acte necesare creșă",
+      "taxă creșă",
+      "cât costă creșa",
+      "program creșă",
+      "orar creșă",
+      "meniu creșă",
+      "educatoare creșă",
+      "supraveghere copii creșă",
+      "condiții creșă",
+      "curățenie creșă",
+      "igienă creșă",
+      "creșă aproape de mine",
+      "creșe disponibile"
     ],
     "domenii_semantice": [
-      "creșă", "copil", "îngrijire", "educație timpurie",
-      "dezvoltare", "hrană", "igienă", "socializare",
-      "părinte", "antepreșcolar", "supraveghere"
+      "creșă",
+      "copil",
+      "îngrijire",
+      "educație timpurie",
+      "dezvoltare",
+      "hrană",
+      "igienă",
+      "socializare",
+      "părinte",
+      "antepreșcolar",
+      "supraveghere"
     ],
     "termeni_gresiti": [
-      "cresa publica", "cresa de stat", "cresa copii"
+      "cresa publica",
+      "cresa de stat",
+      "cresa copii"
     ],
     "contexte_situationale": [
       "cum înscriu copilul la creșă",

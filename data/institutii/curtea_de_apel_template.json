@@ -6,7 +6,11 @@
   "aplicabilitate": "15 Curți de Apel în România (cobrind 41 județe + București)",
   "observatie_nivel": "[NEVERIFICAT - unele Curți de Apel sunt sedii regionale cobrind 2-4 județe]",
   "template_pattern": {
-    "coordonate_variabile": ["judet_sediu", "regiune_teritoriala"]
+    "nume_format": "Curtea de Apel {JUDET}",
+    "coordonate_variabile": [
+      "judet_sediu",
+      "regiune_teritoriala"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea 304/2022 privind organizarea judiciară",

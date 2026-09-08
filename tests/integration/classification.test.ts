@@ -7,7 +7,7 @@
  * Cost: ~30 Mistral Large calls
  * Time: ~2-4 minutes
  */
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import { analyzeEmailContent, type AnalysisResult } from '@/lib/services/analysis-service';
@@ -184,13 +184,15 @@ describe('Classification — Answer summary extraction', () => {
 
       expect(result.category).toBe('raspunse');
       expect(result.answer_summary).toBeTruthy();
-      expect(['text', 'list', 'table']).toContain(result.answer_summary!.type);
+      // analyzeEmailContent always returns the structured form (never the legacy string)
+      const summary = result.answer_summary as Exclude<typeof result.answer_summary, string | null>;
+      expect(['text', 'list', 'table']).toContain(summary.type);
 
-      if (result.answer_summary!.type === 'text') {
-        expect(typeof result.answer_summary!.content).toBe('string');
-        expect((result.answer_summary!.content as string).length).toBeGreaterThan(5);
-      } else if (result.answer_summary!.type === 'list') {
-        expect(Array.isArray(result.answer_summary!.content)).toBe(true);
+      if (summary.type === 'text') {
+        expect(typeof summary.content).toBe('string');
+        expect(summary.content.length).toBeGreaterThan(5);
+      } else if (summary.type === 'list') {
+        expect(Array.isArray(summary.content)).toBe(true);
       }
     }, 120_000);
   }

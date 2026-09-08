@@ -13,10 +13,15 @@
 export const MISTRAL_OCR_MODEL = 'mistral-ocr-latest'
 
 /**
- * Mistral Analysis model for email classification
- * KEEP AS IS - from PRD
+ * Mistral Analysis model for email classification.
+ *
+ * Default is the strongest model available on the free/experiment tier
+ * (mistral-large / medium / small are blocked or have 0 req/min there).
+ * Verified 2026-09-08 on the 37 test PDFs: 56/58 checks pass with ministral-14b,
+ * the 2 misses being the ambiguous "redirecționare" document.
+ * Override per environment with MISTRAL_ANALYSIS_MODEL (e.g. 'mistral-large-latest' on a paid plan).
  */
-export const MISTRAL_ANALYSIS_MODEL = 'mistral-large-latest'
+export const MISTRAL_ANALYSIS_MODEL = 'ministral-14b-latest'
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // AGENT INSTRUCTIONS

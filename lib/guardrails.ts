@@ -46,6 +46,11 @@ Ton: empatic, clar, ghidat.`;
 // PROBLEM CONTEXT EXTRACTION
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/** Trim and drop the [brackets] the model wraps around field values ("CE:[groapă...]") */
+function unwrap(value: string): string {
+  return value.trim().replace(/^\[+\s*/, '').replace(/\s*\]+[.\s]*$/, '').trim();
+}
+
 interface ProblemContext {
   ce: string | null;
   unde: string | null;
@@ -78,15 +83,15 @@ export function extractProblemContext(
 
     // Extract CE:
     const ceMatch = clean.match(/CE[:\s]+(.+?)(?:\s*✅?\s*UNDE|\s*✅?\s*DE_C[AÂ]ND|\n|$)/i);
-    if (ceMatch) result.ce = ceMatch[1].trim();
+    if (ceMatch) result.ce = unwrap(ceMatch[1]);
 
     // Extract UNDE:
     const undeMatch = clean.match(/UNDE[:\s]+(.+?)(?:\s*✅?\s*DE_C[AÂ]ND|\s*✅?\s*C[AÂ]ND|\n|$)/i);
-    if (undeMatch) result.unde = undeMatch[1].trim();
+    if (undeMatch) result.unde = unwrap(undeMatch[1]);
 
     // Extract CÂND/DE_CÂND:
     const candMatch = clean.match(/(?:DE_)?C[AÂ]ND[:\s]+(.+?)(?:\.|Confirm[aă]|\n|$)/i);
-    if (candMatch) result.cand = candMatch[1].trim();
+    if (candMatch) result.cand = unwrap(candMatch[1]);
 
     // Extract localitate din UNDE
     if (result.unde) {

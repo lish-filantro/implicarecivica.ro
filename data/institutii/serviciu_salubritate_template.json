@@ -6,8 +6,11 @@
   "nume_scurt": "Salubritate {LOCALITATE}",
   "aplicabilitate": "Toate localitățile — operator de salubritate local sau delegat",
   "template_pattern": {
+    "nume_format": "Serviciul de Salubritate {LOCALITATE}",
     "variante": "Direcția de Salubritate / Regie de Salubritate / Serviciul de Salubrizare / operator delegat",
-    "coordonate_variabile": ["localitate"]
+    "coordonate_variabile": [
+      "localitate"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea serviciului de salubrizare nr. 101/2006 (republicată)",
@@ -28,34 +31,73 @@
   ],
   "keywords_cautare": {
     "termeni_oficiali": [
-      "serviciu de salubritate", "salubrizare", "operator de salubritate",
-      "gestiune deșeuri", "colectare selectivă"
+      "serviciu de salubritate",
+      "salubrizare",
+      "operator de salubritate",
+      "gestiune deșeuri",
+      "colectare selectivă"
     ],
     "termeni_populari": [
-      "gunoi", "gunoaie", "salubritate", "măturat stradal",
-      "firma de gunoi", "colectare gunoi", "pubele", "containere"
+      "gunoi",
+      "gunoaie",
+      "salubritate",
+      "măturat stradal",
+      "firma de gunoi",
+      "colectare gunoi",
+      "pubele",
+      "containere"
     ],
     "probleme_cetatean": [
-      "nu a venit mașina de gunoi", "gunoi neridicat",
-      "program colectare gunoi", "când vine mașina de gunoi",
-      "taxa de salubritate", "cât costă gunoiul",
-      "container plin", "pubelă distrusă", "pubelă nouă",
-      "colectare selectivă cum", "unde arunc moloz",
-      "unde arunc mobila veche", "deșeuri voluminoase",
-      "dezinsecție țânțari", "deratizare bloc",
-      "gândaci dezinsecție", "câine mort pe stradă",
-      "miros gunoi", "groapă de gunoi", "depozit deșeuri",
-      "curățenie stradă", "zăpadă pe stradă", "deszăpezire"
+      "nu a venit mașina de gunoi",
+      "gunoi neridicat",
+      "program colectare gunoi",
+      "când vine mașina de gunoi",
+      "taxa de salubritate",
+      "cât costă gunoiul",
+      "container plin",
+      "pubelă distrusă",
+      "pubelă nouă",
+      "colectare selectivă cum",
+      "unde arunc moloz",
+      "unde arunc mobila veche",
+      "deșeuri voluminoase",
+      "dezinsecție țânțari",
+      "deratizare bloc",
+      "gândaci dezinsecție",
+      "câine mort pe stradă",
+      "miros gunoi",
+      "groapă de gunoi",
+      "depozit deșeuri",
+      "curățenie stradă",
+      "zăpadă pe stradă",
+      "deszăpezire"
     ],
     "domenii_semantice": [
-      "salubritate", "deșeu", "gunoi", "reciclare", "colectare",
-      "selectiv", "măturat", "curățenie", "zăpadă", "deszăpezire",
-      "dezinsecție", "deratizare", "dezinfecție", "container",
-      "pubelă", "depozit", "transport", "stradal"
+      "salubritate",
+      "deșeu",
+      "gunoi",
+      "reciclare",
+      "colectare",
+      "selectiv",
+      "măturat",
+      "curățenie",
+      "zăpadă",
+      "deszăpezire",
+      "dezinsecție",
+      "deratizare",
+      "dezinfecție",
+      "container",
+      "pubelă",
+      "depozit",
+      "transport",
+      "stradal"
     ],
     "termeni_gresiti": [
-      "salubritatea", "firma de salubrizare", "gunoi oras",
-      "curatenie stradala", "masina de gunoi"
+      "salubritatea",
+      "firma de salubrizare",
+      "gunoi oras",
+      "curatenie stradala",
+      "masina de gunoi"
     ],
     "contexte_situationale": [
       "nu a ridicat nimeni gunoiul de o săptămână",

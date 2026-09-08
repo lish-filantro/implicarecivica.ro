@@ -5,7 +5,10 @@
   "nume_oficial": "Serviciul Public Comunitar pentru Eliberarea și Evidența Pașapoartelor Simple {JUDET}",
   "aplicabilitate": "Toate cele 41 județe + București",
   "template_pattern": {
-    "coordonate_variabile": ["judet"]
+    "nume_format": "Serviciul Public Comunitar pentru Eliberarea și Evidența Pașapoartelor Simple {JUDET}",
+    "coordonate_variabile": [
+      "judet"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea 248/2005 privind regimul liberei circulații a cetățenilor români în străinătate",

@@ -5,7 +5,10 @@
   "nume_oficial": "Comisariatul Județean pentru Protecția Consumatorilor {JUDET}",
   "aplicabilitate": "Fiecare județ + București (componente ale ANPC)",
   "template_pattern": {
-    "coordonate_variabile": ["judet"]
+    "nume_format": "Comisariatul Județean pentru Protecția Consumatorilor {JUDET}",
+    "coordonate_variabile": [
+      "judet"
+    ]
   },
   "legislatie_baza": {
     "document_principal": "Legea 21/1992 privind consumatorii (modificată și completată)",
