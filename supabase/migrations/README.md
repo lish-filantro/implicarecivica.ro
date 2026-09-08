@@ -25,3 +25,9 @@ Migrările se aplică manual, în ordine, din **Supabase Dashboard → SQL Edito
    ```
 
 **016 este precondiție pentru branch-ul `refactor/manager-544`**: fără ea, clasificarea unui email ca `irelevant` sau `redirectionat` eșuează la scriere (CHECK vechi), iar `needs_review`/`redirected_to` lipsesc. Migrarea e compatibilă cu codul actual din `main`, deci se poate rula înainte de merge fără efecte negative.
+
+## 017_improvements.sql
+
+Rulează după 016. Adaugă `classification_feedback` (corecturi ale categoriei făcute de utilizator),
+`deadline_notifications` (deduplicarea digest-ului zilnic de termene) și `institutii_locale`
+(adrese 544 verificate, învățate din răspunsurile primite). Idempotentă.

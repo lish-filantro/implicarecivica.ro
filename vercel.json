@@ -7,6 +7,14 @@
     {
       "path": "/api/cron/check-deadlines",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/notify-deadlines",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/reconcile-inbound",
+      "schedule": "0 */6 * * *"
     }
   ]
 }
