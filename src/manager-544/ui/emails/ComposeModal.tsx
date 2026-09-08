@@ -5,7 +5,7 @@ import { X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { Email } from '@/lib/types/email';
+import type { Email } from '@m544/shared/types/email';
 
 interface ComposeModalProps {
   isOpen: boolean;

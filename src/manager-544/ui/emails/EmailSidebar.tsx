@@ -1,8 +1,9 @@
 'use client';
 
 import { Inbox, Send, Mail, PenSquare } from 'lucide-react';
+import type { EmailFolder } from './filter';
 
-export type EmailFolder = 'inbox' | 'sent' | 'all';
+export type { EmailFolder };
 
 interface EmailSidebarProps {
   activeFolder: EmailFolder;

@@ -3,7 +3,7 @@
 import { useAuth } from '@/components/auth/AuthProvider'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { createClient } from '@/lib/supabase/client'
+import { createBrowserClient as createClient } from '@m544/shared/db/browser-client'
 import { useRouter } from 'next/navigation'
 
 export default function PendingApprovalPage() {
