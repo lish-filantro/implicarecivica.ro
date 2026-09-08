@@ -1,15 +1,5 @@
-import { Resend } from 'resend';
-
-let _resend: Resend | null = null;
-
-export function getResend(): Resend {
-  if (!_resend) {
-    if (!process.env.RESEND_API_KEY) {
-      throw new Error('RESEND_API_KEY is not set');
-    }
-    _resend = new Resend(process.env.RESEND_API_KEY);
-  }
-  return _resend;
-}
+// Compatibility re-export — getResend moved to @m544/emails/resend-client (removed in refactor phase 6).
+// EMAIL_DOMAIN stays here: it is only used by lib/campanii (out of the refactor scope).
+export { getResend } from '@m544/emails/resend-client';
 
 export const EMAIL_DOMAIN = process.env.NEXT_PUBLIC_EMAIL_DOMAIN || 'implicarecivica.ro';
