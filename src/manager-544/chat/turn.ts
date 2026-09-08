@@ -10,10 +10,10 @@ import { buildSystemPrompt } from '@m544/chat/prompt/system';
 import { buildTools, RAG_SEARCH_TOOL } from '@m544/chat/prompt/tools';
 import { createRagSearchExecutor, type SearchInstitutiiFn } from '@m544/chat/rag/tool-executor';
 import type { KnownInstitutionLookup } from '@m544/chat/rag/known-institutions';
-import { HAIKU_MODEL, type MessagesClient } from '@m544/chat/anthropic/client';
+import { chatModel, type MessagesClient } from '@m544/chat/anthropic/client';
 import { normalizeHistory, type ChatMessage } from '@m544/chat/anthropic/messages';
 import { runAgenticLoop } from '@m544/chat/anthropic/loop';
-import { parseAnthropicResponse, webSearchCount, type ChatSource } from '@m544/chat/anthropic/parse';
+import { parseAnthropicResponse, webSearchCount, webFetchCount, type ChatSource } from '@m544/chat/anthropic/parse';
 import { postProcessResponse } from '@m544/chat/validation/post-process';
 
 export interface TurnInput {
@@ -37,6 +37,7 @@ export interface ChatResponseBody {
   conversationId: string | null;
   toolIterations: number;
   webSearchCount: number;
+  webFetchCount: number;
   _debug: { step: Step; context: { ce: string | null; unde: string | null; localitate: string } };
 }
 
@@ -65,10 +66,11 @@ export async function runChatTurn(input: TurnInput, deps: TurnDeps): Promise<Cha
     response: text,
     sources,
     webSearches: parsed.webSearchQueries,
-    model: HAIKU_MODEL,
+    model: chatModel(),
     conversationId: input.conversationId || null,
     toolIterations: iterations,
     webSearchCount: webSearchCount(response.usage),
+    webFetchCount: webFetchCount(response.usage),
     _debug: { step, context: { ce: context.ce, unde: context.unde, localitate } },
   };
 }

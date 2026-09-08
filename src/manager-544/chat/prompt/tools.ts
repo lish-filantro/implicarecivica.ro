@@ -2,11 +2,14 @@
  * Tool definitions for the chat model:
  *   - rag_search  (custom, executed locally over the curated institution KB)
  *   - web_search  (Anthropic server-side tool, executed by the API itself)
+ *   - web_fetch   (Anthropic server-side tool: opens the official contact page so the
+ *                  address is read from the source, not guessed from search snippets)
  */
 import type Anthropic from '@anthropic-ai/sdk';
 
 export const RAG_SEARCH_TOOL = 'rag_search';
 export const WEB_SEARCH_MAX_USES = 5;
+export const WEB_FETCH_MAX_USES = 3;
 
 const ragSearchTool: Anthropic.Messages.Tool = {
   name: RAG_SEARCH_TOOL,
@@ -39,13 +42,21 @@ const ragSearchTool: Anthropic.Messages.Tool = {
 };
 
 // No allowed_domains filter: wildcards (*.ro) are invalid and the system prompt
-// already directs the model to official .ro / .gov.ro sites.
-const webSearchTool: Anthropic.Messages.WebSearchTool20250305 = {
-  type: 'web_search_20250305',
+// already directs the model to official .ro / .gov.ro sites. The 20260209 variants
+// (Sonnet 5 / Opus 4.6+) filter results dynamically; do not add code_execution next to them.
+const webSearchTool: Anthropic.Messages.WebSearchTool20260209 = {
+  type: 'web_search_20260209',
   name: 'web_search',
   max_uses: WEB_SEARCH_MAX_USES,
 };
 
+const webFetchTool: Anthropic.Messages.WebFetchTool20260209 = {
+  type: 'web_fetch_20260209',
+  name: 'web_fetch',
+  max_uses: WEB_FETCH_MAX_USES,
+  max_content_tokens: 20_000,
+};
+
 export function buildTools(): Anthropic.Messages.ToolUnion[] {
-  return [ragSearchTool, webSearchTool];
+  return [ragSearchTool, webSearchTool, webFetchTool];
 }

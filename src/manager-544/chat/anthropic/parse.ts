@@ -1,7 +1,7 @@
 /**
  * Extract what the UI needs from a Messages API response: the answer text,
- * the sources (web citations + web search result URLs, de-duplicated) and the
- * queries the model sent to the server-side web search.
+ * the sources (web citations + web search results + fetched pages, de-duplicated)
+ * and the queries the model sent to the server-side web search.
  */
 import type Anthropic from '@anthropic-ai/sdk';
 
@@ -70,15 +70,27 @@ export function parseAnthropicResponse(response: Anthropic.Messages.Message): Pa
           }
         }
         break;
+      case 'web_fetch_tool_result':
+        if (block.content.type === 'web_fetch_result') {
+          collector.add({ url: block.content.url, title: block.content.content.title || 'Pagina oficiala' });
+        }
+        break;
       default:
         break;
     }
   }
 
-  return { text: textParts.join('\n'), sources: collector.sources, webSearchQueries };
+  // Cited passages arrive as separate text blocks of ONE running text: join without
+  // separators, otherwise sentences break mid-way around every citation.
+  return { text: textParts.join(''), sources: collector.sources, webSearchQueries };
 }
 
 /** Number of server-side web searches billed for this response. */
 export function webSearchCount(usage: Anthropic.Messages.Usage): number {
   return usage.server_tool_use?.web_search_requests ?? 0;
+}
+
+/** Number of server-side page fetches billed for this response. */
+export function webFetchCount(usage: Anthropic.Messages.Usage): number {
+  return usage.server_tool_use?.web_fetch_requests ?? 0;
 }

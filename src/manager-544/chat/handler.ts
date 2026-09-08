@@ -15,7 +15,7 @@ import { requireUser, type AuthClient } from '@m544/shared/auth';
 import { json, httpError, parseJsonBody, withErrorBoundary } from '@m544/shared/http';
 import { MAX_MESSAGE_LENGTH, isPromptInjectionAttempt } from '@m544/chat/guardrails/injection';
 import { isOffTopic } from '@m544/chat/guardrails/off-topic';
-import { HAIKU_MODEL, isAnthropicConfigured, type MessagesClient } from '@m544/chat/anthropic/client';
+import { chatModel, isAnthropicConfigured, type MessagesClient } from '@m544/chat/anthropic/client';
 import { anthropicErrorResponse } from '@m544/chat/anthropic/errors';
 import type { SearchInstitutiiFn } from '@m544/chat/rag/tool-executor';
 import type { KnownInstitutionLookup } from '@m544/chat/rag/known-institutions';
@@ -49,7 +49,7 @@ const chatBodySchema = z.object({
 });
 
 function canned(response: string) {
-  return json({ response, sources: [], webSearches: [], model: HAIKU_MODEL });
+  return json({ response, sources: [], webSearches: [], model: chatModel() });
 }
 
 export function createChatHandler(getDeps: () => ChatDeps) {
@@ -101,10 +101,10 @@ export function createChatHealthHandler(configured: () => boolean = isAnthropicC
   return () =>
     json({
       status: 'online',
-      model: HAIKU_MODEL,
+      model: chatModel(),
       anthropicConfigured: configured(),
       ragBackend: 'local-institutii-index',
-      tools: ['rag_search (custom)', 'web_search (server-side Anthropic/Brave)'],
+      tools: ['rag_search (custom)', 'web_search (server-side Anthropic)', 'web_fetch (server-side Anthropic)'],
       guardrailsEnabled: true,
     });
 }

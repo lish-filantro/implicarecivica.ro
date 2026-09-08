@@ -1,8 +1,9 @@
 /**
  * Enrichment of rag_search results with the verified Legea 544 address learned
  * from answers we actually received (`institutii_locale`). When a result's
- * instantiated name is known, the model gets `email_verificat` + `verificat_la`
- * and is told (prompt + note) to use it instead of a web_search.
+ * instantiated name is known, the model gets `email_verificat` + `verificat_la` as a
+ * HINT: the prompt still requires the address to be found and confirmed on the
+ * official website (user rule, 2026-09-09) — the database never replaces the web check.
  *
  * Best-effort: a failing lookup leaves the result as it was.
  */
@@ -21,8 +22,8 @@ function isInstantiated(name: string): boolean {
 function verifiedNote(known: KnownInstitution): string {
   const date = known.verificat_la.slice(0, 10);
   return (
-    `Adresa din email_verificat a fost confirmată de ${known.nr_confirmari} răspuns(uri) primite de la această instituție ` +
-    `(ultima dată la ${date}). Folosește-o direct; nu mai este nevoie de web_search pentru email.`
+    `Adresa din email_verificat a apărut în ${known.nr_confirmari} răspuns(uri) primite de la această instituție ` +
+    `(ultima dată la ${date}). Este doar un indiciu: confirmă adresa pe site-ul oficial cu web_search/web_fetch înainte să o prezinți.`
   );
 }
 

@@ -47,9 +47,9 @@ describe('buildSystemPrompt', () => {
 });
 
 describe('buildTools', () => {
-  it('defines rag_search (custom) and web_search (server-side, max 5 uses)', () => {
+  it('defines rag_search (custom), web_search (server-side, max 5) and web_fetch (server-side, max 3)', () => {
     const tools = buildTools();
-    expect(tools).toHaveLength(2);
+    expect(tools).toHaveLength(3);
     const rag = tools[0] as Anthropic.Messages.Tool;
     expect(rag.name).toBe(RAG_SEARCH_TOOL);
     expect(RAG_SEARCH_TOOL).toBe('rag_search');
@@ -57,6 +57,7 @@ describe('buildTools', () => {
     expect(rag.input_schema.type).toBe('object');
     expect(Object.keys(rag.input_schema.properties ?? {})).toEqual(['query', 'top_k', 'localitate', 'judet']);
     expect(rag.input_schema.required).toEqual(['query']);
-    expect(tools[1]).toEqual({ type: 'web_search_20250305', name: 'web_search', max_uses: 5 });
+    expect(tools[1]).toEqual({ type: 'web_search_20260209', name: 'web_search', max_uses: 5 });
+    expect(tools[2]).toEqual({ type: 'web_fetch_20260209', name: 'web_fetch', max_uses: 3, max_content_tokens: 20_000 });
   });
 });

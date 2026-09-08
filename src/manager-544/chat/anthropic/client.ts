@@ -5,8 +5,17 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { optionalEnv } from '@m544/shared/env';
 
-export const HAIKU_MODEL = 'claude-haiku-4-5-20251001';
-export const MAX_TOKENS = 2048;
+/**
+ * Chat model. Sonnet 5 by default (2026-09-09, user decision: Haiku did not find
+ * the right institutional addresses); override per environment with CHAT_MODEL.
+ * Classification stays on Haiku (pipeline/analysis), question generation too.
+ */
+export const DEFAULT_CHAT_MODEL = 'claude-sonnet-5';
+export function chatModel(): string {
+  return optionalEnv('CHAT_MODEL', DEFAULT_CHAT_MODEL);
+}
+/** Room for citations + the STEP_2 single-message answer; Sonnet is wordier than Haiku. */
+export const MAX_TOKENS = 4096;
 
 /** The part of the Anthropic SDK the chat uses (`new Anthropic(...)` satisfies it). */
 export interface MessagesClient {

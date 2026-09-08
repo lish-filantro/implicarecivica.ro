@@ -3,7 +3,8 @@
  * web search result URLs out of a Messages API response.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { parseAnthropicResponse, webSearchCount } from '@m544/chat/anthropic/parse';
+import type Anthropic from '@anthropic-ai/sdk';
+import { parseAnthropicResponse, webSearchCount, webFetchCount } from '@m544/chat/anthropic/parse';
 import {
   message,
   textBlock,
@@ -12,6 +13,7 @@ import {
   serverToolUse,
   webSearchResults,
   webSearchError,
+  webFetchResult,
   toolUse,
   step2Answer,
   usage,
@@ -82,6 +84,54 @@ describe('parseAnthropicResponse', () => {
     expect(r.sources.map((s) => s.url)).toEqual(['https://www.mai.gov.ro/informatii-publice/', 'https://www.mai.gov.ro/contact/']);
     expect(r.sources[0].title).toBe('Informații de interes public - MAI');
     expect(r.sources[0].citedText).toBeUndefined(); // first seen via the search results block
+  });
+});
+
+describe('text assembly', () => {
+  it('joins cited text blocks without separators (they are pieces of one running text)', () => {
+    const r = parseAnthropicResponse(
+      message([
+        textBlock('Primăria '),
+        textBlock('administrează domeniul public', [webCitation('https://x.ro', 'X', 'administrează domeniul public')]),
+        textBlock('.'),
+      ]),
+    );
+    expect(r.text).toBe('Primăria administrează domeniul public.');
+  });
+});
+
+describe('web_fetch results', () => {
+  it('a fetched official page becomes a source (title from the document, default when missing)', () => {
+    const r = parseAnthropicResponse(
+      message([
+        webFetchResult('f1', 'https://www.mai.gov.ro/contact/', 'Contact - MAI'),
+        webFetchResult('f2', 'https://www.mai.gov.ro/legea-544/', null),
+        textBlock('Email confirmat: relatii.publice@mai.gov.ro'),
+      ]),
+    );
+    expect(r.sources).toEqual([
+      { url: 'https://www.mai.gov.ro/contact/', title: 'Contact - MAI' },
+      { url: 'https://www.mai.gov.ro/legea-544/', title: 'Pagina oficiala' },
+    ]);
+  });
+
+  it('a failed fetch adds no source', () => {
+    const failed: Anthropic.Messages.WebFetchToolResultBlock = {
+      type: 'web_fetch_tool_result',
+      tool_use_id: 'f3',
+      caller: { type: 'direct' },
+      content: { type: 'web_fetch_tool_result_error', error_code: 'url_not_accessible' },
+    };
+    expect(parseAnthropicResponse(message([failed, textBlock('x')])).sources).toEqual([]);
+  });
+});
+
+describe('webFetchCount', () => {
+  it('reads usage.server_tool_use.web_fetch_requests, defaulting to 0', () => {
+    const u = usage(1);
+    if (u.server_tool_use) u.server_tool_use.web_fetch_requests = 2;
+    expect(webFetchCount(u)).toBe(2);
+    expect(webFetchCount(usage(null))).toBe(0);
   });
 });
 

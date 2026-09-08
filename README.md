@@ -20,7 +20,7 @@ src/manager-544/
   notifications/ digest zilnic de termene (cron + Resend)
   public-stats/  date deschise pe instituție (agregate anonimizate)
   questions/  generarea celor 5×10 întrebări strategice (Claude Haiku)
-  chat/       asistent 544: guardrails pe pași, prompt, tool-uri (rag_search local + adrese verificate + web_search),
+  chat/       asistent 544 (Claude Sonnet 5): guardrails pe pași, prompt, tool-uri (rag_search local, web_search, web_fetch),
               bucla Anthropic, limită 60 mesaje/zi
   admin/      statistici agregate, aprobare conturi
   feedback/
@@ -31,7 +31,7 @@ Rutele din `app/api/**/route.ts` și paginile din `app/(authenticated)/**` sunt 
 
 Fluxul principal:
 
-1. Utilizatorul descrie problema în chat (STEP_1), Haiku identifică instituția cu `rag_search` (index local peste `data/institutii/*.json`) și găsește emailul oficial cu `web_search` (STEP_2).
+1. Utilizatorul descrie problema în chat (STEP_1), Sonnet identifică instituția cu `rag_search` (index local peste `data/institutii/*.json`), găsește emailul oficial cu `web_search` și îl confirmă deschizând pagina oficială cu `web_fetch` (STEP_2). Adresa nu se prezintă niciodată fără o sursă oficială; adresele învățate din răspunsuri (`institutii_locale`) sunt doar indicii de verificat.
 2. Wizard-ul generează întrebări strategice (Haiku), utilizatorul le selectează, iar `POST /api/sessions/create` + `POST /api/emails/send` (Resend) trimit câte un email per întrebare, cu limită de 10/zi/instituție.
 3. Răspunsurile ajung prin Cloudflare Email Routing → worker → R2 → `POST /api/webhooks/cloudflare-email` → `pipeline/process-email`: OCR pe PDF, clasificare cu Claude Haiku (`inregistrate`, `amanate`, `raspunse`, `intarziate`, `redirectionat`, `irelevant`), potrivire (thread → număr de înregistrare → expeditor), tranziție de status și termene legale în **zile lucrătoare** (10, 30 cu prelungire, 5 pentru refuz; sărbătorile legale românești sunt excluse). Potrivirile incerte primesc `needs_review` și apar în folderul „De revizuit”, unde utilizatorul le asociază manual sau corectează categoria.
 4. Două cron-uri Vercel (limita planului Hobby: 2, zilnice): `/api/cron/daily` la 02:00 UTC reconciliază emailurile rămase în R2 după un webhook eșuat, procesează emailurile în așteptare și marchează cererile depășite ca `delayed`; `/api/cron/notify-deadlines` la 06:00 trimite digest-ul de termene. Rutele individuale (`process-emails`, `check-deadlines`, `reconcile-inbound`) rămân apelabile manual cu același secret.
@@ -41,7 +41,7 @@ Fluxul principal:
 | Furnizor | Rol | Variabile |
 |---|---|---|
 | Supabase | DB, auth, storage, realtime | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` |
-| Anthropic | chat + întrebări + clasificare emailuri (Claude Haiku 4.5, web search nativ) | `ANTHROPIC_API_KEY`, opțional `ANALYSIS_PROVIDER` (implicit `anthropic`), `ANALYSIS_MODEL` |
+| Anthropic | chat (Claude Sonnet 5, web search + web fetch native), întrebări și clasificare emailuri (Claude Haiku 4.5) | `ANTHROPIC_API_KEY`, opțional `CHAT_MODEL` (implicit `claude-sonnet-5`), `ANALYSIS_PROVIDER` (implicit `anthropic`), `ANALYSIS_MODEL` |
 | Mistral | OCR (și clasificare dacă `ANALYSIS_PROVIDER=mistral`) | `MISTRAL_API_KEY`, opțional `ANALYSIS_MODEL` / `MISTRAL_ANALYSIS_MODEL` |
 | Resend | trimitere emailuri, digest de termene (`notificari@<domeniu>`) + webhook livrare | `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET`, `NEXT_PUBLIC_EMAIL_DOMAIN` |
 | Cloudflare | primire emailuri (worker + R2) | `CLOUDFLARE_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `CLOUDFLARE_EMAIL_WEBHOOK_SECRET` |

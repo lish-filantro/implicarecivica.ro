@@ -38,14 +38,16 @@ describe('getStepGuardrail', () => {
     );
     expect(r.guardrail).toContain('ÎNTREBARE: Care este instituția din Pitești responsabilă pentru groapă în asfalt 2m?');
     expect(r.guardrail).toContain('"🏛INSTITUȚIE_IDENTIFICATĂ: [Numele complet al instituției din Pitești]"');
-    expect(r.guardrail).toContain('NU furniza email');
+    expect(r.guardrail).toContain('cu web_search pe site-ul OFICIAL al instituției, apoi deschide pagina de contact / Legea 544 cu web_fetch');
+    expect(r.guardrail).toContain('Prezintă adresa DOAR împreună cu URL-ul paginii oficiale');
+    expect(r.guardrail).not.toContain('NU furniza email');
   });
 
-  it('STEP_2 tells the model to trust email_verificat from rag_search and skip web_search', () => {
+  it('STEP_2 treats email_verificat from rag_search as a hint that must still be verified online', () => {
     const r = getStepGuardrail([u('groapă'), a(PROBLEMA), u('da')]);
-    expect(r.guardrail).toContain(
-      'EMAIL VERIFICAT: dacă un rezultat rag_search conține `email_verificat`, folosește acea adresă ca email al instituției și NU mai apela web_search pentru email.',
-    );
+    expect(r.guardrail).toContain('ADRESE CUNOSCUTE: `email_verificat` dintr-un rezultat rag_search este DOAR un indiciu');
+    expect(r.guardrail).toContain('Verifică ORICUM adresa online');
+    expect(r.guardrail).not.toContain('NU mai apela web_search');
   });
 
   it('STEP_2 detected but CE/UNDE missing → falls back to STEP_1', () => {

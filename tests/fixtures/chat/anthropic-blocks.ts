@@ -50,6 +50,20 @@ export function webSearchResults(
   };
 }
 
+export function webFetchResult(tool_use_id: string, url: string, title: string | null): Anthropic.Messages.WebFetchToolResultBlock {
+  return {
+    type: 'web_fetch_tool_result',
+    tool_use_id,
+    caller: direct,
+    content: {
+      type: 'web_fetch_result',
+      url,
+      retrieved_at: '2026-09-09T10:00:00Z',
+      content: { type: 'document', title, citations: null, source: { type: 'text', media_type: 'text/plain', data: 'Contact: relatii.publice@mai.gov.ro' } },
+    },
+  };
+}
+
 export function webSearchError(tool_use_id: string): Anthropic.Messages.WebSearchToolResultBlock {
   return {
     type: 'web_search_tool_result',
@@ -86,7 +100,7 @@ export function message(
     id: 'msg_test',
     type: 'message',
     role: 'assistant',
-    model: 'claude-haiku-4-5-20251001',
+    model: 'claude-sonnet-5',
     content,
     stop_reason,
     stop_sequence: null,

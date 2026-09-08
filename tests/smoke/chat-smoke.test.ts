@@ -1,5 +1,5 @@
 /**
- * Smoke test — real Anthropic (Haiku + web search) through the chat handler.
+ * Smoke test — real Anthropic (Sonnet + web search + web fetch) through the chat handler.
  *
  * Skipped unless RUN_SMOKE=1 (costs tokens + web searches). Auth is simulated
  * with a fake session client; everything else is the production code path.
@@ -52,7 +52,9 @@ describe.skipIf(!RUN)('chat smoke (real Anthropic)', () => {
     const res = await createChatHandler(deps)(post({ message: 'Da, corect, confirm.', conversationHistory: history }));
     expect(res.status).toBe(200);
     const body = await res.json();
-    console.log('[smoke STEP_2]', body._debug, 'toolIterations=', body.toolIterations, 'webSearchCount=', body.webSearchCount);
+    console.log('[smoke STEP_2]', body._debug, 'toolIterations=', body.toolIterations, 'webSearchCount=', body.webSearchCount, 'webFetchCount=', body.webFetchCount);
+    console.log('[smoke STEP_2 response]\n' + body.response);
+    console.log('[smoke STEP_2 sources]', body.sources.map((s: { url: string }) => s.url));
     console.log(body.response.slice(0, 1200));
     console.log('sources:', body.sources.map((s: { url: string }) => s.url).slice(0, 6));
     expect(body._debug.step).toBe('STEP_2');

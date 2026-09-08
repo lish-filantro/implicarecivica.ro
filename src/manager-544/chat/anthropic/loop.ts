@@ -1,13 +1,13 @@
 /**
  * Agentic loop over the Messages API.
  *
- * Server-side tools (web_search) are executed by Anthropic; we only loop when
+ * Server-side tools (web_search, web_fetch) are executed by Anthropic; we only loop when
  *   - stop_reason === 'tool_use'   → run our custom tools and send tool_results
  *   - stop_reason === 'pause_turn' → send the partial turn back with "Continua."
  * up to MAX_ITERATIONS extra calls.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import { HAIKU_MODEL, MAX_TOKENS, type MessagesClient } from './client';
+import { chatModel, MAX_TOKENS, type MessagesClient } from './client';
 
 export type ToolExecutor = (input: unknown) => unknown | Promise<unknown>;
 
@@ -57,7 +57,7 @@ async function executeToolBlocks(
 }
 
 export async function runAgenticLoop(opts: LoopOptions): Promise<LoopResult> {
-  const model = opts.model ?? HAIKU_MODEL;
+  const model = opts.model ?? chatModel();
   const maxIterations = opts.maxIterations ?? MAX_ITERATIONS;
   const messages = [...opts.messages];
 

@@ -9,7 +9,7 @@ import type { User } from '@supabase/supabase-js';
 import type Anthropic from '@anthropic-ai/sdk';
 import { createChatHandler, createChatHealthHandler, type ChatDeps } from '@m544/chat/handler';
 import type { MessagesClient } from '@m544/chat/anthropic/client';
-import { HAIKU_MODEL } from '@m544/chat/anthropic/client';
+import { DEFAULT_CHAT_MODEL } from '@m544/chat/anthropic/client';
 import { CHAT_SYSTEM_INSTRUCTIONS } from '@m544/chat/prompt/system';
 import { LOW_CONFIDENCE_WARNING } from '@m544/chat/validation/post-process';
 import type { ChatUsageCounter } from '@m544/chat/rate-limit';
@@ -113,7 +113,7 @@ describe('POST /api/chat-haiku — guards', () => {
       response: 'Sunt specializat doar pe Legea 544/2001. Te rog sa formulezi o intrebare legata de accesul la informatii de interes public.',
       sources: [],
       webSearches: [],
-      model: HAIKU_MODEL,
+      model: DEFAULT_CHAT_MODEL,
     });
     expect(client.calls).toHaveLength(0);
   });
@@ -125,7 +125,7 @@ describe('POST /api/chat-haiku — guards', () => {
       response: 'Sunt specializat doar pe Legea 544/2001. Cu ce te pot ajuta in legatura cu formularea unei cereri?',
       sources: [],
       webSearches: [],
-      model: HAIKU_MODEL,
+      model: DEFAULT_CHAT_MODEL,
     });
     expect(client.calls).toHaveLength(0);
   });
@@ -178,16 +178,17 @@ describe('POST /api/chat-haiku — model turn', () => {
       response: 'Bună! Descrie-mi problema: ce, unde și de când?',
       sources: [],
       webSearches: [],
-      model: HAIKU_MODEL,
+      model: DEFAULT_CHAT_MODEL,
       conversationId: 'conv-1',
       toolIterations: 0,
       webSearchCount: 0,
+      webFetchCount: 0,
       _debug: { step: 'STEP_1', context: { ce: null, unde: null, localitate: '' } },
     });
     expect(client.calls[0].system).toContain(CHAT_SYSTEM_INSTRUCTIONS);
     expect(client.calls[0].system).toContain('[STEP 1 ACTIV]');
     expect(client.calls[0].messages).toEqual([{ role: 'user', content: 'salut' }]);
-    expect(client.calls[0].tools).toHaveLength(2);
+    expect(client.calls[0].tools).toHaveLength(3);
   });
 
   it('STEP_2 with a low-confidence email appends the warning and reports the context', async () => {
@@ -274,10 +275,10 @@ describe('GET /api/chat-haiku — health', () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({
       status: 'online',
-      model: HAIKU_MODEL,
+      model: DEFAULT_CHAT_MODEL,
       anthropicConfigured: true,
       ragBackend: 'local-institutii-index',
-      tools: ['rag_search (custom)', 'web_search (server-side Anthropic/Brave)'],
+      tools: ['rag_search (custom)', 'web_search (server-side Anthropic)', 'web_fetch (server-side Anthropic)'],
       guardrailsEnabled: true,
     });
     expect((await (await createChatHealthHandler(() => false)()).json()).anthropicConfigured).toBe(false);

@@ -46,7 +46,7 @@ describe('runAgenticLoop', () => {
     expect(r.iterations).toBe(0);
     expect(r.response.content[0]).toEqual(textBlock('gata'));
     expect(client.calls).toHaveLength(1);
-    expect(client.calls[0]).toMatchObject({ model: 'claude-haiku-4-5-20251001', max_tokens: 2048, system: 'SYS', tools: [], messages: base.messages });
+    expect(client.calls[0]).toMatchObject({ model: 'claude-sonnet-5', max_tokens: 4096, system: 'SYS', tools: [], messages: base.messages });
   });
 
   it('tool_use → executes the executor → feeds tool_result back → final answer', async () => {
