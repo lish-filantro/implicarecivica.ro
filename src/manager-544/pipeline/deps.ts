@@ -6,6 +6,7 @@ import { createServiceClient } from '@m544/shared/db/clients';
 import { SupabaseEmailsRepo } from '@m544/shared/db/emails-repo';
 import { SupabaseRequestsRepo } from '@m544/shared/db/requests-repo';
 import { SupabaseStorageRepo } from '@m544/shared/db/storage-repo';
+import { SupabaseInstitutionsRepo } from '@m544/shared/db/institutions-repo';
 import type { ProcessDeps } from './process-email';
 
 export function createPipelineDeps(): ProcessDeps {
@@ -14,5 +15,6 @@ export function createPipelineDeps(): ProcessDeps {
     emails: new SupabaseEmailsRepo(sb),
     requests: new SupabaseRequestsRepo(sb),
     storage: new SupabaseStorageRepo(sb),
+    institutions: new SupabaseInstitutionsRepo(sb),
   };
 }

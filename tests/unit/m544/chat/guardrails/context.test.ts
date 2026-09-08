@@ -73,12 +73,26 @@ describe('extractLocalitate', () => {
     expect(extractLocalitate('Str. X nr. 1, Comuna Pantelimon, Ilfov')).toBe('Pantelimon');
   });
 
-  it('returns null without a locality/county pair', () => {
+  it('returns null for a bare street line (no locality segment)', () => {
     expect(extractLocalitate('Strada X nr 1')).toBeNull();
+    expect(extractLocalitate('Strada Lungă nr. 5')).toBeNull();
+    expect(extractLocalitate('')).toBeNull();
   });
 
-  it('legacy limitation: digits are not allowed in the segments, so "București, Sector 3" is not recognised', () => {
-    expect(extractLocalitate('Bulevardul Unirii nr. 5, București, Sector 3')).toBeNull();
+  it('handles Bucharest sectors in any position and digits in the street segment', () => {
+    expect(extractLocalitate('Str. Lalelelor nr. 5, București, Sector 3')).toBe('București');
+    expect(extractLocalitate('Bulevardul Unirii nr. 5, București, Sector 3')).toBe('București');
+    expect(extractLocalitate('Sector 3, București')).toBe('București');
+    expect(extractLocalitate('Str. X nr. 5, bl. A2, sc. B, Sector 6, București')).toBe('București');
+    expect(extractLocalitate('Str. X nr. 5, Sectorul 1, Municipiul București')).toBe('București');
+  });
+
+  it('keeps the locality/county reading and accepts a bare locality', () => {
+    expect(extractLocalitate('Bd. Republicii nr. 12, Pitești, Argeș')).toBe('Pitești');
+    expect(extractLocalitate('Comuna Pantelimon, Ilfov')).toBe('Pantelimon');
+    expect(extractLocalitate('Str. A nr. 1, Cluj-Napoca, Cluj')).toBe('Cluj-Napoca');
+    expect(extractLocalitate('București')).toBe('București');
+    expect(extractLocalitate('Municipiul Pitești')).toBe('Pitești');
   });
 });
 

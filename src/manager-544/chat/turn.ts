@@ -9,6 +9,7 @@ import { getStepGuardrail } from '@m544/chat/prompt/step-guardrails';
 import { buildSystemPrompt } from '@m544/chat/prompt/system';
 import { buildTools, RAG_SEARCH_TOOL } from '@m544/chat/prompt/tools';
 import { createRagSearchExecutor, type SearchInstitutiiFn } from '@m544/chat/rag/tool-executor';
+import type { KnownInstitutionLookup } from '@m544/chat/rag/known-institutions';
 import { HAIKU_MODEL, type MessagesClient } from '@m544/chat/anthropic/client';
 import { normalizeHistory, type ChatMessage } from '@m544/chat/anthropic/messages';
 import { runAgenticLoop } from '@m544/chat/anthropic/loop';
@@ -24,6 +25,8 @@ export interface TurnInput {
 export interface TurnDeps {
   client: MessagesClient;
   search?: SearchInstitutiiFn;
+  /** Verified addresses from institutii_locale; when set, rag_search hits carry `email_verificat`. */
+  lookupInstitution?: KnownInstitutionLookup;
 }
 
 export interface ChatResponseBody {
@@ -52,7 +55,7 @@ export async function runChatTurn(input: TurnInput, deps: TurnDeps): Promise<Cha
     system: buildSystemPrompt(guardrail),
     tools: buildTools(),
     messages: normalizeHistory(input.history, sanitizedMessage),
-    executors: { [RAG_SEARCH_TOOL]: createRagSearchExecutor(localitate || undefined, deps.search) },
+    executors: { [RAG_SEARCH_TOOL]: createRagSearchExecutor(localitate || undefined, deps.search, deps.lookupInstitution) },
   });
 
   const parsed = parseAnthropicResponse(response);

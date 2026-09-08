@@ -41,6 +41,13 @@ describe('getStepGuardrail', () => {
     expect(r.guardrail).toContain('NU furniza email');
   });
 
+  it('STEP_2 tells the model to trust email_verificat from rag_search and skip web_search', () => {
+    const r = getStepGuardrail([u('groapă'), a(PROBLEMA), u('da')]);
+    expect(r.guardrail).toContain(
+      'EMAIL VERIFICAT: dacă un rezultat rag_search conține `email_verificat`, folosește acea adresă ca email al instituției și NU mai apela web_search pentru email.',
+    );
+  });
+
   it('STEP_2 detected but CE/UNDE missing → falls back to STEP_1', () => {
     const r = getStepGuardrail([a('✅PROBLEMA_DEFINITĂ: ok')]);
     expect(r).toEqual({ step: 'STEP_1', guardrail: STEP_1_GUARDRAIL });

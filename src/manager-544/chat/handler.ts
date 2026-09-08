@@ -6,7 +6,8 @@
  *
  * Requires a logged-in user (only they may spend Anthropic tokens / web searches).
  * Input guards: empty → 400, too long → 400, prompt injection / off-topic →
- * canned 200 answers without calling the model.
+ * canned 200 answers without calling the model; 60 user messages per UTC day
+ * → 429 (checked after the guards, before the model, when `deps.usage` is set).
  */
 import type { NextRequest } from 'next/server';
 import { z } from 'zod';
@@ -17,6 +18,8 @@ import { isOffTopic } from '@m544/chat/guardrails/off-topic';
 import { HAIKU_MODEL, isAnthropicConfigured, type MessagesClient } from '@m544/chat/anthropic/client';
 import { anthropicErrorResponse } from '@m544/chat/anthropic/errors';
 import type { SearchInstitutiiFn } from '@m544/chat/rag/tool-executor';
+import type { KnownInstitutionLookup } from '@m544/chat/rag/known-institutions';
+import { CHAT_DAILY_LIMIT, checkChatLimit, type ChatUsageCounter } from '@m544/chat/rate-limit';
 import { runChatTurn } from './turn';
 
 export interface ChatDeps {
@@ -24,7 +27,13 @@ export interface ChatDeps {
   createAnthropic: () => MessagesClient | null;
   /** Override of the institution search (tests); defaults to the local knowledge base. */
   search?: SearchInstitutiiFn;
+  /** Verified 544 addresses (institutii_locale) added to rag_search results; absent → no enrichment. */
+  lookupInstitution?: KnownInstitutionLookup;
+  /** Daily quota counter; absent → no limit (tests, smoke). */
+  usage?: ChatUsageCounter;
 }
+
+export const LIMIT_REACHED_MESSAGE = `Ai atins limita zilnică de ${CHAT_DAILY_LIMIT} de mesaje. Revino mâine.`;
 
 export const CANNED_INJECTION_RESPONSE =
   'Sunt specializat doar pe Legea 544/2001. Te rog sa formulezi o intrebare legata de accesul la informatii de interes public.';
@@ -63,13 +72,23 @@ export function createChatHandler(getDeps: () => ChatDeps) {
     }
     if (isOffTopic(message)) return canned(CANNED_OFF_TOPIC_RESPONSE);
 
+    if (deps.usage) {
+      const quota = await checkChatLimit(guard.user.id, deps.usage);
+      if (!quota.ok) return httpError(429, LIMIT_REACHED_MESSAGE, { limit: quota.limit, used: quota.used });
+    }
+
     const client = deps.createAnthropic();
     if (!client) {
       return httpError(500, 'ANTHROPIC_API_KEY nu este configurat', { details: 'Adauga ANTHROPIC_API_KEY in .env.local' });
     }
 
     try {
-      return json(await runChatTurn({ message, history: conversationHistory, conversationId }, { client, search: deps.search }));
+      return json(
+        await runChatTurn(
+          { message, history: conversationHistory, conversationId },
+          { client, search: deps.search, lookupInstitution: deps.lookupInstitution },
+        ),
+      );
     } catch (err) {
       const mapped = anthropicErrorResponse(err);
       if (mapped) return mapped;

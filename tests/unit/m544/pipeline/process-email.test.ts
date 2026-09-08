@@ -7,6 +7,7 @@ import { processEmail, type ProcessDeps } from '@m544/pipeline/process-email';
 import { processPendingBatch } from '@m544/pipeline/batch';
 import type { AnalysisResult } from '@m544/pipeline/types';
 import { FakeEmailsRepo, FakeRequestsRepo, FakeStorageRepo } from '../_fakes/fake-repos';
+import { FakeInstitutionsRepo } from '../_fakes/fake-institutions-repo';
 
 const USER = 'u1';
 
@@ -178,6 +179,57 @@ describe('processEmail — categories and matching outcomes', () => {
     const updated = await requests.getById(req.id);
     expect(updated?.redirected_to).toBe('Consiliul Județean Ilfov');
     expect(updated?.status).toBe('received');
+  });
+});
+
+describe('processEmail — learning verified institution addresses', () => {
+  function withInstitutions(result: AnalysisResult = analysis()) {
+    const base = makeDeps(result);
+    const institutions = new FakeInstitutionsRepo();
+    return { ...base, institutions, deps: { ...base.deps, institutions } };
+  }
+
+  it('records the sender address for the matched request institution (source raspuns)', async () => {
+    const { deps, emails, requests, institutions } = withInstitutions();
+    const req = requests.seed({ user_id: USER, institution_name: 'Primăria Municipiului Pitești', institution_email: 'reg@primariapitesti.ro' });
+    const sent = emails.seed({ user_id: USER, type: 'sent', request_id: req.id, message_id: 'orig@x' });
+    const e = emails.seed({ user_id: USER, from_email: 'Registratura <Reg@PrimariaPitesti.ro>', parent_email_id: sent.id });
+    const r = await processEmail(e.id, deps);
+    expect(r.matchedRequestId).toBe(req.id);
+    expect(institutions.calls).toEqual([
+      { name: 'Primăria Municipiului Pitești', email: 'reg@primariapitesti.ro', source: 'raspuns' },
+    ]);
+    expect((await institutions.findByName('Primăria Municipiului Pitești'))[0]).toMatchObject({ email: 'reg@primariapitesti.ro', nr_confirmari: 1 });
+  });
+
+  it('learns nothing for irelevant emails or when no request matched', async () => {
+    const irrelevant = withInstitutions(analysis({ category: 'irelevant', registration_number: null }));
+    irrelevant.requests.seed({ user_id: USER, institution_email: 'reg@primaria.ro' });
+    const e1 = irrelevant.emails.seed({ user_id: USER, from_email: 'reg@primaria.ro' });
+    await processEmail(e1.id, irrelevant.deps);
+    expect(irrelevant.institutions.calls).toEqual([]);
+
+    const unmatched = withInstitutions(analysis({ registration_number: null }));
+    const e2 = unmatched.emails.seed({ user_id: USER, from_email: 'nobody@nowhere.ro' });
+    await processEmail(e2.id, unmatched.deps);
+    expect(unmatched.institutions.calls).toEqual([]);
+  });
+
+  it('a failing repo is logged and never fails processing; absent repo is a no-op', async () => {
+    const { deps, emails, requests, institutions } = withInstitutions();
+    institutions.failNext = new Error('institutii_locale down');
+    const req = requests.seed({ user_id: USER, institution_email: 'reg@primaria.ro' });
+    const sent = emails.seed({ user_id: USER, type: 'sent', request_id: req.id, message_id: 'orig@y' });
+    const e = emails.seed({ user_id: USER, from_email: 'reg@primaria.ro', parent_email_id: sent.id });
+    const r = await processEmail(e.id, deps);
+    expect(r).toMatchObject({ success: true, matchedRequestId: req.id });
+    expect((await emails.getById(e.id))?.processing_status).toBe('completed');
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining('institution'), 'institutii_locale down');
+
+    const plain = makeDeps();
+    const req2 = plain.requests.seed({ user_id: USER, institution_email: 'reg@primaria.ro' });
+    const e2 = plain.emails.seed({ user_id: USER, from_email: 'reg@primaria.ro' });
+    expect((await processEmail(e2.id, plain.deps)).matchedRequestId).toBe(req2.id);
   });
 });
 

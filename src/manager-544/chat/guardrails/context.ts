@@ -45,15 +45,31 @@ function unwrap(value: string): string {
   return value.trim().replace(/^\[+\s*/, '').replace(/\s*\]+[.\s]*$/, '').trim();
 }
 
+/** Street-type prefixes: a comma segment starting with one is the street line, never the locality. */
+const STREET_PREFIX = /^(str(ada)?|bd|b-?dul|bulevardul|calea|aleea|pia[țt]a|[șs]os(eaua)?|drumul|intrarea|splaiul|bl(oc)?|sc(ara)?|ap|et(aj)?)\b/i;
+/** "Sector 3" / "Sectorul 1": a Bucharest subdivision, not the locality. */
+const SECTOR_SEGMENT = /^sectorul?\b/i;
+/** Administrative qualifiers dropped from the locality itself. */
+const UNIT_PREFIX = /^(comuna|ora[șs]ul|municipiul|satul)\s+/i;
+
 /**
- * Locality from a full address: "..., Comuna Pantelimon, Ilfov" → "Pantelimon",
- * "..., Pitești, Argeș" → "Pitești", "..., București, Sector 3" → "București".
+ * Locality from a full address, comma-separated. The street line (prefix or
+ * digits), sectors and empty parts are dropped; of what remains, the
+ * second-to-last part is the locality when a county follows ("Pitești, Argeș"),
+ * otherwise the only part ("București", "Sector 3, București").
+ *   "Str. X nr. 5, București, Sector 3" → "București"
+ *   "Bd. Republicii nr. 12, Pitești, Argeș" → "Pitești"
+ *   "Comuna Pantelimon, Ilfov" → "Pantelimon";  "Strada X nr 1" → null
  */
 export function extractLocalitate(unde: string): string | null {
-  const match = unde.match(
-    /,\s*(?:Comuna\s+|Orașul\s+|Municipiul\s+)?([A-ZȘȚĂÎÂa-zșțăîâ\s-]+),\s*(?:județul?\s+)?([A-ZȘȚĂÎÂa-zșțăîâ\s-]+)$/i,
-  );
-  return match ? match[1].trim() : null;
+  const candidates = unde
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0 && !/\d/.test(s) && !SECTOR_SEGMENT.test(s) && !STREET_PREFIX.test(s));
+  if (candidates.length === 0) return null;
+  const locality = candidates.length >= 2 ? candidates[candidates.length - 2] : candidates[0];
+  const cleaned = locality.replace(UNIT_PREFIX, '').trim();
+  return cleaned.length > 0 ? cleaned : null;
 }
 
 function parseSummary(content: string): ProblemContext {

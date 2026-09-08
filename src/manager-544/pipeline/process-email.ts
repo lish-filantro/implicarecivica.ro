@@ -8,8 +8,10 @@
 import type { EmailsRepo } from '@m544/shared/db/emails-repo';
 import type { RequestsRepo } from '@m544/shared/db/requests-repo';
 import type { StorageRepo } from '@m544/shared/db/storage-repo';
+import type { InstitutionsRepo } from '@m544/shared/db/institutions-repo';
 import type { Email } from '@m544/shared/types/email';
 import { htmlToText } from '@m544/shared/utils/html-to-text';
+import { extractEmail } from '@m544/inbound/webhook/addresses';
 import { runOcrFromBytes, type OcrResult } from '@m544/pipeline/ocr';
 import { analyzeEmailContent, type AnalysisInput } from '@m544/pipeline/analysis';
 import { matchEmailToRequest, autoHealRegistrationNumber } from '@m544/pipeline/matching';
@@ -24,6 +26,8 @@ export interface ProcessDeps {
   storage: StorageRepo;
   ocr?: (pdfBytes: Uint8Array) => Promise<OcrResult>;
   analyze?: (input: AnalysisInput) => Promise<AnalysisResult>;
+  /** Learns the institution's real address from matched answers (institutii_locale); optional, best-effort. */
+  institutions?: InstitutionsRepo;
 }
 
 export interface ProcessResult {
@@ -122,6 +126,25 @@ async function matchAndUpdate(
   };
 }
 
+/**
+ * A matched answer proves which address the institution really answers from:
+ * record it (source 'raspuns') so the chat can reuse it. Never fails processing.
+ */
+async function learnInstitutionAddress(email: Email, requestId: string, deps: ProcessDeps): Promise<void> {
+  if (!deps.institutions) return;
+  try {
+    const request = await deps.requests.getById(requestId);
+    if (!request) return;
+    await deps.institutions.recordVerifiedEmail({
+      name: request.institution_name,
+      email: extractEmail(email.from_email),
+      source: 'raspuns',
+    });
+  } catch (err) {
+    console.error(`[Process] ${email.id}: recording institution address failed:`, err instanceof Error ? err.message : err);
+  }
+}
+
 export async function processEmail(emailId: string, deps: ProcessDeps): Promise<ProcessResult> {
   const email = await deps.emails.getById(emailId);
   if (!email) return { success: false, emailId, error: 'Email not found' };
@@ -141,6 +164,7 @@ export async function processEmail(emailId: string, deps: ProcessDeps): Promise<
     await saveAnalysis(email, analysis, deps);
 
     const outcome = analysis.category === 'irelevant' ? {} : await matchAndUpdate(email, analysis, deps);
+    if (outcome.matchedRequestId) await learnInstitutionAddress(email, outcome.matchedRequestId, deps);
 
     await deps.emails.update(emailId, { processing_status: 'completed', error_log: null });
     console.log(`[Process] ${emailId}: category=${analysis.category}, match=${outcome.matchStrategy ?? 'none'}`);

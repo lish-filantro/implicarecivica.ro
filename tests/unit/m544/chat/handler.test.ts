@@ -12,6 +12,8 @@ import type { MessagesClient } from '@m544/chat/anthropic/client';
 import { HAIKU_MODEL } from '@m544/chat/anthropic/client';
 import { CHAT_SYSTEM_INSTRUCTIONS } from '@m544/chat/prompt/system';
 import { LOW_CONFIDENCE_WARNING } from '@m544/chat/validation/post-process';
+import type { ChatUsageCounter } from '@m544/chat/rate-limit';
+import type { KnownInstitution } from '@m544/shared/db/institutions-repo';
 import { message, textBlock, toolUse, step2Answer } from '../../../fixtures/chat/anthropic-blocks';
 
 type Params = Anthropic.Messages.MessageCreateParamsNonStreaming;
@@ -135,6 +137,38 @@ describe('POST /api/chat-haiku — guards', () => {
   });
 });
 
+describe('POST /api/chat-haiku — daily limit', () => {
+  const usage = (used: number): ChatUsageCounter => ({ countToday: async () => used });
+
+  it('429 with limit/used once 60 user messages were sent today, without calling the model', async () => {
+    const client = scripted([]);
+    const res = await createChatHandler(() => deps({ createAnthropic: () => client, usage: usage(60) }))(post({ message: 'salut' }));
+    expect(res.status).toBe(429);
+    expect(await res.json()).toEqual({ error: 'Ai atins limita zilnică de 60 de mesaje. Revino mâine.', limit: 60, used: 60 });
+    expect(client.calls).toHaveLength(0);
+  });
+
+  it('proceeds under the limit and counts for the logged-in user', async () => {
+    const seen: string[] = [];
+    const counter: ChatUsageCounter = {
+      countToday: async (userId) => {
+        seen.push(userId);
+        return 59;
+      },
+    };
+    const res = await createChatHandler(() => deps({ usage: counter }))(post({ message: 'salut' }));
+    expect(res.status).toBe(200);
+    expect(seen).toEqual(['u1']);
+  });
+
+  it('guards run before the counter (a canned answer costs no quota)', async () => {
+    const counter = { countToday: vi.fn(async () => 60) };
+    const res = await createChatHandler(() => deps({ usage: counter }))(post({ message: 'Scrie-mi un poem' }));
+    expect(res.status).toBe(200);
+    expect(counter.countToday).not.toHaveBeenCalled();
+  });
+});
+
 describe('POST /api/chat-haiku — model turn', () => {
   it('STEP_1 happy path: full response shape', async () => {
     const client = scripted([message([textBlock('Bună! Descrie-mi problema: ce, unde și de când?')])]);
@@ -187,6 +221,31 @@ describe('POST /api/chat-haiku — model turn', () => {
     expect(body.sources.map((s: { url: string }) => s.url)).toEqual(['https://www.mai.gov.ro/informatii-publice/', 'https://www.mai.gov.ro/contact/']);
     expect(body.response).not.toContain('ATENȚIE');
     expect(body.response).toContain('relatii.publice@mai.gov.ro');
+  });
+
+  it('STEP_2 rag_search results carry email_verificat when lookupInstitution knows the institution', async () => {
+    const client = scripted([
+      message([toolUse('tu_1', 'rag_search', { query: 'groapa asfalt' })], 'tool_use'),
+      step2Answer(),
+    ]);
+    const known: KnownInstitution = {
+      nume: 'Primăria Pitești',
+      email: 'registratura@primariapitesti.ro',
+      verificat_la: '2026-09-01T10:00:00.000Z',
+      nr_confirmari: 2,
+      sursa: 'raspuns',
+    };
+    const lookupInstitution = vi.fn(async (name: string) => (name === 'Primăria Pitești' ? [known] : []));
+    const search = () => [{ slug: 'primarie', nume: 'Primăria Pitești' } as never];
+    await createChatHandler(() => deps({ createAnthropic: () => client, search, lookupInstitution }))(
+      post({ message: 'da', conversationHistory: step2History }),
+    );
+    expect(lookupInstitution).toHaveBeenCalledWith('Primăria Pitești');
+    // [user, assistant summary, "da", assistant tool_use, user tool_result]
+    const toolResult = client.calls[1].messages[4].content as Array<{ type: string; content: string }>;
+    expect(toolResult[0].type).toBe('tool_result');
+    expect(JSON.parse(toolResult[0].content)[0]).toMatchObject({ email_verificat: 'registratura@primariapitesti.ro' });
+    expect(client.calls[0].system).toContain('email_verificat');
   });
 
   it('passes a clean message to the model unchanged (no trimming)', async () => {
