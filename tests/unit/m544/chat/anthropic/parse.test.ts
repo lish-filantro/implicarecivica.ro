@@ -25,9 +25,9 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe('parseAnthropicResponse', () => {
-  it('joins text blocks with newlines', () => {
+  it('concatenates text blocks as one running text', () => {
     const r = parseAnthropicResponse(message([textBlock('a'), textBlock('b')]));
-    expect(r).toEqual({ text: 'a\nb', sources: [], webSearchQueries: [] });
+    expect(r).toEqual({ text: 'ab', sources: [], webSearchQueries: [] });
   });
 
   it('collects web citations as sources (deduped, with title fallback and cited text)', () => {
