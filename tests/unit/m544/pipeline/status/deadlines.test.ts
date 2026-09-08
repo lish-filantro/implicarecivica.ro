@@ -1,26 +1,23 @@
 /**
- * pipeline/status/deadlines — calendar-day arithmetic for Law 544/2001 deadlines.
- * Mirrors the addDays cases from tests/unit/pure-functions.test.ts (same behaviour).
+ * pipeline/status/deadlines — Law 544/2001 deadlines in BUSINESS days (HG 123/2002 art. 16):
+ * 10 working days to answer, 30 when extended, 5 for a refusal, all from registration.
+ * `addDays` (calendar) stays exported for other callers; its cases mirror tests/unit/pure-functions.test.ts.
  */
 import { describe, it, expect } from 'vitest';
 import {
   addDays,
   standardDeadline,
   extendedDeadline,
+  refusalDeadline,
   STANDARD_DEADLINE_DAYS,
   EXTENDED_DEADLINE_DAYS,
-  EXTENSION_EXTRA_DAYS,
+  REFUSAL_DEADLINE_DAYS,
 } from '@m544/pipeline/status/deadlines';
+import { addBusinessDays, businessDaysBetween } from '@m544/shared/utils/business-days';
 
-describe('addDays', () => {
-  it('adds 10 days (standard deadline)', () => {
+describe('addDays (calendar days, kept for non-legal arithmetic)', () => {
+  it('adds 10 days', () => {
     expect(new Date(addDays('2025-01-15T10:00:00Z', 10)).getDate()).toBe(25);
-  });
-
-  it('adds 30 days (extension deadline)', () => {
-    const d = new Date(addDays('2025-01-01T00:00:00Z', 30));
-    expect(d.getMonth()).toBe(0);
-    expect(d.getDate()).toBe(31);
   });
 
   it('handles month overflow', () => {
@@ -45,58 +42,55 @@ describe('addDays', () => {
     expect(d.getDate()).toBe(4);
   });
 
-  it('handles Feb 28 non-leap year', () => {
-    const d = new Date(addDays('2025-02-25T00:00:00Z', 10));
-    expect(d.getMonth()).toBe(2);
-    expect(d.getDate()).toBe(7);
-  });
-
-  it('handles Feb 29 leap year (2024)', () => {
+  it('handles Feb 29 leap year (2024) and negative days', () => {
     const d = new Date(addDays('2024-02-25T00:00:00Z', 10));
     expect(d.getMonth()).toBe(2);
     expect(d.getDate()).toBe(6);
-  });
-
-  it('handles negative days', () => {
     expect(new Date(addDays('2025-03-15T00:00:00Z', -5)).getDate()).toBe(10);
-  });
-
-  it('handles large number of days (365)', () => {
-    const d = new Date(addDays('2025-01-01T00:00:00Z', 365));
-    expect(d.getFullYear()).toBe(2026);
-    expect(d.getMonth()).toBe(0);
-    expect(d.getDate()).toBe(1);
   });
 });
 
-describe('Law 544/2001 deadline constants and helpers', () => {
-  it('10 standard days, 30 extended days, 20 extra days', () => {
+describe('Law 544/2001 deadline constants', () => {
+  it('10 standard, 30 extended, 5 refusal — all business days', () => {
     expect(STANDARD_DEADLINE_DAYS).toBe(10);
     expect(EXTENDED_DEADLINE_DAYS).toBe(30);
-    expect(EXTENSION_EXTRA_DAYS).toBe(20);
-    expect(STANDARD_DEADLINE_DAYS + EXTENSION_EXTRA_DAYS).toBe(EXTENDED_DEADLINE_DAYS);
+    expect(REFUSAL_DEADLINE_DAYS).toBe(5);
+  });
+});
+
+describe('standardDeadline / extendedDeadline / refusalDeadline', () => {
+  const received = '2026-09-08T10:00:00.000Z'; // Tuesday, no holidays ahead
+
+  it('are computed with addBusinessDays, not calendar days', () => {
+    expect(standardDeadline(received)).toBe(addBusinessDays(received, 10));
+    expect(extendedDeadline(received)).toBe(addBusinessDays(received, 30));
+    expect(refusalDeadline(received)).toBe(addBusinessDays(received, 5));
+    expect(standardDeadline(received)).not.toBe(addDays(received, 10));
   });
 
-  it('standardDeadline = date_received + 10 days', () => {
-    const received = '2025-03-01T10:00:00Z';
-    expect(standardDeadline(received)).toBe(addDays(received, 10));
-    const d = new Date(standardDeadline(received));
-    expect(d.getUTCMonth()).toBe(2);
-    expect(d.getUTCDate()).toBe(11);
+  it('standard: Tue 8 Sep 2026 + 10 business days = Tue 22 Sep 2026, same time of day', () => {
+    expect(standardDeadline(received)).toBe('2026-09-22T10:00:00.000Z');
+    expect(businessDaysBetween(received, standardDeadline(received))).toBe(10);
   });
 
-  it('extendedDeadline = date_received + 30 days total', () => {
-    const received = '2025-03-01T10:00:00Z';
-    expect(extendedDeadline(received)).toBe(addDays(received, 30));
-    const d = new Date(extendedDeadline(received));
-    expect(d.getUTCMonth()).toBe(2);
-    expect(d.getUTCDate()).toBe(31);
+  it('extended: 30 business days = 6 calendar weeks on a holiday-free span', () => {
+    expect(extendedDeadline(received)).toBe('2026-10-20T10:00:00.000Z');
+    expect(businessDaysBetween(received, extendedDeadline(received))).toBe(30);
   });
 
-  it('extension adds 20 calendar days on top of the standard deadline', () => {
-    // Calendar days (local setDate, like the old addDays): a DST switch may shift the span by an hour.
-    const received = '2025-03-01T10:00:00Z';
-    const diffMs = new Date(extendedDeadline(received)).getTime() - new Date(standardDeadline(received)).getTime();
-    expect(Math.round(diffMs / (1000 * 60 * 60 * 24))).toBe(20);
+  it('refusal: Tue 8 Sep 2026 + 5 business days = Tue 15 Sep 2026', () => {
+    expect(refusalDeadline(received)).toBe('2026-09-15T10:00:00.000Z');
+  });
+
+  it('skips public holidays: registered Thu 9 Apr 2026 (Easter week-end ahead)', () => {
+    // Fri 10 (Good Friday) and Mon 13 (Easter Monday) are not counted:
+    // 14, 15, 16, 17, 20, 21, 22, 23, 24, 27 Apr → 10 business days end Mon 27 Apr; 5 end Mon 20 Apr.
+    expect(standardDeadline('2026-04-09T08:00:00.000Z')).toBe('2026-04-27T08:00:00.000Z');
+    expect(refusalDeadline('2026-04-09T08:00:00.000Z')).toBe('2026-04-20T08:00:00.000Z');
+  });
+
+  it('skips the Christmas / New Year holidays', () => {
+    // Tue 23 Dec 2025: 24, 29, 30, 31 Dec, 5, 8, 9, 12, 13, 14 Jan → Wed 14 Jan 2026
+    expect(standardDeadline('2025-12-23T12:00:00.000Z')).toBe('2026-01-14T12:00:00.000Z');
   });
 });

@@ -1,10 +1,13 @@
 /**
- * Deadline arithmetic for requests. Days are counted between local midnights
- * (legacy behaviour). The `…At(request, now)` variants take an explicit clock
- * for tests; the one-argument versions keep the legacy signatures so they can
- * still be passed straight to `Array.prototype.filter`.
+ * Deadline arithmetic for requests as shown on screen: CALENDAR days counted between
+ * local midnights (legacy behaviour). The legal deadlines themselves are set in
+ * business days by pipeline/status/deadlines; `getBusinessDaysUntilDeadline` reads
+ * the remaining time in those units. The `…At(request, now)` variants take an
+ * explicit clock for tests; the one-argument versions keep the legacy signatures so
+ * they can still be passed straight to `Array.prototype.filter`.
  */
 import type { Request } from '@m544/shared/types/request';
+import { businessDaysBetween } from '@m544/shared/utils/business-days';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -23,6 +26,16 @@ export function getEffectiveDeadline(request: Request): string | null {
 export function getDaysUntilDeadline(deadline: string | null, now: Date = new Date()): number | null {
   if (!deadline) return null;
   return Math.ceil((atMidnight(new Date(deadline)) - atMidnight(now)) / DAY_MS);
+}
+
+/**
+ * Business days (weekends and Romanian public holidays excluded) strictly after `now`'s
+ * UTC date up to and including the deadline's UTC date; negative when past; null without
+ * a deadline.
+ */
+export function getBusinessDaysUntilDeadline(deadline: string | null, now: Date = new Date()): number | null {
+  if (!deadline) return null;
+  return businessDaysBetween(now.toISOString(), deadline);
 }
 
 /** Not answered and the effective deadline is within 0..3 days of `now`. */

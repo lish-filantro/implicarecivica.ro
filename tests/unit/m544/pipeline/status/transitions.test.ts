@@ -59,7 +59,7 @@ describe('planTransition — full table (viaThread, no registration number)', ()
 });
 
 describe('planTransition — inregistrate', () => {
-  it('sets registration number, date_received and 10-day deadline', () => {
+  it('sets registration number, date_received and the 10-business-day deadline', () => {
     const plan = planTransition({
       current: { status: 'pending' },
       analysis: mkAnalysis({ category: 'inregistrate', registration_number: '123/2025' }),
@@ -87,7 +87,7 @@ describe('planTransition — inregistrate', () => {
 });
 
 describe('planTransition — amanate', () => {
-  it('extension is 30 days from the existing date_received, 20 extra days, reason kept', () => {
+  it('extension is 30 business days from the existing date_received, extension_days = 30, reason kept', () => {
     const plan = planTransition({
       current: { status: 'received', date_received: EARLIER },
       analysis: mkAnalysis({ category: 'amanate', extension_reason: 'volum mare' }),
@@ -96,7 +96,7 @@ describe('planTransition — amanate', () => {
     });
     expect(plan.changes).toEqual({
       extension_date: extendedDeadline(EARLIER),
-      extension_days: 20,
+      extension_days: 30,
       status: 'extension',
       extension_reason: 'volum mare',
     });

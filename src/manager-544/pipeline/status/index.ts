@@ -3,9 +3,10 @@ export {
   addDays,
   standardDeadline,
   extendedDeadline,
+  refusalDeadline,
   STANDARD_DEADLINE_DAYS,
   EXTENDED_DEADLINE_DAYS,
-  EXTENSION_EXTRA_DAYS,
+  REFUSAL_DEADLINE_DAYS,
 } from './deadlines';
 export { planTransition, type CurrentRequest, type TransitionInput, type TransitionPlan } from './transitions';
 export { applyStatusUpdate, type ApplyDeps } from './apply';

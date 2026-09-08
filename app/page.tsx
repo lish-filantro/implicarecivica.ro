@@ -168,7 +168,7 @@ export default function Home() {
               {
                 step: "3",
                 title: "Urmărești răspunsul",
-                desc: "Primești notificări și știi exact când expiră termenul legal de 30 de zile.",
+                desc: "Primești notificări și știi exact când expiră termenul legal de 10 zile lucrătoare.",
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-6 items-start">

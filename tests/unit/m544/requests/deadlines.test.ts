@@ -8,6 +8,7 @@ import { describe, it, expect } from 'vitest';
 import {
   getEffectiveDeadline,
   getDaysUntilDeadline,
+  getBusinessDaysUntilDeadline,
   isCriticalAt,
   isOverdueAt,
   daysSinceSentAt,
@@ -56,6 +57,29 @@ describe('getDaysUntilDeadline', () => {
   it('returns null without a deadline', () => {
     expect(getDaysUntilDeadline(null, NOW)).toBeNull();
     expect(getDaysUntilDeadline('', NOW)).toBeNull();
+  });
+});
+
+describe('getBusinessDaysUntilDeadline', () => {
+  const nowUtc = new Date('2026-09-08T10:00:00.000Z'); // Tuesday
+
+  it('counts business days (UTC dates), skipping weekends and holidays', () => {
+    expect(getBusinessDaysUntilDeadline('2026-09-22T10:00:00.000Z', nowUtc)).toBe(10);
+    expect(getBusinessDaysUntilDeadline('2026-09-14T01:00:00.000Z', nowUtc)).toBe(4); // Wed..Fri + Mon
+    expect(getBusinessDaysUntilDeadline('2026-09-13T01:00:00.000Z', nowUtc)).toBe(3); // Sunday deadline
+    expect(getBusinessDaysUntilDeadline('2026-04-14T08:00:00.000Z', new Date('2026-04-09T08:00:00.000Z'))).toBe(1);
+  });
+
+  it('is 0 on the deadline day and negative once past', () => {
+    expect(getBusinessDaysUntilDeadline('2026-09-08T23:00:00.000Z', nowUtc)).toBe(0);
+    expect(getBusinessDaysUntilDeadline('2026-09-04T10:00:00.000Z', nowUtc)).toBe(-2); // Fri → Mon, Tue
+  });
+
+  it('returns null without a deadline and is smaller than the calendar count over a weekend', () => {
+    expect(getBusinessDaysUntilDeadline(null, nowUtc)).toBeNull();
+    expect(getBusinessDaysUntilDeadline('', nowUtc)).toBeNull();
+    const calendar = getDaysUntilDeadline('2026-09-22T10:00:00.000Z', nowUtc)!;
+    expect(calendar).toBeGreaterThan(getBusinessDaysUntilDeadline('2026-09-22T10:00:00.000Z', nowUtc)!);
   });
 });
 

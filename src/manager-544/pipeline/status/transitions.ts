@@ -5,7 +5,7 @@
 import type { AnalysisResult } from '@m544/pipeline/types';
 import type { RequestPatch } from '@m544/shared/db/requests-repo';
 import type { Request, RequestStatus } from '@m544/shared/types/request';
-import { EXTENSION_EXTRA_DAYS, extendedDeadline, standardDeadline } from './deadlines';
+import { EXTENDED_DEADLINE_DAYS, extendedDeadline, standardDeadline } from './deadlines';
 
 export type CurrentRequest = Pick<Request, 'status' | 'date_received' | 'registration_number' | 'deadline_date'>;
 
@@ -47,11 +47,12 @@ function registered({ analysis, emailReceivedAt }: TransitionInput): TransitionP
   return plan(changes);
 }
 
+/** Extension: 30 business days in total from registration (extension_days = total, per HG 123/2002 art. 16). */
 function extended({ current, analysis, emailReceivedAt }: TransitionInput): TransitionPlan {
   const base = current.date_received || emailReceivedAt;
   const changes: RequestPatch = {
     extension_date: extendedDeadline(base),
-    extension_days: EXTENSION_EXTRA_DAYS,
+    extension_days: EXTENDED_DEADLINE_DAYS,
     status: 'extension',
   };
   if (analysis.extension_reason) changes.extension_reason = analysis.extension_reason;
