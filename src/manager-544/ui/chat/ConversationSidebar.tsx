@@ -124,44 +124,49 @@ export default function ConversationSidebar({
           </p>
         ) : (
           <div className="py-2">
+            {/* Row = div wrapper; a <button> may not contain another <button> (delete),
+                which produced invalid HTML and a hydration error. */}
             {conversations.map((conv) => (
-              <button
+              <div
                 key={conv.id}
-                onClick={() => { router.push(`/chat/${conv.id}`); onNavigate?.(); }}
-                className={`w-full text-left px-4 py-3 group hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
+                className={`relative group hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
                   activeId === conv.id
                     ? 'bg-civic-blue-50 dark:bg-civic-blue-900/20 border-r-2 border-civic-blue-600'
                     : ''
                 }`}
               >
-                <div className="flex items-start justify-between">
-                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate flex-1 mr-2">
-                    {conv.title}
-                  </p>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <span className="text-xs text-gray-400 dark:text-gray-500">
+                <button
+                  onClick={() => { router.push(`/chat/${conv.id}`); onNavigate?.(); }}
+                  className="w-full text-left px-4 py-3"
+                >
+                  <div className="flex items-start justify-between">
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate flex-1 mr-2">
+                      {conv.title}
+                    </p>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 flex-shrink-0 mr-6">
                       {formatRelativeTime(conv.updatedAt)}
                     </span>
-                    <button
-                      onClick={(e) => handleDelete(e, conv.id)}
-                      className="p-1 rounded opacity-0 group-hover:opacity-100 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-all"
-                      title="Șterge"
-                    >
-                      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
                   </div>
-                </div>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs text-gray-400 dark:text-gray-500">
-                    {conv.messageCount} mesaje
-                  </span>
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                    {STEP_LABELS[conv.currentStep] || conv.currentStep}
-                  </span>
-                </div>
-              </button>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-gray-400 dark:text-gray-500">
+                      {conv.messageCount} mesaje
+                    </span>
+                    <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                      {STEP_LABELS[conv.currentStep] || conv.currentStep}
+                    </span>
+                  </div>
+                </button>
+                <button
+                  onClick={(e) => handleDelete(e, conv.id)}
+                  className="absolute top-3 right-4 p-1 rounded opacity-0 group-hover:opacity-100 focus:opacity-100 hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-all"
+                  title="Șterge"
+                  aria-label="Șterge conversația"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
             ))}
           </div>
         )}

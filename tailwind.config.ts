@@ -7,6 +7,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -81,56 +82,24 @@ const config: Config = {
           800: '#854d0e',
           900: '#713f12',
         },
-        // Legacy compatibility (shadcn/ui)
-        primary: {
-          DEFAULT: "hsl(209, 100%, 45%)", // Civic blue
-          foreground: "hsl(0, 0%, 100%)",
-        },
-        secondary: {
-          DEFAULT: "hsl(25, 100%, 50%)", // Activist orange
-          foreground: "hsl(0, 0%, 100%)",
-        },
-        success: {
-          DEFAULT: "hsl(142, 71%, 45%)", // Grassroots green
-          foreground: "hsl(0, 0%, 100%)",
-        },
-        warning: {
-          DEFAULT: "hsl(45, 93%, 47%)", // Warning yellow
-          foreground: "hsl(0, 0%, 0%)",
-        },
-        danger: {
-          DEFAULT: "hsl(0, 72%, 51%)", // Protest red
-          foreground: "hsl(0, 0%, 100%)",
-        },
-        info: {
-          DEFAULT: "hsl(209, 100%, 45%)", // Civic blue
-          foreground: "hsl(0, 0%, 100%)",
-        },
-        background: "hsl(0, 0%, 100%)",
-        foreground: "hsl(222, 47%, 11%)",
-        muted: {
-          DEFAULT: "hsl(210, 17%, 95%)",
-          foreground: "hsl(215, 13%, 34%)",
-        },
-        border: "hsl(214, 20%, 85%)",
-        input: "hsl(214, 20%, 85%)",
-        ring: "hsl(25, 100%, 50%)",
-        card: {
-          DEFAULT: "hsl(0, 0%, 100%)",
-          foreground: "hsl(222, 47%, 11%)",
-        },
-        popover: {
-          DEFAULT: "hsl(0, 0%, 100%)",
-          foreground: "hsl(222, 47%, 11%)",
-        },
-        destructive: {
-          DEFAULT: "hsl(0, 72%, 51%)",
-          foreground: "hsl(0, 0%, 100%)",
-        },
-        accent: {
-          DEFAULT: "hsl(210, 17%, 95%)",
-          foreground: "hsl(222, 47%, 11%)",
-        },
+        // shadcn/ui semantic tokens — driven by CSS variables in globals.css
+        // so that the .dark overrides actually apply (light values hardcoded before).
+        primary: { DEFAULT: "hsl(var(--primary) / <alpha-value>)", foreground: "hsl(var(--primary-foreground) / <alpha-value>)" },
+        secondary: { DEFAULT: "hsl(var(--secondary) / <alpha-value>)", foreground: "hsl(var(--secondary-foreground) / <alpha-value>)" },
+        success: { DEFAULT: "hsl(var(--success) / <alpha-value>)", foreground: "hsl(var(--success-foreground) / <alpha-value>)" },
+        warning: { DEFAULT: "hsl(var(--warning) / <alpha-value>)", foreground: "hsl(var(--warning-foreground) / <alpha-value>)" },
+        danger: { DEFAULT: "hsl(var(--destructive) / <alpha-value>)", foreground: "hsl(var(--destructive-foreground) / <alpha-value>)" },
+        info: { DEFAULT: "hsl(var(--primary) / <alpha-value>)", foreground: "hsl(var(--primary-foreground) / <alpha-value>)" },
+        background: "hsl(var(--background) / <alpha-value>)",
+        foreground: "hsl(var(--foreground) / <alpha-value>)",
+        muted: { DEFAULT: "hsl(var(--muted) / <alpha-value>)", foreground: "hsl(var(--muted-foreground) / <alpha-value>)" },
+        border: "hsl(var(--border) / <alpha-value>)",
+        input: "hsl(var(--input) / <alpha-value>)",
+        ring: "hsl(var(--ring) / <alpha-value>)",
+        card: { DEFAULT: "hsl(var(--card) / <alpha-value>)", foreground: "hsl(var(--card-foreground) / <alpha-value>)" },
+        popover: { DEFAULT: "hsl(var(--popover) / <alpha-value>)", foreground: "hsl(var(--popover-foreground) / <alpha-value>)" },
+        destructive: { DEFAULT: "hsl(var(--destructive) / <alpha-value>)", foreground: "hsl(var(--destructive-foreground) / <alpha-value>)" },
+        accent: { DEFAULT: "hsl(var(--accent) / <alpha-value>)", foreground: "hsl(var(--accent-foreground) / <alpha-value>)" },
       },
       borderRadius: {
         lg: "0.5rem", // 8px - modern rounded

@@ -38,7 +38,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ro">
+    <html lang="ro" suppressHydrationWarning>
+      <head>
+        {/* Apply the stored/system theme before first paint so pages without the
+            DarkModeToggle (login, register, pending-approval…) still get dark mode
+            and there is no light flash on load. Mirrors DarkModeToggle logic. */}
+        <script dangerouslySetInnerHTML={{ __html: "(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.add(d?'dark':'light');}catch(e){}})();" }} />
+      </head>
       <body className="antialiased">
         <AuthProvider>
           {children}

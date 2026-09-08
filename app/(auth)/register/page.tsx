@@ -69,7 +69,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-950 flex flex-col items-center justify-center p-4">
       <Link href="/">
         <Image
           src="/assets/implicare_civica_logo.png"

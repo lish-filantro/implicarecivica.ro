@@ -34,10 +34,8 @@ export function Hero() {
             animation: highlight-draw 0.8s ease-out forwards;
             animation-delay: 0.9s;
           }
-          @media (prefers-color-scheme: dark) {
-            .hero-highlight {
-              background-image: linear-gradient(120deg, #ff660030 0%, #ff660030 100%);
-            }
+          .dark .hero-highlight {
+            background-image: linear-gradient(120deg, #ff660030 0%, #ff660030 100%);
           }
         `}</style>
 
