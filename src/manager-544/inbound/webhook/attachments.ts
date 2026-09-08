@@ -23,7 +23,6 @@ export interface SaveAttachmentsDeps {
 }
 
 // Control characters (0x00-0x1f, 0x7f) are removed from file names.
-// eslint-disable-next-line no-control-regex
 const CONTROL_CHARS = /[\x00-\x1f\x7f]/g;
 
 /** Strip directories and control characters; never return an empty or dot-only name. */

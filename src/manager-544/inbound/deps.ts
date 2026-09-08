@@ -10,7 +10,7 @@ import { processEmail } from '@m544/pipeline/process-email';
 import { createPipelineDeps } from '@m544/pipeline/deps';
 import { fetchRawEmail, deleteRawEmail } from './webhook/r2';
 import { SupabaseCampaignAdapter } from './campaign-adapter';
-import type { InboundDeps } from './handler';
+import type { InboundDeps } from './ingest';
 
 export function createInboundDeps(): InboundDeps {
   const sb = createServiceClient();

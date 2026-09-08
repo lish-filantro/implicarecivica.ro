@@ -124,6 +124,16 @@ class FakeStatsRepo implements AdminStatsRepo {
     this.calls.push(`active:${since}`);
     return [{ user_id: 'u1' }, { user_id: 'u1' }, { user_id: 'u2' }];
   }
+  async countReceivedEmails(status: 'pending' | 'failed') {
+    this.calls.push(`emails:${status}`);
+    return { pending: 6, failed: 2 }[status];
+  }
+  async countEmailsNeedingReview() {
+    return 3;
+  }
+  async lastInboundAt() {
+    return '2026-09-08T11:30:00.000Z';
+  }
 }
 
 describe('loadAdminStats', () => {
@@ -137,7 +147,9 @@ describe('loadAdminStats', () => {
       requestStatus: { sent: 1, answered: 1, unknown: 1 },
       feedbackStatus: { new: 1 },
       topInstitutions: [{ name: 'X', total: 1, answered: 1 }],
+      emails: { pending: 6, failed: 2, needs_review: 3, last_inbound_at: '2026-09-08T11:30:00.000Z' },
     });
+    expect(repo.calls).toEqual(expect.arrayContaining(['emails:pending', 'emails:failed']));
     expect(out.dailySignups).toHaveLength(30);
     expect(out.dailySignups[29]).toEqual({ day: '2026-09-08', count: 2 });
   });

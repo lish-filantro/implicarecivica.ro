@@ -4,17 +4,27 @@
  * flow needs auth.admin. Never expose these to the browser.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { AdminStatsRepo, CountedTable, CreatedAtRow, InstitutionRow, StatusRow, UserIdRow } from './stats';
+import type {
+  AdminStatsRepo,
+  CountedTable,
+  CreatedAtRow,
+  EmailProcessingStatus,
+  InstitutionRow,
+  StatusRow,
+  UserIdRow,
+} from './stats';
 import type { AdminUsersRepo, PendingProfile } from './users';
 
 type Filter = { column: string; op: 'gte' | 'eq'; value: string | boolean };
 
+const RECEIVED: Filter = { column: 'type', op: 'eq', value: 'received' };
+
 export class SupabaseAdminStatsRepo implements AdminStatsRepo {
   constructor(private readonly sb: SupabaseClient) {}
 
-  private async count(table: string, filter?: Filter): Promise<number> {
+  private async count(table: string, ...filters: Filter[]): Promise<number> {
     let q = this.sb.from(table).select('*', { count: 'exact', head: true });
-    if (filter) q = filter.op === 'gte' ? q.gte(filter.column, filter.value) : q.eq(filter.column, filter.value);
+    for (const f of filters) q = f.op === 'gte' ? q.gte(f.column, f.value) : q.eq(f.column, f.value);
     const { count, error } = await q;
     if (error) throw error;
     return count ?? 0;
@@ -30,7 +40,7 @@ export class SupabaseAdminStatsRepo implements AdminStatsRepo {
   }
 
   countProfiles(since?: string) {
-    return this.count('profiles', since ? { column: 'created_at', op: 'gte', value: since } : undefined);
+    return since ? this.count('profiles', { column: 'created_at', op: 'gte', value: since }) : this.count('profiles');
   }
   countPendingProfiles() {
     return this.count('profiles', { column: 'approved', op: 'eq', value: false });
@@ -55,6 +65,23 @@ export class SupabaseAdminStatsRepo implements AdminStatsRepo {
   }
   activeUserIdsSince(since: string) {
     return this.rows<UserIdRow>('requests', 'user_id', { column: 'created_at', op: 'gte', value: since });
+  }
+  countReceivedEmails(status: EmailProcessingStatus) {
+    return this.count('emails', RECEIVED, { column: 'processing_status', op: 'eq', value: status });
+  }
+  countEmailsNeedingReview() {
+    return this.count('emails', RECEIVED, { column: 'needs_review', op: 'eq', value: true });
+  }
+  async lastInboundAt(): Promise<string | null> {
+    const { data, error } = await this.sb
+      .from('emails')
+      .select('received_at')
+      .eq('type', 'received')
+      .not('received_at', 'is', null)
+      .order('received_at', { ascending: false })
+      .limit(1);
+    if (error) throw error;
+    return (data?.[0] as { received_at?: string | null } | undefined)?.received_at ?? null;
   }
 }
 

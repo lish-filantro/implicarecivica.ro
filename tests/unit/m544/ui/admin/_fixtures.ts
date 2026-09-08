@@ -16,6 +16,7 @@ export const statsFixture: StatsData = {
     { name: 'CJ Iași', total: 4, answered: 2 },
     { name: 'ANAF', total: 3, answered: 0 },
   ],
+  emails: { pending: 4, failed: 1, needs_review: 2, last_inbound_at: '2026-03-11T08:00:00.000Z' },
 };
 
 export const pendingFixture: PendingUser[] = [

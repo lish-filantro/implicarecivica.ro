@@ -19,6 +19,7 @@ export interface StatsData {
   requestStatus: Record<string, number>;
   feedbackStatus: Record<string, number>;
   topInstitutions: { name: string; total: number; answered: number }[];
+  emails: { pending: number; failed: number; needs_review: number; last_inbound_at: string | null };
 }
 
 export interface PendingUser {

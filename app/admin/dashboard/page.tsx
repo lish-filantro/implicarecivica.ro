@@ -8,6 +8,7 @@ import { PendingUsersTable } from '@m544/ui/admin/PendingUsersTable';
 import { SignupsChart } from '@m544/ui/admin/SignupsChart';
 import { StatusDistribution } from '@m544/ui/admin/StatusDistribution';
 import { TopInstitutions } from '@m544/ui/admin/TopInstitutions';
+import { formatLastInbound } from '@m544/ui/admin/format';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -71,6 +72,14 @@ export default function AdminDashboardPage() {
             value={stats.users.pending_approval}
             color="rose"
           />
+        </div>
+
+        {/* Inbound email health */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <AdminKpiCard title="Emailuri neprocesate" value={stats.emails.pending} color="amber" />
+          <AdminKpiCard title="Procesări eșuate" value={stats.emails.failed} color="rose" />
+          <AdminKpiCard title="De revizuit" value={stats.emails.needs_review} color="indigo" />
+          <AdminKpiCard title="Ultimul email primit" value={formatLastInbound(stats.emails.last_inbound_at)} color="sky" />
         </div>
 
         {/* Pending Accounts */}

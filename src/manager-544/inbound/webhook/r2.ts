@@ -17,12 +17,16 @@ export interface R2Deps {
   accountId?: string;
 }
 
+export function r2BucketUrl(accountId: string): string {
+  return `https://${accountId}.r2.cloudflarestorage.com/${R2_BUCKET}`;
+}
+
 export function r2ObjectUrl(accountId: string, key: string): string {
-  return `https://${accountId}.r2.cloudflarestorage.com/${R2_BUCKET}/${key}`;
+  return `${r2BucketUrl(accountId)}/${key}`;
 }
 
 /** Resolve client + account from deps or env. Throws EnvError when credentials are missing. */
-function resolve(deps: R2Deps): { client: R2Client; accountId: string } {
+export function resolveR2(deps: R2Deps): { client: R2Client; accountId: string } {
   const accountId = deps.accountId ?? requireEnv('CLOUDFLARE_ACCOUNT_ID');
   const client =
     deps.client ??
@@ -36,7 +40,7 @@ function resolve(deps: R2Deps): { client: R2Client; accountId: string } {
 }
 
 export async function fetchRawEmail(key: string, deps: R2Deps = {}): Promise<Uint8Array> {
-  const { client, accountId } = resolve(deps);
+  const { client, accountId } = resolveR2(deps);
   const response = await client.fetch(r2ObjectUrl(accountId, key));
   if (!response.ok) {
     throw new Error(`R2 fetch failed: ${response.status} ${response.statusText}`);
@@ -47,7 +51,7 @@ export async function fetchRawEmail(key: string, deps: R2Deps = {}): Promise<Uin
 /** Best-effort cleanup after the email is persisted; never throws. */
 export async function deleteRawEmail(key: string, deps: R2Deps = {}): Promise<void> {
   try {
-    const { client, accountId } = resolve(deps);
+    const { client, accountId } = resolveR2(deps);
     await client.fetch(r2ObjectUrl(accountId, key), { method: 'DELETE' });
   } catch (err) {
     console.warn(`[R2] Failed to delete ${key}:`, err instanceof Error ? err.message : err);

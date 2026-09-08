@@ -30,6 +30,9 @@ const emptyStats: AdminStatsRepo = {
   feedbackStatuses: async () => [],
   requestInstitutions: async () => [],
   activeUserIdsSince: async () => [],
+  countReceivedEmails: async () => 0,
+  countEmailsNeedingReview: async () => 0,
+  lastInboundAt: async () => null,
 };
 
 function makeDeps(user: User | null) {
@@ -110,8 +113,9 @@ describe('GET /api/admin/stats', () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(Object.keys(body).sort()).toEqual(
-      ['activity', 'dailySignups', 'feedbackStatus', 'requestStatus', 'topInstitutions', 'users'].sort(),
+      ['activity', 'dailySignups', 'emails', 'feedbackStatus', 'requestStatus', 'topInstitutions', 'users'].sort(),
     );
+    expect(body.emails).toEqual({ pending: 0, failed: 0, needs_review: 0, last_inbound_at: null });
     expect(body.users).toEqual({ total: 0, new_7d: 0, new_30d: 0, active_30d: 0, pending_approval: 0 });
     expect(body.dailySignups).toHaveLength(30);
   });

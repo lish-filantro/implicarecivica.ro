@@ -24,8 +24,9 @@ export interface UserIdRow {
 }
 
 export type CountedTable = 'requests' | 'request_sessions' | 'messages' | 'feedback';
+export type EmailProcessingStatus = 'pending' | 'failed';
 
-/** The 14 read queries of the dashboard, expressed as intent rather than SQL. */
+/** The read queries of the dashboard, expressed as intent rather than SQL. */
 export interface AdminStatsRepo {
   /** Profiles created at/after `since` (ISO); all profiles when omitted. */
   countProfiles(since?: string): Promise<number>;
@@ -37,6 +38,11 @@ export interface AdminStatsRepo {
   feedbackStatuses(): Promise<StatusRow[]>;
   requestInstitutions(): Promise<InstitutionRow[]>;
   activeUserIdsSince(since: string): Promise<UserIdRow[]>;
+  /** Received emails in the given processing state. */
+  countReceivedEmails(status: EmailProcessingStatus): Promise<number>;
+  countEmailsNeedingReview(): Promise<number>;
+  /** `received_at` of the most recent received email, or null when none. */
+  lastInboundAt(): Promise<string | null>;
 }
 
 export interface DailySignup {
@@ -62,6 +68,7 @@ export interface AdminStats {
   requestStatus: Record<string, number>;
   feedbackStatus: Record<string, number>;
   topInstitutions: InstitutionStat[];
+  emails: { pending: number; failed: number; needs_review: number; last_inbound_at: string | null };
 }
 
 const utcDay = (d: Date) => d.toISOString().split('T')[0];
@@ -139,6 +146,10 @@ export async function loadAdminStats({ repo, now = () => new Date() }: AdminStat
     institutions,
     activeUsers,
     pendingApproval,
+    emailsPending,
+    emailsFailed,
+    emailsNeedsReview,
+    lastInboundAt,
   ] = await Promise.all([
     repo.countProfiles(),
     repo.countProfiles(since7d),
@@ -154,6 +165,10 @@ export async function loadAdminStats({ repo, now = () => new Date() }: AdminStat
     repo.requestInstitutions(),
     repo.activeUserIdsSince(since30d),
     repo.countPendingProfiles(),
+    repo.countReceivedEmails('pending'),
+    repo.countReceivedEmails('failed'),
+    repo.countEmailsNeedingReview(),
+    repo.lastInboundAt(),
   ]);
 
   return {
@@ -175,5 +190,11 @@ export async function loadAdminStats({ repo, now = () => new Date() }: AdminStat
     requestStatus: distribution(requestStatuses, 'status'),
     feedbackStatus: distribution(feedbackStatuses, 'status'),
     topInstitutions: topInstitutions(institutions),
+    emails: {
+      pending: emailsPending,
+      failed: emailsFailed,
+      needs_review: emailsNeedsReview,
+      last_inbound_at: lastInboundAt,
+    },
   };
 }

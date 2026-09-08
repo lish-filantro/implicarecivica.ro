@@ -2,5 +2,5 @@ name = "email-receiver"
 main = "worker.js"
 compatibility_date = "2024-09-01"
 
-# Necesar pentru postal-mime (module worker)
+# Module worker; lib.js is bundled by wrangler at deploy time
 compatibility_flags = ["nodejs_compat"]

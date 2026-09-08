@@ -1,4 +1,5 @@
-export function AdminKpiCard({ title, value, color }: { title: string; value: number; color: string }) {
+/** Numbers are formatted in Romanian locale; a string (e.g. a relative time) is shown as-is. */
+export function AdminKpiCard({ title, value, color }: { title: string; value: number | string; color: string }) {
   const colorMap: Record<string, string> = {
     sky: 'border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-900/20',
     emerald: 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20',
@@ -21,7 +22,7 @@ export function AdminKpiCard({ title, value, color }: { title: string; value: nu
         {title}
       </p>
       <p className={`text-3xl font-bold mt-2 ${valueColorMap[color] || valueColorMap.sky}`}>
-        {value.toLocaleString('ro-RO')}
+        {typeof value === 'number' ? value.toLocaleString('ro-RO') : value}
       </p>
     </div>
   );

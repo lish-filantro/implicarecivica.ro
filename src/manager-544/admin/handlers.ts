@@ -2,7 +2,7 @@
  * Route handlers for the admin API. The `app/api/admin/**` route files are
  * one-line adapters over these factories; tests build handlers with fakes.
  *
- *   GET  /api/admin/stats          aggregate dashboard numbers
+ *   GET  /api/admin/stats          aggregate dashboard numbers (users, activity, emails)
  *   GET  /api/admin/users/pending  { users: PendingUser[] }
  *   POST /api/admin/users/approve  { userId }  → { success: true }
  *   POST /api/admin/users/reject   { userId }  → { success: true }
