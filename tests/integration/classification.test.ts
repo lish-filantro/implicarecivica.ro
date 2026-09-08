@@ -10,8 +10,8 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { analyzeEmailContent, type AnalysisResult } from '@/lib/services/analysis-service';
-import { runOcrFromBytes } from '@/lib/services/ocr-service';
+import { analyzeEmailContent, type AnalysisResult } from '@m544/pipeline/analysis';
+import { runOcrFromBytes } from '@m544/pipeline/ocr';
 import { getTestScenarios, getStandalonePdfs, type TestPdf } from '../helpers/pdf-loader';
 
 const OCR_CACHE_PATH = path.resolve(__dirname, '../snapshots/ocr-cache.json');
@@ -30,7 +30,7 @@ async function getOcrText(pdf: TestPdf): Promise<string> {
   if (ocrCache[pdf.filePath]) {
     return ocrCache[pdf.filePath].markdown;
   }
-  const result = await runOcrFromBytes(pdf.getBytes(), pdf.fileName + '.pdf');
+  const result = await runOcrFromBytes(pdf.getBytes());
   ocrCache[pdf.filePath] = { markdown: result.markdown, pages: result.pages };
   return result.markdown;
 }

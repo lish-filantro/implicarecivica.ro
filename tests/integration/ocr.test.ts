@@ -10,7 +10,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { runOcrFromBytes } from '@/lib/services/ocr-service';
+import { runOcrFromBytes } from '@m544/pipeline/ocr';
 import { getAllTestPdfs, getTestScenarios, type TestPdf } from '../helpers/pdf-loader';
 
 const SNAPSHOT_PATH = path.resolve(__dirname, '../snapshots/ocr-cache.json');
@@ -32,7 +32,7 @@ async function getOcrResult(pdf: TestPdf): Promise<{ markdown: string; pages: nu
   }
 
   const bytes = pdf.getBytes();
-  const result = await runOcrFromBytes(bytes, pdf.fileName + '.pdf');
+  const result = await runOcrFromBytes(bytes);
 
   ocrCache[cacheKey] = { markdown: result.markdown, pages: result.pages };
   return ocrCache[cacheKey];
