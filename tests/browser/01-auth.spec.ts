@@ -30,6 +30,6 @@ test.describe('autentificare', () => {
 
   test('dashboard-ul admin nu e accesibil unui utilizator obișnuit', async ({ page }) => {
     await login(page, CITIZEN, '/admin/dashboard');
-    await expect(page).not.toHaveURL(/\/admin\/dashboard$/);
+    await expect(page).toHaveURL(/\/dashboard$/);
   });
 });

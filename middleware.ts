@@ -1,7 +1,7 @@
 /**
  * Edge middleware: refreshes the Supabase session cookies, then applies the
  * pure routing rules from @m544/shared/auth/middleware (protected routes,
- * approval gate, auth-route redirects, /campanii and /chatbot redirects).
+ * approval gate, admin gate, auth-route redirects, /campanii and /chatbot redirects).
  *
  * NEXT_PUBLIC_* values are read directly here on purpose: this file runs in
  * the Edge runtime and those variables are inlined at build time.
@@ -9,7 +9,13 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import type { CookieOptions } from '@supabase/ssr'
-import { decideRoute, needsProfileLookup, shouldBypassAuth, type RouteProfile } from '@m544/shared/auth/middleware'
+import {
+  decideRoute,
+  needsProfileLookup,
+  parseAdminEmails,
+  shouldBypassAuth,
+  type RouteProfile,
+} from '@m544/shared/auth/middleware'
 
 type CookieToSet = { name: string; value: string; options?: CookieOptions }
 
@@ -54,7 +60,13 @@ export async function middleware(request: NextRequest) {
     profile = (data as RouteProfile | null) ?? null
   }
 
-  const decision = decideRoute({ pathname, user, profile, url: new URL(request.url) })
+  const decision = decideRoute({
+    pathname,
+    user: user ? { id: user.id, email: user.email } : null,
+    profile,
+    url: new URL(request.url),
+    adminEmails: parseAdminEmails(process.env.ADMIN_EMAILS, env.vercelEnv === 'production'),
+  })
   if (decision.action === 'redirect') {
     return NextResponse.redirect(decision.to)
   }

@@ -10,7 +10,8 @@
  *     - approved & pending page → /dashboard
  *  5. auth routes (except /reset-password/confirm) & user → /dashboard
  *  6. /admin* & no user   → /login?redirectedFrom=<path>
- *  7. otherwise next
+ *  7. /admin* & user not in the admin list → /dashboard (fail closed when the list is empty)
+ *  8. otherwise next
  *
  * Plus: needsProfileLookup(pathname, user) says when middleware must query
  * profiles; shouldBypassAuth(env) allows the "no Supabase configured" skip
@@ -20,6 +21,7 @@ import { describe, it, expect } from 'vitest';
 import {
   decideRoute,
   needsProfileLookup,
+  parseAdminEmails,
   shouldBypassAuth,
   PROTECTED_ROUTES,
   AUTH_ROUTES,
@@ -31,8 +33,14 @@ const user = { id: 'u1' };
 const approved = { approved: true };
 const unapproved = { approved: false };
 
-function decide(pathname: string, u: { id: string } | null, profile?: { approved: boolean } | null, search = '') {
-  return decideRoute({ pathname, user: u, profile, url: new URL(`${ORIGIN}${pathname}${search}`) });
+function decide(
+  pathname: string,
+  u: { id: string; email?: string | null } | null,
+  profile?: { approved: boolean } | null,
+  search = '',
+  adminEmails: string[] = ['admin@implicarecivica.ro'],
+) {
+  return decideRoute({ pathname, user: u, profile, url: new URL(`${ORIGIN}${pathname}${search}`), adminEmails });
 }
 const redirect = (to: string): RouteDecision => ({ action: 'redirect', to });
 const NEXT: RouteDecision = { action: 'next' };
@@ -124,9 +132,31 @@ describe('/admin*', () => {
       redirect(`${ORIGIN}/login?redirectedFrom=%2Fadmin%2Fdashboard`),
     );
   });
-  it('any logged-in user → next (the API enforces the admin list, not the middleware)', () => {
-    expect(decide('/admin/dashboard', user, undefined)).toEqual(NEXT);
-    expect(decide('/admin/dashboard', user, null)).toEqual(NEXT);
+  it('a logged-in user whose email is not in the admin list → /dashboard', () => {
+    expect(decide('/admin/dashboard', { id: 'u1', email: 'ion@example.com' }, undefined)).toEqual(
+      redirect(`${ORIGIN}/dashboard`),
+    );
+    expect(decide('/admin/dashboard', { id: 'u1' }, undefined)).toEqual(redirect(`${ORIGIN}/dashboard`));
+  });
+  it('an admin (case-insensitive) → next, no profile lookup needed', () => {
+    expect(decide('/admin/dashboard', { id: 'u1', email: 'Admin@ImplicareCivica.ro' }, undefined)).toEqual(NEXT);
+    expect(needsProfileLookup('/admin/dashboard', user)).toBe(false);
+  });
+  it('an empty admin list denies everyone (fail closed)', () => {
+    expect(decide('/admin/dashboard', { id: 'u1', email: 'admin@implicarecivica.ro' }, undefined, '', [])).toEqual(
+      redirect(`${ORIGIN}/dashboard`),
+    );
+  });
+});
+
+describe('parseAdminEmails', () => {
+  it('splits, trims and lower-cases the ADMIN_EMAILS list', () => {
+    expect(parseAdminEmails(' A@x.ro, b@y.ro ,, ', true)).toEqual(['a@x.ro', 'b@y.ro']);
+  });
+  it('empty in production → [] (deny all); empty outside production → the dev admin', () => {
+    expect(parseAdminEmails(undefined, true)).toEqual([]);
+    expect(parseAdminEmails('', true)).toEqual([]);
+    expect(parseAdminEmails(undefined, false)).toEqual(['lishhop@protonmail.com']);
   });
 });
 

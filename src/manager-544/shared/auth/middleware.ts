@@ -13,6 +13,7 @@ const PENDING_PAGE = '/pending-approval';
 
 export interface RouteUser {
   id: string;
+  email?: string | null;
 }
 export interface RouteProfile {
   approved: boolean;
@@ -25,6 +26,21 @@ export interface RouteDecisionInput {
   profile: RouteProfile | null | undefined;
   /** Full request URL; redirects are built from it so the query string survives. */
   url: URL;
+  /** Lower-cased admin logins (see parseAdminEmails). Only consulted under /admin. */
+  adminEmails?: string[];
+}
+
+/** Admins used before ADMIN_EMAILS existed; only honoured outside production. */
+const DEV_ADMIN_EMAILS = ['lishhop@protonmail.com'];
+
+/** ADMIN_EMAILS → lower-cased list. Empty in production means nobody (fail closed). */
+export function parseAdminEmails(raw: string | undefined, production: boolean): string[] {
+  const list = (raw ?? '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter((e) => e.length > 0);
+  if (list.length > 0) return list;
+  return production ? [] : DEV_ADMIN_EMAILS;
 }
 
 export type RouteDecision = { action: 'next' } | { action: 'redirect'; to: string };
@@ -51,7 +67,8 @@ export function needsProfileLookup(pathname: string, user: RouteUser | null): bo
   return user !== null && (isProtectedRoute(pathname) || pathname === PENDING_PAGE);
 }
 
-export function decideRoute({ pathname, user, profile, url }: RouteDecisionInput): RouteDecision {
+export function decideRoute(input: RouteDecisionInput): RouteDecision {
+  const { pathname, user, profile, url } = input;
   if (pathname.startsWith('/campanii')) return toPath(url, '/');
 
   if (pathname.startsWith('/chatbot')) return redirect(url, pathname.replace('/chatbot', '/chat'));
@@ -69,7 +86,11 @@ export function decideRoute({ pathname, user, profile, url }: RouteDecisionInput
 
   if (isAuthRoute(pathname) && !pathname.startsWith(PASSWORD_CONFIRM) && user) return redirect(url, '/dashboard');
 
-  if (pathname.startsWith('/admin') && !user) return toLogin(url, pathname);
+  if (pathname.startsWith('/admin')) {
+    if (!user) return toLogin(url, pathname);
+    const email = user.email?.toLowerCase() ?? '';
+    if (!email || !(input.adminEmails ?? []).includes(email)) return toPath(url, '/dashboard');
+  }
 
   return NEXT;
 }

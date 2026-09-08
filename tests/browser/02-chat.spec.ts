@@ -10,16 +10,13 @@ import { login } from './helpers/login';
 const INPUT = 'textarea[placeholder="Scrie-ți întrebarea aici..."]';
 
 async function say(page: Page, text: string): Promise<void> {
-  const before = await page.locator('[data-sender="bot"], .message-bot, article').count();
-  await page.locator(INPUT).fill(text);
+  const input = page.locator(INPUT);
+  await input.fill(text);
   await page.getByRole('button', { name: 'Trimite mesajul' }).click();
-  // wait for the reply: input re-enabled and one more bot bubble (or any new text)
-  await expect(page.locator(INPUT)).toBeEnabled({ timeout: 90_000 });
-  await expect
-    .poll(async () => (await page.locator('[data-sender="bot"], .message-bot, article').count()) > before || true, {
-      timeout: 90_000,
-    })
-    .toBeTruthy();
+  // the input is disabled while the model answers; the reply is there once it is enabled again
+  await expect(input).toBeDisabled({ timeout: 10_000 }).catch(() => undefined);
+  await expect(input).toBeEnabled({ timeout: 120_000 });
+  await expect(input).toHaveValue('');
 }
 
 test.describe('asistentul 544', () => {
