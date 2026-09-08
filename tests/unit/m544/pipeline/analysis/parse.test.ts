@@ -112,7 +112,9 @@ describe('toAnalysisResult', () => {
       expect(result.answer_summary).toEqual(entry.answer_summary);
       expect(result.confidence).toBe(entry.confidence);
       expect(result.extension_days).toBe(entry.extension_days);
-      expect(result.redirected_to).toBeNull();
+      // redirected_to survives only for redirectionat entries (the golden file now contains some)
+      if (entry.category === 'redirectionat') expect(result.redirected_to).toBe(entry.redirected_to ?? null);
+      else expect(result.redirected_to).toBeNull();
     }
   });
 
