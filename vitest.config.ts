@@ -4,6 +4,7 @@ import path from 'path';
 export default defineConfig({
   resolve: {
     alias: {
+      '@m544': path.resolve(__dirname, 'src/manager-544'),
       '@': path.resolve(__dirname, '.'),
     },
   },

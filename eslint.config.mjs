@@ -1,0 +1,83 @@
+// ESLint flat config (ESLint 9) for implicarecivica.ro
+//
+// Rules that matter for the manager-544 refactor:
+//   - max-lines 200 (blank lines and comments excluded) on all application code
+//   - no new `any` inside src/manager-544
+// The campanii module and the public content pages are outside the refactor
+// scope and are linted only with the Next.js defaults.
+
+import { FlatCompat } from '@eslint/eslintrc';
+
+const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
+
+/** Paths outside the manager-544 refactor scope (campanii + public content) */
+const OUT_OF_SCOPE = [
+  'app/campanii/**',
+  'app/api/campanii/**',
+  'components/campanii/**',
+  'lib/campanii/**',
+  'lib/hooks/useCampaignWizard.ts',
+  'app/alegeri-locale-2024/**',
+  'app/quiz/**',
+  'components/quiz/**',
+  'lib/quiz/**',
+  'app/design-demo/**',
+];
+
+export default [
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      '.worktrees/**',
+      'out/**',
+      'coverage/**',
+      'next-env.d.ts',
+      'tests/**',
+      'data/**',
+      'public/**',
+      'supabase/**',
+      'scripts/**', // dead legacy scripts, deleted in phase 7
+      'cloudflare-email-worker/**',
+      'cloudflare-worker-campanii/**',
+    ],
+  },
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  {
+    // Legacy application code in scope: the 200-line cap is reported as a warning
+    // until phase 7 of the refactor moves everything under src/ (then it becomes an error).
+    files: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}', 'lib/**/*.{ts,tsx}', 'middleware.ts'],
+    ignores: OUT_OF_SCOPE,
+    rules: {
+      'max-lines': ['warn', { max: 200, skipBlankLines: true, skipComments: true }],
+    },
+  },
+  {
+    // New code (src/manager-544): hard cap + strict typing
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      'max-lines': ['error', { max: 200, skipBlankLines: true, skipComments: true }],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    // Out of scope (campanii, public content pages): report, never block
+    files: OUT_OF_SCOPE,
+    rules: {
+      '@next/next/no-html-link-for-pages': 'warn',
+      'react/no-unescaped-entities': 'warn',
+      '@typescript-eslint/no-empty-object-type': 'warn',
+    },
+  },
+  {
+    // Legacy code: keep the Next defaults but do not block on pre-existing style issues
+    files: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}', 'lib/**/*.{ts,tsx}', 'middleware.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'react-hooks/exhaustive-deps': 'warn',
+      '@next/next/no-img-element': 'warn',
+    },
+  },
+];

@@ -6,19 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "type-check": "tsc --noEmit",
-    "setup:mistral": "tsx scripts/setup-mistral-agent.ts",
     "test": "vitest run",
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
     "test:e2e": "vitest run tests/e2e",
-    "test:ocr": "vitest run tests/integration/ocr.test.ts",
-    "test:classify": "vitest run tests/integration/classification.test.ts",
-    "test:matching": "vitest run tests/integration/matching.test.ts",
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",
-    "test:fresh": "FRESH_OCR=1 vitest run"
+    "test:fresh": "FRESH_OCR=1 vitest run",
+    "lint:fix": "eslint . --fix",
+    "check": "npm run type-check && npm run lint && npm run test:unit"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",

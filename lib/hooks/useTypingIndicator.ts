@@ -31,7 +31,6 @@ export const useTypingIndicator = () => {
   useEffect(() => {
     if (!isTyping) return;
 
-    let intervalId: NodeJS.Timeout;
     let stateIndex = 0;
 
     const animate = () => {
@@ -39,13 +38,9 @@ export const useTypingIndicator = () => {
       stateIndex = (stateIndex + 1) % typingStates.length;
     };
 
-    intervalId = setInterval(animate, 500);
+    const intervalId = setInterval(animate, 500);
 
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
+    return () => clearInterval(intervalId);
   }, [isTyping]);
 
   return {

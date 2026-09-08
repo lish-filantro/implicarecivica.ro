@@ -114,7 +114,7 @@ export function CautareInstitutii({ index }: Props) {
 
       {open && query.length >= 2 && results.length === 0 && (
         <div className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl p-4 text-center text-sm text-gray-500 dark:text-gray-400">
-          Niciun rezultat pentru „{query}"
+          Niciun rezultat pentru &bdquo;{query}&rdquo;
         </div>
       )}
     </div>
