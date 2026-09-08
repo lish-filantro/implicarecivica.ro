@@ -1,41 +1,25 @@
 'use client';
 
-import React, { useEffect, useMemo, Suspense } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useRequestWizard } from '@/lib/hooks/useRequestWizard';
-import { useQuestionGeneration } from '@/lib/hooks/useQuestionGeneration';
-import { StepperBar } from '@/components/requests/StepperBar';
-import { StepFormData } from '@/components/requests/StepFormData';
-import { StepSelectQuestions } from '@/components/requests/StepSelectQuestions';
-import { PreviewModal } from '@/components/requests/PreviewModal';
+import { useRequestWizard } from '@m544/ui/requests/wizard/useRequestWizard';
+import { useQuestionGeneration } from '@m544/ui/requests/wizard/useQuestionGeneration';
+import { readChatTransferData } from '@m544/ui/requests/wizard/chat-transfer';
+import { StepperBar } from '@m544/ui/requests/wizard/StepperBar';
+import { StepFormData } from '@m544/ui/requests/wizard/StepFormData';
+import { StepSelectQuestions } from '@m544/ui/requests/wizard/StepSelectQuestions';
+import { PreviewModal } from '@m544/ui/requests/preview/PreviewModal';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
-
-interface ChatTransferData {
-  institutionName?: string;
-  institutionEmail?: string;
-  problemContext?: {
-    ce: string;
-    unde: string;
-    cand: string;
-  };
-  conversationId?: string;
-}
 
 function NewRequestContent() {
   const searchParams = useSearchParams();
   const fromChat = searchParams.get('from') === 'chat';
 
   // Read chat data from sessionStorage (set by chat page before redirect)
-  const chatData = useMemo<ChatTransferData | null>(() => {
-    if (!fromChat) return null;
-    try {
-      const raw = sessionStorage.getItem('requestWizardData');
-      if (raw) return JSON.parse(raw);
-    } catch {
-      // ignore parse errors
-    }
-    return null;
-  }, [fromChat]);
+  const chatData = useMemo(
+    () => readChatTransferData(fromChat, typeof window === 'undefined' ? null : window.sessionStorage),
+    [fromChat],
+  );
 
   const wizard = useRequestWizard({
     initialChatData: chatData ? {
@@ -50,17 +34,6 @@ function NewRequestContent() {
     institutionName: chatData?.institutionName || null,
     onCategoryReady: wizard.setQuestionsForCategory,
   });
-
-  // Auto-advance to step 2 if coming from chat (data is pre-filled)
-  useEffect(() => {
-    if (fromChat && chatData?.institutionName) {
-      // Small delay to allow profile loading in StepFormData
-      const timer = setTimeout(() => {
-        // Don't auto-advance — let user verify data first
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [fromChat, chatData]);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">

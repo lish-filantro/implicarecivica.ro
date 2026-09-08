@@ -1,50 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Lock, ArrowRight } from 'lucide-react';
-import { getProfile } from '@/lib/supabase/profile-queries';
-import { updateProfile } from '@/lib/supabase/profile-queries';
-import type { useRequestWizard } from '@/lib/hooks/useRequestWizard';
+import { isValidInstitutionEmail } from './types';
+import { useStepFormProfile } from './useStepFormProfile';
+import type { StepFormProfileDeps } from './useStepFormProfile';
+import type { RequestWizard } from './useRequestWizard';
 
 interface StepFormDataProps {
-  wizard: ReturnType<typeof useRequestWizard>;
+  wizard: RequestWizard;
+  /** Test seam for the profile loader/saver (defaults to the Supabase browser queries). */
+  profileDeps?: StepFormProfileDeps;
 }
 
-export function StepFormData({ wizard }: StepFormDataProps) {
-  const { formData, updateFormField, initFormFromProfile, canProceedToStep2, setStep } = wizard;
-  const [profileLoaded, setProfileLoaded] = useState(false);
-
-  // Load profile on mount
-  useEffect(() => {
-    async function loadProfile() {
-      try {
-        const profile = await getProfile();
-        if (profile) {
-          initFormFromProfile(profile);
-        }
-      } catch (err) {
-        console.error('Failed to load profile:', err);
-      } finally {
-        setProfileLoaded(true);
-      }
-    }
-    loadProfile();
-  }, [initFormFromProfile]);
-
-  const handleContinue = async () => {
-    if (!canProceedToStep2) return;
-
-    // Save address to profile if checkbox is checked
-    if (formData.saveAddress && formData.solicitantAddress.trim()) {
-      try {
-        await updateProfile({ address: formData.solicitantAddress.trim() });
-      } catch (err) {
-        console.error('Failed to save address:', err);
-      }
-    }
-
-    setStep(2);
-  };
+export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
+  const { formData, updateFormField, canProceedToStep2 } = wizard;
+  const { profileLoaded, handleContinue } = useStepFormProfile(wizard, profileDeps);
 
   if (!profileLoaded) {
     return (
@@ -177,7 +148,7 @@ export function StepFormData({ wizard }: StepFormDataProps) {
               onChange={(e) => updateFormField('institutionEmail', e.target.value)}
               placeholder="registratura@institutie.ro"
               className={`w-full field-input ${
-                formData.institutionEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.institutionEmail)
+                formData.institutionEmail && !isValidInstitutionEmail(formData.institutionEmail)
                   ? 'border-protest-red-500 focus:ring-protest-red-500'
                   : ''
               }`}

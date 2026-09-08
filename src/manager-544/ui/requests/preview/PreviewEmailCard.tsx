@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Mail } from 'lucide-react';
-import { formatEmailBodyText, FIXED_SUBJECT } from '@/lib/utils/emailTemplate';
-import type { WizardFormData } from '@/lib/hooks/useRequestWizard';
+import { formatEmailBodyText, FIXED_SUBJECT } from '@m544/requests/email-template';
+import type { WizardFormData } from '../wizard/types';
 
 interface PreviewEmailCardProps {
   index: number;

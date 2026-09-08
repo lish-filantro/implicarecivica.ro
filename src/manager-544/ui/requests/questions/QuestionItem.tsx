@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Pencil, X, Check, RotateCcw } from 'lucide-react';
-import type { QuestionItem as QuestionItemType } from '@/lib/hooks/useRequestWizard';
+import type { QuestionItem as QuestionItemType } from '../wizard/types';
 
 interface QuestionItemProps {
   question: QuestionItemType;
