@@ -3,7 +3,7 @@
  * (dashboard, requests/add). Moved 1:1 from lib/supabase/{session,request}-queries.
  * Runs under the logged-in user's RLS via the browser client.
  */
-import { createBrowserClient } from '@m544/shared/db/clients';
+import { createBrowserClient } from '@m544/shared/db/browser-client';
 import type { RequestSession, RequestSessionWithRequests, SessionStatus } from '@m544/shared/types/session';
 import type { Request, RequestStatus } from '@m544/shared/types/request';
 import { groupRequestsBySession } from './group';

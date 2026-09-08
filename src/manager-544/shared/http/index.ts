@@ -39,15 +39,24 @@ export async function parseJsonBody<T>(request: NextRequest, schema: ZodType<T>)
   return { ok: true, data: parsed.data };
 }
 
-type RouteHandler<Ctx> = (request: NextRequest, ctx?: Ctx) => Promise<NextResponse> | NextResponse;
+/**
+ * Handler shape. Without a context type the handler takes only the request;
+ * with one (dynamic routes: `{ params: Promise<...> }`) the context is a
+ * required second argument, which is what Next.js's generated route types expect.
+ */
+export type RouteHandler<Ctx = undefined> = [Ctx] extends [undefined]
+  ? (request: NextRequest) => Promise<NextResponse>
+  : (request: NextRequest, ctx: Ctx) => Promise<NextResponse>;
+
+type AnyHandler<Ctx> = (request: NextRequest, ctx: Ctx) => Promise<NextResponse> | NextResponse;
 
 /**
  * Wrap a route handler so that unexpected exceptions become a generic 500.
  * EnvError (missing/placeholder secret) becomes a 500 "misconfigured" that
  * names the variable only in the server log, never in the response.
  */
-export function withErrorBoundary<Ctx = unknown>(handler: RouteHandler<Ctx>, label: string): RouteHandler<Ctx> {
-  return async (request, ctx) => {
+export function withErrorBoundary<Ctx = undefined>(handler: AnyHandler<Ctx>, label: string): RouteHandler<Ctx> {
+  const wrapped = async (request: NextRequest, ctx: Ctx) => {
     try {
       return await handler(request, ctx);
     } catch (err) {
@@ -60,4 +69,5 @@ export function withErrorBoundary<Ctx = unknown>(handler: RouteHandler<Ctx>, lab
       return httpError(500, 'Eroare internă');
     }
   };
+  return wrapped as unknown as RouteHandler<Ctx>;
 }

@@ -1,14 +1,15 @@
 /**
- * Supabase clients.
+ * Server-side Supabase clients (imports `next/headers`: server code only).
  *
  *  - createServerClient(): per-request client bound to the Next.js cookie store
  *    (Server Components, route handlers). Respects RLS as the logged-in user.
- *  - createBrowserClient(): client-side singleton-per-call for React components.
  *  - createServiceClient(): service-role client that bypasses RLS. Only for
  *    webhooks, cron and admin routes; never send it to the browser.
+ *
+ * The browser client lives in ./browser-client.ts.
  */
 
-import { createServerClient as createSsrServerClient, createBrowserClient as createSsrBrowserClient } from '@supabase/ssr';
+import { createServerClient as createSsrServerClient } from '@supabase/ssr';
 import { createClient as createSupabaseClient, type SupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import type { CookieOptions } from '@supabase/ssr';
@@ -42,14 +43,6 @@ export async function createServerClient(): Promise<SupabaseClient> {
       },
     },
   });
-}
-
-export function createBrowserClient(): SupabaseClient {
-  // NEXT_PUBLIC_* values are inlined at build time; keep direct access for the bundle.
-  return createSsrBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  );
 }
 
 export function createServiceClient(): SupabaseClient {

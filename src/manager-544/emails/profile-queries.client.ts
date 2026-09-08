@@ -3,7 +3,7 @@
  * The client is injectable for tests; components use the default browser client.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { createBrowserClient } from '@m544/shared/db/clients';
+import { createBrowserClient } from '@m544/shared/db/browser-client';
 import type { Profile, ProfileUpdate } from '@m544/shared/types/profile';
 
 export async function getProfile(sb: SupabaseClient = createBrowserClient()): Promise<Profile | null> {

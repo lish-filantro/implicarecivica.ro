@@ -2,7 +2,7 @@
  * Browser-side Supabase queries for the chat UI (conversations + messages).
  * Moved from lib/supabase/chat-queries.ts in refactor phase 5.
  */
-import { createBrowserClient as createClient } from '@m544/shared/db/clients';
+import { createBrowserClient as createClient } from '@m544/shared/db/browser-client';
 import type { ConversationRow, Message, ConversationListItem } from '@m544/shared/types/chat';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -3,7 +3,7 @@
  * The client is injectable for tests; components use the default browser client.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { createBrowserClient } from '@m544/shared/db/clients';
+import { createBrowserClient } from '@m544/shared/db/browser-client';
 import type { Email, EmailType } from '@m544/shared/types/email';
 
 export async function listEmails(type?: EmailType, sb: SupabaseClient = createBrowserClient()): Promise<Email[]> {
