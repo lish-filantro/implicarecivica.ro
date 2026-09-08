@@ -103,7 +103,7 @@ Igienă repo: §5 faza 7.
 ## 7. Riscuri și cum le tratăm
 
 - **Deploy cu secrete lipsă în Vercel**: webhook-ul și cron-ul răspund 500 și inbound-ul e respins de worker. Mitigare: PR-ul nu se face merge până nu confirmi că `CRON_SECRET`, `CLOUDFLARE_EMAIL_WEBHOOK_SECRET`, cheile R2, Anthropic și Mistral sunt setate. Checklist în PR.
-- **Migrarea 016 nerulată**: codul funcționează oricum (coloana `needs_review` e citită defensiv), doar RLS rămâne ca acum.
+- **Migrarea 016 nerulată**: codul NU poate fi deployat fără ea. Categoriile `irelevant`/`redirectionat` încalcă CHECK-ul vechi pe `emails.category`, iar `emails.needs_review` și `requests.redirected_to` nu există. Ordinea obligatorie: 1) rulezi 016 în SQL Editor, 2) merge + deploy. Migrarea e compatibilă cu codul vechi (coloane noi opționale, CHECK extins), deci poate fi rulată oricând înainte.
 - **Regresii UI la spargerea paginilor**: componente extrase 1:1, fără schimbări de markup; verificare vizuală locală pe fiecare pagină.
 - **Supabase gratuit auto-pauzat**: e2e eșuează fals; verific health înainte de a rula suita.
 

@@ -24,4 +24,4 @@ Migrările se aplică manual, în ordine, din **Supabase Dashboard → SQL Edito
     WHERE table_name = 'requests' AND column_name = 'redirected_to';
    ```
 
-Codul aplicației funcționează și fără 016 (coloanele noi sunt citite defensiv, categoriile noi cad pe `completed` fără potrivire), dar politicile RLS rămân permisive până la aplicare.
+**016 este precondiție pentru branch-ul `refactor/manager-544`**: fără ea, clasificarea unui email ca `irelevant` sau `redirectionat` eșuează la scriere (CHECK vechi), iar `needs_review`/`redirected_to` lipsesc. Migrarea e compatibilă cu codul actual din `main`, deci se poate rula înainte de merge fără efecte negative.
