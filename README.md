@@ -34,7 +34,7 @@ Fluxul principal:
 1. Utilizatorul descrie problema în chat (STEP_1), Haiku identifică instituția cu `rag_search` (index local peste `data/institutii/*.json`) și găsește emailul oficial cu `web_search` (STEP_2).
 2. Wizard-ul generează întrebări strategice (Haiku), utilizatorul le selectează, iar `POST /api/sessions/create` + `POST /api/emails/send` (Resend) trimit câte un email per întrebare, cu limită de 10/zi/instituție.
 3. Răspunsurile ajung prin Cloudflare Email Routing → worker → R2 → `POST /api/webhooks/cloudflare-email` → `pipeline/process-email`: OCR pe PDF, clasificare cu Claude Haiku (`inregistrate`, `amanate`, `raspunse`, `intarziate`, `redirectionat`, `irelevant`), potrivire (thread → număr de înregistrare → expeditor), tranziție de status și termene legale în **zile lucrătoare** (10, 30 cu prelungire, 5 pentru refuz; sărbătorile legale românești sunt excluse). Potrivirile incerte primesc `needs_review` și apar în folderul „De revizuit”, unde utilizatorul le asociază manual sau corectează categoria.
-4. Cron-urile Vercel: reprocesează emailurile rămase (03:00), marchează cererile depășite ca `delayed` (02:00), trimit digest-ul de termene utilizatorilor cu notificări active (06:00) și reconciliază emailurile rămase în R2 după un webhook eșuat (la 6 ore).
+4. Două cron-uri Vercel (limita planului Hobby: 2, zilnice): `/api/cron/daily` la 02:00 UTC reconciliază emailurile rămase în R2 după un webhook eșuat, procesează emailurile în așteptare și marchează cererile depășite ca `delayed`; `/api/cron/notify-deadlines` la 06:00 trimite digest-ul de termene. Rutele individuale (`process-emails`, `check-deadlines`, `reconcile-inbound`) rămân apelabile manual cu același secret.
 
 ## Furnizori și variabile de mediu
 
