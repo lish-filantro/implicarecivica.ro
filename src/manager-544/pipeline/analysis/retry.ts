@@ -23,7 +23,10 @@ function numberProp(err: object, key: string): number | undefined {
   return typeof value === 'number' ? value : undefined;
 }
 
-/** HTTP status of a thrown error: `statusCode`, `status`, or "Status NNN" in the message. */
+/**
+ * HTTP status of a thrown error: `statusCode` (Mistral SDK), `status` (Anthropic SDK
+ * APIError / RateLimitError), or "Status NNN" in the message.
+ */
 export function errorStatus(err: unknown): number | undefined {
   if (typeof err !== 'object' || err === null) return undefined;
   const direct = numberProp(err, 'statusCode') ?? numberProp(err, 'status');
@@ -51,7 +54,7 @@ export async function withRetry<T>(fn: () => Promise<T>, opts: RetryOptions = {}
       const status = errorStatus(err);
       if (!isRetryableStatus(status) || i === attempts - 1) throw err;
       const delayMs = baseDelayMs * 2 ** i;
-      console.warn(`[Analysis] Mistral ${status}, retry ${i + 1}/${attempts - 1} in ${delayMs}ms`);
+      console.warn(`[Analysis] HTTP ${status}, retry ${i + 1}/${attempts - 1} in ${delayMs}ms`);
       await sleep(delayMs);
     }
   }

@@ -18,4 +18,14 @@ describe('pipeline/analysis public API', () => {
     expect(typeof analysis.AnalysisParseError).toBe('function');
     expect(typeof analysis.withRetry).toBe('function');
   });
+
+  it('re-exports the provider layer (clients, models, provider resolution)', () => {
+    expect(analysis.HAIKU_ANALYSIS_MODEL).toBe('claude-haiku-4-5-20251001');
+    expect(analysis.MISTRAL_ANALYSIS_MODEL).toBe('ministral-14b-latest');
+    expect(typeof analysis.createAnthropicAnalysisClient).toBe('function');
+    expect(typeof analysis.createMistralAnalysisClient).toBe('function');
+    expect(typeof analysis.createAnalysisClient).toBe('function');
+    expect(analysis.resolveProvider(undefined)).toBe('anthropic');
+    expect(analysis.ANALYSIS_PROVIDERS).toEqual(['anthropic', 'mistral']);
+  });
 });

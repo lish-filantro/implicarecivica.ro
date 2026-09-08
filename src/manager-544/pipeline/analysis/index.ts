@@ -4,12 +4,27 @@
  */
 export {
   analyzeEmailContent,
-  MISTRAL_ANALYSIS_MODEL,
+  createAnalysisClient,
+  resolveModel,
   type AnalyzeDeps,
+  type AnalysisClientFactories,
+} from './analyze';
+export { ANALYSIS_PROVIDERS, resolveProvider, type AnalysisClient, type AnalysisProvider } from './client';
+export {
+  createAnthropicAnalysisClient,
+  HAIKU_ANALYSIS_MODEL,
+  ANTHROPIC_MAX_TOKENS,
+  type AnthropicAnalysisOptions,
+  type AnthropicMessagesSdk,
+} from './providers/anthropic';
+export {
+  createMistralAnalysisClient,
+  MISTRAL_ANALYSIS_MODEL,
   type ChatCompletionArgs,
   type ChatCompletionClient,
   type ChatCompletionResponse,
-} from './analyze';
+  type MistralAnalysisOptions,
+} from './providers/mistral';
 export { EMAIL_ANALYSIS_SYSTEM_PROMPT, buildAnalysisUserMessage, type AnalysisInput } from './prompt';
 export { validateRegistrationNumber } from './registration';
 export {

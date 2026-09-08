@@ -1,27 +1,60 @@
 /**
- * Integration Tests — Mistral Large Classification
+ * Integration Tests — email classification on the real AI provider
  *
- * Feeds OCR-extracted text (from cache or live) into the AI analysis
- * pipeline and verifies correct categorization.
+ * Feeds OCR-extracted text (from cache or live) into the AI analysis pipeline
+ * and verifies correct categorization, then compares every result with the
+ * golden snapshot of the provider under test.
  *
- * Cost: ~30 Mistral Large calls
+ * How to run:
+ *   npx vitest run tests/integration/classification.test.ts
+ *     ANALYSIS_PROVIDER=anthropic   (default) → Claude Haiku, snapshot tests/snapshots/classification-golden.anthropic.json
+ *     ANALYSIS_PROVIDER=mistral               → ministral, snapshot tests/snapshots/classification-golden.mistral.json
+ *                                               (falls back to reading the legacy classification-golden.json)
+ *     UPDATE_GOLDEN=1                         → (re)write the provider's snapshot instead of comparing to it.
+ *   The snapshot is also written automatically when the provider has none yet.
+ *   ANALYSIS_MODEL overrides the provider's default model, as in production.
+ *
+ * Cost: ~35 provider calls (OCR comes from tests/snapshots/ocr-cache.json)
  * Time: ~2-4 minutes
  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import { analyzeEmailContent, type AnalysisResult } from '@m544/pipeline/analysis';
+import { analyzeEmailContent, resolveProvider, type AnalysisResult } from '@m544/pipeline/analysis';
 import { runOcrFromBytes } from '@m544/pipeline/ocr';
+import { optionalEnv } from '@m544/shared/env';
 import { getTestScenarios, getStandalonePdfs, type TestPdf } from '../helpers/pdf-loader';
 
-const OCR_CACHE_PATH = path.resolve(__dirname, '../snapshots/ocr-cache.json');
-const CLASSIFICATION_SNAPSHOT_PATH = path.resolve(__dirname, '../snapshots/classification-golden.json');
+const SNAPSHOTS_DIR = path.resolve(__dirname, '../snapshots');
+const OCR_CACHE_PATH = path.join(SNAPSHOTS_DIR, 'ocr-cache.json');
+const LEGACY_GOLDEN_PATH = path.join(SNAPSHOTS_DIR, 'classification-golden.json');
+
+const PROVIDER = resolveProvider(optionalEnv('ANALYSIS_PROVIDER'));
+const GOLDEN_PATH = path.join(SNAPSHOTS_DIR, `classification-golden.${PROVIDER}.json`);
+const UPDATE_GOLDEN = optionalEnv('UPDATE_GOLDEN') === '1';
 
 type OcrCache = Record<string, { markdown: string; pages: number }>;
 type ClassificationSnapshot = Record<string, AnalysisResult>;
 
 let ocrCache: OcrCache = {};
 let classificationResults: ClassificationSnapshot = {};
+/** Golden of the provider under test (null → none yet, the run will create it). */
+let golden: ClassificationSnapshot | null = null;
+
+/** The provider's golden file; for mistral the pre-provider legacy file is accepted as fallback. */
+function goldenReadPath(): string | null {
+  if (fs.existsSync(GOLDEN_PATH)) return GOLDEN_PATH;
+  if (PROVIDER === 'mistral' && fs.existsSync(LEGACY_GOLDEN_PATH)) return LEGACY_GOLDEN_PATH;
+  return null;
+}
+
+function readJson<T>(file: string): T | null {
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf-8')) as T;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Get OCR text for a PDF — from cache or live
@@ -56,27 +89,24 @@ async function classifyPdf(pdf: TestPdf, opts: {
 }
 
 beforeAll(() => {
+  console.log(`[Classification] Provider: ${PROVIDER}${optionalEnv('ANALYSIS_MODEL') ? ` (model ${optionalEnv('ANALYSIS_MODEL')})` : ''}`);
   if (fs.existsSync(OCR_CACHE_PATH)) {
-    try {
-      ocrCache = JSON.parse(fs.readFileSync(OCR_CACHE_PATH, 'utf-8'));
-      console.log(`[Classification] Using OCR cache with ${Object.keys(ocrCache).length} entries`);
-    } catch {
-      ocrCache = {};
-    }
+    ocrCache = readJson<OcrCache>(OCR_CACHE_PATH) ?? {};
+    console.log(`[Classification] Using OCR cache with ${Object.keys(ocrCache).length} entries`);
   }
+  const goldenFile = goldenReadPath();
+  golden = goldenFile ? readJson<ClassificationSnapshot>(goldenFile) : null;
+  if (goldenFile) console.log(`[Classification] Golden: ${path.basename(goldenFile)} (${Object.keys(golden ?? {}).length} entries)`);
+  else console.log(`[Classification] No golden for ${PROVIDER} yet — this run will create ${path.basename(GOLDEN_PATH)}`);
 });
 
 afterAll(() => {
-  // Save classification results as golden snapshot
-  if (Object.keys(classificationResults).length > 0) {
-    fs.mkdirSync(path.dirname(CLASSIFICATION_SNAPSHOT_PATH), { recursive: true });
-    fs.writeFileSync(
-      CLASSIFICATION_SNAPSHOT_PATH,
-      JSON.stringify(classificationResults, null, 2),
-      'utf-8',
-    );
-    console.log(`[Classification] Saved ${Object.keys(classificationResults).length} results to golden snapshot`);
-  }
+  // Write the provider's golden snapshot when asked to, or when it does not exist yet.
+  if (Object.keys(classificationResults).length === 0) return;
+  if (!UPDATE_GOLDEN && golden !== null) return;
+  fs.mkdirSync(SNAPSHOTS_DIR, { recursive: true });
+  fs.writeFileSync(GOLDEN_PATH, JSON.stringify(classificationResults, null, 2), 'utf-8');
+  console.log(`[Classification] Saved ${Object.keys(classificationResults).length} results to ${path.basename(GOLDEN_PATH)}`);
 });
 
 // ═══════════════════════════════════════════════════════════
@@ -85,7 +115,7 @@ afterAll(() => {
 describe('Classification — Scenario PDFs', () => {
   const scenarios = getTestScenarios();
 
-  // Ambiguous doc types where Mistral may return different categories
+  // Ambiguous doc types where the model may return different categories
   // across runs (non-deterministic). Accept any of the listed values.
   const AMBIGUOUS_CATEGORIES: Record<string, string[]> = {
     redirectionare: ['redirectionat'],
@@ -238,4 +268,34 @@ describe('Classification — Redirect extraction', () => {
       expect(result.redirected_to).toBeTruthy();
     }, 120_000);
   }
+});
+
+// ═══════════════════════════════════════════════════════════
+// Test: Golden check — every result matches the provider's snapshot
+// ═══════════════════════════════════════════════════════════
+describe(`Classification — Golden snapshot (${PROVIDER})`, () => {
+  it('category and registration_number match the golden for every classified PDF', () => {
+    if (UPDATE_GOLDEN || golden === null) {
+      console.log('[Classification] Golden check skipped (snapshot is being written)');
+      return;
+    }
+    const current = golden;
+    const differences: string[] = [];
+    for (const [file, result] of Object.entries(classificationResults)) {
+      const expected = current[file];
+      const name = path.basename(path.dirname(file)) + '/' + path.basename(file);
+      if (!expected) {
+        differences.push(`${name}: not in golden`);
+        continue;
+      }
+      if (expected.category !== result.category) {
+        differences.push(`${name}: category ${expected.category} → ${result.category}`);
+      }
+      if (expected.registration_number !== result.registration_number) {
+        differences.push(`${name}: registration_number ${expected.registration_number} → ${result.registration_number}`);
+      }
+    }
+    const report = `Differences vs ${path.basename(GOLDEN_PATH)} (UPDATE_GOLDEN=1 to accept):\n${differences.join('\n')}`;
+    expect(differences, report).toEqual([]);
+  });
 });

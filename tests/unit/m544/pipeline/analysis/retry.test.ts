@@ -2,7 +2,8 @@
  * pipeline/analysis/retry — withRetry: exponential backoff on 429 / 5xx only.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { withRetry } from '@m544/pipeline/analysis/retry';
+import Anthropic from '@anthropic-ai/sdk';
+import { withRetry, errorStatus } from '@m544/pipeline/analysis/retry';
 
 function httpError(status: number): Error & { statusCode: number } {
   return Object.assign(new Error(`API error ${status}`), { statusCode: status });
@@ -77,6 +78,28 @@ describe('withRetry', () => {
     const fn = failNTimes(1, Object.assign(new Error('boom'), { status: 500 }));
     await expect(withRetry(fn, { sleep })).resolves.toBe('ok');
     expect(fn).toHaveBeenCalledTimes(2);
+  });
+
+  it('retries a real Anthropic SDK RateLimitError (err.status = 429) and logs a provider-neutral warning', async () => {
+    const err = Anthropic.APIError.generate(
+      429,
+      { error: { type: 'rate_limit_error', message: 'Rate limited' } },
+      undefined,
+      new Headers(),
+    );
+    expect(err).toBeInstanceOf(Anthropic.RateLimitError);
+    expect(errorStatus(err)).toBe(429);
+    const fn = failNTimes(1, err);
+    await expect(withRetry(fn, { sleep })).resolves.toBe('ok');
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(console.warn).toHaveBeenCalledWith('[Analysis] HTTP 429, retry 1/3 in 1500ms');
+  });
+
+  it('does not retry an Anthropic AuthenticationError (401)', async () => {
+    const err = Anthropic.APIError.generate(401, { error: { type: 'authentication_error', message: 'x' } }, undefined, new Headers());
+    const fn = failNTimes(1, err);
+    await expect(withRetry(fn, { sleep })).rejects.toBe(err);
+    expect(fn).toHaveBeenCalledTimes(1);
   });
 
   it('reads the status from the message ("Status 429")', async () => {

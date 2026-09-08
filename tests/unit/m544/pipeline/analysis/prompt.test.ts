@@ -24,6 +24,16 @@ describe('EMAIL_ANALYSIS_SYSTEM_PROMPT', () => {
     expect(EMAIL_ANALYSIS_SYSTEM_PROMPT).toContain('"redirected_to": string | null,');
   });
 
+  it('ends with the JSON-only instruction (Haiku has no JSON mode and tends to explain)', () => {
+    const lines = EMAIL_ANALYSIS_SYSTEM_PROMPT.split('\n');
+    expect(lines[lines.length - 1]).toBe(
+      'Răspunde DOAR cu obiectul JSON, fără text înainte sau după și fără markdown.',
+    );
+    expect(lines[lines.length - 2]).toBe('');
+    // the instruction is appended after the legacy examples, nothing else moved
+    expect(lines[lines.length - 3]).toMatch(/^- 'Confirmă adresa de email pentru contul tău'/);
+  });
+
   it('has a classification rule and an example for each new category', () => {
     const rules = EMAIL_ANALYSIS_SYSTEM_PROMPT.match(/^- (irelevant|redirectionat):/gm) ?? [];
     expect(rules.sort()).toEqual(['- irelevant:', '- redirectionat:']);

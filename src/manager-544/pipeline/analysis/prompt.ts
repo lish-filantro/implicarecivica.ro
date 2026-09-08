@@ -1,10 +1,11 @@
 /**
- * Prompt for the email classifier (Mistral, JSON mode).
+ * Prompt for the email classifier (Claude Haiku by default; Mistral JSON mode as alternative).
  *
  * The body of the prompt is the production-tested one from lib/mistral/constants.ts,
  * extended with two categories the old pipeline could not express:
  *  - irelevant: the email is not Law 544 correspondence at all
  *  - redirectionat: the institution forwarded the request to another, competent institution
+ * and closed with a JSON-only instruction (Haiku has no JSON mode and tends to explain).
  */
 
 export const EMAIL_ANALYSIS_SYSTEM_PROMPT = `Ești un expert juridic specializat în Legea 544/2001. Analizezi emailuri și documente atașate (PDF).
@@ -64,7 +65,9 @@ Exemple Negative (Ce NU este număr de înregistrare):
 
 Exemple pentru categoriile speciale:
 - 'Cererea dvs. nu intră în competența noastră și a fost înaintată Consiliului Județean Ilfov.' → category "redirectionat", redirected_to "Consiliul Județean Ilfov".
-- 'Confirmă adresa de email pentru contul tău' / newsletter lunar / 'Salut, ne vedem mâine?' → category "irelevant", toate câmpurile null.`;
+- 'Confirmă adresa de email pentru contul tău' / newsletter lunar / 'Salut, ne vedem mâine?' → category "irelevant", toate câmpurile null.
+
+Răspunde DOAR cu obiectul JSON, fără text înainte sau după și fără markdown.`;
 
 export interface AnalysisInput {
   subject: string;
