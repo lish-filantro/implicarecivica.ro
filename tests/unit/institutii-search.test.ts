@@ -2,13 +2,13 @@
  * Unit tests — institution knowledge base search (zero API calls)
  *
  * Covers the shared keyword engine (lib/institutii-search) and the chat
- * `rag_search` backend (lib/rag/institutii-rag) against the real
+ * `rag_search` backend (src/manager-544/chat/rag/institutii-rag) against the real
  * data/institutii JSON files.
  */
 import { describe, it, expect } from 'vitest';
 import { normalizeRo, tokenizeQuery, searchEntries } from '@/lib/institutii-search';
 import { getSearchIndex, getAllInstitutii } from '@/lib/institutii';
-import { searchInstitutii, getInstitutieDetail } from '@/lib/rag/institutii-rag';
+import { searchInstitutii, getInstitutieDetail } from '@m544/chat/rag/institutii-rag';
 
 const index = getSearchIndex();
 
@@ -103,7 +103,7 @@ describe('jurisdiction routing — typical citizen problems', () => {
   });
 });
 
-describe('rag_search backend (lib/rag/institutii-rag)', () => {
+describe('rag_search backend (chat/rag/institutii-rag)', () => {
   it('returns rich results with the fields Haiku needs', () => {
     const results = searchInstitutii('groapă asfalt strada', { topK: 3 });
     expect(results.length).toBeGreaterThan(0);

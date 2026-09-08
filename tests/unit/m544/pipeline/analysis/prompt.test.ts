@@ -4,7 +4,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { EMAIL_ANALYSIS_SYSTEM_PROMPT, buildAnalysisUserMessage } from '@m544/pipeline/analysis/prompt';
-import { EMAIL_ANALYSIS_SYSTEM_PROMPT as LEGACY_PROMPT } from '@/lib/mistral/constants';
+import { LEGACY_EMAIL_ANALYSIS_SYSTEM_PROMPT as LEGACY_PROMPT } from '../../../../fixtures/chat/legacy-analysis-prompt';
 
 describe('EMAIL_ANALYSIS_SYSTEM_PROMPT', () => {
   it('keeps the legacy content (every legacy line still present)', () => {

@@ -6,7 +6,8 @@
  * over the pre-built index is both cheaper and more predictable than vector
  * similarity. No external API is involved.
  *
- * Server-only (reads the JSON files through lib/institutii).
+ * Server-only (reads the JSON files through lib/institutii). Moved from lib/rag/institutii-rag.ts
+ * in refactor phase 5; lib/institutii-search stays in lib because the public search page uses it.
  */
 
 import { getAllInstitutii, getSearchIndex, type Institutie } from '@/lib/institutii'
