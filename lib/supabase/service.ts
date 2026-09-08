@@ -1,8 +1,2 @@
-import { createClient } from "@supabase/supabase-js";
-
-export function createServiceClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-}
+// Compatibility re-export — moved to @m544/shared/db/clients (removed in refactor phase 6)
+export { createServiceClient } from '@m544/shared/db/clients'

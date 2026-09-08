@@ -39,7 +39,7 @@ export async function parseJsonBody<T>(request: NextRequest, schema: ZodType<T>)
   return { ok: true, data: parsed.data };
 }
 
-type RouteHandler<Ctx> = (request: NextRequest, ctx: Ctx) => Promise<NextResponse> | NextResponse;
+type RouteHandler<Ctx> = (request: NextRequest, ctx?: Ctx) => Promise<NextResponse> | NextResponse;
 
 /**
  * Wrap a route handler so that unexpected exceptions become a generic 500.
