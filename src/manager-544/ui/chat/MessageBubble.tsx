@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
-import type { Message } from '@/lib/types/chat';
+import type { Message } from '@m544/shared/types/chat';
 
 interface MessageBubbleProps {
   message: Message;

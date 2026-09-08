@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AuthProvider } from "@/components/auth/AuthProvider";
+import { AuthProvider } from "@m544/ui/auth/AuthProvider";
 import { CookieConsent } from "@/components/shared/CookieConsent";
 import "./globals.css";
 

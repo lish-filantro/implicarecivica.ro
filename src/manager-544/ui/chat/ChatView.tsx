@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useRef, useEffect, useCallback } from 'react';
-import type { Message } from '@/lib/types/chat';
-import { useAutoScroll } from '@/lib/hooks/useAutoScroll';
-import MessageBubble from '@/components/chat/MessageBubble';
-import TypingIndicator from '@/components/chat/TypingIndicator';
+import type { Message } from '@m544/shared/types/chat';
+import { useAutoScroll } from './hooks/useAutoScroll';
+import MessageBubble from './MessageBubble';
+import TypingIndicator from './TypingIndicator';
 
 interface ChatViewProps {
   messages: Message[];
@@ -30,7 +30,6 @@ export default function ChatView({
   onConfirmInstitution,
   onManualEntry,
   onToggleSidebar,
-  failedMessage,
   onRetry,
 }: ChatViewProps) {
   const inputRef = useRef<HTMLTextAreaElement>(null);

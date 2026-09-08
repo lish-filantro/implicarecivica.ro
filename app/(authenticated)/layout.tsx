@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/components/auth/AuthProvider';
+import { useAuth } from '@m544/ui/auth/AuthProvider';
 import { TopNavbar } from '@/components/navigation/TopNavbar';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 

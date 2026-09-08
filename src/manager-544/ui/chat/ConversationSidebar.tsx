@@ -2,11 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import {
-  listConversations,
-  deleteConversation,
-} from '@/lib/supabase/chat-queries';
-import type { ConversationListItem } from '@/lib/types/chat';
+import * as chatQueries from '@m544/chat/queries.client';
+import type { ConversationListItem } from '@m544/shared/types/chat';
 
 function formatRelativeTime(dateStr: string): string {
   const date = new Date(dateStr);
@@ -29,11 +26,18 @@ const STEP_LABELS: Record<string, string> = {
   STEP_3: 'Întrebări',
 };
 
+/** Queries the sidebar needs (injectable for tests; defaults to the real Supabase ones). */
+export type SidebarQueries = Pick<typeof chatQueries, 'listConversations' | 'deleteConversation'>;
+
 interface ConversationSidebarProps {
   onNavigate?: () => void;
+  queries?: SidebarQueries;
 }
 
-export default function ConversationSidebar({ onNavigate }: ConversationSidebarProps = {}) {
+export default function ConversationSidebar({
+  onNavigate,
+  queries = chatQueries,
+}: ConversationSidebarProps = {}) {
   const router = useRouter();
   const pathname = usePathname();
   const [conversations, setConversations] = useState<ConversationListItem[]>([]);
@@ -44,12 +48,12 @@ export default function ConversationSidebar({ onNavigate }: ConversationSidebarP
 
   const refreshList = useCallback(async () => {
     try {
-      const list = await listConversations();
+      const list = await queries.listConversations();
       setConversations(list);
     } catch (err) {
       console.error('Failed to load conversations:', err);
     }
-  }, []);
+  }, [queries]);
 
   useEffect(() => {
     refreshList();
@@ -59,7 +63,7 @@ export default function ConversationSidebar({ onNavigate }: ConversationSidebarP
     e.stopPropagation();
     if (!confirm('Ștergi conversația?')) return;
     try {
-      await deleteConversation(id);
+      await queries.deleteConversation(id);
       setConversations((prev) => prev.filter((c) => c.id !== id));
       if (activeId === id) {
         router.push('/chat');
