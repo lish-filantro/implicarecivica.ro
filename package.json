@@ -17,7 +17,7 @@
     "test:fresh": "FRESH_OCR=1 vitest run",
     "lint:fix": "eslint . --fix",
     "check": "npm run type-check && npm run lint && npm run test:unit",
-    "test:smoke": "RUN_SMOKE=1 vitest run tests/smoke"
+    "test:smoke": "cross-env RUN_SMOKE=1 vitest run tests/smoke"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
@@ -60,6 +60,7 @@
     "@types/react-dom": "^19.0.2",
     "@vitest/ui": "^4.0.18",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.3.1",
     "eslint": "^9.18.0",
     "eslint-config-next": "^15.1.6",
