@@ -2,8 +2,8 @@
  * The whole life of a request, through the browser and the real mail path:
  *
  *   wizard (2 questions) → Resend → Cloudflare → institution inbox
- *   → institution confirms #1 (ambiguous: 2 open requests) → "De revizuit" → assign in UI
- *   → institution sends the final answer with the registration number → answered
+ *   → institution confirms #1 on the thread (ambiguous: 2 open requests) → "De revizuit" → assign in UI
+ *   → institution sends the final answer as a SEPARATE email carrying the registration number → answered
  *   → the user corrects a classification from the email detail.
  *
  * Serial: every test depends on the previous one. Budget ~8 minutes.
@@ -75,7 +75,8 @@ test.describe('ciclul de viață al unei cereri', () => {
   });
 
   test('confirmarea de înregistrare ambiguă ajunge în „De revizuit” și e asociată din UI', async ({ page }) => {
-    await replyAsInstitution({ original: inbox[0], html: confirmationHtml(REG_NUMBER) });
+    // the registry confirms on the thread of the request
+    await replyAsInstitution({ original: inbox[0], html: confirmationHtml(REG_NUMBER), inThread: true });
 
     const confirmation = await waitFor(
       async () => {
@@ -113,8 +114,14 @@ test.describe('ciclul de viață al unei cereri', () => {
   test('răspunsul final se potrivește după numărul de înregistrare și închide cererea', async ({ page }) => {
     const target = requests.find((r) => r.registration_number === REG_NUMBER);
     expect(target).toBeTruthy();
-    const original = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[0].slice(0, 30))) ?? inbox[0];
-    await replyAsInstitution({ original, html: finalAnswerHtml(REG_NUMBER) });
+    // the answer comes days later as a SEPARATE email (new subject, no threading headers):
+    // only the registration number in the text can tie it to the request
+    await replyAsInstitution({
+      original: inbox[0],
+      html: finalAnswerHtml(REG_NUMBER),
+      inThread: false,
+      subject: `Răspuns la cererea nr. ${REG_NUMBER} – Legea 544/2001`,
+    });
 
     const answered = await waitFor(
       async () => {

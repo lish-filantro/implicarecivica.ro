@@ -23,11 +23,19 @@ export interface ReplyInput {
   /** The request email as stored in the institution inbox. */
   original: EmailRow;
   html: string;
-  subjectPrefix?: string;
+  /**
+   * true  → a reply on the request's thread ("Re: <subject>", In-Reply-To/References),
+   *         the way registries confirm the registration number;
+   * false → a brand-new email (own subject, no threading headers), the way most
+   *         institutions send the actual answer later: it can only be matched
+   *         through the registration number in its text.
+   */
+  inThread: boolean;
+  subject?: string;
 }
 
-/** Sends the reply via Resend; returns the Resend id. */
-export async function replyAsInstitution({ original, html, subjectPrefix = 'Re: ' }: ReplyInput): Promise<string> {
+/** Sends the institution's email via Resend; returns the Resend id. */
+export async function replyAsInstitution({ original, html, inThread, subject }: ReplyInput): Promise<string> {
   const messageId = `<${original.message_id}>`;
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -35,9 +43,9 @@ export async function replyAsInstitution({ original, html, subjectPrefix = 'Re: 
     body: JSON.stringify({
       from: `${INSTITUTION_NAME} <${INSTITUTION.platformEmail}>`,
       to: [original.from_email],
-      subject: `${subjectPrefix}${original.subject}`,
+      subject: subject ?? (inThread ? `Re: ${original.subject}` : original.subject),
       html,
-      headers: { 'In-Reply-To': messageId, References: messageId },
+      ...(inThread ? { headers: { 'In-Reply-To': messageId, References: messageId } } : {}),
     }),
   });
   const body = (await res.json()) as { id?: string; message?: string };
