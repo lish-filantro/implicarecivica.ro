@@ -9,7 +9,14 @@ export interface ParsedAttachment {
   content: Uint8Array;
 }
 
+export interface MimeAddress {
+  address: string;
+  name: string | null;
+}
+
 export interface ParsedMime {
+  /** The RFC 5322 `From` header (what the reader sees); null when missing/unparseable. */
+  from: MimeAddress | null;
   /** HTML when present, else plain text, else ''. This is what gets stored as the email body. */
   body: string;
   html: string;
@@ -36,5 +43,11 @@ export async function parseMime(raw: ArrayBuffer | Uint8Array): Promise<ParsedMi
     mimeType: att.mimeType || DEFAULT_MIME_TYPE,
     content: toUint8Array(att.content),
   }));
-  return { body: html || text || '', html, text, attachments };
+  return { from: headerFrom(parsed.from), body: html || text || '', html, text, attachments };
+}
+
+function headerFrom(from: { address?: string; name?: string } | undefined): MimeAddress | null {
+  const address = from?.address?.trim().toLowerCase();
+  if (!address) return null;
+  return { address, name: from?.name?.trim() || null };
 }

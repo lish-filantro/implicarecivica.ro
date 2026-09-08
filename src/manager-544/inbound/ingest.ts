@@ -94,7 +94,10 @@ async function ingestUserEmail(env: InboundEnvelope, deps: InboundDeps, log: Log
     parent_email_id: parentEmailId,
     message_id: env.message_id,
     type: 'received',
-    from_email: env.from,
+    // Header From over the SMTP envelope sender: relays (Resend/SES, forwarders) use
+    // technical bounce addresses in the envelope, while matching and address learning
+    // need the institution's real address.
+    from_email: parsed.from?.address ?? env.from,
     to_email: env.to_email,
     subject: env.subject,
     body: parsed.body,

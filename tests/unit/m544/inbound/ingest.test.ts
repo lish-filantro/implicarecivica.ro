@@ -45,6 +45,16 @@ describe('user email flow', () => {
     expect(processed).toEqual([result.email_id]);
   });
 
+  it('stores the header From, not the SMTP envelope sender (relay bounce addresses)', async () => {
+    const { deps, emails, profiles } = makeDeps();
+    profiles.seed({ id: 'u1', mailcow_email: RECIPIENT });
+
+    const result = await ingestEnvelope(envelope({ from: '0102abc-bounce@eu-west-1.amazonses.com' }), deps);
+    expect(result.kind).toBe('ingested');
+    if (result.kind !== 'ingested') return;
+    expect((await emails.getById(result.email_id))?.from_email).toBe('registratura@primaria-test.ro');
+  });
+
   it('no_user: nothing stored, raw NOT fetched nor deleted, warning logged', async () => {
     const { deps, emails, deleted, runAfter } = makeDeps();
     const lines: string[] = [];

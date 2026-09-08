@@ -9,6 +9,18 @@ import { parseMime } from '@m544/inbound/webhook/mime';
 const fixture = (name: string) => fs.readFileSync(path.resolve(__dirname, '../../../fixtures/inbound', name));
 
 describe('parseMime', () => {
+  it('exposes the header From (lower-cased address + display name)', async () => {
+    const parsed = await parseMime(fixture('reply-with-pdf.eml'));
+    expect(parsed.from).toEqual({ address: 'registratura@primaria-test.ro', name: 'Registratura Primaria' });
+    const plain = await parseMime(fixture('plain-text.eml'));
+    expect(plain.from).toEqual({ address: 'cineva@gmail.com', name: null });
+  });
+
+  it('from is null when the header is missing', async () => {
+    const parsed = await parseMime(new TextEncoder().encode('Subject: x\r\n\r\nbody'));
+    expect(parsed.from).toBeNull();
+  });
+
   it('prefers the HTML body and exposes text too', async () => {
     const parsed = await parseMime(fixture('reply-with-pdf.eml'));
     expect(parsed.html).toContain('<b>inregistrata</b>');

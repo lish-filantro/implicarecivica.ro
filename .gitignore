@@ -66,3 +66,8 @@ next-env.d.ts
 # local dev server logs
 server.log
 *.log
+
+# playwright
+/playwright-report/
+/test-results/
+/tests/browser/.auth/
