@@ -18,7 +18,9 @@ test.describe('paginile aplicației', () => {
   test('setări: profil și preferințe de notificare', async ({ page }) => {
     await login(page, CITIZEN, '/settings');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.getByText(CITIZEN.loginEmail).first()).toBeVisible();
+    await expect(page.getByDisplayValue(CITIZEN.loginEmail)).toBeVisible();
+    await expect(page.getByDisplayValue(CITIZEN.displayName)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Notificari/ })).toBeVisible();
   });
 
   test('feedback: formularul se trimite', async ({ page }) => {
