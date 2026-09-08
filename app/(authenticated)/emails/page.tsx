@@ -17,11 +17,13 @@ export default function EmailsPage() {
     composeOpen,
     setComposeOpen,
     unreadCount,
+    reviewCount,
     userEmail,
     filteredEmails,
     selectEmail,
     changeFolder,
     addSentEmail,
+    applyUpdatedEmail,
   } = useEmails();
 
   return (
@@ -33,6 +35,7 @@ export default function EmailsPage() {
           onFolderChange={changeFolder}
           onCompose={() => setComposeOpen(true)}
           unreadCount={unreadCount}
+          reviewCount={reviewCount}
           userEmail={userEmail}
         />
       </div>
@@ -42,6 +45,7 @@ export default function EmailsPage() {
         hasSelection={selectedEmail !== null}
         activeFolder={activeFolder}
         unreadCount={unreadCount}
+        reviewCount={reviewCount}
         onBack={() => selectEmail(null)}
         onFolderChange={changeFolder}
         onCompose={() => setComposeOpen(true)}
@@ -67,7 +71,11 @@ export default function EmailsPage() {
       <div className={`flex-1 flex flex-col bg-white dark:bg-gray-800 overflow-hidden
                        ${selectedEmail ? 'flex' : 'hidden md:flex'}
                        mt-12 md:mt-0`}>
-        {selectedEmail ? <EmailDetail email={selectedEmail} /> : <EmailEmptyState />}
+        {selectedEmail ? (
+          <EmailDetail email={selectedEmail} onUpdated={applyUpdatedEmail} />
+        ) : (
+          <EmailEmptyState />
+        )}
       </div>
 
       {/* Compose modal */}

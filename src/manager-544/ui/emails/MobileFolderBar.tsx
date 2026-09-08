@@ -1,12 +1,15 @@
 'use client';
 
 import { ArrowLeft } from 'lucide-react';
-import type { EmailFolder } from './filter';
+import { folderBadge } from './EmailSidebar';
+import { FOLDER_LABELS, FOLDER_ORDER, type EmailFolder } from './filter';
 
 interface MobileFolderBarProps {
   hasSelection: boolean;
   activeFolder: EmailFolder;
   unreadCount: number;
+  /** Received emails flagged needs_review (badge on "De revizuit"). */
+  reviewCount?: number;
   onBack: () => void;
   onFolderChange: (folder: EmailFolder) => void;
   onCompose: () => void;
@@ -17,6 +20,7 @@ export default function MobileFolderBar({
   hasSelection,
   activeFolder,
   unreadCount,
+  reviewCount = 0,
   onBack,
   onFolderChange,
   onCompose,
@@ -35,22 +39,29 @@ export default function MobileFolderBar({
         </button>
       ) : (
         <>
-          {(['inbox', 'sent', 'all'] as EmailFolder[]).map((f) => (
-            <button
-              key={f}
-              onClick={() => onFolderChange(f)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors
-                ${activeFolder === f
-                  ? 'bg-civic-blue-50 dark:bg-civic-blue-900/20 text-civic-blue-700 dark:text-civic-blue-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                }`}
-            >
-              {f === 'inbox' ? 'Primite' : f === 'sent' ? 'Trimise' : 'Toate'}
-              {f === 'inbox' && unreadCount > 0 && (
-                <span className="ml-1 px-1 text-xs bg-civic-blue-500 text-white rounded-full">{unreadCount}</span>
-              )}
-            </button>
-          ))}
+          {FOLDER_ORDER.map((f) => {
+            const badge = folderBadge(f, unreadCount, reviewCount);
+            return (
+              <button
+                key={f}
+                onClick={() => onFolderChange(f)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors
+                  ${activeFolder === f
+                    ? 'bg-civic-blue-50 dark:bg-civic-blue-900/20 text-civic-blue-700 dark:text-civic-blue-300'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+              >
+                {FOLDER_LABELS[f]}
+                {badge !== null && (
+                  <span
+                    className={`ml-1 px-1 text-xs text-white rounded-full ${f === 'review' ? 'bg-amber-500' : 'bg-civic-blue-500'}`}
+                  >
+                    {badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
           <button
             onClick={onCompose}
             className="ml-auto px-3 py-1 rounded-full text-xs font-semibold

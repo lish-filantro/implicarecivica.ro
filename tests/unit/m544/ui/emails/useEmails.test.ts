@@ -103,6 +103,29 @@ describe('useEmails', () => {
     expect(result.current.filteredEmails.map((e) => e.id)).toEqual(['s']);
   });
 
+  it('reviewCount counts flagged received emails; applyUpdatedEmail replaces list item and selection', async () => {
+    const flagged = makeEmail({ id: 'f', needs_review: true });
+    const { deps } = fakeDeps([flagged, makeEmail({ id: 'a' }), makeEmail({ id: 's', type: 'sent', needs_review: true })]);
+    const { result } = renderHook(() => useEmails(deps));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.reviewCount).toBe(1);
+
+    act(() => result.current.selectEmail(flagged));
+    act(() => result.current.applyUpdatedEmail({ ...flagged, needs_review: false, request_id: 'r1' }));
+    expect(result.current.reviewCount).toBe(0);
+    expect(result.current.selectedEmail).toMatchObject({ id: 'f', request_id: 'r1', needs_review: false });
+    expect(result.current.emails.find((e) => e.id === 'f')?.request_id).toBe('r1');
+
+    // an update for an email that is not selected leaves the selection alone
+    act(() => result.current.applyUpdatedEmail(makeEmail({ id: 'a', subject: 'changed' })));
+    expect(result.current.selectedEmail?.id).toBe('f');
+    expect(result.current.emails.find((e) => e.id === 'a')?.subject).toBe('changed');
+
+    // review folder shows only the flagged ones
+    act(() => result.current.changeFolder('review'));
+    expect(result.current.filteredEmails).toEqual([]);
+  });
+
   it('unsubscribes on unmount', async () => {
     const { deps, unsubscribe } = fakeDeps([]);
     const { unmount, result } = renderHook(() => useEmails(deps));

@@ -5,7 +5,7 @@ import { listEmails, markEmailAsRead, getUnreadCount } from '@m544/emails/querie
 import { getProfile } from '@m544/emails/profile-queries.client';
 import type { Email } from '@m544/shared/types/email';
 import type { Profile } from '@m544/shared/types/profile';
-import { filterEmails, type EmailFolder } from './filter';
+import { filterEmails, needsReview, type EmailFolder } from './filter';
 import { subscribeToEmails, type SubscribeToEmails } from './realtime';
 
 export interface EmailsDeps {
@@ -29,7 +29,7 @@ const DEFAULT_DEPS: EmailsDeps = {
   subscribe: subscribeToEmails,
 };
 
-/** Data + selection state of the emails page (load, realtime, auto mark-as-read). */
+/** Data + selection state of the emails page (load, realtime, auto mark-as-read, review count). */
 export function useEmails(deps: EmailsDeps = DEFAULT_DEPS) {
   const [emails, setEmails] = useState<Email[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,24 +60,24 @@ export function useEmails(deps: EmailsDeps = DEFAULT_DEPS) {
     load();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  /** Replace an email in the list and, when it is the open one, in the selection. */
+  const applyUpdatedEmail = useCallback((updated: Email) => {
+    setEmails((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+    setSelectedEmail((prev) => (prev?.id === updated.id ? updated : prev));
+  }, []);
+
   // Realtime: subscribe to new / updated emails
   useEffect(() => {
-    const unsubscribe = deps.subscribe(
-      (newEmail) => {
-        setEmails((prev) => {
-          // Avoid duplicates
-          if (prev.some((e) => e.id === newEmail.id)) return prev;
-          return [newEmail, ...prev];
-        });
-        if (newEmail.type === 'received' && !newEmail.is_read) {
-          setUnreadCount((prev) => prev + 1);
-        }
-      },
-      (updated) => {
-        setEmails((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
-        setSelectedEmail((prev) => (prev?.id === updated.id ? updated : prev));
-      },
-    );
+    const unsubscribe = deps.subscribe((newEmail) => {
+      setEmails((prev) => {
+        // Avoid duplicates
+        if (prev.some((e) => e.id === newEmail.id)) return prev;
+        return [newEmail, ...prev];
+      });
+      if (newEmail.type === 'received' && !newEmail.is_read) {
+        setUnreadCount((prev) => prev + 1);
+      }
+    }, applyUpdatedEmail);
     return unsubscribe;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -96,6 +96,7 @@ export function useEmails(deps: EmailsDeps = DEFAULT_DEPS) {
   }, [selectedEmail?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const filteredEmails = useMemo(() => filterEmails(emails, activeFolder, search), [emails, activeFolder, search]);
+  const reviewCount = useMemo(() => emails.filter(needsReview).length, [emails]);
 
   const selectEmail = useCallback((email: Email | null) => setSelectedEmail(email), []);
 
@@ -121,10 +122,12 @@ export function useEmails(deps: EmailsDeps = DEFAULT_DEPS) {
     composeOpen,
     setComposeOpen,
     unreadCount,
+    reviewCount,
     userEmail,
     filteredEmails,
     selectEmail,
     changeFolder,
     addSentEmail,
+    applyUpdatedEmail,
   };
 }
