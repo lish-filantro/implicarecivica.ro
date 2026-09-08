@@ -1,6 +1,13 @@
 # Manager 544 — îmbunătățiri sugerate după refactor
 
-Colectate în timpul refactorului din 2026-09-08. Niciuna nu e implementată; sunt ordonate după impactul asupra utilizatorului.
+Colectate în timpul refactorului din 2026-09-08 și implementate în aceeași zi (design: `2026-09-08-manager-544-improvements-design.md`), cu excepțiile marcate. Ordonate după impactul asupra utilizatorului.
+
+| # | Stare |
+|---|---|
+| 1, 2, 4, 6 (Haiku), 7, 8, 9, 10, 11, 12, 13 | implementate pe branch |
+| 3 | configurare externă (plan Supabase); cron-urile zilnice țin proiectul activ |
+| 5 | logger JSON + carduri admin implementate; log drain-ul se configurează în Vercel |
+| 14 | neimplementat: modulul campanii e în afara scopului, la cererea utilizatorului |
 
 ## Fiabilitate operațională
 
