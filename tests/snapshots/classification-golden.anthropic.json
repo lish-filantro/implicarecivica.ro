@@ -1,0 +1,565 @@
+{
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Happy_Path_Parcuri\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "36493/29.11.2025",
+    "registration_date": "2025-11-29",
+    "response_date": "2025-11-29",
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Primaria Municipiului Test confirmând înregistrarea cererii cu numărul 36493 privind situația spațiilor verzi",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Happy_Path_Parcuri\\2_raspuns_final.pdf": {
+    "category": "raspunse",
+    "registration_number": "36493/04.12.2025",
+    "registration_date": "2025-12-04",
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "list",
+      "content": [
+        "Suprafață totală spații verzi: 450 hectare",
+        "Buget alocat întreținere 2024: 2.000.000 RON"
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial Primăria Municipiului Test cu număr de înregistrare și dată, conținând răspuns final la solicitarea de informații publice privind parcurile și spațiile verzi",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "12345",
+    "registration_date": "2025-11-11",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Județean Prahova cu confirmare de primire a cererii și atribuire de număr de înregistrare 12345 din 11.11.2025",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\2_amanare.pdf": {
+    "category": "amanate",
+    "registration_number": "12345",
+    "registration_date": "2025-11-18",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": "volumul mare de documente necesare pentru formularea răspunsului",
+    "redirected_to": null,
+    "evidence": "Notificare oficială de prelungire a termenului de răspuns conform art. 7 alin. 2 din Legea 544/2001. Noul termen: 18.12.2025",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_1_Contracte_Achizitii\\3_raspuns.pdf": {
+    "category": "raspunse",
+    "registration_number": "12345",
+    "registration_date": null,
+    "response_date": "2025-12-05",
+    "answer_summary": {
+      "type": "table",
+      "headers": [
+        "Contract",
+        "Descriere",
+        "Valoare",
+        "Furnizor"
+      ],
+      "rows": [
+        [
+          "1/2020",
+          "Furnizare papetarie",
+          "10.000 RON",
+          "SC Papetaria SRL"
+        ],
+        [
+          "5/2021",
+          "Servicii curatenie",
+          "50.000 RON",
+          "SC Clean SRL"
+        ],
+        [
+          "12/2022",
+          "Achizitie mobilier",
+          "75.000 RON",
+          "SC Mobila SA"
+        ],
+        [
+          "3/2023",
+          "Servicii IT",
+          "120.000 RON",
+          "SC Tech Solutions SRL"
+        ],
+        [
+          "8/2024",
+          "Reparatii curente",
+          "35.000 RON",
+          "SC Constructii SRL"
+        ]
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Județean Prahova, Serviciul Achiziții Publice, datând 05.12.2025, conținând lista contractelor de achiziții publice solicitate prin cererea nr. 12345.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Delayed_Achizitii\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "29702",
+    "registration_date": "2025-11-14",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Județean Test, datare 14.11.2025, confirmare de primire a solicitării privind achizițiile publice cu atribuire de număr de înregistrare 29702",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Delayed_Achizitii\\2_notificare_prelungire.pdf": {
+    "category": "amanate",
+    "registration_number": "29702/22.11.2025",
+    "registration_date": "2025-11-22",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": "volumul mare de documente necesare pentru raspuns (contracte 2020-2024)",
+    "redirected_to": null,
+    "evidence": "Notificare de prelungire a termenului de răspuns conform Legii 544/2001. Instituția (Consiliul Județean Test) informează că termenul se prelungește la 30 de zile din cauza volumului mare de documente.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Delayed_Achizitii\\3_raspuns_final.pdf": {
+    "category": "raspunse",
+    "registration_number": "29702/04.12.2025",
+    "registration_date": null,
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "list",
+      "content": [
+        "Contract 1/2020: Furnizare papetarie - 10.000 RON",
+        "Contract 5/2021: Servicii curatenie - 50.000 RON"
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Județean Test, nr. 29702/04.12.2025, conținând răspuns la cerere de informații publice cu listă de contracte după notificare de prelungire.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "54321",
+    "registration_date": "2025-11-16",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Primaria Municipiului Ploiesti cu confirmare de înregistrare și număr de înregistrare 54321 din 16.11.2025. Textul confirmă primirea cererii și promite răspuns în termenul legal.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\2_amanare.pdf": {
+    "category": "amanate",
+    "registration_number": "54321/20.11.2025",
+    "registration_date": null,
+    "response_date": "2025-11-20",
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": "Pentru centralizarea datelor solicitate",
+    "redirected_to": null,
+    "evidence": "Document oficial de la Primaria Municipiului Ploiesti, semnat de Resurse Umane, care confirmă prelungirea termenului cu 30 de zile conform legii pentru cererea nr. 54321",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_2_Salarii_Functionari\\3_raspuns.pdf": {
+    "category": "raspunse",
+    "registration_number": "54321",
+    "registration_date": null,
+    "response_date": "2025-12-05",
+    "answer_summary": {
+      "type": "table",
+      "headers": [
+        "Funcție",
+        "Grad",
+        "Salariu brut",
+        "Nr. posturi"
+      ],
+      "rows": [
+        [
+          "Director executiv",
+          "II",
+          "12.500 RON",
+          "3"
+        ],
+        [
+          "Șef serviciu",
+          "II",
+          "9.800 RON",
+          "8"
+        ],
+        [
+          "Consilier superior",
+          "I",
+          "7.200 RON",
+          "25"
+        ],
+        [
+          "Consilier principal",
+          "I",
+          "6.100 RON",
+          "42"
+        ],
+        [
+          "Referent",
+          "III",
+          "4.500 RON",
+          "15"
+        ]
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Primăria Municipiului Ploiești, Serviciul Resurse Umane, datând 05.12.2025, conținând grila de salarizare a funcționarilor publici în format tabelar.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "ANI-2024-789",
+    "registration_date": "2025-11-19",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Confirmarea înregistrării cererii cu numărul ANI-2024-789 de către Agenția Națională de Integritate, datată 19.11.2025",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\2_amanare.pdf": {
+    "category": "amanate",
+    "registration_number": "ANI-2024-789",
+    "registration_date": null,
+    "response_date": "2025-11-24",
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Agenția Națională de Integritate confirmând prelungirea termenului cu 30 de zile pentru cererea ANI-2024-789",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Cheltuieli_Deplasari\\3_raspuns.pdf": {
+    "category": "raspunse",
+    "registration_number": "ANI-2024-789",
+    "registration_date": null,
+    "response_date": "2025-12-05",
+    "answer_summary": {
+      "type": "text",
+      "content": "Totalul cheltuielilor cu deplasarile externe in anul 2023 a fost de 45.320 EUR. Suma include transport, cazare si diurna pentru 12 deplasari oficiale."
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial ANI cu numărul de înregistrare ANI-2024-789 din 05.12.2025, conținând răspuns final la cererea de informații publice privind cheltuielile cu deplasări.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Refusal_Salarii\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "31884/01.12.2025",
+    "registration_date": "2025-12-01",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Spitalul Municipal Test confirmând înregistrarea cererii referitoare la salariile nominale ale medicilor cu numărul 31884 din 01.12.2025",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_3_Refusal_Salarii\\2_refuz.pdf": {
+    "category": "raspunse",
+    "registration_number": "31884/04.12.2025",
+    "registration_date": "2025-12-04",
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "text",
+      "content": "Lista nominală cu salariile angajaților nu poate fi transmisă. Datele sunt exceptate de la acces liber conform art. 12 din Legea 544/2001 și intră sub incidență GDPR. Se poate comunica doar grila generală de salarizare, fără nume și prenume."
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial Spitalul Municipal Test, nr. 31884 din 04.12.2025, refuz motivat cu excepții legale și GDPR",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "INV/2024/456",
+    "registration_date": "2025-11-14",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Local Sector 3 confirmând înregistrarea cererii cu numărul INV/2024/456 la data 14.11.2025, cu termenul de răspuns de 10 zile.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\2_amanare.pdf": {
+    "category": "amanate",
+    "registration_number": "INV/2024/456",
+    "registration_date": null,
+    "response_date": "2025-11-19",
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": "centralizare",
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Local Sector 3 care confirmă necesitatea unei prelungiri de 30 de zile pentru cererea INV/2024/456",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Investitii_Infrastructura\\3_raspuns.pdf": {
+    "category": "raspunse",
+    "registration_number": "INV/2024/456",
+    "registration_date": null,
+    "response_date": "2025-12-05",
+    "answer_summary": {
+      "type": "table",
+      "headers": [
+        "Proiect",
+        "Valoare",
+        "Stadiu",
+        "Termen"
+      ],
+      "rows": [
+        [
+          "Reabilitare Str. Unirii",
+          "2.5 mil RON",
+          "In executie 45%",
+          "Dec 2024"
+        ],
+        [
+          "Parc Titan Etapa II",
+          "1.8 mil RON",
+          "Finalizat",
+          "Recep. Oct 2024"
+        ],
+        [
+          "Modernizare Piata Muncii",
+          "3.2 mil RON",
+          "In licitatie",
+          "2025"
+        ],
+        [
+          "Piste biciclete",
+          "800.000 RON",
+          "In executie 80%",
+          "Nov 2024"
+        ]
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Consiliul Local Sector 3 cu numărul de înregistrare INV/2024/456 datând 05.12.2025, conținând tabel cu situația proiectelor de investiții în infrastructură.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Redirection_Metro\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "43759/30.11.2025",
+    "registration_date": "2025-11-30",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Primaria Sector 1 Test confirmând înregistrarea cererii privind lucrarile la Magistrala 6 de metrou. Numărul de înregistrare și data sunt extrase din antetul documentului.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_4_Redirection_Metro\\2_redirectionare.pdf": {
+    "category": "redirectionat",
+    "registration_number": "43759/04.12.2025",
+    "registration_date": "2025-12-04",
+    "response_date": "2025-12-04",
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": "METROREX S.A. și Ministerul Transporturilor",
+    "evidence": "Instituția declară că nu are competențe în gestionarea lucrărilor de metrou și că cererea a fost redirecționată către METROREX S.A. și Ministerul Transporturilor, care sunt abilitate să răspundă.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "ME/544/2024/1234",
+    "registration_date": "2025-11-21",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Ministerul Educației confirmând înregistrarea cererii cu numărul ME/544/2024/1234 la data 21.11.2025",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\2_amanare.pdf": {
+    "category": "amanate",
+    "registration_number": "ME/544/2024/1234",
+    "registration_date": null,
+    "response_date": "2025-11-25",
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": "centralizare date",
+    "redirected_to": null,
+    "evidence": "Document oficial de la Ministerul Educației cu referință ME/544/2024/1234 datată 25.11.2025 care menționează prelungirea termenului cu 30 de zile pentru centralizare date.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Angajari_Personal\\3_raspuns.pdf": {
+    "category": "raspunse",
+    "registration_number": "ME/544/2024/1234",
+    "registration_date": null,
+    "response_date": "2025-12-05",
+    "answer_summary": {
+      "type": "table",
+      "headers": [
+        "Categorie",
+        "Număr posturi"
+      ],
+      "rows": [
+        [
+          "Personal didactic",
+          "1.250"
+        ],
+        [
+          "Personal didactic auxiliar",
+          "380"
+        ],
+        [
+          "Personal nedidactic",
+          "210"
+        ],
+        [
+          "Funcții de conducere",
+          "45"
+        ],
+        [
+          "Total angajări 2024",
+          "1.885"
+        ]
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial Ministerul Educației cu număr de înregistrare ME/544/2024/1234, dată 05.12.2025, conținând date structurate despre angajări pe categorii profesionale",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Clarification_Scoli\\1_confirmare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "54455/19.11.2025",
+    "registration_date": "2025-11-19",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Inspectoratul Scolar Test confirmând înregistrarea cererii privind bugetul de reparații scoli. Numărul de înregistrare și data sunt explicit menționate în antetul documentului.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Clarification_Scoli\\2_cerere_clarificari.pdf": {
+    "category": "amanate",
+    "registration_number": "54455/22.11.2025",
+    "registration_date": "2025-11-22",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": "Instituția solicită precizări privind unitățile de învățământ pentru care se dorește situația bugetului de reparații sau dacă se referă la totalul pe județ",
+    "redirected_to": null,
+    "evidence": "Emailul conține o cerere de clarificare din partea Inspectoratului Școlar Județean Dolj, care nu poate răspunde fără precizări suplimentare de la solicitant. Aceasta este o amânare implicită a termenului de răspuns până la primirea precizărilor.",
+    "confidence": 0.85
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\Set_5_Clarification_Scoli\\3_raspuns_final.pdf": {
+    "category": "raspunse",
+    "registration_number": "54455/04.12.2025",
+    "registration_date": null,
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "list",
+      "content": [
+        "Bugetul total pentru reparații curente în anul 2024: 5.000.000 RON",
+        "Lucrări efectuate în 15 unități de învățământ"
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Inspectoratul Școlar Test cu număr de înregistrare 54455/04.12.2025, conținând răspuns la cererea de informații publice privind bugetul pentru reparații curente și unitățile de învățământ beneficiare.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\1_confirmare_inregistrare.pdf": {
+    "category": "inregistrate",
+    "registration_number": "9680/RP",
+    "registration_date": "2025-12-04",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial de la Instituția Publică de Testare confirmând înregistrarea cererii cu numărul 9680/RP din 04.12.2025. Textul explicit: 'aceasta a fost luata in evidenta' și promisiunea unui răspuns în termenul legal conform Legea 544/2001.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\2_notificare_prelungire.pdf": {
+    "category": "amanate",
+    "registration_number": "3442/RP/04.12.2025",
+    "registration_date": "2025-12-04",
+    "response_date": null,
+    "answer_summary": null,
+    "extension_days": 30,
+    "extension_reason": "complexitatea informatiilor solicitate",
+    "redirected_to": null,
+    "evidence": "Notificare oficială cu număr de înregistrare 3442/RP/04.12.2025, care confirmă prelungirea termenului de răspuns la 30 de zile conform art. 7 alin. (1) din Legea nr. 544/2001",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\3_raspuns_favorabil.pdf": {
+    "category": "raspunse",
+    "registration_number": "4876/RP/2025",
+    "registration_date": "2025-12-04",
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "list",
+      "content": [
+        "Bugetul alocat pentru anul 2024 pentru proiecte de digitalizare: 1.500.000 RON",
+        "Numărul de angajați în departamentul IT: 12 persoane",
+        "Lista contractelor de achiziții publice disponibilă pe www.institutie-test.ro"
+      ]
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document PDF cu răspuns oficial de la Instituția Publică de Testare, semnat de Biroul de Presă, conținând trei informații concrete referitoare la buget, personal și contracte publice.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\4_raspuns_refuz_partial.pdf": {
+    "category": "raspunse",
+    "registration_number": "5362/RP/04.12.2025",
+    "registration_date": "2025-12-04",
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "text",
+      "content": "Informațiile solicitate la punctul 2 se încadrează în categoria informațiilor exceptate de la accesul liber al cetățenilor, conform art. 12 alin. (1) lit. d) din Legea nr. 544/2001 (informații cu privire la datele personale). Solicitarea pentru acest punct specific nu poate fi satisfăcută."
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": null,
+    "evidence": "Document oficial cu număr de înregistrare 5362/RP/04.12.2025, semnat de Departamentul Juridic, conținând refuz motivat de acces la informații pe bază de excepție legală.",
+    "confidence": 0.95
+  },
+  "D:\\implicare civica\\544-FULL-APP\\django-544-backend\\test_data_pdfs\\5_redirectionare.pdf": {
+    "category": "redirectionat",
+    "registration_number": "3893/RP/2025",
+    "registration_date": "2025-12-04",
+    "response_date": "2025-12-04",
+    "answer_summary": {
+      "type": "text",
+      "content": "Instituția nu deține informațiile solicitate. Cererea a fost redirecționată către Ministerul Transporturilor, instituție competentă să răspundă la întrebări."
+    },
+    "extension_days": null,
+    "extension_reason": null,
+    "redirected_to": "Ministerul Transporturilor",
+    "evidence": "Document oficial cu număr de înregistrare 3893/RP/2025, dată 04.12.2025, semnat de Secretariat General. Conține declarație explicită de redirecționare către Ministerul Transporturilor.",
+    "confidence": 0.95
+  }
+}
