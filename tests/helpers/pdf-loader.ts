@@ -9,7 +9,7 @@ import path from 'path';
 
 const TEST_PDFS_ROOT = 'D:/implicare civica/544-FULL-APP/django-544-backend/test_data_pdfs';
 
-export type ExpectedCategory = 'inregistrate' | 'amanate' | 'raspunse';
+export type ExpectedCategory = 'inregistrate' | 'amanate' | 'raspunse' | 'redirectionat';
 
 export interface TestPdf {
   /** Full file path */
@@ -56,8 +56,8 @@ function inferCategory(fileName: string): ExpectedCategory {
     lower.includes('raspuns') ||
     lower.includes('refuz')
   ) return 'raspunse';
-  // Redirecționare: Mistral classifies as 'inregistrate' (forwarding, not final answer)
-  if (lower.includes('redirectionare')) return 'inregistrate';
+  // Redirecționare: dedicated category since the 2026-09 refactor (request stays open, redirected_to set)
+  if (lower.includes('redirectionare')) return 'redirectionat';
   // cerere_initiala is sent BY the citizen, not classified as incoming
   return 'inregistrate'; // fallback
 }

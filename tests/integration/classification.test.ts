@@ -88,7 +88,7 @@ describe('Classification — Scenario PDFs', () => {
   // Ambiguous doc types where Mistral may return different categories
   // across runs (non-deterministic). Accept any of the listed values.
   const AMBIGUOUS_CATEGORIES: Record<string, string[]> = {
-    redirectionare: ['raspunse', 'inregistrate'],
+    redirectionare: ['redirectionat'],
     cerere_clarificari: ['amanate', 'inregistrate'],
   };
 
@@ -124,7 +124,7 @@ describe('Classification — Standalone PDFs', () => {
     '2_notificare_prelungire': 'amanate',
     '3_raspuns_favorabil': 'raspunse',
     '4_raspuns_refuz_partial': 'raspunse',
-    '5_redirectionare': 'raspunse',
+    '5_redirectionare': 'redirectionat',
   };
 
   for (const pdf of standalonePdfs) {
@@ -173,7 +173,7 @@ describe('Classification — Answer summary extraction', () => {
 
   for (const scenario of scenarios) {
     const raspuns = scenario.pdfs.find((p) =>
-      ['raspuns', 'raspuns_final', 'raspuns_favorabil', 'refuz', 'refuz_partial', 'redirectionare'].includes(p.docType),
+      ['raspuns', 'raspuns_final', 'raspuns_favorabil', 'refuz', 'refuz_partial'].includes(p.docType),
     );
     if (!raspuns) continue;
 
@@ -218,6 +218,24 @@ describe('Classification — Extension data extraction', () => {
       if (result.extension_days) {
         expect(result.extension_days).toBeGreaterThanOrEqual(10);
       }
+    }, 120_000);
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// Test: Redirecționări name the competent institution
+// ═══════════════════════════════════════════════════════════
+describe('Classification — Redirect extraction', () => {
+  const redirects = [
+    ...getStandalonePdfs().filter((p) => p.docType === 'redirectionare'),
+    ...getTestScenarios().flatMap((s) => s.pdfs.filter((p) => p.docType === 'redirectionare')),
+  ];
+
+  for (const pdf of redirects) {
+    it(`${pdf.setName}/${pdf.fileName}: redirectionat with redirected_to`, async () => {
+      const result = await classifyPdf(pdf);
+      expect(result.category).toBe('redirectionat');
+      expect(result.redirected_to).toBeTruthy();
     }, 120_000);
   }
 });

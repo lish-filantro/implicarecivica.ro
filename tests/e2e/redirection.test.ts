@@ -2,7 +2,8 @@
  * E2E Test — Redirection (Set_4_Redirection_Metro)
  *
  * Flow: confirmare → redirecționare
- * Verifies that a redirection to another institution is classified as 'raspunse'
+ * Verifies that a redirection is classified as 'redirectionat', the request stays
+ * open (received) and the competent institution is stored in redirected_to.
  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { getTestSupabase, TEST_INSTITUTION_EMAIL } from '../helpers/supabase-test-client';
@@ -63,9 +64,7 @@ describe(`E2E Redirection — ${scenario.setName}`, () => {
     expect(req!.registration_number).toBeTruthy();
   }, 120_000);
 
-  it('Step 2: Redirecționare → processed (non-deterministic category)', async () => {
-    // Mistral is non-deterministic on redirections:
-    // sometimes 'raspunse' (it's a response), sometimes 'inregistrate' (forwarding action)
+  it('Step 2: Redirecționare → redirectionat, request stays open with redirected_to', async () => {
     const result = await injectAndProcess({
       fromEmail: `Registratură <${TEST_INSTITUTION_EMAIL}>`,
       subject: `Re: ${scenario.subject}`,
@@ -74,12 +73,12 @@ describe(`E2E Redirection — ${scenario.setName}`, () => {
     });
 
     expect(result.success).toBe(true);
-    expect(['raspunse', 'inregistrate']).toContain(result.category);
+    expect(result.category).toBe('redirectionat');
     expect(result.matchStrategy).toBe('registration');
 
     const supabase = getTestSupabase();
     const { data: req } = await supabase.from('requests').select('*').eq('id', requestId).single();
-    // Status depends on category: 'answered' if raspunse, 'received' if inregistrate
-    expect(['answered', 'received']).toContain(req!.status);
+    expect(req!.status).toBe('received');
+    expect(req!.redirected_to).toBeTruthy();
   }, 120_000);
 });
