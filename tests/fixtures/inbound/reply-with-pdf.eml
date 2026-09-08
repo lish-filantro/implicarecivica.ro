@@ -1,0 +1,40 @@
+From: Registratura Primaria <registratura@primaria-test.ro>
+To: ion.popescu@implicarecivica.ro
+Subject: Re: Cerere informatii publice - Legea 544/2001
+Message-ID: <reply-1@primaria-test.ro>
+In-Reply-To: <orig-1@implicarecivica.ro>
+References: <orig-1@implicarecivica.ro>
+Date: Tue, 08 Sep 2026 10:00:00 +0300
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BOUNDARY42"
+
+--BOUNDARY42
+Content-Type: multipart/alternative; boundary="ALT42"
+
+--ALT42
+Content-Type: text/plain; charset=utf-8
+
+Cererea dvs. a fost inregistrata cu nr. 12345/2026.
+
+--ALT42
+Content-Type: text/html; charset=utf-8
+
+<p>Cererea dvs. a fost <b>inregistrata</b> cu nr. 12345/2026.</p>
+
+--ALT42--
+
+--BOUNDARY42
+Content-Type: application/pdf; name="confirmare.pdf"
+Content-Disposition: attachment; filename="confirmare.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKMSAwIG9iajw8L1R5cGUvQ2F0YWxvZz4+ZW5kb2JqCnRyYWlsZXI8PC9Sb290IDEgMCBSPj4KJSVFT0YK
+
+--BOUNDARY42
+Content-Type: image/png; name="sigla.png"
+Content-Disposition: attachment; filename="sigla.png"
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==
+
+--BOUNDARY42--
