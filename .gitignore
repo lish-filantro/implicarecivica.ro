@@ -71,3 +71,6 @@ server.log
 /playwright-report/
 /test-results/
 /tests/browser/.auth/
+
+# wrangler local build metadata
+cloudflare-email-worker/metadata.json
