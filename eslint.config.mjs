@@ -10,14 +10,12 @@ import { FlatCompat } from '@eslint/eslintrc';
 
 const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
 
-/** Paths outside the manager-544 refactor scope (campanii + public content pages) */
+/** Paths outside the manager-544 refactor scope (campanii + public content pages).
+ *  app/page.tsx, app/institutii/** and lib/institutii.ts were split under 200 lines (WP-G) and are in scope. */
 const OUT_OF_SCOPE = [
-  'app/page.tsx',
   'app/despre/**',
   'app/contact/**',
   'app/politica-cookies/**',
-  'app/institutii/**',
-  'lib/institutii.ts',
   'lib/institutii-search.ts',
   'app/campanii/**',
   'app/api/campanii/**',
