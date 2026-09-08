@@ -27,6 +27,8 @@ const CATEGORY_LABELS: Record<EmailCategory, { label: string; className: string 
   amanate: { label: 'Amânat', className: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' },
   raspunse: { label: 'Răspuns', className: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' },
   intarziate: { label: 'Întârziat', className: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' },
+  redirectionat: { label: 'Redirecționat', className: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' },
+  irelevant: { label: 'Irelevant', className: 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400' },
 };
 
 function ProcessingBadge({ status }: { status: ProcessingStatus }) {

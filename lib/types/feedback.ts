@@ -1,19 +1,2 @@
-export type FeedbackCategory = 'bug' | 'sugestie' | 'utilizare' | 'altele';
-
-export type FeedbackStatus = 'nou' | 'in_lucru' | 'rezolvat' | 'respins';
-
-export interface Feedback {
-  id: string;
-  user_id: string | null;
-  category: FeedbackCategory;
-  message: string;
-  page_url: string | null;
-  status: FeedbackStatus;
-  created_at: string;
-}
-
-export interface CreateFeedbackPayload {
-  category: FeedbackCategory;
-  message: string;
-  page_url?: string;
-}
+// Compatibility re-export — moved to @m544/shared/types (removed in refactor phase 6)
+export * from '@m544/shared/types/feedback'
