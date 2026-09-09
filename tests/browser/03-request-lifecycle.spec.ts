@@ -47,10 +47,12 @@ test.describe('ciclul de viață al unei cereri', () => {
     await page.getByRole('button', { name: 'Continuă' }).click();
 
     await expect(page.getByText('Selectează întrebările')).toBeVisible();
+    // categories start collapsed; custom questions are added inside an expanded one
+    await page.getByRole('button', { name: /^A\. Financiar/ }).click();
     for (const q of QUESTIONS) {
-      await page.getByRole('button', { name: /Adaug[ăa]/ }).first().click();
+      await page.getByRole('button', { name: /Adaug[ăa] [îi]ntrebare/ }).first().click();
       await page.getByPlaceholder('Scrie întrebarea ta...').fill(q);
-      await page.getByRole('button', { name: /^Adaug[ăa]$|Salveaz|Confirm/ }).first().click();
+      await page.getByRole('button', { name: 'Adaugă', exact: true }).click();
     }
     await expect(page.getByText(/2\s+cereri selectate/)).toBeVisible();
     await page.getByRole('button', { name: /Previzualizare/ }).click();
