@@ -67,6 +67,15 @@ describe('useWizardQuestions', () => {
     expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(2);
   });
 
+  it('regeneration keeps the custom questions of the category', () => {
+    const { result } = setup();
+    act(() => result.current.setQuestionsForCategory('A_FINANCIAR', ['old']));
+    act(() => result.current.addCustomQuestion('A_FINANCIAR', 'mine'));
+    act(() => result.current.setQuestionsForCategory('A_FINANCIAR', ['new']));
+    expect(result.current.questions.A_FINANCIAR.map((q) => q.text)).toEqual(['new', 'mine']);
+    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(2);
+  });
+
   it('toggleQuestion flips selection', () => {
     const { result } = setup();
     act(() => result.current.setQuestionsForCategory('C_PLANIFICARE', ['x']));
