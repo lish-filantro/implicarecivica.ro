@@ -15,8 +15,10 @@ const botMsg = (text: string): Message => ({ sender: 'bot', text, time: '10:02' 
 describe('detectStepFromReply', () => {
   it('maps the markers to steps', () => {
     expect(detectStepFromReply(STEP_2_REPLY)).toBe('STEP_2');
-    expect(detectStepFromReply('Iată ÎNTREBĂRI_STRATEGICE ...')).toBe('STEP_3');
-    expect(detectStepFromReply('Aspect FINANCIAR')).toBe('STEP_3');
+    // STEP_3 is written when the user confirms the institution, never from a reply
+    expect(detectStepFromReply('Iată ÎNTREBĂRI_STRATEGICE ...')).toBeNull();
+    expect(detectStepFromReply('📊CATEGORIA_A_FINANCIAR: ...')).toBeNull();
+    expect(detectStepFromReply('Aspect FINANCIAR')).toBeNull();
     expect(detectStepFromReply('Bună ziua')).toBeNull();
   });
 });

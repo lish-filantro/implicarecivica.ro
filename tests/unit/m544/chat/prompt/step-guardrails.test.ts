@@ -60,7 +60,10 @@ describe('getStepGuardrail', () => {
     const r = getStepGuardrail([a(PROBLEMA), u('da'), a(INSTITUTIE)]);
     expect(r).toEqual({ step: 'STEP_3', guardrail: STEP_3_GUARDRAIL });
     expect(r.guardrail).toContain('[STEP 3 ACTIV]');
-    expect(r.guardrail).toContain('5 categorii × 5 întrebări');
+    expect(r.guardrail).toContain('INSTITUȚIE CONFIRMATĂ');
+    expect(r.guardrail).not.toContain('CATEGORIA_');
+    expect(r.guardrail).toContain('Pregătește cererile');
+    expect(r.guardrail).toContain('🏛INSTITUȚIE_IDENTIFICATĂ');
   });
 });
 

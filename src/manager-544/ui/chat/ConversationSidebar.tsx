@@ -23,7 +23,7 @@ function formatRelativeTime(dateStr: string): string {
 const STEP_LABELS: Record<string, string> = {
   STEP_1: 'Definire',
   STEP_2: 'Instituție',
-  STEP_3: 'Întrebări',
+  STEP_3: 'Confirmată',
 };
 
 /** Queries the sidebar needs (injectable for tests; defaults to the real Supabase ones). */

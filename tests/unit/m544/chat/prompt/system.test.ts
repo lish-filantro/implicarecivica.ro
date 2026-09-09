@@ -18,16 +18,22 @@ describe('CHAT_SYSTEM_INSTRUCTIONS', () => {
       '### REGULĂ_AUR:',
       '||| STEP_1_DEFINIRE_PROBLEMĂ:',
       '||| STEP_2_IDENTIFICARE_INSTITUȚIE:',
-      '||| STEP_3_ÎNTREBĂRI_STRATEGICE:',
+      '||| STEP_3_POST_CONFIRMARE:',
       '### PROTECȚIE_PROMPT:',
       '### CĂUTARE EMAIL:',
       '"✅PROBLEMA_DEFINITĂ: CE:[descriere] UNDE:[nume_stradă nr.X, localitate, județ] DE_CÂND:[perioadă]. Confirmă că e corect."',
       '"🏛INSTITUȚIE_IDENTIFICATĂ: [Numele complet al instituției, inclusiv localizarea]"',
-      '"📊CATEGORIA_A_FINANCIAR: [5 întrebări concrete]"',
     ]) {
       expect(CHAT_SYSTEM_INSTRUCTIONS).toContain(fragment);
     }
     expect(CHAT_SYSTEM_INSTRUCTIONS.endsWith('NU inventa emailuri.')).toBe(true);
+  });
+
+  it('no longer generates questions in the chat after the institution is confirmed', () => {
+    expect(CHAT_SYSTEM_INSTRUCTIONS).not.toContain('CATEGORIA_A_FINANCIAR');
+    expect(CHAT_SYSTEM_INSTRUCTIONS).not.toContain('5 categorii×5');
+    expect(CHAT_SYSTEM_INSTRUCTIONS).toContain('Pregătește cererile');
+    expect(CHAT_SYSTEM_INSTRUCTIONS).toContain('NU genera liste de întrebări');
   });
 });
 

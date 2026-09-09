@@ -41,7 +41,7 @@ describe('detectCurrentStep', () => {
     expect(detectCurrentStep([a(PROBLEMA), u('da'), a(INSTITUTIE)])).toBe('STEP_3');
   });
 
-  it('is STEP_3 while categories are being presented', () => {
+  it('stays STEP_3 after the institution even when a reply carries the legacy CATEGORIA marker', () => {
     expect(detectCurrentStep([a(PROBLEMA), u('da'), a(INSTITUTIE), u('da'), a(CATEGORIA)])).toBe('STEP_3');
   });
 
@@ -63,9 +63,9 @@ describe('detectCurrentStep', () => {
     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('STEP_3 without PROBLEMA_DEFINITA'));
   });
 
-  it('downgrades STEP_3 to STEP_2 when categories appear without an identified institution', () => {
+  it('the legacy CATEGORIA marker alone no longer means STEP_3', () => {
     expect(detectCurrentStep([a(PROBLEMA), u('da'), a(CATEGORIA)])).toBe('STEP_2');
-    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('STEP_3 without INSTITUTIE_IDENTIFICATA'));
+    expect(console.warn).not.toHaveBeenCalled();
   });
 });
 

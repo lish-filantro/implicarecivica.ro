@@ -39,11 +39,9 @@ export function nowLabel(): string {
   return new Date().toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
 }
 
-/** Conversation step implied by a bot reply (null = no change). */
-export function detectStepFromReply(text: string): 'STEP_2' | 'STEP_3' | null {
-  if (text.includes('INSTITUȚIE_IDENTIFICATĂ')) return 'STEP_2';
-  if (text.includes('ÎNTREBĂRI_STRATEGICE') || text.includes('FINANCIAR')) return 'STEP_3';
-  return null;
+/** Step implied by a bot reply (null = no change). STEP_3 is written when the user confirms the hand-off, never from a reply. */
+export function detectStepFromReply(text: string): 'STEP_2' | null {
+  return text.includes('INSTITUȚIE_IDENTIFICATĂ') ? 'STEP_2' : null;
 }
 
 /**
