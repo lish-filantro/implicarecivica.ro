@@ -78,3 +78,27 @@ describe('postProcessResponse', () => {
     expect(r.text.endsWith(LOW_CONFIDENCE_WARNING)).toBe(true);
   });
 });
+
+describe('postProcessResponse → institution', () => {
+  const marker = '🏛INSTITUȚIE_IDENTIFICATĂ: Primăria Municipiului Pitești\n📧 registratura@primariapitesti.ro — legea 544\n🔗 https://www.primariapitesti.ro/legea-544';
+
+  it('reads the institution at STEP_2, with the source harvested from the text', () => {
+    const r = postProcessResponse({ text: marker, sources: [], webSearchQueries: [] }, 'STEP_2');
+    expect(r.institution).toEqual({
+      name: 'Primăria Municipiului Pitești',
+      email: 'registratura@primariapitesti.ro',
+      confidence: 'high',
+      sourceUrl: 'https://www.primariapitesti.ro/legea-544',
+    });
+  });
+
+  it('also reads a re-identification at STEP_3', () => {
+    const r = postProcessResponse({ text: marker, sources: [], webSearchQueries: [] }, 'STEP_3');
+    expect(r.institution?.name).toBe('Primăria Municipiului Pitești');
+  });
+
+  it('is null at STEP_1 and when the answer has no marker', () => {
+    expect(postProcessResponse({ text: marker, sources: [], webSearchQueries: [] }, 'STEP_1').institution).toBeNull();
+    expect(postProcessResponse({ text: 'Unde este problema?', sources: [], webSearchQueries: [] }, 'STEP_2').institution).toBeNull();
+  });
+});

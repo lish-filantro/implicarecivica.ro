@@ -15,6 +15,7 @@ import { normalizeHistory, type ChatMessage } from '@m544/chat/anthropic/message
 import { runAgenticLoop } from '@m544/chat/anthropic/loop';
 import { parseAnthropicResponse, webSearchCount, webFetchCount, type ChatSource } from '@m544/chat/anthropic/parse';
 import { postProcessResponse } from '@m544/chat/validation/post-process';
+import type { ChatInstitution } from '@m544/shared/types/chat';
 
 export interface TurnInput {
   message: string;
@@ -38,6 +39,8 @@ export interface ChatResponseBody {
   toolIterations: number;
   webSearchCount: number;
   webFetchCount: number;
+  /** Structured institution from a STEP_2 answer; the client stores it on the conversation hand-off. */
+  institution: ChatInstitution | null;
   _debug: { step: Step; context: { ce: string | null; unde: string | null; localitate: string } };
 }
 
@@ -60,7 +63,7 @@ export async function runChatTurn(input: TurnInput, deps: TurnDeps): Promise<Cha
   });
 
   const parsed = parseAnthropicResponse(response);
-  const { text, sources } = postProcessResponse(parsed, step);
+  const { text, sources, institution } = postProcessResponse(parsed, step);
 
   return {
     response: text,
@@ -71,6 +74,7 @@ export async function runChatTurn(input: TurnInput, deps: TurnDeps): Promise<Cha
     toolIterations: iterations,
     webSearchCount: webSearchCount(response.usage),
     webFetchCount: webFetchCount(response.usage),
+    institution,
     _debug: { step, context: { ce: context.ce, unde: context.unde, localitate } },
   };
 }

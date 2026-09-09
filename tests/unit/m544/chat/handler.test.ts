@@ -183,6 +183,7 @@ describe('POST /api/chat-haiku — model turn', () => {
       toolIterations: 0,
       webSearchCount: 0,
       webFetchCount: 0,
+      institution: null,
       _debug: { step: 'STEP_1', context: { ce: null, unde: null, localitate: '' } },
     });
     expect(client.calls[0].system).toContain(CHAT_SYSTEM_INSTRUCTIONS);
@@ -192,12 +193,13 @@ describe('POST /api/chat-haiku — model turn', () => {
   });
 
   it('STEP_2 with a low-confidence email appends the warning and reports the context', async () => {
-    const client = scripted([message([textBlock('🏛INSTITUȚIE_IDENTIFICATĂ: Primăria Pitești\nEmail: office@primariapitesti.ro\nConfirmă instituția?')])]);
+    const client = scripted([message([textBlock('🏛INSTITUȚIE_IDENTIFICATĂ: Primăria Pitești\nEmail: primariapitesti@gmail.com\nConfirmă instituția?')])]);
     const res = await createChatHandler(() => deps({ createAnthropic: () => client }))(post({ message: 'da', conversationHistory: step2History }));
     const body = await res.json();
     expect(body._debug).toEqual({ step: 'STEP_2', context: { ce: 'groapă în asfalt', unde: 'Strada Libertății nr. 45, Pitești, Argeș', localitate: 'Pitești' } });
     expect(body.response.endsWith(LOW_CONFIDENCE_WARNING)).toBe(true);
     expect(body.conversationId).toBeNull();
+    expect(body.institution).toEqual({ name: 'Primăria Pitești', email: 'primariapitesti@gmail.com', confidence: 'low', sourceUrl: null });
     expect(client.calls[0].system).toContain('[STEP 2 ACTIV]');
     expect(client.calls[0].system).toContain('Care este instituția din Pitești responsabilă pentru groapă în asfalt?');
     expect(client.calls[0].messages).toEqual([

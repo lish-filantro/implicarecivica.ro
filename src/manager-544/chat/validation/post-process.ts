@@ -5,11 +5,14 @@
  *   2. Output validation: redact system-prompt leaks; replace an (almost) empty
  *      answer with the step fallback.
  *   3. Harvest URLs from the text into the sources list (no duplicates).
+ *   4. STEP_2/STEP_3: read the identified institution (name, email, confidence, source).
  */
 import type { Step } from '@m544/chat/guardrails/steps';
 import type { ChatSource, ParsedResponse } from '@m544/chat/anthropic/parse';
 import { extractEmails, scoreEmailConfidence, type EmailValidationResult } from './email';
 import { validateOutput, sanitizeOutput, getFallbackResponse } from './output';
+import { extractInstitution } from './institution';
+import type { ChatInstitution } from '@m544/shared/types/chat';
 
 export const LOW_CONFIDENCE_WARNING =
   '\n\n⚠️ **ATENȚIE:** Nivelul de încredere pentru acest email este scăzut. Te rugăm SĂ VERIFICI manual emailul pe site-ul oficial al instituției înainte de a trimite cererea.';
@@ -59,8 +62,22 @@ export function addUrlSources(text: string, sources: ChatSource[]): ChatSource[]
   return out;
 }
 
-export function postProcessResponse(parsed: ParsedResponse, step: Step): { text: string; sources: ChatSource[] } {
-  const withWarning = appendEmailWarning(parsed.text, step, parsed.sources.map((s) => s.url));
+export interface PostProcessed {
+  text: string;
+  sources: ChatSource[];
+  /** The identified institution (STEP_2, or a re-identification at STEP_3); null otherwise. */
+  institution: ChatInstitution | null;
+}
+
+export function postProcessResponse(parsed: ParsedResponse, step: Step): PostProcessed {
+  const sourceUrls = parsed.sources.map((s) => s.url);
+  const institution = step === 'STEP_1' ? null : extractInstitution(parsed.text, [...sourceUrls, ...extractUrls(parsed.text)]);
+  // With a named institution the confidence is scored once (domain vs. name counts); the warning follows it.
+  const withWarning = institution?.email
+    ? step === 'STEP_2' && institution.confidence === 'low'
+      ? parsed.text + LOW_CONFIDENCE_WARNING
+      : parsed.text
+    : appendEmailWarning(parsed.text, step, sourceUrls);
   const text = finalizeText(withWarning, step);
-  return { text, sources: addUrlSources(text, parsed.sources) };
+  return { text, sources: addUrlSources(text, parsed.sources), institution };
 }
