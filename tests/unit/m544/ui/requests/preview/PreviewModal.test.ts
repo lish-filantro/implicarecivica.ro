@@ -60,6 +60,8 @@ describe('PreviewModal', () => {
     expect(screen.getAllByText(/Cererea \d din 3/)).toHaveLength(3);
     expect(screen.getByText(/3 emailuri separate/)).toBeTruthy();
     expect(screen.getByText(/interval de 30 de secunde/)).toBeTruthy();
+    expect(screen.getByText(/Poți închide această fereastră/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Închide' })).toBeTruthy();
 
     const send = screen.getByRole('button', { name: /Trimite toate cele 3/ });
     await waitFor(() => expect((send as HTMLButtonElement).disabled).toBe(false));
@@ -119,7 +121,7 @@ describe('SendProgress', () => {
   it('renders the counter, a FOIA message and the countdown', () => {
     render(createElement(SendProgress, { sent: 1, total: 3, secondsLeft: 12 }));
     expect(screen.getByText('Trimitere: 1/3')).toBeTruthy();
-    expect(screen.getByText('Nu închide pagina')).toBeTruthy();
+    expect(screen.getByText('Nu reîncărca pagina')).toBeTruthy();
     expect(screen.getByText(new RegExp(FOIA_MESSAGES[0].slice(0, 20)))).toBeTruthy();
     expect(screen.getByText('12s')).toBeTruthy();
   });
@@ -127,7 +129,7 @@ describe('SendProgress', () => {
   it('hides the countdown and the warning when done', () => {
     render(createElement(SendProgress, { sent: 3, total: 3, secondsLeft: null }));
     expect(screen.queryByText(/Următorul email/)).toBeNull();
-    expect(screen.queryByText('Nu închide pagina')).toBeNull();
+    expect(screen.queryByText('Nu reîncărca pagina')).toBeNull();
   });
 });
 

@@ -1,170 +1,65 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { FIXED_SUBJECT, formatEmailBodyHtml } from '@m544/requests/email-template';
-import { markHandoffSession as defaultMarkHandoffSession } from '@m544/chat/queries.client';
-import type { QuestionItem, WizardFormData } from '../wizard/types';
+import {
+  getSendQueueState,
+  startSend,
+  useSendQueueState,
+  type SendQueueDeps,
+  type SendQueueInput,
+} from './send-queue-store';
 
-export const SEND_DELAY_MS = 30_000; // 30 seconds between emails (spam filters)
-export const SEND_DELAY_SECONDS = SEND_DELAY_MS / 1000;
-
-export interface SendQueueInput {
-  selectedQuestions: QuestionItem[];
-  formData: WizardFormData;
-  conversationId: string | null;
-  /** When set, questions are appended to this session instead of creating a new one. */
-  existingSessionId?: string;
-}
-
-export interface SendQueueDeps {
-  fetch?: typeof fetch;
-  sleep?: (ms: number) => Promise<void>;
-  /** Writes the created session id on the conversation's hand-off (defaults to the browser query). */
-  markHandoffSession?: (conversationId: string, sessionId: string) => Promise<void>;
-}
+export {
+  SEND_DELAY_MS,
+  SEND_DELAY_SECONDS,
+  buildSessionRequest,
+  buildEmailRequest,
+  type SendQueueInput,
+  type SendQueueDeps,
+} from './send-queue-store';
 
 export interface SendProgress {
   sent: number;
   total: number;
 }
 
-interface CreatedRequest {
-  id: string;
-}
-
-interface CreateResponse {
-  session?: { id?: string };
-  requests?: CreatedRequest[];
-}
-
-const defaultFetch: typeof fetch = (...args) => fetch(...args);
-const defaultSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
-
-/** Step 1 of the send: where and what to POST to create the requests. */
-export function buildSessionRequest(input: SendQueueInput): { url: string; body: Record<string, unknown> } {
-  const questions = input.selectedQuestions.map((q) => q.text);
-  if (input.existingSessionId) {
-    return { url: `/api/sessions/${input.existingSessionId}/add-requests`, body: { questions } };
-  }
-  const { formData } = input;
-  return {
-    url: '/api/sessions/create',
-    body: {
-      name: formData.sessionName || undefined,
-      subject: FIXED_SUBJECT,
-      institution_name: formData.institutionName,
-      institution_email: formData.institutionEmail,
-      conversation_id: input.conversationId || undefined,
-      questions,
-    },
-  };
-}
-
-/** Step 2 of the send: the body of one /api/emails/send call. */
-export function buildEmailRequest(question: string, formData: WizardFormData, requestId: string) {
-  return {
-    to: formData.institutionEmail,
-    subject: FIXED_SUBJECT,
-    body: formatEmailBodyHtml(question, formData),
-    request_id: requestId,
-  };
-}
-
-function postJson(fetchFn: typeof fetch, url: string, body: unknown): Promise<Response> {
-  return fetchFn(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-}
-
 /**
- * Creates the requests (new session or add to an existing one), links the new
- * session to the conversation's hand-off, then sends the emails one by one with
- * a 30 s pause, reporting progress and the countdown. On success redirects to /dashboard.
+ * The preview modal's view of the global send queue: starts it and, while this
+ * hook is still mounted when the run it started finishes, redirects to /dashboard.
+ * If the modal was closed in the meantime the SendQueueBanner takes over.
  */
 export function useSendQueue(input: SendQueueInput, deps: SendQueueDeps = {}) {
   const router = useRouter();
-  const fetchFn = deps.fetch ?? defaultFetch;
-  const sleep = deps.sleep ?? defaultSleep;
-  const markHandoffSession = deps.markHandoffSession ?? defaultMarkHandoffSession;
+  const state = useSendQueueState();
+  const inputRef = useRef(input);
+  inputRef.current = input;
+  const depsRef = useRef(deps);
+  depsRef.current = deps;
+  const startedHere = useRef(false);
+  const redirected = useRef(false);
 
-  const [isSending, setIsSending] = useState(false);
-  const [progress, setProgress] = useState<SendProgress>({ sent: 0, total: 0 });
-  const [sendError, setSendError] = useState<string | null>(null);
-  const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
-
-  // Countdown to the next email
   useEffect(() => {
-    if (secondsLeft === null || secondsLeft <= 0) return;
-    const timer = setTimeout(() => setSecondsLeft((s) => (s ?? 1) - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [secondsLeft]);
-
-  // Warn before closing the tab during send
-  useEffect(() => {
-    if (!isSending) return;
-    const handler = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-    window.addEventListener('beforeunload', handler);
-    return () => window.removeEventListener('beforeunload', handler);
-  }, [isSending]);
+    if (state.status === 'done' && startedHere.current && !redirected.current) {
+      redirected.current = true;
+      router.push('/dashboard');
+    }
+  }, [state.status, router]);
 
   const sendAll = useCallback(async () => {
-    if (isSending) return;
-    const { selectedQuestions, formData } = input;
+    if (getSendQueueState().status === 'sending') return;
+    startedHere.current = true;
+    redirected.current = false;
+    await startSend(inputRef.current, depsRef.current);
+  }, []);
 
-    setIsSending(true);
-    setSendError(null);
-    setProgress({ sent: 0, total: selectedQuestions.length });
+  const isSending = state.status === 'sending' || (state.status === 'done' && startedHere.current);
 
-    try {
-      const { url, body } = buildSessionRequest(input);
-      const sessionResponse = await postJson(fetchFn, url, body);
-      if (!sessionResponse.ok) {
-        const data: { error?: string } = await sessionResponse.json();
-        throw new Error(data.error || 'Eroare la crearea cererilor');
-      }
-
-      const { session, requests } = (await sessionResponse.json()) as CreateResponse;
-      if (!requests?.length) throw new Error('Nu s-au creat cererile');
-
-      // Link the new session back to the conversation it came from (best effort).
-      if (!input.existingSessionId && input.conversationId && session?.id) {
-        try {
-          await markHandoffSession(input.conversationId, session.id);
-        } catch (err) {
-          console.error('Failed to link the session to the conversation:', err);
-        }
-      }
-
-      let sentCount = 0;
-      for (let i = 0; i < requests.length; i++) {
-        const emailResponse = await postJson(
-          fetchFn,
-          '/api/emails/send',
-          buildEmailRequest(selectedQuestions[i].text, formData, requests[i].id),
-        );
-        if (!emailResponse.ok) {
-          console.error(`Failed to send email ${i + 1}:`, await emailResponse.text());
-        } else {
-          sentCount++;
-        }
-        setProgress({ sent: sentCount, total: requests.length });
-
-        if (i < requests.length - 1) {
-          setSecondsLeft(SEND_DELAY_SECONDS);
-          await sleep(SEND_DELAY_MS);
-          setSecondsLeft(null);
-        }
-      }
-
-      router.push('/dashboard');
-    } catch (error) {
-      console.error('Send error:', error);
-      setSendError(error instanceof Error ? error.message : 'Eroare la trimitere');
-      setIsSending(false);
-      setSecondsLeft(null);
-    }
-  }, [isSending, input, fetchFn, sleep, markHandoffSession, router]);
-
-  return { isSending, progress, secondsLeft, sendError, sendAll };
+  return {
+    isSending,
+    progress: { sent: state.sent, total: state.total } as SendProgress,
+    secondsLeft: state.secondsLeft,
+    sendError: state.status === 'error' ? state.error : null,
+    sendAll,
+  };
 }

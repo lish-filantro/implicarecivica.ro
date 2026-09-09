@@ -16,7 +16,11 @@ interface PreviewModalProps {
   existingSessionId?: string;
 }
 
-/** Step 3: the emails about to go out, the daily-limit check and the sequential send. */
+/**
+ * Step 3: the emails about to go out, the daily-limit check and the sequential send.
+ * The send runs in the global queue, so the modal can be closed at any time; the
+ * SendQueueBanner then shows the progress on every page.
+ */
 export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModalProps) {
   const selectedQuestions = wizard.getSelectedQuestions();
   const { formData, conversationId } = wizard;
@@ -40,7 +44,7 @@ export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModa
   };
 
   return (
-    <Dialog.Root open onOpenChange={(open) => !open && !isSending && onClose()}>
+    <Dialog.Root open onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 animate-fade-in" />
         <Dialog.Content className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -55,13 +59,11 @@ export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModa
                   Verifică cererile înainte de trimitere
                 </Dialog.Description>
               </div>
-              {!isSending && (
-                <Dialog.Close asChild>
-                  <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors">
-                    <X className="h-5 w-5" />
-                  </button>
-                </Dialog.Close>
-              )}
+              <Dialog.Close asChild>
+                <button aria-label="Închide" className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors">
+                  <X className="h-5 w-5" />
+                </button>
+              </Dialog.Close>
             </div>
 
             {/* Warning — always visible */}
@@ -74,8 +76,9 @@ export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModa
                 </p>
                 {selectedQuestions.length > 1 && (
                   <p>
-                    Între emailuri se aplică un interval de {SEND_DELAY_SECONDS} de secunde.{' '}
-                    <strong>Nu închide această pagină în timpul trimiterii.</strong>
+                    Între emailuri se aplică un interval de {SEND_DELAY_SECONDS} de secunde. Poți închide această fereastră:
+                    trimiterea continuă în fundal, iar progresul apare în colțul paginii.{' '}
+                    <strong>Nu reîncărca pagina în timpul trimiterii.</strong>
                   </p>
                 )}
               </div>
@@ -110,7 +113,18 @@ export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModa
               )}
 
               {isSending ? (
-                <SendProgress sent={progress.sent} total={progress.total} secondsLeft={secondsLeft} />
+                <div className="space-y-3">
+                  <SendProgress sent={progress.sent} total={progress.total} secondsLeft={secondsLeft} />
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors"
+                    >
+                      Închide, continuă în fundal
+                    </button>
+                  </div>
+                </div>
               ) : (
                 <div className="flex items-center justify-between">
                   <button

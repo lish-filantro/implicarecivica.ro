@@ -8,6 +8,7 @@ import {
   SEND_DELAY_MS,
   type SendQueueInput,
 } from '@m544/ui/requests/preview/useSendQueue';
+import { resetSendQueue } from '@m544/ui/requests/preview/send-queue-store';
 import { FIXED_SUBJECT } from '@m544/requests/email-template';
 import type { QuestionItem, WizardFormData } from '@m544/ui/requests/wizard/types';
 
@@ -52,6 +53,7 @@ function fakeFetch(routes: Record<string, Route>) {
 const okSend: Route = () => json(200, { success: true });
 
 beforeEach(() => {
+  resetSendQueue();
   push.mockReset();
   vi.spyOn(console, 'error').mockImplementation(() => {});
 });

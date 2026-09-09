@@ -3,6 +3,7 @@
 import { useAuth } from '@m544/ui/auth/AuthProvider';
 import { TopNavbar } from '@/components/navigation/TopNavbar';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
+import { SendQueueBanner } from '@m544/ui/requests/preview/SendQueueBanner';
 
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
@@ -22,6 +23,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
   return (
     <>
       <TopNavbar />
+      <SendQueueBanner />
       <main className="pt-14 min-h-screen bg-gray-50 dark:bg-gray-900">
         {children}
       </main>

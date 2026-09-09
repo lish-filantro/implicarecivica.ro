@@ -37,7 +37,7 @@ export function SendProgress({ sent, total, secondsLeft }: SendProgressProps) {
         {sent < total && (
           <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
             <Shield className="h-3.5 w-3.5" />
-            <span>Nu închide pagina</span>
+            <span>Nu reîncărca pagina</span>
           </div>
         )}
       </div>
