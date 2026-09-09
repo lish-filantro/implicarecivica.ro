@@ -9,7 +9,7 @@ Trei straturi, de la ieftin la scump. Toate folosesc Vitest.
 | `npm run test:integration` | OCR pe cele 37 PDF-uri (cache în `tests/snapshots/ocr-cache.json`; `FRESH_OCR=1` forțează), clasificarea pe fiecare PDF cu furnizorul din `ANALYSIS_PROVIDER` (snapshot `classification-golden.<provider>.json`; `UPDATE_GOLDEN=1` îl rescrie), potrivirea pe DB | Anthropic (sau Mistral), Supabase | 3–5 min |
 | `npm run test:e2e` | 7 scenarii complete (fericit, prelungire, refuz, redirecționare, clarificări, sesiune cu 3 cereri, cazuri limită): inserție email + PDF în Supabase, pipeline real, verificare status/termene/sesiune | Anthropic, Mistral (OCR), Supabase | ~3 min |
 | `npm run test:smoke` | chatul prin handler cu Anthropic real (STEP_1, STEP_2 cu `rag_search` + `web_search`) | Anthropic | ~15 s |
-| `npm run test:browser` (`:prod`) | Playwright în Chromium pe aplicația reală: login, chat, wizard → email real → instituția (cont de platformă) răspunde prin Resend → revizuire manuală → răspuns final → corectare clasificare; vezi `tests/browser/README.md` | Supabase, Resend, Anthropic, Cloudflare | ~10 min |
+| `npm run test:browser` (`:prod`) | Playwright în Chromium pe aplicația reală: login, chat → card instituție → wizard precompletat, wizard → email real → instituția (cont de platformă) răspunde prin Resend → revizuire manuală → răspuns final → corectare clasificare; vezi `tests/browser/README.md` | Supabase, Resend, Anthropic, Cloudflare | ~10 min |
 | `npm run check` | tsc + eslint + unit — poarta minimă înainte de commit | niciunul | ~1 min |
 
 ## Date necesare

@@ -31,3 +31,16 @@ Migrările se aplică manual, în ordine, din **Supabase Dashboard → SQL Edito
 Rulează după 016. Adaugă `classification_feedback` (corecturi ale categoriei făcute de utilizator),
 `deadline_notifications` (deduplicarea digest-ului zilnic de termene) și `institutii_locale`
 (adrese 544 verificate, învățate din răspunsurile primite). Idempotentă.
+
+## 018_conversation_handoff.sql
+
+Rulează după 017. Adaugă `conversations.handoff` (JSONB): instituția identificată de asistent,
+emailul și încrederea lui, confirmarea utilizatorului, sesiunea de cereri creată și setul de
+întrebări generat (cache). Fără ea, chatul afișează cardul instituției doar din memorie, iar
+wizardul deschis din conversație pornește gol, la pasul 1. Idempotentă.
+
+Verificare:
+```sql
+SELECT column_name FROM information_schema.columns
+ WHERE table_name = 'conversations' AND column_name = 'handoff';
+```

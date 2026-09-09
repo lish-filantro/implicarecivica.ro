@@ -1,10 +1,14 @@
 /**
  * The 544 assistant end to end (real Anthropic): STEP_1 collects the problem,
- * the summary appears, STEP_2 identifies an institution and offers the
- * confirmation buttons. Model output varies, so assertions are structural.
+ * the summary appears, STEP_2 identifies an institution and shows the
+ * institution card, whose "Pregătește cererile" opens the request wizard for
+ * the conversation (step 2 with the generated questions when the profile is
+ * complete, else step 1 pre-filled). Model output varies, so assertions are
+ * structural.
  */
 import { test, expect, type Page } from '@playwright/test';
 import { CITIZEN } from './helpers/accounts';
+import { db } from './helpers/db';
 import { login } from './helpers/login';
 
 const INPUT = 'textarea[placeholder="Scrie-ți întrebarea aici..."]';
@@ -37,10 +41,54 @@ test.describe('asistentul 544', () => {
     await expect(page.getByText(/✅|PROBLEMA_DEFINIT|Confirm/i).last()).toBeVisible();
 
     await say(page, 'Da, confirm.');
-    // STEP_2: an institution + an official address, or the confirmation buttons
-    await expect(
-      page.getByRole('button', { name: 'Da, e corect' }).or(page.getByText(/@[a-z0-9.-]+\.ro/i).last()),
-    ).toBeVisible({ timeout: 120_000 });
+    // STEP_2: the institution card (name, email, source) with the hand-off button
+    const card = page.getByRole('region', { name: 'Instituție identificată' });
+    await expect(card).toBeVisible({ timeout: 120_000 });
+    await expect(card.getByText(/@[a-z0-9.-]+\.ro/i).or(card.getByText(/Nu am găsit o adresă oficială/))).toBeVisible();
+  });
+
+  test('"Pregătește cererile" opens the wizard for the conversation with the data pre-filled', async ({ page }) => {
+    // The hand-off lives in conversations.handoff (migration 018); without it the wizard cannot be pre-filled.
+    const { error } = await db().from('conversations').select('handoff').limit(1);
+    expect(error, 'migrarea 018_conversation_handoff.sql nu este aplicată în Supabase').toBeNull();
+
+    await login(page, CITIZEN, '/chat');
+    await say(page, 'Pe strada mea sunt gropi mari în asfalt de luni de zile și nimeni nu le repară.');
+    await say(
+      page,
+      'Strada Lalelelor nr. 5, Pitești, Argeș. Gropile au apărut în martie 2026 și s-au adâncit după ploi.',
+    );
+    await say(page, 'Da, confirm.');
+    const card = page.getByRole('region', { name: 'Instituție identificată' });
+    await expect(card).toBeVisible({ timeout: 120_000 });
+
+    const prepare = card.getByRole('button', { name: 'Pregătește cererile' });
+    if (!(await prepare.isEnabled())) {
+      // the model could not confirm an official address online: the hand-off is blocked by design
+      await expect(card.getByText(/Nu am găsit o adresă oficială/)).toBeVisible();
+      test.skip(true, 'the assistant found no official email for this run; nothing to hand off');
+      return;
+    }
+
+    await prepare.click();
+    await expect(page).toHaveURL(/\/requests\/new\?conversation=/, { timeout: 30_000 });
+
+    const step2 = page.getByText('Selectează întrebările');
+    const step1 = page.getByText('Date cerere', { exact: true });
+    await expect(step2.or(step1).first()).toBeVisible({ timeout: 30_000 });
+
+    if (await page.getByRole('region', { name: 'Rezumat cerere' }).isVisible().catch(() => false)) {
+      // profile complete → step 2: recap + the generated set (the chat model needs a while)
+      const recap = page.getByRole('region', { name: 'Rezumat cerere' });
+      await expect(recap).toContainText(CITIZEN.displayName);
+      await expect(recap.getByText(/@[a-z0-9.-]+\.ro/i).first()).toBeVisible();
+      await expect(page.getByText(/\d+\s+cereri selectate/)).toBeVisible({ timeout: 180_000 });
+    } else {
+      // profile incomplete (no address) → step 1 with the institution pre-filled
+      await expect(page.getByPlaceholder('Primăria Pitești')).not.toHaveValue('');
+      await expect(page.getByPlaceholder('registratura@institutie.ro')).not.toHaveValue('');
+      await expect(page.getByPlaceholder('ex: Transparența cheltuielilor publice')).not.toHaveValue('');
+    }
   });
 
   test('mesajele în afara subiectului primesc răspunsul standard fără a apela modelul', async ({ page }) => {
