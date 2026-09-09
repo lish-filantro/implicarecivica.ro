@@ -62,4 +62,15 @@ describe('useRequestWizard (composition)', () => {
       'E_CONFORMITATE',
     ]);
   });
+
+  it('can start on step 2 and seeds the session name from the chat data', () => {
+    const { result } = renderHook(() =>
+      useRequestWizard({
+        initialChatData: { conversationId: 'conv-1', institutionName: 'Prim', institutionEmail: 'a@b.ro', sessionName: 'Groapă, Prim' },
+        initialStep: 2,
+      }),
+    );
+    expect(result.current.currentStep).toBe(2);
+    expect(result.current.formData.sessionName).toBe('Groapă, Prim');
+  });
 });

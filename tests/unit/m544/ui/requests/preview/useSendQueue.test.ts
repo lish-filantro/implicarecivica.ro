@@ -53,7 +53,6 @@ const okSend: Route = () => json(200, { success: true });
 
 beforeEach(() => {
   push.mockReset();
-  sessionStorage.setItem('requestWizardData', '{"x":1}');
   vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 afterEach(() => {
@@ -97,13 +96,14 @@ describe('buildSessionRequest / buildEmailRequest', () => {
 });
 
 describe('useSendQueue', () => {
-  it('happy path: creates the session, sends sequentially with the 30 s delay, clears storage, redirects', async () => {
+  it('happy path: creates the session, links it to the conversation, sends sequentially with the 30 s delay, redirects', async () => {
     const { fetchFn, calls } = fakeFetch({
-      '/api/sessions/create': () => json(200, { requests: [{ id: 'r1' }, { id: 'r2' }] }),
+      '/api/sessions/create': () => json(200, { session: { id: 'S9' }, requests: [{ id: 'r1' }, { id: 'r2' }] }),
       '/api/emails/send': okSend,
     });
     const sleep = vi.fn(async (_ms: number) => {});
-    const { result } = renderHook(() => useSendQueue(INPUT, { fetch: fetchFn, sleep }));
+    const markHandoffSession = vi.fn(async () => {});
+    const { result } = renderHook(() => useSendQueue(INPUT, { fetch: fetchFn, sleep, markHandoffSession }));
 
     expect(result.current.isSending).toBe(false);
     await act(async () => result.current.sendAll());
@@ -122,7 +122,7 @@ describe('useSendQueue', () => {
     expect(result.current.sendError).toBeNull();
     expect(result.current.secondsLeft).toBeNull();
     expect(result.current.isSending).toBe(true); // stays "sending" until the redirect unmounts it
-    expect(sessionStorage.getItem('requestWizardData')).toBeNull();
+    expect(markHandoffSession).toHaveBeenCalledWith('conv-1', 'S9');
     expect(push).toHaveBeenCalledWith('/dashboard');
   });
 
@@ -154,15 +154,17 @@ describe('useSendQueue', () => {
     expect(push).toHaveBeenCalledWith('/dashboard');
   });
 
-  it('add-to-existing-session path posts to /add-requests and then sends', async () => {
+  it('add-to-existing-session path posts to /add-requests and then sends, without touching the hand-off', async () => {
     const { fetchFn, calls } = fakeFetch({
-      '/api/sessions/S1/add-requests': () => json(200, { requests: [{ id: 'r9' }] }),
+      '/api/sessions/S1/add-requests': () => json(200, { session: { id: 'S1' }, requests: [{ id: 'r9' }] }),
       '/api/emails/send': okSend,
     });
+    const markHandoffSession = vi.fn(async () => {});
     const { result } = renderHook(() =>
-      useSendQueue({ ...INPUT, selectedQuestions: [Q[0]], existingSessionId: 'S1' }, { fetch: fetchFn, sleep: async () => {} }),
+      useSendQueue({ ...INPUT, selectedQuestions: [Q[0]], existingSessionId: 'S1' }, { fetch: fetchFn, sleep: async () => {}, markHandoffSession }),
     );
     await act(async () => result.current.sendAll());
+    expect(markHandoffSession).not.toHaveBeenCalled();
 
     expect(calls[0]).toEqual({ url: '/api/sessions/S1/add-requests', body: { questions: ['Care e bugetul?'] } });
     expect(calls[1].body).toMatchObject({ request_id: 'r9' });
@@ -183,7 +185,6 @@ describe('useSendQueue', () => {
     expect(result.current.secondsLeft).toBeNull();
     expect(calls).toHaveLength(1);
     expect(push).not.toHaveBeenCalled();
-    expect(sessionStorage.getItem('requestWizardData')).toBe('{"x":1}');
   });
 
   it('surfaces a 404 from add-requests as sendError', async () => {
@@ -230,5 +231,20 @@ describe('useSendQueue', () => {
     await act(async () => result.current.sendAll());
     expect(result.current.sendError).toBe('Failed to fetch');
     expect(result.current.isSending).toBe(false);
+  });
+
+  it('a failed hand-off link is logged and does not stop the send', async () => {
+    const { fetchFn, calls } = fakeFetch({
+      '/api/sessions/create': () => json(200, { session: { id: 'S9' }, requests: [{ id: 'r1' }] }),
+      '/api/emails/send': okSend,
+    });
+    const markHandoffSession = vi.fn(async () => {
+      throw new Error('column handoff does not exist');
+    });
+    const { result } = renderHook(() => useSendQueue(INPUT, { fetch: fetchFn, sleep: async () => {}, markHandoffSession }));
+    await act(async () => result.current.sendAll());
+    expect(console.error).toHaveBeenCalledWith('Failed to link the session to the conversation:', expect.any(Error));
+    expect(calls.map((c) => c.url)).toEqual(['/api/sessions/create', '/api/emails/send']);
+    expect(push).toHaveBeenCalledWith('/dashboard');
   });
 });

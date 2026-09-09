@@ -66,6 +66,11 @@ describe('initialFormData', () => {
     const data = initialFormData({ institutionName: 'Primăria X', institutionEmail: null });
     expect(data.institutionName).toBe('Primăria X');
     expect(data.institutionEmail).toBe('');
+    expect(data.sessionName).toBe('');
+  });
+
+  it('pre-fills the session name proposed by the hand-off', () => {
+    expect(initialFormData({ sessionName: 'Groapă, Primăria X' }).sessionName).toBe('Groapă, Primăria X');
   });
 });
 

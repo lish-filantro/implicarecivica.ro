@@ -25,7 +25,7 @@ export function initialFormData(chatData?: ChatData | null): WizardFormData {
     saveAddress: false,
     institutionName: chatData?.institutionName || '',
     institutionEmail: chatData?.institutionEmail || '',
-    sessionName: '',
+    sessionName: chatData?.sessionName || '',
   };
 }
 

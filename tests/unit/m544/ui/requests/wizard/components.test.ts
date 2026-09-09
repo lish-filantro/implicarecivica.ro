@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createElement } from 'react';
-import { render, screen, fireEvent, cleanup, renderHook, act } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, renderHook, act, waitFor } from '@testing-library/react';
 import { StickyActionBar } from '@m544/ui/requests/wizard/StickyActionBar';
 import { StepperBar } from '@m544/ui/requests/wizard/StepperBar';
 import { StepSelectQuestions } from '@m544/ui/requests/wizard/StepSelectQuestions';
@@ -94,5 +94,48 @@ describe('StepSelectQuestions', () => {
     expect(hook.result.current.currentStep).toBe(3);
     act(() => { fireEvent.click(screen.getByRole('button', { name: /Înapoi/ })); });
     expect(hook.result.current.currentStep).toBe(1);
+  });
+
+  it('shows the step-1 recap with "Modifică" when entered from the chat', () => {
+    const hook = renderHook(() =>
+      useRequestWizard({
+        initialChatData: { institutionName: 'Primăria Pitești', institutionEmail: 'a@b.ro', conversationId: 'c1', sessionName: 'Groapă, Primăria Pitești' },
+        initialStep: 2,
+      }),
+    );
+    const questionGen = renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: null, fetchQuestions: async () => [] }),
+    ).result.current;
+
+    render(
+      createElement(StepSelectQuestions, {
+        wizard: hook.result.current,
+        questionGen,
+        fromChat: true,
+        summary: { onEdit: () => hook.result.current.setStep(1) },
+      }),
+    );
+    const recap = screen.getByRole('region', { name: 'Rezumat cerere' });
+    expect(recap.textContent).toContain('Primăria Pitești');
+    expect(recap.textContent).toContain('Groapă, Primăria Pitești');
+    expect(recap.textContent).toContain('necompletat'); // solicitant name not filled in this test
+    act(() => { fireEvent.click(screen.getByRole('button', { name: /Modifică/ })); });
+    expect(hook.result.current.currentStep).toBe(1);
+  });
+
+  it('shows the set error with a working "Reîncearcă"', async () => {
+    const wizard = renderHook(() => useRequestWizard()).result.current;
+    const fetchSet = vi.fn(async () => {
+      throw new Error('Generarea a eșuat');
+    });
+    const gen = renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: null, source: { conversationId: 'c1' }, fetchSet }),
+    );
+    await waitFor(() => expect(gen.result.current.setError).toBe('Generarea a eșuat'));
+
+    render(createElement(StepSelectQuestions, { wizard, questionGen: gen.result.current, fromChat: true }));
+    expect(screen.getByRole('alert').textContent).toContain('Generarea a eșuat');
+    act(() => { fireEvent.click(screen.getByRole('button', { name: 'Reîncearcă' })); });
+    expect(fetchSet).toHaveBeenCalledTimes(2);
   });
 });

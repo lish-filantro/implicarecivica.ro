@@ -57,6 +57,8 @@ export interface ChatData {
   institutionName?: string | null;
   institutionEmail?: string | null;
   conversationId?: string | null;
+  /** Proposed session name (built from the problem and the institution). */
+  sessionName?: string | null;
 }
 
 /** The subset of the profile the wizard pre-fills from. */

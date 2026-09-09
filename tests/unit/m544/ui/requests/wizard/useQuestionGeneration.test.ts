@@ -4,12 +4,18 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import {
   useQuestionGeneration,
   createQuestionsFetcher,
+  createSetFetcher,
+  FALLBACK_NOTICE,
+  SET_ERROR_MESSAGE,
   type FetchQuestions,
+  type FetchSet,
   type ProblemContext,
 } from '@m544/ui/requests/wizard/useQuestionGeneration';
+import type { QuestionSet } from '@m544/shared/types/questions';
 import { CATEGORY_IDS, type QuestionCategory } from '@m544/ui/requests/wizard/types';
 
 const CTX = { ce: 'groapă', unde: 'Str. X', cand: 'ieri' };
+const FIVE = Object.fromEntries(CATEGORY_IDS.map((c) => [c, ['q1', 'q2', 'q3', 'q4', 'q5']])) as QuestionSet;
 
 /** A fetcher whose per-category promises the test resolves by hand. */
 function deferredFetcher() {
@@ -147,5 +153,161 @@ describe('createQuestionsFetcher (default loader)', () => {
     const fetchFn = vi.fn(async () => new Response(JSON.stringify({ error: 'nope' }), { status: 500 }));
     const load = createQuestionsFetcher(fetchFn as unknown as typeof fetch);
     expect(await load('A_FINANCIAR', CTX, null)).toEqual([]);
+  });
+});
+
+describe('useQuestionGeneration — set mode (chat model)', () => {
+  it('a preloaded set fills every category without any fetch', () => {
+    const fetchSet = vi.fn<FetchSet>();
+    const fetchQuestions = vi.fn<FetchQuestions>();
+    const onCategoryReady = vi.fn();
+    const { result } = renderHook(() =>
+      useQuestionGeneration({
+        problemContext: CTX,
+        institutionName: 'Prim',
+        source: { conversationId: 'c1' },
+        preloaded: FIVE,
+        fetchSet,
+        fetchQuestions,
+        onCategoryReady,
+      }),
+    );
+    expect(fetchSet).not.toHaveBeenCalled();
+    expect(fetchQuestions).not.toHaveBeenCalled();
+    expect(result.current.mode).toBe('preloaded');
+    expect(result.current.totalGenerated).toBe(25);
+    expect(result.current.isAnyLoading).toBe(false);
+    expect(onCategoryReady).toHaveBeenCalledTimes(5);
+    expect(onCategoryReady).toHaveBeenCalledWith('A_FINANCIAR', ['q1', 'q2', 'q3', 'q4', 'q5']);
+  });
+
+  it('an empty preloaded set is ignored and the set is fetched', async () => {
+    const fetchSet = vi.fn<FetchSet>(async () => ({ categories: FIVE, model: 'claude-sonnet-5' }));
+    const empty = Object.fromEntries(CATEGORY_IDS.map((c) => [c, []])) as unknown as QuestionSet;
+    const { result } = renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: null, source: { conversationId: 'c1' }, preloaded: empty, fetchSet }),
+    );
+    await waitFor(() => expect(result.current.totalGenerated).toBe(25));
+    expect(fetchSet).toHaveBeenCalledTimes(1);
+  });
+
+  it('with a source it calls fetchSet once (no cache bypass) and distributes the categories', async () => {
+    const fetchSet = vi.fn<FetchSet>(async () => ({ categories: FIVE, model: 'claude-sonnet-5' }));
+    const fetchQuestions = vi.fn<FetchQuestions>();
+    const onCategoryReady = vi.fn();
+    const { result } = renderHook(() =>
+      useQuestionGeneration({
+        problemContext: CTX,
+        institutionName: 'Prim',
+        source: { conversationId: 'c1' },
+        fetchSet,
+        fetchQuestions,
+        onCategoryReady,
+      }),
+    );
+    expect(result.current.isAnyLoading).toBe(true);
+    expect(result.current.mode).toBe('set');
+    await waitFor(() => expect(result.current.isAnyLoading).toBe(false));
+    expect(fetchSet).toHaveBeenCalledTimes(1);
+    expect(fetchSet).toHaveBeenCalledWith({ conversationId: 'c1' }, false);
+    expect(fetchQuestions).not.toHaveBeenCalled();
+    expect(result.current.totalGenerated).toBe(25);
+    expect(result.current.model).toBe('claude-sonnet-5');
+    expect(result.current.setError).toBeNull();
+    expect(onCategoryReady).toHaveBeenCalledTimes(5);
+  });
+
+  it('a failed set surfaces setError; retry bypasses the cache; a second failure falls back to the per-category generator', async () => {
+    const fetchSet = vi.fn<FetchSet>(async () => {
+      throw new Error('boom');
+    });
+    const fetchQuestions = vi.fn<FetchQuestions>(async () => ['legacy']);
+    const onCategoryReady = vi.fn();
+    const { result } = renderHook(() =>
+      useQuestionGeneration({
+        problemContext: CTX,
+        institutionName: 'Prim',
+        source: { conversationId: 'c1' },
+        fetchSet,
+        fetchQuestions,
+        onCategoryReady,
+      }),
+    );
+    await waitFor(() => expect(result.current.setError).toBe('boom'));
+    expect(result.current.isAnyLoading).toBe(false);
+    expect(result.current.totalGenerated).toBe(0);
+
+    await act(async () => result.current.retry());
+    expect(fetchSet).toHaveBeenCalledTimes(2);
+    expect(fetchSet.mock.calls[1]).toEqual([{ conversationId: 'c1' }, true]);
+    await waitFor(() => expect(result.current.setError).toBe('boom'));
+    expect(fetchQuestions).not.toHaveBeenCalled();
+
+    await act(async () => result.current.retry());
+    expect(fetchQuestions).toHaveBeenCalledTimes(5);
+    expect(fetchQuestions.mock.calls[0][1]).toEqual(CTX);
+    await waitFor(() => expect(result.current.totalGenerated).toBe(5));
+    expect(result.current.setError).toBeNull();
+    expect(result.current.notice).toBe(FALLBACK_NOTICE);
+    expect(result.current.mode).toBe('legacy');
+    expect(onCategoryReady).toHaveBeenCalledTimes(5);
+  });
+
+  it('without a problem context there is no fallback: retry keeps asking for the set', async () => {
+    const fetchSet = vi.fn<FetchSet>(async () => {
+      throw new Error('');
+    });
+    const fetchQuestions = vi.fn<FetchQuestions>();
+    const { result } = renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: null, source: { sessionId: 's1' }, fetchSet, fetchQuestions }),
+    );
+    await waitFor(() => expect(result.current.setError).toBe(SET_ERROR_MESSAGE));
+    await act(async () => result.current.retry());
+    await act(async () => result.current.retry());
+    expect(fetchSet).toHaveBeenCalledTimes(3);
+    expect(fetchQuestions).not.toHaveBeenCalled();
+    expect(result.current.mode).toBe('set');
+  });
+
+  it('autoStart: false waits for start(); start() again regenerates bypassing the cache', async () => {
+    const fetchSet = vi.fn<FetchSet>(async () => ({ categories: FIVE, model: 'm' }));
+    const { result } = renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: 'Prim', source: { sessionId: 's1' }, fetchSet, autoStart: false }),
+    );
+    expect(fetchSet).not.toHaveBeenCalled();
+    expect(result.current.mode).toBe('idle');
+
+    await act(async () => result.current.start());
+    expect(fetchSet).toHaveBeenCalledWith({ sessionId: 's1' }, false);
+    await waitFor(() => expect(result.current.totalGenerated).toBe(25));
+
+    await act(async () => result.current.start());
+    expect(fetchSet).toHaveBeenLastCalledWith({ sessionId: 's1' }, true);
+    expect(fetchSet).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('createSetFetcher (default set loader)', () => {
+  it('POSTs the source to /api/questions/generate-set and returns categories + model', async () => {
+    const fetchFn = vi.fn(async () => new Response(JSON.stringify({ categories: FIVE, model: 'claude-sonnet-5', cached: true })));
+    const load = createSetFetcher(fetchFn as unknown as typeof fetch);
+    expect(await load({ conversationId: 'c1' }, false)).toEqual({ categories: FIVE, model: 'claude-sonnet-5', cached: true });
+    const [url, init] = fetchFn.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe('/api/questions/generate-set');
+    expect(init.method).toBe('POST');
+    expect(JSON.parse(init.body as string)).toEqual({ conversationId: 'c1' });
+  });
+
+  it('adds ?refresh=1 and throws the API error message on a failed response', async () => {
+    const fetchFn = vi.fn(async () => new Response(JSON.stringify({ error: 'Limită de rată atinsă.' }), { status: 429 }));
+    const load = createSetFetcher(fetchFn as unknown as typeof fetch);
+    await expect(load({ sessionId: 's1' }, true)).rejects.toThrow('Limită de rată atinsă.');
+    expect((fetchFn.mock.calls[0] as unknown as [string])[0]).toBe('/api/questions/generate-set?refresh=1');
+  });
+
+  it('uses the generic message when the failed response has no body', async () => {
+    const fetchFn = vi.fn(async () => new Response('', { status: 500 }));
+    const load = createSetFetcher(fetchFn as unknown as typeof fetch);
+    await expect(load({ sessionId: 's1' }, false)).rejects.toThrow(SET_ERROR_MESSAGE);
   });
 });

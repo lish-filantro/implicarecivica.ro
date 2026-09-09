@@ -10,6 +10,8 @@ export { CATEGORIES } from './types';
 
 interface UseRequestWizardOptions {
   initialChatData?: ChatData | null;
+  /** 2 when the chat hand-off and the profile make step 1 redundant. */
+  initialStep?: WizardStep;
 }
 
 /**
@@ -17,8 +19,8 @@ interface UseRequestWizardOptions {
  * Thin composition of useWizardForm and useWizardQuestions; the return shape is
  * what StepFormData, StepSelectQuestions, PreviewModal and the pages consume.
  */
-export function useRequestWizard({ initialChatData }: UseRequestWizardOptions = {}) {
-  const [currentStep, setCurrentStep] = useState<WizardStep>(1);
+export function useRequestWizard({ initialChatData, initialStep = 1 }: UseRequestWizardOptions = {}) {
+  const [currentStep, setCurrentStep] = useState<WizardStep>(initialStep);
   const setStep = useCallback((step: WizardStep) => setCurrentStep(step), []);
 
   const form = useWizardForm(initialChatData);

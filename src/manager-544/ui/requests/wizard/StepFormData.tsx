@@ -3,6 +3,8 @@
 import React from 'react';
 import { Lock, ArrowRight } from 'lucide-react';
 import { isValidInstitutionEmail } from './types';
+import type { WizardFormData } from './types';
+import { missingFormFields } from './handoff-entry';
 import { useStepFormProfile } from './useStepFormProfile';
 import type { StepFormProfileDeps } from './useStepFormProfile';
 import type { RequestWizard } from './useRequestWizard';
@@ -11,11 +13,18 @@ interface StepFormDataProps {
   wizard: RequestWizard;
   /** Test seam for the profile loader/saver (defaults to the Supabase browser queries). */
   profileDeps?: StepFormProfileDeps;
+  /** Entered from the chat with gaps: mark the required fields still empty. */
+  highlightMissing?: boolean;
 }
 
-export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
+const MISSING_CLASS = ' border-protest-red-500 focus:ring-protest-red-500';
+
+export function StepFormData({ wizard, profileDeps, highlightMissing = false }: StepFormDataProps) {
   const { formData, updateFormField, canProceedToStep2 } = wizard;
   const { profileLoaded, handleContinue } = useStepFormProfile(wizard, profileDeps);
+
+  const missing = new Set<keyof WizardFormData>(highlightMissing ? missingFormFields(formData) : []);
+  const mark = (field: keyof WizardFormData) => (missing.has(field) ? MISSING_CLASS : '');
 
   if (!profileLoaded) {
     return (
@@ -34,7 +43,9 @@ export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
           Date cerere
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Completează datele necesare pentru formularea cererii.
+          {highlightMissing && missing.size > 0
+            ? 'Completează câmpurile marcate pentru a continua; restul au fost preluate din profil și din conversație.'
+            : 'Completează datele necesare pentru formularea cererii.'}
         </p>
       </div>
 
@@ -56,7 +67,7 @@ export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
               value={formData.solicitantName}
               onChange={(e) => updateFormField('solicitantName', e.target.value)}
               placeholder="Ion Popescu"
-              className="w-full field-input"
+              className={`w-full field-input${mark('solicitantName')}`}
             />
           </div>
 
@@ -85,7 +96,7 @@ export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
             value={formData.solicitantAddress}
             onChange={(e) => updateFormField('solicitantAddress', e.target.value)}
             placeholder="Str. Victoriei nr. 10, Bl. 5, Sc. A, Ap. 2, Sector 1, București"
-            className="w-full field-input"
+            className={`w-full field-input${mark('solicitantAddress')}`}
           />
           <label className="flex items-center gap-2 mt-2">
             <input
@@ -118,7 +129,7 @@ export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
             value={formData.sessionName}
             onChange={(e) => updateFormField('sessionName', e.target.value)}
             placeholder="ex: Transparența cheltuielilor publice"
-            className="w-full field-input"
+            className={`w-full field-input${mark('sessionName')}`}
           />
         </div>
 
@@ -133,7 +144,7 @@ export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
               value={formData.institutionName}
               onChange={(e) => updateFormField('institutionName', e.target.value)}
               placeholder="Primăria Pitești"
-              className="w-full field-input"
+              className={`w-full field-input${mark('institutionName')}`}
             />
           </div>
 
@@ -148,7 +159,7 @@ export function StepFormData({ wizard, profileDeps }: StepFormDataProps) {
               onChange={(e) => updateFormField('institutionEmail', e.target.value)}
               placeholder="registratura@institutie.ro"
               className={`w-full field-input ${
-                formData.institutionEmail && !isValidInstitutionEmail(formData.institutionEmail)
+                (formData.institutionEmail && !isValidInstitutionEmail(formData.institutionEmail)) || missing.has('institutionEmail')
                   ? 'border-protest-red-500 focus:ring-protest-red-500'
                   : ''
               }`}

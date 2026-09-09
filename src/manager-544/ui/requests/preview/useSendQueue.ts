@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { FIXED_SUBJECT, formatEmailBodyHtml } from '@m544/requests/email-template';
-import { CHAT_TRANSFER_KEY } from '../wizard/chat-transfer';
+import { markHandoffSession as defaultMarkHandoffSession } from '@m544/chat/queries.client';
 import type { QuestionItem, WizardFormData } from '../wizard/types';
 
 export const SEND_DELAY_MS = 30_000; // 30 seconds between emails (spam filters)
@@ -20,6 +20,8 @@ export interface SendQueueInput {
 export interface SendQueueDeps {
   fetch?: typeof fetch;
   sleep?: (ms: number) => Promise<void>;
+  /** Writes the created session id on the conversation's hand-off (defaults to the browser query). */
+  markHandoffSession?: (conversationId: string, sessionId: string) => Promise<void>;
 }
 
 export interface SendProgress {
@@ -29,6 +31,11 @@ export interface SendProgress {
 
 interface CreatedRequest {
   id: string;
+}
+
+interface CreateResponse {
+  session?: { id?: string };
+  requests?: CreatedRequest[];
 }
 
 const defaultFetch: typeof fetch = (...args) => fetch(...args);
@@ -69,14 +76,15 @@ function postJson(fetchFn: typeof fetch, url: string, body: unknown): Promise<Re
 }
 
 /**
- * Creates the requests (new session or add to an existing one) and then sends the
- * emails one by one with a 30 s pause, reporting progress and the countdown.
- * On success clears the chat hand-over and redirects to /dashboard.
+ * Creates the requests (new session or add to an existing one), links the new
+ * session to the conversation's hand-off, then sends the emails one by one with
+ * a 30 s pause, reporting progress and the countdown. On success redirects to /dashboard.
  */
 export function useSendQueue(input: SendQueueInput, deps: SendQueueDeps = {}) {
   const router = useRouter();
   const fetchFn = deps.fetch ?? defaultFetch;
   const sleep = deps.sleep ?? defaultSleep;
+  const markHandoffSession = deps.markHandoffSession ?? defaultMarkHandoffSession;
 
   const [isSending, setIsSending] = useState(false);
   const [progress, setProgress] = useState<SendProgress>({ sent: 0, total: 0 });
@@ -116,8 +124,17 @@ export function useSendQueue(input: SendQueueInput, deps: SendQueueDeps = {}) {
         throw new Error(data.error || 'Eroare la crearea cererilor');
       }
 
-      const { requests } = (await sessionResponse.json()) as { requests?: CreatedRequest[] };
+      const { session, requests } = (await sessionResponse.json()) as CreateResponse;
       if (!requests?.length) throw new Error('Nu s-au creat cererile');
+
+      // Link the new session back to the conversation it came from (best effort).
+      if (!input.existingSessionId && input.conversationId && session?.id) {
+        try {
+          await markHandoffSession(input.conversationId, session.id);
+        } catch (err) {
+          console.error('Failed to link the session to the conversation:', err);
+        }
+      }
 
       let sentCount = 0;
       for (let i = 0; i < requests.length; i++) {
@@ -140,7 +157,6 @@ export function useSendQueue(input: SendQueueInput, deps: SendQueueDeps = {}) {
         }
       }
 
-      sessionStorage.removeItem(CHAT_TRANSFER_KEY);
       router.push('/dashboard');
     } catch (error) {
       console.error('Send error:', error);
@@ -148,7 +164,7 @@ export function useSendQueue(input: SendQueueInput, deps: SendQueueDeps = {}) {
       setIsSending(false);
       setSecondsLeft(null);
     }
-  }, [isSending, input, fetchFn, sleep, router]);
+  }, [isSending, input, fetchFn, sleep, markHandoffSession, router]);
 
   return { isSending, progress, secondsLeft, sendError, sendAll };
 }
