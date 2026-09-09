@@ -3,6 +3,10 @@
  * categories, the system prompt and the per-category user prompt.
  */
 
+import type { QuestionCategory } from '@m544/shared/types/questions';
+
+export type { QuestionCategory };
+
 export const HAIKU_MODEL = 'claude-haiku-4-5-20251001';
 
 export interface CategoryConfig {
@@ -31,9 +35,8 @@ export const CATEGORY_CONFIG = {
     label: 'E. Conformitate',
     description: 'Norme și reglementări aplicabile, audituri, sancțiuni, inspecții',
   },
-} as const satisfies Record<string, CategoryConfig>;
+} as const satisfies Record<QuestionCategory, CategoryConfig>;
 
-export type QuestionCategory = keyof typeof CATEGORY_CONFIG;
 
 export const VALID_CATEGORIES = Object.keys(CATEGORY_CONFIG) as QuestionCategory[];
 

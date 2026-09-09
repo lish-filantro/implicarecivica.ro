@@ -3,12 +3,9 @@
  * Moved 1:1 from lib/hooks/useRequestWizard.ts.
  */
 
-export type QuestionCategory =
-  | 'A_FINANCIAR'
-  | 'B_RESPONSABILITATE'
-  | 'C_PLANIFICARE'
-  | 'D_MONITORIZARE'
-  | 'E_CONFORMITATE';
+import type { QuestionCategory } from '@m544/shared/types/questions';
+
+export type { QuestionCategory };
 
 export interface CategoryMeta {
   id: QuestionCategory;

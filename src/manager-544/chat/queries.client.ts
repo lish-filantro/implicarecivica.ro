@@ -2,8 +2,9 @@
  * Browser-side Supabase queries for the chat UI (conversations + messages).
  * Moved from lib/supabase/chat-queries.ts in refactor phase 5.
  */
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { createBrowserClient as createClient } from '@m544/shared/db/browser-client';
-import type { ConversationRow, Message, ConversationListItem } from '@m544/shared/types/chat';
+import type { ConversationRow, ConversationHandoff, Message, ConversationListItem } from '@m544/shared/types/chat';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Conversations
@@ -134,4 +135,37 @@ export function generateTitle(firstMessage: string): string {
   const truncated = clean.substring(0, 50);
   const lastSpace = truncated.lastIndexOf(' ');
   return (lastSpace > 20 ? truncated.substring(0, lastSpace) : truncated) + '...';
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Hand-off (chat → request wizard), column conversations.handoff
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export async function getConversationHandoff(
+  id: string,
+  sb: SupabaseClient = createClient(),
+): Promise<ConversationHandoff | null> {
+  const { data, error } = await sb.from('conversations').select('handoff').eq('id', id).single();
+  if (error) throw error;
+  return ((data as { handoff?: ConversationHandoff | null } | null)?.handoff as ConversationHandoff | null) ?? null;
+}
+
+export async function updateConversationHandoff(
+  id: string,
+  handoff: ConversationHandoff | null,
+  sb: SupabaseClient = createClient(),
+): Promise<void> {
+  const { error } = await sb.from('conversations').update({ handoff }).eq('id', id);
+  if (error) throw error;
+}
+
+/** Links the request session created by the wizard back to the conversation (read-modify-write). */
+export async function markHandoffSession(
+  id: string,
+  sessionId: string,
+  sb: SupabaseClient = createClient(),
+): Promise<void> {
+  const current = await getConversationHandoff(id, sb);
+  if (!current) return;
+  await updateConversationHandoff(id, { ...current, sessionId }, sb);
 }
