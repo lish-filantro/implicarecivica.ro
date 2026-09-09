@@ -10,6 +10,7 @@ import { SessionInfoCard } from '@m544/ui/requests/add/SessionInfoCard';
 import { RateLimitInfo } from '@m544/ui/requests/add/RateLimitInfo';
 import { QuestionCategoryList } from '@m544/ui/requests/questions/QuestionCategoryList';
 import { StickyActionBar } from '@m544/ui/requests/wizard/StickyActionBar';
+import { RECOMMENDED_MAX_SELECTED } from '@m544/ui/requests/wizard/types';
 import { PreviewModal } from '@m544/ui/requests/preview/PreviewModal';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
@@ -135,6 +136,7 @@ function AddRequestsContent() {
             onPreview={() => wizard.setStep(3)}
             isDisabled={!wizard.canProceedToStep3 || (rateLimit !== null && wizard.selectedCount > rateLimit.remaining)}
             dailyLimitInfo={rateLimit ? { remaining: rateLimit.remaining } : undefined}
+            recommendedMax={RECOMMENDED_MAX_SELECTED}
           />
         </div>
       ) : null}

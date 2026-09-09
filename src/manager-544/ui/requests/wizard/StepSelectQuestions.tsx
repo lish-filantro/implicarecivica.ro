@@ -6,6 +6,7 @@ import type { useQuestionGeneration } from './useQuestionGeneration';
 import { QuestionCategoryList } from '../questions/QuestionCategoryList';
 import { StickyActionBar } from './StickyActionBar';
 import { WizardSummaryCard } from './WizardSummaryCard';
+import { RECOMMENDED_MAX_SELECTED } from './types';
 
 interface StepSelectQuestionsProps {
   wizard: RequestWizard;
@@ -28,7 +29,8 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
           {fromChat
             ? 'Alege întrebările pe care dorești să le trimiți. Poți edita sau adăuga întrebări noi.'
             : 'Adaugă întrebările pe care dorești să le trimiți instituției.'
-          }
+          }{' '}
+          Recomandăm cel mult {RECOMMENDED_MAX_SELECTED} întrebări trimise odată.
         </p>
       </div>
 
@@ -62,6 +64,7 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
         onBack={() => wizard.setStep(1)}
         onPreview={() => wizard.setStep(3)}
         isDisabled={!wizard.canProceedToStep3}
+        recommendedMax={RECOMMENDED_MAX_SELECTED}
       />
     </div>
   );

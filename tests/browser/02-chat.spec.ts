@@ -82,7 +82,9 @@ test.describe('asistentul 544', () => {
       const recap = page.getByRole('region', { name: 'Rezumat cerere' });
       await expect(recap).toContainText(CITIZEN.displayName);
       await expect(recap.getByText(/@[a-z0-9.-]+\.ro/i).first()).toBeVisible();
-      await expect(page.getByText(/\d+\s+cereri selectate/)).toBeVisible({ timeout: 180_000 });
+      // generated questions arrive unselected: a category badge like "0/5"
+      await expect(page.getByText(/^0\/[1-5]$/).first()).toBeVisible({ timeout: 180_000 });
+      await expect(page.getByText(/Recomandăm cel mult 10/)).toBeVisible();
     } else {
       // profile incomplete (no address) → step 1 with the institution pre-filled
       await expect(page.getByPlaceholder('Primăria Pitești')).not.toHaveValue('');

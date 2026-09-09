@@ -39,7 +39,8 @@ export function useWizardQuestions() {
   const [selectedQuestionIds, setSelectedQuestionIds] = useState<Set<string>>(new Set());
   const nextId = useRef(createQuestionIdGenerator());
 
-  // Replaces the category's generated questions with the new texts (custom ones stay) and auto-selects the new ones.
+  // Replaces the category's generated questions with the new texts; custom ones (and their selection) stay.
+  // Generated questions start unselected: the user picks what to send (recommended at most 10 at once).
   const setQuestionsForCategory = useCallback((category: QuestionCategory, texts: string[]) => {
     const items: QuestionItem[] = texts.map((text) => ({
       id: nextId.current(),
@@ -49,7 +50,6 @@ export function useWizardQuestions() {
       isEdited: false,
     }));
     setQuestions((prev) => ({ ...prev, [category]: [...items, ...prev[category].filter((q) => q.isCustom)] }));
-    setSelectedQuestionIds((prev) => withIds(prev, items.map((i) => i.id), true));
   }, []);
 
   const toggleQuestion = useCallback((id: string) => {

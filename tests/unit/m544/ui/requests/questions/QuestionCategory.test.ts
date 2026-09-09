@@ -126,7 +126,7 @@ describe('QuestionCategoryList', () => {
     act(() => result.current.setQuestionsForCategory('C_PLANIFICARE', ['x', 'y']));
     render(createElement(QuestionCategoryList, { wizard: result.current, isCategoryLoading: (c) => c === 'E_CONFORMITATE' }));
     for (const cat of CATEGORIES) expect(screen.getByText(cat.label)).toBeTruthy();
-    expect(screen.getByText('2/2')).toBeTruthy();
+    expect(screen.getByText('0/2')).toBeTruthy(); // generated questions start unselected
     expect(screen.getByText('Se generează...')).toBeTruthy();
   });
 });

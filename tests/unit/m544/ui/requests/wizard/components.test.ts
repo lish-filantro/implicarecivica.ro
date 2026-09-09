@@ -34,6 +34,15 @@ describe('StickyActionBar', () => {
     expect((screen.getByRole('button', { name: /Înapoi/ }) as HTMLButtonElement).disabled).toBe(false);
   });
 
+  it('hints, without blocking, when the selection exceeds the recommended maximum', () => {
+    render(createElement(StickyActionBar, { ...base, selectedCount: 12, recommendedMax: 10 }));
+    expect(screen.getByText('Recomandat: cel mult 10 cereri odată')).toBeTruthy();
+    expect((screen.getByRole('button', { name: /Previzualizare/ }) as HTMLButtonElement).disabled).toBe(false);
+    cleanup();
+    render(createElement(StickyActionBar, { ...base, selectedCount: 10, recommendedMax: 10 }));
+    expect(screen.queryByText(/Recomandat:/)).toBeNull();
+  });
+
   it('shows the remaining daily limit when provided', () => {
     render(createElement(StickyActionBar, { ...base, dailyLimitInfo: { remaining: 4 } }));
     expect(screen.getByText('Limită: 4 cereri rămase azi')).toBeTruthy();
@@ -72,16 +81,18 @@ describe('StepSelectQuestions', () => {
 
     render(createElement(StepSelectQuestions, { wizard, questionGen, fromChat: true }));
     expect(screen.getByText(/Poți edita sau adăuga întrebări noi/)).toBeTruthy();
+    expect(screen.getByText(/Recomandăm cel mult 10 întrebări trimise odată/)).toBeTruthy();
     expect((screen.getByRole('button', { name: /Previzualizare/ }) as HTMLButtonElement).disabled).toBe(true);
     cleanup();
 
     render(createElement(StepSelectQuestions, { wizard, questionGen, fromChat: false }));
-    expect(screen.getByText('Adaugă întrebările pe care dorești să le trimiți instituției.')).toBeTruthy();
+    expect(screen.getByText(/Adaugă întrebările pe care dorești să le trimiți instituției\./)).toBeTruthy();
   });
 
   it('navigates with the sticky bar once questions are selected', () => {
     const hook = renderHook(() => useRequestWizard());
     act(() => hook.result.current.setQuestionsForCategory('A_FINANCIAR', ['q']));
+    act(() => hook.result.current.selectAllInCategory('A_FINANCIAR'));
     act(() => hook.result.current.setStep(2));
     const questionGen = renderHook(() =>
       useQuestionGeneration({ problemContext: null, institutionName: null, fetchQuestions: async () => [] }),

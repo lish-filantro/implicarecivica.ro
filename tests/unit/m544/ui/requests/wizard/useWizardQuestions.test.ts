@@ -31,16 +31,16 @@ describe('useWizardQuestions', () => {
     expect(result.current.canProceedToStep3).toBe(false);
   });
 
-  it('setQuestionsForCategory creates items with unique ids and auto-selects them', () => {
+  it('setQuestionsForCategory creates items with unique ids, left unselected', () => {
     const { result } = setup();
     act(() => result.current.setQuestionsForCategory('A_FINANCIAR', ['Q1', 'Q2', 'Q3']));
     const items = result.current.questions.A_FINANCIAR;
     expect(items.map((q) => q.text)).toEqual(['Q1', 'Q2', 'Q3']);
     expect(items.every((q) => q.category === 'A_FINANCIAR' && !q.isCustom && !q.isEdited)).toBe(true);
     expect(new Set(items.map((q) => q.id)).size).toBe(3);
-    expect(result.current.selectedCount).toBe(3);
-    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(3);
-    expect(result.current.canProceedToStep3).toBe(true);
+    expect(result.current.selectedCount).toBe(0);
+    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(0);
+    expect(result.current.canProceedToStep3).toBe(false);
   });
 
   it('ids stay unique across categories and across two hook instances', () => {
@@ -64,7 +64,7 @@ describe('useWizardQuestions', () => {
     act(() => result.current.setQuestionsForCategory('A_FINANCIAR', ['old']));
     act(() => result.current.setQuestionsForCategory('A_FINANCIAR', ['new1', 'new2']));
     expect(result.current.questions.A_FINANCIAR.map((q) => q.text)).toEqual(['new1', 'new2']);
-    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(2);
+    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(0);
   });
 
   it('regeneration keeps the custom questions of the category', () => {
@@ -73,7 +73,8 @@ describe('useWizardQuestions', () => {
     act(() => result.current.addCustomQuestion('A_FINANCIAR', 'mine'));
     act(() => result.current.setQuestionsForCategory('A_FINANCIAR', ['new']));
     expect(result.current.questions.A_FINANCIAR.map((q) => q.text)).toEqual(['new', 'mine']);
-    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(2);
+    // the custom question keeps its selection; the regenerated one starts unselected
+    expect(result.current.selectedCountByCategory.A_FINANCIAR).toBe(1);
   });
 
   it('toggleQuestion flips selection', () => {
@@ -81,10 +82,11 @@ describe('useWizardQuestions', () => {
     act(() => result.current.setQuestionsForCategory('C_PLANIFICARE', ['x']));
     const id = result.current.questions.C_PLANIFICARE[0].id;
     act(() => result.current.toggleQuestion(id));
+    expect(result.current.selectedQuestionIds.has(id)).toBe(true);
+    expect(result.current.canProceedToStep3).toBe(true);
+    act(() => result.current.toggleQuestion(id));
     expect(result.current.selectedQuestionIds.has(id)).toBe(false);
     expect(result.current.canProceedToStep3).toBe(false);
-    act(() => result.current.toggleQuestion(id));
-    expect(result.current.selectedQuestionIds.has(id)).toBe(true);
   });
 
   it('selectAll / deselectAll act only on the given category', () => {
@@ -93,11 +95,13 @@ describe('useWizardQuestions', () => {
       result.current.setQuestionsForCategory('A_FINANCIAR', ['a1', 'a2']);
       result.current.setQuestionsForCategory('B_RESPONSABILITATE', ['b1']);
     });
-    act(() => result.current.deselectAllInCategory('A_FINANCIAR'));
+    act(() => result.current.selectAllInCategory('B_RESPONSABILITATE'));
     expect(result.current.selectedCountByCategory).toMatchObject({ A_FINANCIAR: 0, B_RESPONSABILITATE: 1 });
     act(() => result.current.selectAllInCategory('A_FINANCIAR'));
     expect(result.current.selectedCountByCategory).toMatchObject({ A_FINANCIAR: 2, B_RESPONSABILITATE: 1 });
     expect(result.current.selectedCount).toBe(3);
+    act(() => result.current.deselectAllInCategory('A_FINANCIAR'));
+    expect(result.current.selectedCountByCategory).toMatchObject({ A_FINANCIAR: 0, B_RESPONSABILITATE: 1 });
   });
 
   it('editQuestion changes the text and flags generated questions as edited', () => {
@@ -143,7 +147,10 @@ describe('useWizardQuestions', () => {
       result.current.setQuestionsForCategory('E_CONFORMITATE', ['e1']);
       result.current.setQuestionsForCategory('A_FINANCIAR', ['a1', 'a2']);
     });
-    act(() => result.current.toggleQuestion(result.current.questions.A_FINANCIAR[0].id));
+    act(() => {
+      result.current.toggleQuestion(result.current.questions.A_FINANCIAR[1].id);
+      result.current.toggleQuestion(result.current.questions.E_CONFORMITATE[0].id);
+    });
     expect(result.current.getSelectedQuestions().map((q) => q.text)).toEqual(['a2', 'e1']);
   });
 });

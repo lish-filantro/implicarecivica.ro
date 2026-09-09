@@ -70,6 +70,9 @@ export interface WizardProfile {
 
 export type WizardStep = 1 | 2 | 3;
 
+/** Soft limit shown to the user: more requests at once are allowed, but discouraged. */
+export const RECOMMENDED_MAX_SELECTED = 10;
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** The (deliberately loose) email check used by step 1 validation and the field's red border. */
