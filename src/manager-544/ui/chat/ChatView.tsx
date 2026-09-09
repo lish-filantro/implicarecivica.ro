@@ -1,10 +1,13 @@
 'use client';
 
 import React, { useRef, useEffect, useCallback } from 'react';
-import type { Message } from '@m544/shared/types/chat';
+import type { Message, ConversationHandoff } from '@m544/shared/types/chat';
+import { INSTITUTION_MARKER } from '@m544/chat/validation/institution';
 import { useAutoScroll } from './hooks/useAutoScroll';
 import MessageBubble from './MessageBubble';
 import TypingIndicator from './TypingIndicator';
+import InstitutionCard from './InstitutionCard';
+import HandoffBar from './HandoffBar';
 
 interface ChatViewProps {
   messages: Message[];
@@ -13,12 +16,26 @@ interface ChatViewProps {
   onSendMessage: () => void;
   isTyping: boolean;
   aiStatus: 'loading' | 'configured' | 'mock';
-  onConfirmInstitution?: () => void;
+  /** The conversation's hand-off; the institution card renders under the last marker message. */
+  handoff?: ConversationHandoff | null;
+  onPrepareRequests?: () => void;
+  onRejectInstitution?: () => void;
   onManualEntry?: () => void;
+  handoffBusy?: boolean;
   onToggleSidebar?: () => void;
   failedMessage?: string | null;
   onRetry?: () => void;
 }
+
+/** Index of the last assistant message that identified an institution, or -1. */
+export function lastInstitutionMessageIndex(messages: Message[]): number {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].sender === 'bot' && messages[i].text.includes(INSTITUTION_MARKER)) return i;
+  }
+  return -1;
+}
+
+const noop = () => {};
 
 export default function ChatView({
   messages,
@@ -27,8 +44,11 @@ export default function ChatView({
   onSendMessage,
   isTyping,
   aiStatus,
-  onConfirmInstitution,
-  onManualEntry,
+  handoff,
+  onPrepareRequests = noop,
+  onRejectInstitution = noop,
+  onManualEntry = noop,
+  handoffBusy = false,
   onToggleSidebar,
   onRetry,
 }: ChatViewProps) {
@@ -65,6 +85,9 @@ export default function ChatView({
       onSendMessage();
     }
   };
+
+  const cardIndex = handoff ? lastInstitutionMessageIndex(messages) : -1;
+  const showBar = Boolean(handoff && !handoff.confirmedAt && !handoff.sessionId);
 
   return (
     <div className="flex h-full">
@@ -112,21 +135,27 @@ export default function ChatView({
           className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 sm:space-y-6 bg-gradient-to-b from-gray-50/50 to-white/50 dark:from-gray-800/50 dark:to-gray-900/50 scrollbar-modern"
         >
           {messages.map((msg, index) => (
-            <MessageBubble
-              key={msg.id || index}
-              message={msg}
-              index={index}
-              isLast={index === messages.length - 1}
-              onConfirmInstitution={index === messages.length - 1 ? onConfirmInstitution : undefined}
-              onManualEntry={index === messages.length - 1 ? onManualEntry : undefined}
-              onRetry={msg.isError ? onRetry : undefined}
-            />
+            <React.Fragment key={msg.id || index}>
+              <MessageBubble message={msg} index={index} onRetry={msg.isError ? onRetry : undefined} />
+              {handoff && index === cardIndex && (
+                <InstitutionCard
+                  handoff={handoff}
+                  onPrepare={onPrepareRequests}
+                  onReject={onRejectInstitution}
+                  onManualEntry={onManualEntry}
+                  busy={handoffBusy}
+                />
+              )}
+            </React.Fragment>
           ))}
 
           {isTyping && <TypingIndicator />}
 
           <div ref={messagesEndRef} />
         </div>
+
+        {/* Hand-off action, kept reachable after further messages */}
+        {showBar && handoff && <HandoffBar handoff={handoff} onPrepare={onPrepareRequests} busy={handoffBusy} />}
 
         {/* Chat Input */}
         <div className="px-3 py-2 sm:px-6 sm:py-4 border-t border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">

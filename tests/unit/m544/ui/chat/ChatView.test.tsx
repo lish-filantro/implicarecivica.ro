@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeAll } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import ChatView from '@m544/ui/chat/ChatView';
 import type { Message } from '@m544/shared/types/chat';
+import { HANDOFF, STEP_2_REPLY } from './_fakes';
 
 const messages: Message[] = [
   { sender: 'bot', text: 'Bună ziua!', time: '10:00' },
@@ -87,5 +88,42 @@ describe('ChatView', () => {
     });
     fireEvent.click(screen.getByText('Reîncearcă'));
     expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders the institution card under the last marker message and the hand-off bar while unconfirmed', () => {
+    const onPrepareRequests = vi.fn();
+    renderView({
+      messages: [
+        ...messages,
+        { sender: 'bot', text: STEP_2_REPLY, time: '10:02' },
+        { sender: 'user', text: 'mulțumesc', time: '10:03' },
+      ],
+      handoff: HANDOFF,
+      onPrepareRequests,
+    });
+    const card = screen.getByRole('region', { name: 'Instituție identificată' });
+    expect(card.textContent).toContain('Primăria Municipiului Pitești');
+    expect(screen.getByRole('status').textContent).toContain('Primăria Municipiului Pitești');
+
+    fireEvent.click(within(card).getByRole('button', { name: 'Pregătește cererile' }));
+    fireEvent.click(within(screen.getByRole('status')).getByRole('button', { name: 'Pregătește cererile' }));
+    expect(onPrepareRequests).toHaveBeenCalledTimes(2);
+  });
+
+  it('hides the bar once confirmed, and renders no card without a hand-off or without a marker message', () => {
+    const withMarker = [...messages, { sender: 'bot' as const, text: STEP_2_REPLY, time: '10:02' }];
+    const { rerender, props } = renderView({
+      messages: withMarker,
+      handoff: { ...HANDOFF, confirmedAt: '2026-09-09T10:05:00.000Z' },
+    });
+    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Deschide cererile' })).toBeTruthy();
+
+    rerender(<ChatView {...props} messages={messages} />);
+    expect(screen.queryByRole('region', { name: 'Instituție identificată' })).toBeNull();
+
+    rerender(<ChatView {...props} messages={withMarker} handoff={null} />);
+    expect(screen.queryByRole('region', { name: 'Instituție identificată' })).toBeNull();
+    expect(screen.queryByRole('status')).toBeNull();
   });
 });

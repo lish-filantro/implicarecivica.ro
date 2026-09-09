@@ -38,36 +38,10 @@ describe('MessageBubble', () => {
     expect(screen.queryByText('Surse:')).toBeNull();
   });
 
-  it('shows the confirmation buttons on the last INSTITUȚIE_IDENTIFICATĂ message only', () => {
-    const onConfirm = vi.fn();
-    const onManual = vi.fn();
-    const { rerender } = render(
-      <MessageBubble
-        message={bot(STEP_2_REPLY)}
-        index={3}
-        isLast
-        onConfirmInstitution={onConfirm}
-        onManualEntry={onManual}
-      />,
-    );
-    expect(screen.getByText('Confirmă instituția identificată:')).toBeTruthy();
-
-    fireEvent.click(screen.getByText('Nu'));
-    expect(screen.getByText('Ce dorești să faci?')).toBeTruthy();
-    fireEvent.click(screen.getByText('Introducere manuală'));
-    expect(onManual).toHaveBeenCalledTimes(1);
-    // confirmed -> buttons disappear
-    expect(screen.queryByText('Confirmă instituția identificată:')).toBeNull();
-
-    rerender(<MessageBubble message={bot(STEP_2_REPLY)} index={3} isLast={false} />);
+  it('renders a marker message without confirmation buttons (the card lives in ChatView)', () => {
+    render(<MessageBubble message={bot(STEP_2_REPLY)} index={3} />);
     expect(screen.queryByText('Da, e corect')).toBeNull();
-  });
-
-  it('"Da, e corect" calls onConfirmInstitution', () => {
-    const onConfirm = vi.fn();
-    render(<MessageBubble message={bot(STEP_2_REPLY)} index={0} isLast onConfirmInstitution={onConfirm} />);
-    fireEvent.click(screen.getByText('Da, e corect'));
-    expect(onConfirm).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText('Confirmă instituția identificată:')).toBeNull();
   });
 
   it('shows the retry button on an error message', () => {

@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { useConversation, SERVER_ERROR_TEXT } from '@m544/ui/chat/hooks/useConversation';
+import { useConversation, SERVER_ERROR_TEXT, REJECT_INSTITUTION_TEXT } from '@m544/ui/chat/hooks/useConversation';
 import type { FetchLike } from '@m544/ui/chat/hooks/useChatApi';
-import { fakeQueries, fakeRouter, persisted, STEP_2_REPLY } from './_fakes';
+import { fakeQueries, fakeRouter, persisted, STEP_2_REPLY, STEP_2_INSTITUTION, HANDOFF } from './_fakes';
 
 const router = fakeRouter();
 vi.mock('next/navigation', () => ({ useRouter: () => router }));
@@ -44,16 +44,16 @@ describe('useConversation', () => {
     expect(Object.keys(result.current).sort()).toEqual(
       [
         'messages', 'inputMessage', 'setInputMessage', 'sendMessage', 'isTyping', 'aiStatus',
-        'isLoading', 'conversationId', 'startNewConversation', 'extractInstitutionData',
+        'isLoading', 'conversationId', 'startNewConversation', 'handoff', 'confirmHandoff', 'rejectInstitution',
         'failedMessage', 'retryLastMessage',
       ].sort(),
     );
   });
 
   it('happy path: optimistic user message, bot reply appended, conversation created and URL rewritten', async () => {
-    const { queries, saved } = fakeQueries();
+    const { queries, saved, handoffs } = fakeQueries();
     const { fetchImpl, posts } = fakeFetch(() =>
-      jsonResponse({ response: STEP_2_REPLY, sources: [{ url: 'https://p.ro', title: 'P' }] }),
+      jsonResponse({ response: STEP_2_REPLY, sources: [{ url: 'https://p.ro', title: 'P' }], institution: STEP_2_INSTITUTION }),
     );
     const { result } = renderHook(() => useConversation({ fetchImpl, queries }));
     await waitFor(() => expect(result.current.aiStatus).toBe('configured'));
@@ -77,7 +77,14 @@ describe('useConversation', () => {
       conversationId: 'conv-new',
     });
     await waitFor(() => expect(saved.map((s) => s.seq)).toEqual([1, 2]));
-    expect(result.current.extractInstitutionData()?.institutionName).toBe('Primăria Municipiului Pitești');
+    await waitFor(() => expect(result.current.handoff?.institutionName).toBe('Primăria Municipiului Pitești'));
+    expect(result.current.handoff).toMatchObject({
+      institutionEmail: 'primaria@primariapitesti.ro',
+      emailConfidence: 'high',
+      confirmedAt: null,
+      problemContext: { ce: '', unde: '', cand: '' },
+    });
+    expect(handoffs).toEqual([{ convId: 'conv-new', handoff: result.current.handoff }]);
   });
 
   it('sends only the last 10 history entries (including the new message)', async () => {
@@ -134,5 +141,37 @@ describe('useConversation', () => {
     expect(result.current.messages).toEqual([]);
     expect(result.current.conversationId).toBeNull();
     expect(router.push).toHaveBeenCalledWith('/chat');
+  });
+
+  it('confirmHandoff marks the hand-off confirmed, writes STEP_3 and resolves to the conversation id', async () => {
+    const { queries, steps, handoffs } = fakeQueries(
+      [persisted('m1', 'user', 'groapă'), persisted('m2', 'bot', STEP_2_REPLY)],
+      HANDOFF,
+    );
+    const { fetchImpl } = fakeFetch(() => jsonResponse({}));
+    const { result } = renderHook(() => useConversation({ conversationId: 'conv-1', fetchImpl, queries }));
+    await waitFor(() => expect(result.current.handoff).toEqual(HANDOFF));
+
+    let id: string | null = null;
+    await act(async () => {
+      id = await result.current.confirmHandoff();
+    });
+    expect(id).toBe('conv-1');
+    expect(result.current.handoff?.confirmedAt).toBeTruthy();
+    expect(handoffs.at(-1)).toEqual({ convId: 'conv-1', handoff: result.current.handoff });
+    expect(steps).toEqual([{ convId: 'conv-1', step: 'STEP_3' }]);
+  });
+
+  it('rejectInstitution sends the fixed "search again" message as a normal turn', async () => {
+    const { queries } = fakeQueries();
+    const { fetchImpl, posts } = fakeFetch(() => jsonResponse({ response: 'Caut altă instituție responsabilă.' }));
+    const { result } = renderHook(() => useConversation({ fetchImpl, queries }));
+
+    await act(async () => {
+      await result.current.rejectInstitution();
+    });
+    expect(posts[0].message).toBe(REJECT_INSTITUTION_TEXT);
+    expect(result.current.messages.map((m) => m.sender)).toEqual(['bot', 'user', 'bot']);
+    expect(result.current.messages[1].text).toBe(REJECT_INSTITUTION_TEXT);
   });
 });

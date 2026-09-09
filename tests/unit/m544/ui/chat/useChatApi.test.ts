@@ -58,11 +58,19 @@ describe('useChatApi', () => {
       response: 'Bună!',
       sources: [{ url: 'https://x.ro', title: 'X' }],
       webSearches: [],
+      institution: null,
     });
     const post = calls.find((c) => c.init?.method === 'POST')!;
     expect(post.input).toBe(getChatEndpoint());
     expect(post.init?.headers).toEqual({ 'Content-Type': 'application/json' });
     expect(JSON.parse(post.init?.body as string)).toEqual(body);
+  });
+
+  it('passes the institution through when the API returns one', async () => {
+    const institution = { name: 'Primăria X', email: 'a@x.ro', confidence: 'medium', sourceUrl: null };
+    const { fetchImpl } = fakeFetch({}, () => jsonResponse({ response: 'ok', institution }));
+    const { result } = await settled(fetchImpl);
+    expect((await result.current.sendChatMessage(body)).institution).toEqual(institution);
   });
 
   it('throws "API error: 401" when the session expired', async () => {

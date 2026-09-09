@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import type { ChatInstitution } from '@m544/shared/types/chat';
 
 /** Request body accepted by POST /api/chat-haiku. */
 export interface ChatApiRequest {
@@ -14,6 +15,8 @@ export interface ChatApiReply {
   response: string;
   sources: Array<{ url: string; title: string; description?: string }>;
   webSearches: string[];
+  /** The institution identified in this reply (STEP_2), or null. */
+  institution: ChatInstitution | null;
 }
 
 export type AiStatus = 'loading' | 'configured' | 'mock';
@@ -39,6 +42,7 @@ interface ReplyPayload {
   response?: string;
   sources?: ChatApiReply['sources'];
   webSearches?: string[];
+  institution?: ChatInstitution | null;
 }
 
 const defaultFetch: FetchLike = (input, init) => fetch(input, init);
@@ -88,6 +92,7 @@ export function useChatApi({ fetchImpl = defaultFetch }: UseChatApiOptions = {})
         response: data.response,
         sources: data.sources || [],
         webSearches: data.webSearches || [],
+        institution: data.institution ?? null,
       };
     },
     [fetchImpl],

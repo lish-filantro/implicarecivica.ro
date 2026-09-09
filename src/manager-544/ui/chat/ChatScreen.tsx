@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useConversation } from './hooks/useConversation';
 import { useChatSidebar } from './hooks/useChatSidebar';
@@ -23,14 +23,20 @@ export function ConversationLoading() {
   );
 }
 
+/** The wizard entry for a conversation whose institution was confirmed. */
+export function wizardUrl(conversationId: string): string {
+  return `/requests/new?conversation=${encodeURIComponent(conversationId)}`;
+}
+
 /**
  * The chat page body shared by /chat (new conversation) and /chat/[conversationId]:
- * wires useConversation to ChatView and hands the identified institution to the
- * request wizard through sessionStorage.
+ * wires useConversation to ChatView and hands the confirmed institution to the
+ * request wizard through the conversation's hand-off.
  */
 export default function ChatScreen({ conversationId }: ChatScreenProps) {
   const router = useRouter();
   const { toggle } = useChatSidebar();
+  const [preparing, setPreparing] = useState(false);
   const {
     messages,
     inputMessage,
@@ -39,18 +45,22 @@ export default function ChatScreen({ conversationId }: ChatScreenProps) {
     isTyping,
     aiStatus,
     isLoading,
-    extractInstitutionData,
+    handoff,
+    confirmHandoff,
+    rejectInstitution,
     failedMessage,
     retryLastMessage,
   } = useConversation({ conversationId });
 
-  const handleConfirmInstitution = useCallback(() => {
-    const data = extractInstitutionData();
-    if (data) {
-      sessionStorage.setItem('requestWizardData', JSON.stringify(data));
-      router.push('/requests/new?from=chat');
+  const handlePrepareRequests = useCallback(async () => {
+    setPreparing(true);
+    const id = await confirmHandoff();
+    if (id) {
+      router.push(wizardUrl(id));
+    } else {
+      setPreparing(false);
     }
-  }, [extractInstitutionData, router]);
+  }, [confirmHandoff, router]);
 
   const handleManualEntry = useCallback(() => {
     router.push('/requests/new');
@@ -68,8 +78,11 @@ export default function ChatScreen({ conversationId }: ChatScreenProps) {
       onSendMessage={sendMessage}
       isTyping={isTyping}
       aiStatus={aiStatus}
-      onConfirmInstitution={handleConfirmInstitution}
+      handoff={handoff}
+      onPrepareRequests={handlePrepareRequests}
+      onRejectInstitution={rejectInstitution}
       onManualEntry={handleManualEntry}
+      handoffBusy={preparing}
       onToggleSidebar={toggle}
       failedMessage={failedMessage}
       onRetry={retryLastMessage}
