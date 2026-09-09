@@ -143,6 +143,10 @@ describe('POST /api/questions/generate-set — conversation', () => {
     const call = client.calls[0];
     expect(call.model).toBe(chatModel());
     expect(call.tool_choice).toEqual({ type: 'tool', name: 'emit_questions' });
+    // Sonnet 5 answers 400 "`temperature` is deprecated for this model" (seen in production on 2026-09-09)
+    expect(call).not.toHaveProperty('temperature');
+    // Sonnet 5 answers 400 "`temperature` is deprecated for this model" (seen in production on 2026-09-09)
+    expect(call).not.toHaveProperty('temperature');
     expect((call.tools?.[0] as Anthropic.Messages.Tool).name).toBe('emit_questions');
     const prompt = call.messages[0].content as string;
     expect(prompt).toContain('user: Am o groapă mare');

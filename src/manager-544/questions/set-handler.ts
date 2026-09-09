@@ -54,7 +54,7 @@ const bodySchema = z.object({
 });
 
 const MAX_TOKENS = 4096;
-const TEMPERATURE = 0.5;
+// No `temperature`: Sonnet 5 rejects it (400 "`temperature` is deprecated for this model").
 
 export const MISSING_ID_MESSAGE = 'conversationId sau sessionId este obligatoriu';
 export const NO_QUESTIONS_MESSAGE = 'Modelul nu a produs întrebări. Reîncearcă.';
@@ -127,7 +127,6 @@ export function createGenerateSetHandler(getDeps: () => GenerateSetDeps) {
       const response = await client.messages.create({
         model,
         max_tokens: MAX_TOKENS,
-        temperature: TEMPERATURE,
         system: buildSetSystemPrompt(),
         tools: [EMIT_QUESTIONS_TOOL],
         tool_choice: { type: 'tool', name: EMIT_QUESTIONS_TOOL.name },
