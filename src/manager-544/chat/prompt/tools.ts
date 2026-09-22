@@ -9,7 +9,20 @@ import type Anthropic from '@anthropic-ai/sdk';
 
 export const RAG_SEARCH_TOOL = 'rag_search';
 export const WEB_SEARCH_MAX_USES = 5;
-export const WEB_FETCH_MAX_USES = 3;
+
+/**
+ * Bugetul de deschideri de pagină. A fost 3 şi nu ajungea când prima instituţie ghicită e
+ * greşită — cazul obişnuit, nu unul exotic: competenţele se mută între instituţii, iar modelul
+ * află asta abia deschizând pagina celei vechi. La groapa din Piteşti, ADP anunţă pe propriul
+ * site că întreţinerea străzilor a trecut la altă societate; până identifica instituţia
+ * corectă, modelul rămânea fără deschideri pentru pagina ei de contact şi încheia turul
+ * spunând, corect dar inutil, că nu poate confirma o adresă şi că nu vrea să inventeze una.
+ *
+ * Adresa instituţiei este singurul lucru pe care STEP_2 trebuie să-l livreze, iar regula
+ * proiectului e că se citeşte din sursă, nu se ghiceşte. Un buget prea strâns transformă exact
+ * acea regulă într-un răspuns fără adresă.
+ */
+export const WEB_FETCH_MAX_USES = 6;
 
 const ragSearchTool: Anthropic.Messages.Tool = {
   name: RAG_SEARCH_TOOL,

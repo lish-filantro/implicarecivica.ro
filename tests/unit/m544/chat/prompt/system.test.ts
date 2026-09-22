@@ -53,7 +53,7 @@ describe('buildSystemPrompt', () => {
 });
 
 describe('buildTools', () => {
-  it('defines rag_search (custom), web_search (server-side, max 5) and web_fetch (server-side, max 3)', () => {
+  it('defines rag_search (custom), web_search (server-side, max 5) and web_fetch (server-side, max 6)', () => {
     const tools = buildTools();
     expect(tools).toHaveLength(3);
     const rag = tools[0] as Anthropic.Messages.Tool;
@@ -64,6 +64,8 @@ describe('buildTools', () => {
     expect(Object.keys(rag.input_schema.properties ?? {})).toEqual(['query', 'top_k', 'localitate', 'judet']);
     expect(rag.input_schema.required).toEqual(['query']);
     expect(tools[1]).toEqual({ type: 'web_search_20260209', name: 'web_search', max_uses: 5 });
-    expect(tools[2]).toEqual({ type: 'web_fetch_20260209', name: 'web_fetch', max_uses: 3, max_content_tokens: 20_000 });
+    // 6, nu 3: cu 3 deschideri modelul rămâne fără buget când prima instituţie ghicită e greşită
+    // şi încheie turul fără adresa instituţiei — vezi comentariul din prompt/tools.ts.
+    expect(tools[2]).toEqual({ type: 'web_fetch_20260209', name: 'web_fetch', max_uses: 6, max_content_tokens: 20_000 });
   });
 });

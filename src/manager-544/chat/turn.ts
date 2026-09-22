@@ -7,7 +7,7 @@ import { sanitizeMessage } from '@m544/chat/guardrails/injection';
 import type { Step } from '@m544/chat/guardrails/steps';
 import { getStepGuardrail } from '@m544/chat/prompt/step-guardrails';
 import { buildSystemPrompt } from '@m544/chat/prompt/system';
-import { buildTools, RAG_SEARCH_TOOL } from '@m544/chat/prompt/tools';
+import { buildTools, RAG_SEARCH_TOOL, WEB_FETCH_MAX_USES, WEB_SEARCH_MAX_USES } from '@m544/chat/prompt/tools';
 import { createRagSearchExecutor, type SearchInstitutiiFn } from '@m544/chat/rag/tool-executor';
 import type { KnownInstitutionLookup } from '@m544/chat/rag/known-institutions';
 import { chatModel, type MessagesClient } from '@m544/chat/anthropic/client';
@@ -65,6 +65,18 @@ export async function runChatTurn(input: TurnInput, deps: TurnDeps): Promise<Cha
   const parsed = parseAnthropicResponse(response);
   const { text, sources, institution } = postProcessResponse(parsed, step);
 
+  const fetches = webFetchCount(response.usage);
+  const searches = webSearchCount(response.usage);
+  // Bugetul epuizat înseamnă că modelul a încheiat turul cu ce apucase să citească, nu cu ce
+  // avea nevoie — de obicei fără adresa instituţiei. Fără linia asta, singurul semn rămâne o
+  // propoziţie politicoasă în textul răspunsului, pe care n-o vede nimeni.
+  if (fetches >= WEB_FETCH_MAX_USES) {
+    console.warn(`[Chat] ${step}: buget de web_fetch epuizat (${fetches}/${WEB_FETCH_MAX_USES})`);
+  }
+  if (searches >= WEB_SEARCH_MAX_USES) {
+    console.warn(`[Chat] ${step}: buget de web_search epuizat (${searches}/${WEB_SEARCH_MAX_USES})`);
+  }
+
   return {
     response: text,
     sources,
@@ -72,8 +84,8 @@ export async function runChatTurn(input: TurnInput, deps: TurnDeps): Promise<Cha
     model: chatModel(),
     conversationId: input.conversationId || null,
     toolIterations: iterations,
-    webSearchCount: webSearchCount(response.usage),
-    webFetchCount: webFetchCount(response.usage),
+    webSearchCount: searches,
+    webFetchCount: fetches,
     institution,
     _debug: { step, context: { ce: context.ce, unde: context.unde, localitate } },
   };
