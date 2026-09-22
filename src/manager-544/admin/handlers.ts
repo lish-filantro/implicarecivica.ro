@@ -15,11 +15,19 @@ import { z } from 'zod';
 import { requireAdmin, type AuthDeps } from '@m544/shared/auth';
 import { json, parseJsonBody, withErrorBoundary } from '@m544/shared/http';
 import { loadAdminStats, type AdminStatsRepo } from './stats';
-import { listPendingUsers, approveUser, rejectUser, type AdminUsersRepo } from './users';
+import {
+  listPendingUsers,
+  approveUser,
+  rejectUser,
+  type AdminUsersRepo,
+  type ApprovalMailer,
+} from './users';
 
 export interface AdminDeps extends AuthDeps {
   stats: AdminStatsRepo;
   users: AdminUsersRepo;
+  /** Absent in tests: the approval then runs without the confirmation email. */
+  approvalMailer?: ApprovalMailer;
   now?: () => Date;
 }
 
@@ -48,7 +56,7 @@ export function createPendingUsersHandler(getDeps: AdminDepsFactory) {
 function createUserActionHandler(
   getDeps: AdminDepsFactory,
   label: string,
-  action: (repo: AdminUsersRepo, userId: string) => Promise<void>,
+  action: (deps: AdminDeps, userId: string) => Promise<void>,
 ) {
   return withErrorBoundary(async (request: NextRequest) => {
     const deps = getDeps();
@@ -58,15 +66,19 @@ function createUserActionHandler(
     const body = await parseJsonBody(request, userIdBodySchema);
     if (!body.ok) return body.response;
 
-    await action(deps.users, body.data.userId);
+    await action(deps, body.data.userId);
     return json({ success: true });
   }, label);
 }
 
 export function createApproveUserHandler(getDeps: AdminDepsFactory) {
-  return createUserActionHandler(getDeps, 'admin/users/approve', approveUser);
+  return createUserActionHandler(getDeps, 'admin/users/approve', (deps, userId) =>
+    approveUser(deps.users, userId, deps.approvalMailer),
+  );
 }
 
 export function createRejectUserHandler(getDeps: AdminDepsFactory) {
-  return createUserActionHandler(getDeps, 'admin/users/reject', rejectUser);
+  return createUserActionHandler(getDeps, 'admin/users/reject', (deps, userId) =>
+    rejectUser(deps.users, userId),
+  );
 }

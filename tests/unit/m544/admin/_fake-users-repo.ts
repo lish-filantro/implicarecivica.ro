@@ -33,6 +33,14 @@ export class FakeAdminUsersRepo implements AdminUsersRepo {
       .map(({ approved: _approved, ...p }) => p);
   }
 
+  async getProfile(id: string): Promise<PendingProfile | null> {
+    this.check();
+    const p = this.profiles.get(id);
+    if (!p) return null;
+    const { approved: _approved, ...rest } = p;
+    return rest;
+  }
+
   async getAuthEmail(id: string): Promise<string | null> {
     this.check();
     this.emailLookups++;
