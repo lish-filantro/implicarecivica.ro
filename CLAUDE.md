@@ -59,8 +59,9 @@ expect(screen.queryByRole('link', { name: /notificări/i })).toBeNull();
 - **Numărul migrării se alocă în planul de lucru, nu de către tine.** Dacă ai nevoie de o migrare
   și planul nu ți-a dat un număr, oprește-te și cere-l — doi agenți care aleg „următorul liber"
   produc două fișiere `019_`.
-- Migrările se aplică manual de către owner. `018_conversation_handoff.sql` este **neaplicată**
-  la data scrierii; nu presupune că schema din DB o include.
+- Migrările se aplică manual de către owner. Ultima din repo, `018_conversation_handoff.sql`,
+  **este aplicată** (verificat pe 2026-09-22: coloana `conversations.handoff` există). Nu
+  presupune nimic despre o migrare nouă până nu o verifici — interoghează coloana.
 
 ## Termenele Legii 544/2001
 
