@@ -582,10 +582,19 @@ recalculat, nu `14z`.
 
 ### Task 4: Răspunsurile necorelate ajung la revizuire manuală
 
-> **⛔ NU EXECUTA ACEST TASK.** Din 2026-09-22, owner-ul lucrează el la F4, în paralel. Niciun
-> agent nu are voie să atingă `src/manager-544/pipeline/process-email.ts`,
-> `src/manager-544/pipeline/matching/**` sau `src/manager-544/ui/emails/review/**`. Paşii de mai
-> jos rămân scrişi ca referinţă pentru analiza cauzei, nu ca sarcină de lucru.
+> **⛔ NU EXECUTA ACEST TASK — e deja rezolvat, altfel decât mai jos.** Owner-ul l-a implementat
+> el, în paralel, pe 2026-09-22. Paşii rămân scrişi doar ca istoric al analizei cauzei.
+>
+> **Ce s-a construit efectiv, şi de ce e mai bun decât ce propuneam aici:** garda stă la locul
+> apelului — [`process-email.ts:168`](../../src/manager-544/pipeline/process-email.ts) sare peste
+> potrivire pentru `irelevant`, deci orice email care ajunge la `matchAndUpdate` este deja
+> corespondenţă relevantă şi se marchează necondiţionat `needs_review` când nu se potriveşte.
+> Planul propunea o listă de categorii înăuntrul lui `matchAndUpdate`; varianta owner-ului nu
+> duplică cunoaşterea despre categorii în două locuri.
+>
+> Pe deasupra, atribuirea manuală a fost dusă mai departe decât cerea planul: `ReviewPanel` a
+> devenit `AssignPanel`, cu selecţie sesiune → întrebare şi sugestie din adresa expeditorului
+> ([`ui/emails/review/assignable.ts`](../../src/manager-544/ui/emails/review/assignable.ts)).
 
 **Findings:** F4.
 
