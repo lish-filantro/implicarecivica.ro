@@ -33,16 +33,31 @@ describe('useDashboardData', () => {
     expect(result.current.unreadCount).toBe(4);
   });
 
-  it('prefers display_name and falls back to empty string without a profile', async () => {
-    const named = renderHook(() =>
+  it('foloseşte prenumele din profil, nu numele complet', async () => {
+    const { result } = renderHook(() =>
       useDashboardData({
         loadSessions: async () => [],
-        loadProfile: async () => ({ ...profile, display_name: 'Ana P.' }),
+        loadProfile: async () => ({ ...profile, display_name: 'Irina Bogdan', first_name: 'Irina' }),
         loadUnreadCount: async () => 0,
       }),
     );
-    await waitFor(() => expect(named.result.current.loading).toBe(false));
-    expect(named.result.current.userName).toBe('Ana P.');
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.userName).toBe('Irina');
+  });
+
+  it('cade pe primul cuvânt din numele afişat când prenumele lipseşte', async () => {
+    const { result } = renderHook(() =>
+      useDashboardData({
+        loadSessions: async () => [],
+        loadProfile: async () => ({ ...profile, display_name: 'Irina Bogdan', first_name: null }),
+        loadUnreadCount: async () => 0,
+      }),
+    );
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.userName).toBe('Irina');
+  });
+
+  it('falls back to an empty string without a profile', async () => {
 
     const anonymous = renderHook(() =>
       useDashboardData({

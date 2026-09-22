@@ -51,11 +51,9 @@ export function useDashboardData(loaders: Partial<DashboardLoaders> = {}): Dashb
         ]);
         if (cancelled) return;
         setSessions(sessionsData);
-        setUserName(
-          profile?.display_name
-          || profile?.first_name
-          || ''
-        );
+        // Prenumele, nu numele complet: pe mobil „Bun venit, Irina Bogdan!" se rupea pe
+        // două rânduri peste cardurile de sub el.
+        setUserName(profile?.first_name?.trim() || profile?.display_name?.trim().split(/\s+/)[0] || '');
         setUnreadCount(unread);
       } catch (err) {
         console.error('Failed to load dashboard:', err);
