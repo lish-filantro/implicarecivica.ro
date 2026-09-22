@@ -8,6 +8,7 @@ import {
   createAnthropicAnalysisClient,
   HAIKU_ANALYSIS_MODEL,
   ANTHROPIC_MAX_TOKENS,
+  MAX_PDF_BYTES,
   type AnthropicMessagesSdk,
 } from '@m544/pipeline/analysis/providers/anthropic';
 import { EnvError } from '@m544/shared/env';
@@ -88,5 +89,41 @@ describe('createAnthropicAnalysisClient', () => {
     vi.stubEnv('ANTHROPIC_API_KEY', '');
     const client = createAnthropicAnalysisClient({ apiKey: 'sk-ant-test-key-0123456789' });
     expect(typeof client.complete).toBe('function');
+  });
+
+  describe('PDF ataşat', () => {
+    const pdf = new TextEncoder().encode('%PDF-1.4 conţinut de test');
+
+    it('trimite PDF-ul ca bloc document, înaintea textului', async () => {
+      const sdk = fakeSdk(message([textBlock('{"category":"raspunse"}')]));
+      await createAnthropicAnalysisClient({ sdk }).complete('S', 'U', pdf);
+
+      const content = sdk.calls[0].messages[0].content;
+      expect(Array.isArray(content)).toBe(true);
+      const blocks = content as unknown as Array<Record<string, unknown>>;
+      // Documentaţia cere blocul document înaintea textului.
+      expect(blocks.map((b) => b.type)).toEqual(['document', 'text']);
+      expect(blocks[0].source).toEqual({
+        type: 'base64',
+        media_type: 'application/pdf',
+        data: Buffer.from(pdf).toString('base64'),
+      });
+      expect(blocks[1]).toEqual({ type: 'text', text: 'U' });
+    });
+
+    it('trimite textul simplu când nu există PDF', async () => {
+      const sdk = fakeSdk(message([textBlock('{"category":"raspunse"}')]));
+      await createAnthropicAnalysisClient({ sdk }).complete('S', 'U');
+      expect(sdk.calls[0].messages[0].content).toBe('U');
+    });
+
+    it('refuză un PDF peste limita de mărime a cererii, cu un mesaj care spune cât', async () => {
+      const sdk = fakeSdk(message([textBlock('{}')]));
+      const uriaş = new Uint8Array(MAX_PDF_BYTES + 1);
+      await expect(createAnthropicAnalysisClient({ sdk }).complete('S', 'U', uriaş)).rejects.toThrow(
+        /PDF prea mare/,
+      );
+      expect(sdk.calls).toHaveLength(0);
+    });
   });
 });

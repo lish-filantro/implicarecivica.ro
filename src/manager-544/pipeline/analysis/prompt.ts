@@ -72,7 +72,10 @@ Răspunde DOAR cu obiectul JSON, fără text înainte sau după și fără markd
 export interface AnalysisInput {
   subject: string;
   body: string;
+  /** Text extras de un OCR extern — doar pentru furnizorii care nu citesc PDF-uri. */
   ocrText?: string;
+  /** Octeţii ataşamentului PDF, citit nativ de furnizorii care ştiu (vezi `AnalysisClient`). */
+  pdf?: Uint8Array;
   fromEmail: string;
 }
 
@@ -85,7 +88,10 @@ export function buildAnalysisUserMessage(input: AnalysisInput): string {
   if (input.body) {
     parts.push(`\nConținut email:\n${input.body.slice(0, BODY_LIMIT)}`);
   }
-  if (input.ocrText) {
+  if (input.pdf) {
+    // Documentul e ataşat mesajului; îi spunem modelului să-l citească de acolo.
+    parts.push('\nRăspunsul instituției are un document PDF atașat acestui mesaj. Citește-l.');
+  } else if (input.ocrText) {
     parts.push(`\nConținut PDF (OCR):\n${input.ocrText.slice(0, OCR_LIMIT)}`);
   }
   return parts.join('\n');

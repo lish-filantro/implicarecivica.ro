@@ -1,6 +1,6 @@
 /**
  * Orchestration of one received email:
- *   1. load          2. OCR (if PDF, once)      3. analysis (classification)
+ *   1. load          2. ataşamentul PDF         3. analysis (classification, citeşte PDF-ul)
  *   4. matching      5. status update           6. mark completed / schedule retry
  *
  * All I/O goes through injected deps so the whole flow is unit-testable.
@@ -12,7 +12,7 @@ import type { InstitutionsRepo } from '@m544/shared/db/institutions-repo';
 import type { Email } from '@m544/shared/types/email';
 import { htmlToText } from '@m544/shared/utils/html-to-text';
 import { extractEmail } from '@m544/inbound/webhook/addresses';
-import { runOcrFromBytes, type OcrResult } from '@m544/pipeline/ocr';
+import type { OcrResult } from '@m544/pipeline/ocr';
 import { analyzeEmailContent, type AnalysisInput } from '@m544/pipeline/analysis';
 import { matchEmailToRequest, autoHealRegistrationNumber } from '@m544/pipeline/matching';
 import { applyStatusUpdate } from '@m544/pipeline/status';
@@ -24,6 +24,7 @@ export interface ProcessDeps {
   emails: EmailsRepo;
   requests: RequestsRepo;
   storage: StorageRepo;
+  /** Ieşire de siguranţă: când e dat, PDF-ul trece printr-un OCR extern în loc să ajungă la model. */
   ocr?: (pdfBytes: Uint8Array) => Promise<OcrResult>;
   analyze?: (input: AnalysisInput) => Promise<AnalysisResult>;
   /** Learns the institution's real address from matched answers (institutii_locale); optional, best-effort. */
@@ -42,28 +43,50 @@ export interface ProcessResult {
   error?: string;
 }
 
-async function runOcrStep(email: Email, deps: ProcessDeps): Promise<string> {
-  if (!email.pdf_file_path) return '';
-  if (email.ocr_processed) return email.ocr_text ?? '';
-  try {
+/**
+ * Ataşamentul PDF, în forma pe care o aşteaptă clasificarea.
+ *
+ * Implicit îl dăm modelului ca atare: Claude redă fiecare pagină şi ca imagine, şi ca text
+ * extras, deci ştampilele, semnăturile şi numerele de înregistrare scrise de mână — exact
+ * datele pe care se sprijină potrivirea — nu se mai pierd la transcriere. Nu mai există un
+ * pas de OCR separat, deci nici eşecul lui tăcut: o eroare aici opreşte procesarea şi
+ * emailul rămâne reluabil, în loc să fie clasificat doar după subiect şi marcat `completed`.
+ *
+ * `deps.ocr` rămâne ca ieşire de siguranţă: când e injectat (teste, sau un furnizor de
+ * analiză care nu citeşte documente), se păstrează vechiul flux prin OCR şi textul se
+ * memorează în `ocr_text`.
+ */
+async function loadPdfForAnalysis(
+  email: Email,
+  deps: ProcessDeps,
+): Promise<{ pdf?: Uint8Array; ocrText?: string }> {
+  if (!email.pdf_file_path) return {};
+
+  if (deps.ocr) {
+    if (email.ocr_processed) return { ocrText: email.ocr_text ?? '' };
     const bytes = await deps.storage.download(email.pdf_file_path);
     if (!bytes) {
       console.warn(`[Process] PDF not found in storage: ${email.pdf_file_path}`);
-      return '';
+      return {};
     }
-    const result = await (deps.ocr ?? runOcrFromBytes)(bytes);
+    const result = await deps.ocr(bytes);
     await deps.emails.update(email.id, {
       ocr_text: result.markdown,
       ocr_processed: true,
       ocr_processed_at: new Date().toISOString(),
       ai_extracted_data: { ...(email.ai_extracted_data ?? {}), ocr: { pages: result.pages, docSizeBytes: result.docSizeBytes } },
     });
-    return result.markdown;
-  } catch (err) {
-    // OCR is best-effort: classification can still run on subject + body.
-    console.error(`[Process] OCR failed for ${email.id}:`, err instanceof Error ? err.message : err);
-    return '';
+    return { ocrText: result.markdown };
   }
+
+  const bytes = await deps.storage.download(email.pdf_file_path);
+  if (!bytes) {
+    // Lipsa fişierului din storage nu e o eroare trecătoare: o reîncercare n-ar schimba
+    // nimic, deci clasificăm pe subiect şi corp în loc să blocăm emailul în retry.
+    console.warn(`[Process] PDF not found in storage: ${email.pdf_file_path}`);
+    return {};
+  }
+  return { pdf: bytes };
 }
 
 async function saveAnalysis(email: Email, analysis: AnalysisResult, deps: ProcessDeps): Promise<void> {
@@ -103,10 +126,12 @@ async function matchAndUpdate(
     deps,
   );
 
+  // Every unmatched email reaching here is relevant correspondence ('irelevant' never gets
+  // matched): flag it so it surfaces in "De revizuit" instead of sitting silently in the inbox.
   if (!outcome.match) {
-    if (outcome.needsReview) await deps.emails.update(email.id, { needs_review: true });
+    await deps.emails.update(email.id, { needs_review: true });
     console.log(`[Process] ${email.id}: no match (${outcome.reason})`);
-    return { needsReview: outcome.needsReview };
+    return { needsReview: true };
   }
 
   const { requestId, strategy } = outcome.match;
@@ -154,11 +179,12 @@ export async function processEmail(emailId: string, deps: ProcessDeps): Promise<
   try {
     await deps.emails.update(emailId, { processing_status: 'processing' });
 
-    const ocrText = await runOcrStep(email, deps);
+    const { pdf, ocrText } = await loadPdfForAnalysis(email, deps);
     const analysis = await (deps.analyze ?? analyzeEmailContent)({
       subject: email.subject,
       body: htmlToText(email.body ?? ''),
       ocrText: ocrText || undefined,
+      pdf,
       fromEmail: email.from_email,
     });
     await saveAnalysis(email, analysis, deps);

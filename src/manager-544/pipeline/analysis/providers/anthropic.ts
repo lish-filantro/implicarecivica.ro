@@ -13,6 +13,14 @@ import type { AnalysisClient } from '../client';
 export const HAIKU_ANALYSIS_MODEL = 'claude-haiku-4-5-20251001';
 export const ANTHROPIC_MAX_TOKENS = 2048;
 
+/**
+ * Plafonul API-ului e de 32 MB pe întreaga cerere; lăsăm loc pentru prompt şi pentru
+ * creşterea de ~33% a codării base64. Un PDF peste limită opreşte apelul cu o eroare
+ * explicită, în loc să fie tăcut ignorat — emailul ajunge atunci în `failed`, cu motivul
+ * scris în `error_log`, unde se poate vedea şi acţiona.
+ */
+export const MAX_PDF_BYTES = 20 * 1024 * 1024;
+
 /** Low temperature for deterministic extraction. */
 const ANALYSIS_TEMPERATURE = 0.1;
 
@@ -44,15 +52,40 @@ export function createAnthropicAnalysisClient(opts: AnthropicAnalysisOptions = {
   const sdk = opts.sdk ?? new Anthropic({ apiKey: opts.apiKey ?? requireSecret('ANTHROPIC_API_KEY') });
 
   return {
-    async complete(system, user) {
+    async complete(system, user, pdf) {
       const response = await sdk.messages.create({
         model,
         max_tokens: ANTHROPIC_MAX_TOKENS,
         temperature: ANALYSIS_TEMPERATURE,
         system,
-        messages: [{ role: 'user', content: user }],
+        messages: [{ role: 'user', content: userContent(user, pdf) }],
       });
       return textOf(response);
     },
   };
+}
+
+/**
+ * Textul singur când nu e ataşament; altfel blocul `document` ÎNAINTEA textului —
+ * ordinea cerută de documentaţie. Serverul redă fiecare pagină ca imagine şi îi dă
+ * modelului şi textul extras, deci ştampilele, semnăturile şi numerele de înregistrare
+ * scrise de mână rămân vizibile, spre deosebire de un OCR care întoarce doar text.
+ */
+function userContent(
+  user: string,
+  pdf?: Uint8Array,
+): Anthropic.Messages.MessageParam['content'] {
+  if (!pdf) return user;
+  if (pdf.byteLength > MAX_PDF_BYTES) {
+    throw new Error(
+      `PDF prea mare pentru analiză: ${Math.round(pdf.byteLength / 1024 / 1024)} MB > ${MAX_PDF_BYTES / 1024 / 1024} MB`,
+    );
+  }
+  return [
+    {
+      type: 'document',
+      source: { type: 'base64', media_type: 'application/pdf', data: Buffer.from(pdf).toString('base64') },
+    },
+    { type: 'text', text: user },
+  ];
 }

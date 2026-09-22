@@ -14,6 +14,7 @@ export {
   createAnthropicAnalysisClient,
   HAIKU_ANALYSIS_MODEL,
   ANTHROPIC_MAX_TOKENS,
+  MAX_PDF_BYTES,
   type AnthropicAnalysisOptions,
   type AnthropicMessagesSdk,
 } from './providers/anthropic';
@@ -33,6 +34,7 @@ export {
   normalizeCategory,
   parseAnswerSummary,
   toAnalysisResult,
+  type ToAnalysisResultOptions,
 } from './parse';
 export { withRetry, errorStatus, isRetryableStatus, type RetryOptions } from './retry';
 export type { AnalysisResult } from '@m544/pipeline/types';

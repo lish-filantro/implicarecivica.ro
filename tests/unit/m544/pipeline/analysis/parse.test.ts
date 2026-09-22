@@ -179,3 +179,31 @@ describe('toAnalysisResult', () => {
     expect(result.confidence).toBe(0.75);
   });
 });
+
+describe('toAnalysisResult — gardă anti-halucinaţie cu document ataşat', () => {
+  const parsed = {
+    category: 'inregistrate',
+    registration_number: '9680/RP',
+    evidence: 'Nr. inregistrare: 9680/RP din 04.12.2025',
+  };
+
+  it('respinge numărul absent din text când nu e ataşat niciun document', () => {
+    // Calea cu OCR: corpusul rămâne strict textul independent.
+    expect(toAnalysisResult(parsed, 'Subiect: Re: Cerere').registration_number).toBeNull();
+  });
+
+  it('acceptă numărul care apare în citatul verbatim, când documentul e ataşat', () => {
+    // Fără asta, orice număr citit dintr-un PDF trimis nativ ar fi respins: documentul nu
+    // mai face parte din textul analizat.
+    expect(
+      toAnalysisResult(parsed, 'Subiect: Re: Cerere', { documentAttached: true }).registration_number,
+    ).toBe('9680/RP');
+  });
+
+  it('respinge numărul inventat, care nu apare nici măcar în propriul citat', () => {
+    const halucinat = { ...parsed, registration_number: '77777/2026' };
+    expect(
+      toAnalysisResult(halucinat, 'Subiect: Re: Cerere', { documentAttached: true }).registration_number,
+    ).toBeNull();
+  });
+});
