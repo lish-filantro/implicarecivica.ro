@@ -16,6 +16,17 @@ function categorizeNivel(nivel: string): NivelCategorie {
   return 'Local'
 }
 
+/**
+ * Scoate placeholderele (`{JUDET}`, `{LOCALITATE}`, ...) din numele unui template.
+ *
+ * Placeholderul se înlocuieşte cu un SPAŢIU, nu cu nimic: varianta veche consuma şi spaţiile
+ * vecine, iar „Comisariatul Județului {JUDET} al Gărzii..." devenea „Comisariatul Județuluial
+ * Gărzii...". Spaţiile rămase se colapsează la final.
+ */
+function stripPlaceholders(name: string): string {
+  return name.replace(/\{[^}]*\}/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 let cachedInstitutii: Institutie[] | null = null
 
 export function getAllInstitutii(): Institutie[] {
@@ -38,11 +49,13 @@ export function getAllInstitutii(): Institutie[] {
         slug: toSlug(id),
         tip_institutie: raw.tip_institutie,
         nivel: raw.nivel,
+        // Un template al cărui nume era numai placeholdere (`{TIP_SCOALA} {NUME_SCOALA}`) ar
+        // rămâne fără etichetă în lista de căutare; cade pe tipul instituţiei.
         nume_oficial: isTemplate
-          ? (raw.nume_oficial || '').replace(/\s*\{.*?\}\s*/g, '').trim()
+          ? stripPlaceholders(raw.nume_oficial || '') || raw.tip_institutie || id
           : (raw.nume_oficial || raw.nume_scurt || id),
         nume_scurt: isTemplate
-          ? (raw.nume_scurt || raw.nume_oficial || '').replace(/\s*\{.*?\}\s*/g, '').trim()
+          ? stripPlaceholders(raw.nume_scurt || raw.nume_oficial || '') || raw.tip_institutie || id
           : (raw.nume_scurt || raw.nume_oficial || id),
         aplicabilitate: raw.aplicabilitate,
         sediu: raw.sediu,
