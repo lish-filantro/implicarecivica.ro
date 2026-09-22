@@ -36,6 +36,26 @@ Se aplică implicit la **fiecare** task de mai jos.
 - **Româna cu diacritice** în textele de interfață. Urmează stilul fișierului pe care îl editezi.
 - **Suita Playwright nu se rulează în paralel** și nu se rulează per task — o singură dată, la final.
 
+### Corecții învățate în L1 și L4 (2026-09-22) — citește-le înainte de orice test nou
+
+Snippetele de test din task-urile de mai jos au fost scrise fără a fi rulate. Cinci lucruri au
+ieșit la iveală; nu le repeta:
+
+1. **`@testing-library/jest-dom` NU e instalat.** `toBeInTheDocument`, `toHaveAttribute`,
+   `toHaveTextContent` dau `TypeError`. Scrie `el.getAttribute(...)`, `el.textContent`,
+   `expect(x).toBeNull()`. **Nu instala pachetul.**
+2. **`@testing-library/user-event` NU e instalat.** Folosește `fireEvent` din
+   `@testing-library/react`.
+3. **jsdom nu implementează `window.matchMedia`.** Orice componentă care randează
+   `DarkModeToggle` are nevoie de un stub în `beforeAll`, altfel testul pică din alt motiv decât
+   cel testat — un roșu fals-pozitiv. Model în `tests/unit/public/components/PublicNavbar.test.tsx`.
+4. **Verifică dacă testul există deja înainte să-l „creezi".** La Task 8, fișierul exista și
+   afirma explicit comportamentul vechi; un al doilea fișier ar fi lăsat suita roșie. La fel,
+   caută testele existente care afirmă comportamentul pe care îl schimbi — Task 5 a spart unul.
+5. **Deschide componenta înainte să scrii props în test.** Snippetul pentru `PreviewModal` folosea
+   `selectedQuestions`, dar componenta primește `wizard`. Folosește fixturile din fișierul vecin,
+   nu obiecte fabricate cu `as unknown as`.
+
 ## Structura fișierelor
 
 **Create:**
