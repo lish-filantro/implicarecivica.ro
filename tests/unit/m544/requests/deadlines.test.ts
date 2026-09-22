@@ -2,13 +2,15 @@
  * requests/utils/deadlines — deadline arithmetic. The `…At` variants take an
  * explicit clock; the legacy one-argument functions delegate to them with the
  * real clock and must stay usable as `filter` callbacks.
- * Dates are built with the local-time constructor so the tests are TZ-independent.
+ * A stored deadline is a calendar day encoded as the end of that day in UTC and is read on its
+ * UTC date component; `now` and `date_sent` are real instants and are read on the Romanian
+ * calendar day (see shared/utils/legal-days). The fixtures are built with `Date.UTC` so the
+ * tests state instants explicitly and do not depend on the machine's `TZ`.
  */
 import { describe, it, expect } from 'vitest';
 import {
   getEffectiveDeadline,
   getDaysUntilDeadline,
-  getBusinessDaysUntilDeadline,
   isCriticalAt,
   isOverdueAt,
   daysSinceSentAt,
@@ -18,14 +20,10 @@ import {
 } from '@m544/requests/utils/deadlines';
 import type { Request } from '@m544/shared/types/request';
 
-const local = (y: number, m: number, d: number, h = 0) => new Date(y, m - 1, d, h);
-const iso = (y: number, m: number, d: number, h = 0) => local(y, m, d, h).toISOString();
-const NOW = local(2026, 9, 8, 10); // 2026-09-08 10:00 local
-const daysFromToday = (n: number) => {
-  const d = new Date();
-  d.setDate(d.getDate() + n);
-  return d.toISOString();
-};
+const utc = (y: number, m: number, d: number, h = 0, min = 0) => new Date(Date.UTC(y, m - 1, d, h, min));
+const iso = (y: number, m: number, d: number, h = 0) => utc(y, m, d, h).toISOString();
+const NOW = utc(2026, 9, 8, 10); // 2026-09-08 10:00 UTC
+const daysFromToday = (n: number) => new Date(Date.now() + n * 86_400_000).toISOString();
 
 const req = (partial: Partial<Request> = {}): Request => ({
   id: 'r1',
@@ -48,7 +46,7 @@ describe('getEffectiveDeadline', () => {
 });
 
 describe('getDaysUntilDeadline', () => {
-  it('counts whole days between local midnights', () => {
+  it('counts whole days between the deadline day and the Romanian day of now', () => {
     expect(getDaysUntilDeadline(iso(2026, 9, 11, 23), NOW)).toBe(3);
     expect(getDaysUntilDeadline(iso(2026, 9, 8, 1), NOW)).toBe(0);
     expect(getDaysUntilDeadline(iso(2026, 9, 7, 23), NOW)).toBe(-1);
@@ -60,26 +58,33 @@ describe('getDaysUntilDeadline', () => {
   });
 });
 
-describe('getBusinessDaysUntilDeadline', () => {
-  const nowUtc = new Date('2026-09-08T10:00:00.000Z'); // Tuesday
+/**
+ * `now` is a real instant, so its day is the Romanian calendar day; the stored deadline is an
+ * encoded day (`…T23:59:59.999Z`) and keeps its UTC date component. Mixing the two up showed a
+ * user in Romania "0 days left" at 01:30 local on a deadline that had expired the day before.
+ */
+describe('the current instant is read on the Romanian calendar day', () => {
+  // 2026-09-18T22:30Z = 19 September, 01:30 in Romania (UTC+3).
+  const pastMidnightInRomania = utc(2026, 9, 18, 22, 30);
+  const deadline = '2026-09-18T23:59:59.999Z';
 
-  it('counts business days (UTC dates), skipping weekends and holidays', () => {
-    expect(getBusinessDaysUntilDeadline('2026-09-22T10:00:00.000Z', nowUtc)).toBe(10);
-    expect(getBusinessDaysUntilDeadline('2026-09-14T01:00:00.000Z', nowUtc)).toBe(4); // Wed..Fri + Mon
-    expect(getBusinessDaysUntilDeadline('2026-09-13T01:00:00.000Z', nowUtc)).toBe(3); // Sunday deadline
-    expect(getBusinessDaysUntilDeadline('2026-04-14T08:00:00.000Z', new Date('2026-04-09T08:00:00.000Z'))).toBe(1);
+  it('counts the deadline as yesterday once it is past midnight in Romania', () => {
+    expect(getDaysUntilDeadline(deadline, pastMidnightInRomania)).toBe(-1);
+    expect(isOverdueAt(req({ deadline_date: deadline }), pastMidnightInRomania)).toBe(true);
+    expect(isCriticalAt(req({ deadline_date: deadline }), pastMidnightInRomania)).toBe(false);
   });
 
-  it('is 0 on the deadline day and negative once past', () => {
-    expect(getBusinessDaysUntilDeadline('2026-09-08T23:00:00.000Z', nowUtc)).toBe(0);
-    expect(getBusinessDaysUntilDeadline('2026-09-04T10:00:00.000Z', nowUtc)).toBe(-2); // Fri → Mon, Tue
+  it('is still the deadline day two hours earlier, when Romania has not rolled over yet', () => {
+    const beforeMidnightInRomania = utc(2026, 9, 18, 20, 30); // 23:30 in Romania
+    expect(getDaysUntilDeadline(deadline, beforeMidnightInRomania)).toBe(0);
+    expect(isOverdueAt(req({ deadline_date: deadline }), beforeMidnightInRomania)).toBe(false);
   });
 
-  it('returns null without a deadline and is smaller than the calendar count over a weekend', () => {
-    expect(getBusinessDaysUntilDeadline(null, nowUtc)).toBeNull();
-    expect(getBusinessDaysUntilDeadline('', nowUtc)).toBeNull();
-    const calendar = getDaysUntilDeadline('2026-09-22T10:00:00.000Z', nowUtc)!;
-    expect(calendar).toBeGreaterThan(getBusinessDaysUntilDeadline('2026-09-22T10:00:00.000Z', nowUtc)!);
+  it('counts days since date_sent on the Romanian day of both instants', () => {
+    // date_sent 2026-09-10T21:30Z is already 11 September in Romania, so the request is 8 days
+    // old at noon on 19 September — on the UTC day it would have looked a day older.
+    const noonOn19 = utc(2026, 9, 19, 10);
+    expect(daysSinceSentAt(req({ date_sent: '2026-09-10T21:30:00.000Z' }), noonOn19)).toBe(8);
   });
 });
 

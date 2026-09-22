@@ -47,7 +47,8 @@ function registered({ analysis, emailReceivedAt }: TransitionInput): TransitionP
   return plan(changes);
 }
 
-/** Extension: 30 business days in total from registration (extension_days = total, per HG 123/2002 art. 16). */
+/** Prelungire: 30 de zile calendaristice TOTAL de la înregistrare (plafon art. 7 alin. (1) din
+    Lege / art. 16 alin. (1) lit. c) din Norme); extension_days = totalul. */
 function extended({ current, analysis, emailReceivedAt }: TransitionInput): TransitionPlan {
   const base = current.date_received || emailReceivedAt;
   const changes: RequestPatch = {

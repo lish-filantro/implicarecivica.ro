@@ -22,7 +22,44 @@ Fișiere: `src/manager-544/pipeline/analysis/**`, `tests/unit/m544/pipeline/anal
 - Promptul: adaugă o linie „Răspunde DOAR cu obiectul JSON, fără text înainte sau după" (Haiku tinde să explice).
 - Testele de integrare pe cele 37 PDF-uri rulează pe furnizorul din env și scriu snapshot-ul în `tests/snapshots/classification-golden.<provider>.json`; testul compară cu golden-ul furnizorului curent. Lead-ul rulează integrarea pe Haiku și raportează scorul față de 56/58 (ministral).
 
-### WP-B — Termene în zile lucrătoare (sugestia 8)
+### WP-B — Termene în zile lucrătoare (sugestia 8) — ⛔ GREȘIT JURIDIC, vezi erata de mai jos
+
+> ## ⛔ ERATĂ — 11.09.2026: secțiunea WP-B de mai jos este GREȘITĂ juridic. Nu o folosiți ca sursă.
+>
+> **Ce s-a greșit.** WP-B a invocat art. 16 din Normele metodologice (HG 123/2002, modificate
+> prin HG 478/2016) ca temei pentru termene în „zile lucrătoare". **Art. 16 nu spune asta.**
+> Textul în vigoare — verificat pe textul actului modificator, HG 478/2016 pct. 11, publicat
+> în M. Of. nr. 516 din 8 iulie 2016 — spune „10 zile", „10 zile", „30 de zile", „5 zile",
+> fără calificativul „lucrătoare". La fel art. 7 alin. (1)-(2) din Legea 544/2001.
+> Sunt **zile calendaristice**.
+>
+> **De unde a venit eroarea.** Zeci de site-uri de instituții publice și unele randări HTML
+> ale unor edituri juridice reproduc greșit „10 zile lucrătoare". WP-B a preluat această
+> afirmație fără verificare la sursa normativă, iar de aici eroarea s-a propagat în
+> `business-days.ts`, `deadlines.ts`, teste, copy-ul UI, quiz și README — inclusiv într-un
+> test care *afirma* comportamentul greșit ca fiind corect
+> (`deadlines.test.ts`: „are computed with addBusinessDays, not calendar days"),
+> ceea ce a blindat eroarea împotriva corecturii.
+>
+> **Ce se aplică în locul WP-B.** Regula corectă este cea „pe zile libere", din art. 16
+> alin. (2)-(3) din Norme:
+> - alin. (2): termenele curg de la data înregistrării solicitării; **nu intră în calcul
+>   nici ziua de la care începe să curgă termenul, nici ziua când acesta se împlineşte**;
+> - alin. (3): **când ultima zi cade într-o zi nelucrătoare, termenul se prelungeşte până
+>   în prima zi lucrătoare care urmează**.
+>
+> Deci un termen de N zile pentru o cerere înregistrată în ziua D expiră la ora 24:00 a zilei
+> **D + N + 1 calendaristic**, rostogolit înainte dacă acea zi e sâmbătă, duminică sau
+> sărbătoare legală (Codul muncii art. 139). Cele 30 de zile sunt **plafon total de la
+> înregistrare** (art. 7 alin. (1): „în cel mult 30 de zile de la înregistrarea solicitării"),
+> **nu** 10 + 30.
+>
+> **Ce rămâne valabil din WP-B:** doar `holidays.ts` — lista sărbătorilor legale și
+> algoritmul de Paște ortodox sunt corecte și se păstrează, dar `isBusinessDay` își schimbă
+> rolul: nu mai numără zile, ci decide doar rostogolirea ultimei zile.
+>
+> Corectura, cu regula şi citatele: `src/manager-544/shared/utils/legal-days.ts`; cele 26 de
+> cazuri cu date exacte: `tests/fixtures/legal-deadline-oracle.ts`.
 
 Fișiere: `src/manager-544/shared/utils/{holidays,business-days}.ts`, `src/manager-544/pipeline/status/deadlines.ts`, `src/manager-544/requests/utils/deadlines.ts`, testele lor, `tests/e2e/**` și `tests/integration/matching*.test.ts` acolo unde verifică termene.
 

@@ -59,7 +59,7 @@ describe('planTransition — full table (viaThread, no registration number)', ()
 });
 
 describe('planTransition — inregistrate', () => {
-  it('sets registration number, date_received and the 10-business-day deadline', () => {
+  it('sets registration number, date_received and the 10-day legal deadline (termen de 10 zile)', () => {
     const plan = planTransition({
       current: { status: 'pending' },
       analysis: mkAnalysis({ category: 'inregistrate', registration_number: '123/2025' }),
@@ -87,7 +87,7 @@ describe('planTransition — inregistrate', () => {
 });
 
 describe('planTransition — amanate', () => {
-  it('extension is 30 business days from the existing date_received, extension_days = 30, reason kept', () => {
+  it('extension is 30 de zile calendaristice in total from the existing date_received, extension_days = 30, reason kept', () => {
     const plan = planTransition({
       current: { status: 'received', date_received: EARLIER },
       analysis: mkAnalysis({ category: 'amanate', extension_reason: 'volum mare' }),

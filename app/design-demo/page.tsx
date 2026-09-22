@@ -279,7 +279,7 @@ export default function DesignDemoPage() {
                     Informație Importantă
                   </p>
                   <p className="text-sm text-civic-blue-700 dark:text-civic-blue-300 mt-1">
-                    Conform Legii 544/2001, termenul de răspuns este de 10 zile lucrătoare.
+                    Conform Legii 544/2001, termenul de răspuns este de 10 zile de la înregistrarea cererii.
                   </p>
                 </div>
               </div>

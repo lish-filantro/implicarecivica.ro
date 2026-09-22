@@ -16,9 +16,9 @@ describe('HowItWorks', () => {
     }
   });
 
-  it('states the legal deadline in business days (Law 544 art. 7)', () => {
+  it('states the legal deadline in calendar days (Law 544 art. 7)', () => {
     render(<HowItWorks />);
-    expect(screen.getByText(/termenul legal de 10 zile lucrătoare/)).toBeTruthy();
-    expect(screen.queryByText(/30 de zile/)).toBeNull();
+    expect(screen.getByText(/termenul legal de 10 zile de la înregistrarea cererii/)).toBeTruthy();
+    expect(screen.queryByText(/zile lucrătoare/)).toBeNull();
   });
 });

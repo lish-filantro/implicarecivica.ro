@@ -29,11 +29,11 @@ export const questions: Question[] = [
     id: 2,
     category: 'legea544',
     categoryLabel: 'Legea 544/2001',
-    text: 'În câte zile lucrătoare trebuie să răspundă o instituție publică la o cerere de informații publice?',
+    text: 'În câte zile trebuie să răspundă o instituție publică la o cerere de informații publice?',
     options: ['5 zile', '10 zile', '15 zile', '30 zile'],
     correctIndex: 1,
     explanation:
-      'Termenul standard este de 10 zile lucrătoare, cu posibilitate de prelungire la 30 de zile pentru cereri complexe.',
+      'Termenul standard este de 10 zile calendaristice de la înregistrarea cererii. Instituția îl poate prelungi la cel mult 30 de zile — tot de la înregistrare, nu 10 plus 30 — numai dacă te înștiințează în scris în primele 10 zile. Weekendurile și sărbătorile legale se numără; dacă ultima zi cade într-una din ele, termenul se mută în prima zi lucrătoare.',
   },
   {
     id: 3,
@@ -178,7 +178,7 @@ export const questions: Question[] = [
     id: 12,
     category: 'practic',
     categoryLabel: 'Situații practice',
-    text: 'Ai depus o cerere de informații publice acum 15 zile lucrătoare și nu ai primit niciun răspuns. Ce drept ai?',
+    text: 'Ai depus o cerere de informații publice acum 15 zile și nu ai primit niciun răspuns. Ce drept ai?',
     options: [
       'Nu ai niciun drept, trebuie să aștepți',
       'Poți doar să depui altă cerere',
@@ -187,7 +187,7 @@ export const questions: Question[] = [
     ],
     correctIndex: 2,
     explanation:
-      'Dacă termenul de 10 zile a fost depășit, poți depune reclamație administrativă. Nu ai nevoie de avocat pentru asta.',
+      'Termenul de 10 zile a trecut și nu ai primit nici răspuns, nici înștiințare de prelungire — asta e refuz tacit. Poți depune reclamație administrativă la conducătorul instituției, în 30 de zile de la momentul în care ai aflat de refuz — aici, de la expirarea celor 10 zile, nu de la depunerea cererii. Nu ai nevoie de avocat pentru asta.',
   },
   {
     id: 13,

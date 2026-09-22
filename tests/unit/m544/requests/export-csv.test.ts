@@ -65,6 +65,22 @@ describe('sessionToCsv', () => {
     );
   });
 
+  /**
+   * The legal deadline is stored as the end of its day in UTC (`…T23:59:59.999Z`), and this
+   * export runs in the user's browser. Formatting it in local time shows the next day for
+   * every user in Romania (UTC+2/+3), so the deadline column is formatted with `timeZone: 'UTC'`.
+   * This case fails under `TZ=Europe/Bucharest` if that option is dropped.
+   */
+  it('renders an end-of-day deadline as its own day, whatever the browser time zone', () => {
+    const row = sessionToCsv(
+      session([request({ deadline_date: '2026-09-18T23:59:59.999Z' })]),
+      NOW,
+    ).split('\r\n')[1];
+    const cols = row.split(',');
+    expect(cols[7]).toBe('18.09.2026');
+    expect(cols[8]).toBe('10');
+  });
+
   it('uses extension_date as the deadline and response_received_date as fallback receipt date', () => {
     const row = sessionToCsv(
       session([
