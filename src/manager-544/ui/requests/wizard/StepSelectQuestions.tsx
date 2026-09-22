@@ -4,9 +4,10 @@ import React from 'react';
 import type { RequestWizard } from './useRequestWizard';
 import type { useQuestionGeneration } from './useQuestionGeneration';
 import { QuestionCategoryList } from '../questions/QuestionCategoryList';
+import { FreeQuestionEditor } from '../questions/FreeQuestionEditor';
 import { StickyActionBar } from './StickyActionBar';
 import { WizardSummaryCard } from './WizardSummaryCard';
-import { RECOMMENDED_MAX_SELECTED } from './types';
+import { CATEGORY_IDS, MANUAL_QUESTION_CATEGORY, RECOMMENDED_MAX_SELECTED } from './types';
 
 interface StepSelectQuestionsProps {
   wizard: RequestWizard;
@@ -16,6 +17,10 @@ interface StepSelectQuestionsProps {
   summary?: { onEdit: () => void };
 }
 
+/**
+ * Step 2. From the chat: the generated set, per category A–E, to pick from. Manual path: a free
+ * editor — without a generated set the categories were only five empty accordions (0/0).
+ */
 export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: StepSelectQuestionsProps) {
   return (
     <div className="space-y-6 pb-24">
@@ -23,7 +28,7 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
 
       <div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-          Selectează întrebările
+          {fromChat ? 'Selectează întrebările' : 'Întrebările tale'}
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {fromChat
@@ -57,7 +62,16 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
         </p>
       )}
 
-      <QuestionCategoryList wizard={wizard} isCategoryLoading={(cat) => questionGen.categories[cat].isLoading} />
+      {fromChat ? (
+        <QuestionCategoryList wizard={wizard} isCategoryLoading={(cat) => questionGen.categories[cat].isLoading} />
+      ) : (
+        <FreeQuestionEditor
+          questions={CATEGORY_IDS.flatMap((cat) => wizard.questions[cat])}
+          onAdd={(text) => wizard.addCustomQuestion(MANUAL_QUESTION_CATEGORY, text)}
+          onEdit={wizard.editQuestion}
+          onRemove={wizard.removeQuestion}
+        />
+      )}
 
       <StickyActionBar
         selectedCount={wizard.selectedCount}

@@ -5,9 +5,15 @@
  * middleware.ts refreshes the Supabase session, calls `needsProfileLookup`
  * to decide whether to fetch `profiles.approved`, then applies `decideRoute`.
  */
+import { isSafeRelativePath } from './safe-path';
 
 export const PROTECTED_ROUTES = ['/chat', '/dashboard', '/requests', '/emails', '/settings', '/feedback'] as const;
 export const AUTH_ROUTES = ['/login', '/register', '/verify', '/reset-password'] as const;
+/**
+ * Where a sign-in without an explicit destination lands. The dashboard, not the chat: the chat is
+ * one of two ways to start a request (see /requests/start), not the home of the logged-in area.
+ */
+export const POST_LOGIN_PATH = '/dashboard';
 const PASSWORD_CONFIRM = '/reset-password/confirm';
 const PENDING_PAGE = '/pending-approval';
 
@@ -59,6 +65,11 @@ function redirect(url: URL, pathname: string, extraParams?: Record<string, strin
 const toLogin = (url: URL, from: string) => redirect(url, '/login', { redirectedFrom: from });
 const toPath = (url: URL, pathname: string) => ({ action: 'redirect', to: new URL(pathname, url).toString() }) as const;
 
+/** The /login form's target: the page the user was sent away from, else POST_LOGIN_PATH. */
+export function loginDestination(redirectedFrom: string | null | undefined): string {
+  return isSafeRelativePath(redirectedFrom) ? redirectedFrom : POST_LOGIN_PATH;
+}
+
 export const isProtectedRoute = (pathname: string) => startsWithAny(pathname, PROTECTED_ROUTES);
 export const isAuthRoute = (pathname: string) => startsWithAny(pathname, AUTH_ROUTES);
 
@@ -81,10 +92,10 @@ export function decideRoute(input: RouteDecisionInput): RouteDecision {
     // A missing profile row (or one we could not read) is NOT an approved user.
     const approved = profile?.approved === true;
     if (!approved && !isPendingPage) return toPath(url, PENDING_PAGE);
-    if (approved && isPendingPage) return toPath(url, '/dashboard');
+    if (approved && isPendingPage) return toPath(url, POST_LOGIN_PATH);
   }
 
-  if (isAuthRoute(pathname) && !pathname.startsWith(PASSWORD_CONFIRM) && user) return redirect(url, '/dashboard');
+  if (isAuthRoute(pathname) && !pathname.startsWith(PASSWORD_CONFIRM) && user) return redirect(url, POST_LOGIN_PATH);
 
   if (pathname.startsWith('/admin')) {
     if (!user) return toLogin(url, pathname);

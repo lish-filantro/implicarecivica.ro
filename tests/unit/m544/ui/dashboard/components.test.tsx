@@ -168,7 +168,8 @@ describe('SessionList', () => {
       />,
     );
     expect(screen.getByText('Nu există cereri încă')).toBeTruthy();
-    expect(screen.getByText('Creează Cerere')).toBeTruthy();
+    // login lands here now, so the first-request button must lead somewhere: the "Cerere nouă" choice
+    expect(screen.getByRole('link', { name: 'Creează Cerere' }).getAttribute('href')).toBe('/requests/start');
   });
 
   it('shows the filter-specific empty state otherwise', () => {

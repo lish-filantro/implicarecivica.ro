@@ -5,19 +5,22 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
-  MessageSquare,
-  Send,
+  FilePlus2,
   Mail,
   MessageCircle,
 } from 'lucide-react';
 import { DarkModeToggle } from '@/components/shared/DarkModeToggle';
 import { UserDropdown } from './UserDropdown';
-import { MobileMenu } from './MobileMenu';
+import { MobileMenu, isNavItemActive, type NavItem } from './MobileMenu';
 
-const NAV_ITEMS = [
+/**
+ * „Cerere nouă" replaces the former „Asistent 544" (/chat) and „Trimite Cereri" (/requests/new):
+ * both were ways to start a request, and the direct one opened an empty question screen. It now
+ * leads to the choice between the two paths and stays highlighted along either of them.
+ */
+const NAV_ITEMS: NavItem[] = [
   { href: '/dashboard', label: 'Panou', icon: LayoutDashboard },
-  { href: '/chat', label: 'Asistent 544', icon: MessageSquare },
-  { href: '/requests/new', label: 'Trimite Cereri', icon: Send },
+  { href: '/requests/start', label: 'Cerere nouă', icon: FilePlus2, activeFor: ['/requests/new', '/chat'] },
   { href: '/emails', label: 'Emailuri', icon: Mail },
   { href: '/feedback', label: 'Feedback', icon: MessageCircle },
 ];
@@ -48,12 +51,13 @@ export function TopNavbar() {
         {/* Center: Nav links (hidden on mobile) */}
         <div className="hidden md:flex items-center gap-1">
           {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+            const isActive = isNavItemActive(item, pathname);
             const Icon = item.icon;
             return (
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
                            transition-all duration-200
                            ${isActive

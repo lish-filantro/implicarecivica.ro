@@ -37,7 +37,12 @@ test.describe('ciclul de viață al unei cereri', () => {
 
   test('wizard-ul creează sesiunea și trimite 2 emailuri', async ({ page }) => {
     startedAt = new Date().toISOString();
-    await login(page, CITIZEN, '/requests/new');
+    // the manual path starts from the "Cerere nouă" entry in the navbar, like a user would
+    await login(page, CITIZEN, '/dashboard');
+    await page.getByRole('link', { name: 'Cerere nouă' }).first().click();
+    await expect(page).toHaveURL(/\/requests\/start/);
+    await page.getByRole('link', { name: /Știu instituția și întrebările/ }).click();
+    await expect(page).toHaveURL(/\/requests\/new/);
 
     await expect(page.getByText('Date cerere')).toBeVisible();
     await page.getByPlaceholder('Ion Popescu').fill(CITIZEN.displayName);
@@ -47,13 +52,14 @@ test.describe('ciclul de viață al unei cereri', () => {
     await page.getByPlaceholder('registratura@institutie.ro').fill(INSTITUTION.platformEmail);
     await page.getByRole('button', { name: 'Continuă' }).click();
 
-    await expect(page.getByText('Selectează întrebările')).toBeVisible();
-    // categories start collapsed; custom questions are added inside an expanded one
-    await page.getByRole('button', { name: /^A\. Financiar/ }).click();
-    for (const q of QUESTIONS) {
-      await page.getByRole('button', { name: /Adaug[ăa] [îi]ntrebare/ }).first().click();
+    // manual path: a free editor, no A–E categories
+    await expect(page.getByRole('heading', { name: 'Întrebările tale' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /^A\. Financiar/ })).toHaveCount(0);
+    for (const [i, q] of QUESTIONS.entries()) {
+      await page.getByRole('button', { name: /Adaug[ăa] [îi]ntrebare/ }).click();
       await page.getByPlaceholder('Scrie întrebarea ta...').fill(q);
       await page.getByRole('button', { name: 'Adaugă', exact: true }).click();
+      await expect(page.getByRole('textbox', { name: `Întrebarea ${i + 1}` })).toHaveValue(q);
     }
     await expect(page.getByText(/2\s+cereri selectate/)).toBeVisible();
     await page.getByRole('button', { name: /Previzualizare/ }).click();

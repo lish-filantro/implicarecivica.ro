@@ -23,8 +23,10 @@ import {
   needsProfileLookup,
   parseAdminEmails,
   shouldBypassAuth,
+  loginDestination,
   PROTECTED_ROUTES,
   AUTH_ROUTES,
+  POST_LOGIN_PATH,
   type RouteDecision,
 } from '@m544/shared/auth/middleware';
 
@@ -49,6 +51,22 @@ describe('route constants', () => {
   it('cover the same routes as the legacy middleware', () => {
     expect(PROTECTED_ROUTES).toEqual(['/chat', '/dashboard', '/requests', '/emails', '/settings', '/feedback']);
     expect(AUTH_ROUTES).toEqual(['/login', '/register', '/verify', '/reset-password']);
+  });
+
+  it('after a login without a destination the user lands on the dashboard, not in the chat', () => {
+    expect(POST_LOGIN_PATH).toBe('/dashboard');
+  });
+});
+
+describe('loginDestination (the /login form, after a successful sign-in)', () => {
+  it('defaults to the dashboard when nothing was requested', () => {
+    expect(loginDestination(null)).toBe('/dashboard');
+    expect(loginDestination('')).toBe('/dashboard');
+  });
+
+  it('honours an explicit redirectedFrom', () => {
+    expect(loginDestination('/chat')).toBe('/chat');
+    expect(loginDestination('/requests/new?conversation=c1')).toBe('/requests/new?conversation=c1');
   });
 });
 
@@ -199,5 +217,28 @@ describe('shouldBypassAuth', () => {
   it('never bypasses in production, even without credentials', () => {
     expect(shouldBypassAuth({ vercelEnv: 'production' })).toBe(false);
     expect(shouldBypassAuth({ supabaseUrl: 'https://placeholder.supabase.co', supabaseAnonKey: 'x', vercelEnv: 'production' })).toBe(false);
+  });
+});
+
+describe('loginDestination — redirect doar în interiorul platformei', () => {
+  // `redirectedFrom` vine din URL, deci îl poate scrie oricine: un link
+  // `/login?redirectedFrom=https://site-fals.ro` trimitea omul, imediat după autentificare,
+  // pe un site străin — exact momentul în care are încredere că e încă pe platformă.
+  it.each([
+    'https://site-fals.example',
+    '//site-fals.example',
+    `/${String.fromCharCode(92)}site-fals.example`, // `/\host`: unele browsere îl citesc ca `//host`
+    'javascript:alert(1)',
+  ])('ignoră destinaţia externă %s', (dest) => {
+    expect(loginDestination(dest)).toBe('/dashboard');
+  });
+
+  it('păstrează o destinaţie internă explicită', () => {
+    expect(loginDestination('/emails?folder=review')).toBe('/emails?folder=review');
+  });
+
+  it('cade pe dashboard fără destinaţie', () => {
+    expect(loginDestination(null)).toBe('/dashboard');
+    expect(loginDestination('')).toBe('/dashboard');
   });
 });
