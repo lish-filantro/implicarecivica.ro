@@ -3,6 +3,7 @@
  *
  *   wizard (2 questions) → Resend → Cloudflare → institution inbox
  *   → institution confirms #1 on the thread (ambiguous: 2 open requests) → "De revizuit" → assign in UI
+ *     (question + what the email does, in one action)
  *   → institution sends the final answer as a SEPARATE email carrying the registration number → answered
  *   → the user corrects a classification from the email detail.
  *
@@ -97,10 +98,13 @@ test.describe('ciclul de viață al unei cereri', () => {
     await login(page, CITIZEN, '/emails');
     await openEmailsFolder(page, 'De revizuit');
     await page.getByText(confirmation.subject).first().click();
-    const panel = page.getByRole('region', { name: 'Revizuire manuală' }).or(page.locator('[aria-label="Revizuire manuală"]'));
+    const panel = page.getByRole('region', { name: 'Atribuire manuală' }).or(page.locator('[aria-label="Atribuire manuală"]'));
     await expect(panel).toBeVisible();
-    await panel.locator('select').selectOption({ index: 1 });
-    await panel.getByRole('button', { name: 'Asociază' }).click();
+    // both questions belong to the same session, so the session select needs no touching:
+    // pick the first question and state what the email does to it, in one action
+    await panel.getByLabel('Întrebarea').selectOption({ index: 0 });
+    await panel.getByLabel('Emailul este').selectOption('inregistrate');
+    await panel.getByRole('button', { name: 'Atribuie' }).click();
 
     const updated = await waitFor(async () => {
       const row = await getEmail(confirmation.id);

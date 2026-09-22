@@ -1,7 +1,11 @@
 /**
  * Manual review of a received email (pure orchestration over injected repos):
  *   assign     — link the email to one of the user's requests and re-apply the
- *                saved analysis to that request's status;
+ *                saved analysis to that request's status; with an explicit
+ *                `category` the user says in one move both which request the
+ *                email belongs to and what it does to it ("e prelungire la
+ *                întrebarea nr. 4521"), and the correction is recorded as
+ *                classification feedback exactly like a reclassify;
  *   reclassify — record the correction as classification feedback, store the
  *                new category and (when linked) re-apply the transition with it;
  *   dismiss    — the user looked and nothing needs changing.
@@ -17,7 +21,7 @@ import { analysisFromEmail, fallbackAnalysis } from './analysis-from-email';
 import type { ReviewRepo } from './repo';
 
 export type ReviewAction =
-  | { action: 'assign'; request_id: string }
+  | { action: 'assign'; request_id: string; category?: EmailCategory }
   | { action: 'reclassify'; category: EmailCategory; note?: string | null }
   | { action: 'dismiss' };
 
@@ -48,18 +52,7 @@ async function reapply(email: Email, requestId: string, analysis: AnalysisResult
   });
 }
 
-async function assign(email: Email, userId: string, requestId: string, deps: ReviewDeps): Promise<ReviewResult | null> {
-  const request = await deps.requests.getById(requestId);
-  if (!request || request.user_id !== userId) return notFound(REQUEST_NOT_FOUND);
-
-  const analysis = analysisFromEmail(email);
-  if (analysis) await reapply(email, requestId, analysis, deps);
-  // Written last: the transition may re-flag the email, but the user has just reviewed it.
-  await deps.emails.update(email.id, { request_id: requestId, needs_review: false });
-  return null;
-}
-
-async function reclassify(
+async function recordFeedback(
   email: Email,
   userId: string,
   category: EmailCategory,
@@ -73,6 +66,41 @@ async function reclassify(
     new_category: category,
     note: note?.trim() || null,
   });
+}
+
+async function assign(
+  email: Email,
+  userId: string,
+  requestId: string,
+  category: EmailCategory | undefined,
+  deps: ReviewDeps,
+): Promise<ReviewResult | null> {
+  const request = await deps.requests.getById(requestId);
+  if (!request || request.user_id !== userId) return notFound(REQUEST_NOT_FOUND);
+
+  const saved = analysisFromEmail(email);
+  const analysis = category ? { ...(saved ?? fallbackAnalysis(category, email)), category } : saved;
+
+  if (category && category !== email.category) {
+    await recordFeedback(email, userId, category, null, deps);
+  }
+  if (analysis) await reapply(email, requestId, analysis, deps);
+
+  const patch: EmailPatch = { request_id: requestId, needs_review: false };
+  if (category) patch.category = category;
+  // Written last: the transition may re-flag the email, but the user has just reviewed it.
+  await deps.emails.update(email.id, patch);
+  return null;
+}
+
+async function reclassify(
+  email: Email,
+  userId: string,
+  category: EmailCategory,
+  note: string | null | undefined,
+  deps: ReviewDeps,
+): Promise<void> {
+  await recordFeedback(email, userId, category, note, deps);
 
   const patch: EmailPatch = { category, needs_review: false };
   if (category === 'irelevant') {
@@ -90,7 +118,7 @@ export async function reviewEmail({ emailId, userId, action }: ReviewInput, deps
 
   switch (action.action) {
     case 'assign': {
-      const failure = await assign(email, userId, action.request_id, deps);
+      const failure = await assign(email, userId, action.request_id, action.category, deps);
       if (failure) return failure;
       break;
     }

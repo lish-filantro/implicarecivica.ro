@@ -1,7 +1,8 @@
 /**
  * POST /api/emails/[id]/review — manual review of a received email.
  *
- *   body: { action: 'assign', request_id }               link to one of the user's requests
+ *   body: { action: 'assign', request_id, category? }     link to one of the user's requests,
+ *                                                         optionally stating what the email does to it
  *       | { action: 'reclassify', category, note? }      correct the AI category (+ feedback row)
  *       | { action: 'dismiss' }                          just clear the review flag
  *
@@ -15,7 +16,7 @@ import { requireUser, type AuthClient } from '@m544/shared/auth';
 import { json, httpError, parseJsonBody, withErrorBoundary } from '@m544/shared/http';
 import type { EmailsRepo } from '@m544/shared/db/emails-repo';
 import type { RequestsRepo } from '@m544/shared/db/requests-repo';
-import { EMAIL_CATEGORIES } from './analysis-from-email';
+import { ASSIGNABLE_CATEGORIES, EMAIL_CATEGORIES } from './analysis-from-email';
 import type { ReviewRepo } from './repo';
 import { reviewEmail, EMAIL_NOT_FOUND, type ReviewAction } from './service';
 
@@ -30,7 +31,11 @@ export interface ReviewHandlerDeps<C extends AuthClient = AuthClient> {
 type RouteCtx = { params: Promise<{ id: string }> };
 
 export const reviewBodySchema = z.discriminatedUnion('action', [
-  z.object({ action: z.literal('assign'), request_id: z.string().uuid() }),
+  z.object({
+    action: z.literal('assign'),
+    request_id: z.string().uuid(),
+    category: z.enum(ASSIGNABLE_CATEGORIES as [string, ...string[]]).optional(),
+  }),
   z.object({
     action: z.literal('reclassify'),
     category: z.enum(EMAIL_CATEGORIES as [string, ...string[]]),

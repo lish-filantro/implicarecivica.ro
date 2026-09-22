@@ -1,10 +1,16 @@
 /**
- * The daily deadline digest email (Romanian): subject with correct plural
- * forms, an HTML table (institution, subject, deadline, days left) and a plain
- * text twin. Every user-provided string is escaped before it reaches the HTML.
+ * The daily digest email (Romanian): subject with correct plural forms, an HTML
+ * table of deadlines (institution, subject, deadline, days left), a section for
+ * the emails the pipeline could not attribute, and a plain text twin. Every
+ * user-provided string is escaped before it reaches the HTML.
+ *
+ * Either part can be empty — the digest goes out when at least one has content,
+ * so an inbox full of unattributed answers is not silent just because no
+ * deadline happens to be near.
  */
 import { getEffectiveDeadline } from '@m544/requests/utils/deadlines';
 import type { DeadlineNotice } from './select';
+import type { ReviewNotice } from './repo';
 
 export interface DigestContext {
   /** Base URL of the app, e.g. https://implicarecivica.ro (the link target is `${appUrl}/dashboard`). */
@@ -30,17 +36,31 @@ function cereri(n: number): string {
   return n < 20 ? `${n} cereri` : `${n} de cereri`;
 }
 
-export function digestSubject(upcoming: number, overdue: number, host: string): string {
+/** "1 email", "3 emailuri", "20 de emailuri". */
+function emailuri(n: number): string {
+  if (n === 1) return '1 email';
+  return n < 20 ? `${n} emailuri` : `${n} de emailuri`;
+}
+
+export function digestSubject(upcoming: number, overdue: number, host: string, toAttribute = 0): string {
   const parts: string[] = [];
   if (upcoming > 0) parts.push(`${cereri(upcoming)} cu termen apropiat`);
   if (overdue > 0) {
     const adj = overdue === 1 ? 'depășită' : 'depășite';
     parts.push(upcoming > 0 ? `${overdue} ${adj}` : `${cereri(overdue)} ${adj}`);
   }
+  if (toAttribute > 0) parts.push(`${emailuri(toAttribute)} de atribuit`);
   return `${parts.join(', ')} – ${host}`;
 }
 
-const dateFormat = new Intl.DateTimeFormat('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' });
+// Termenele se stochează ca sfârşit de zi UTC (`…T23:59:59.999Z`), deci ziua se citeşte în UTC:
+// formatat în ora locală a unui runtime la UTC+3, un termen din 18 septembrie ar apărea ca 19.
+const dateFormat = new Intl.DateTimeFormat('ro-RO', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 
 function formatDeadline(notice: DeadlineNotice): string {
   const iso = getEffectiveDeadline(notice.request);
@@ -84,24 +104,52 @@ function greeting(displayName: string | null): string {
   return displayName ? `Bună, ${displayName},` : 'Bună ziua,';
 }
 
-export function buildDigestEmail(notices: DeadlineNotice[], ctx: DigestContext): DigestEmail {
-  const upcoming = notices.filter((n) => n.kind === 'upcoming').length;
-  const overdue = notices.length - upcoming;
-  const host = hostOf(ctx.appUrl);
-  const dashboardUrl = `${ctx.appUrl.replace(/\/+$/, '')}/dashboard`;
-  const subject = digestSubject(upcoming, overdue, host);
-  const intro =
-    'Iată situația cererilor tale de informații publice (Legea 544/2001) care au termenul aproape sau depășit:';
+const DEADLINE_INTRO =
+  'Iată situația cererilor tale de informații publice (Legea 544/2001) care au termenul aproape sau depășit:';
+const REVIEW_INTRO =
+  'Am primit emailuri pe care nu le-am putut atribui automat niciunei întrebări. Le găsești în folderul „De revizuit”, de unde le poți atribui manual:';
 
+function deadlineTable(notices: DeadlineNotice[]): string {
   const head = ['Instituție', 'Subiect', 'Termen', 'Stare']
     .map((h) => `<th style="${CELL}text-align:left;color:#6b7280;font-weight:600;">${h}</th>`)
     .join('');
+  return (
+    `<p>${DEADLINE_INTRO}</p>` +
+    `<table style="border-collapse:collapse;width:100%;">` +
+    `<thead><tr>${head}</tr></thead><tbody>${notices.map(row).join('')}</tbody></table>`
+  );
+}
+
+function reviewSection(reviews: ReviewNotice[], emailsUrl: string): string {
+  const items = reviews
+    .map((r) => `<li style="margin-bottom:4px;">${escapeHtml(r.fromEmail)} — ${escapeHtml(r.subject)}</li>`)
+    .join('');
+  return (
+    `<p style="margin-top:24px;font-weight:600;">De revizuit</p>` +
+    `<p>${REVIEW_INTRO}</p>` +
+    `<ul style="font-size:14px;padding-left:20px;">${items}</ul>` +
+    `<p><a href="${escapeHtml(emailsUrl)}">Deschide emailurile</a></p>`
+  );
+}
+
+export function buildDigestEmail(
+  notices: DeadlineNotice[],
+  ctx: DigestContext,
+  reviews: ReviewNotice[] = [],
+): DigestEmail {
+  const upcoming = notices.filter((n) => n.kind === 'upcoming').length;
+  const overdue = notices.length - upcoming;
+  const host = hostOf(ctx.appUrl);
+  const base = ctx.appUrl.replace(/\/+$/, '');
+  const dashboardUrl = `${base}/dashboard`;
+  const emailsUrl = `${base}/emails`;
+  const subject = digestSubject(upcoming, overdue, host, reviews.length);
+
   const html =
     `<div style="font-family:Arial,Helvetica,sans-serif;color:#1f2937;max-width:720px;margin:0 auto;padding:16px;">` +
     `<p>${escapeHtml(greeting(ctx.displayName))}</p>` +
-    `<p>${intro}</p>` +
-    `<table style="border-collapse:collapse;width:100%;">` +
-    `<thead><tr>${head}</tr></thead><tbody>${notices.map(row).join('')}</tbody></table>` +
+    (notices.length ? deadlineTable(notices) : '') +
+    (reviews.length ? reviewSection(reviews, emailsUrl) : '') +
     `<p style="margin-top:20px;"><a href="${escapeHtml(dashboardUrl)}" ` +
     `style="background:#1d4ed8;color:#fff;text-decoration:none;padding:10px 16px;border-radius:6px;display:inline-block;">` +
     `Deschide panoul de control</a></p>` +
@@ -109,19 +157,25 @@ export function buildDigestEmail(notices: DeadlineNotice[], ctx: DigestContext):
     `Le poți dezactiva sau poți schimba numărul de zile din pagina de setări a contului.</p>` +
     `</div>`;
 
-  const lines = [
-    greeting(ctx.displayName),
-    '',
-    intro,
-    '',
-    ...notices.map(
-      (n) => `- ${n.request.institution_name} — ${n.request.subject} — termen ${formatDeadline(n)} — ${daysText(n)}`,
-    ),
-    '',
+  const lines = [greeting(ctx.displayName), ''];
+  if (notices.length) {
+    lines.push(
+      DEADLINE_INTRO,
+      '',
+      ...notices.map(
+        (n) => `- ${n.request.institution_name} — ${n.request.subject} — termen ${formatDeadline(n)} — ${daysText(n)}`,
+      ),
+      '',
+    );
+  }
+  if (reviews.length) {
+    lines.push('De revizuit', '', REVIEW_INTRO, '', ...reviews.map((r) => `- ${r.fromEmail} — ${r.subject}`), '', `Emailuri: ${emailsUrl}`, '');
+  }
+  lines.push(
     `Panoul de control: ${dashboardUrl}`,
     '',
     'Primești acest mesaj pentru că ai activat notificările prin email; le poți schimba din setările contului.',
-  ];
+  );
 
   return { subject, html, text: lines.join('\n') };
 }

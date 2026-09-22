@@ -2,6 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildDigestEmail, escapeHtml, digestSubject } from '@m544/notifications/template';
 import type { DeadlineNotice } from '@m544/notifications/select';
+import type { ReviewNotice } from '@m544/notifications/repo';
 import { req } from './_fakes';
 
 const ctx = { appUrl: 'https://implicarecivica.ro', displayName: 'Ana' };
@@ -21,6 +22,56 @@ describe('digestSubject', () => {
     expect(digestSubject(0, 1, HOST)).toBe('1 cerere depășită – implicarecivica.ro');
     expect(digestSubject(0, 4, HOST)).toBe('4 cereri depășite – implicarecivica.ro');
     expect(digestSubject(20, 0, HOST)).toBe('20 de cereri cu termen apropiat – implicarecivica.ro');
+  });
+});
+
+const review = (over: Partial<ReviewNotice> = {}): ReviewNotice => ({
+  emailId: 'e1',
+  fromEmail: 'Registratura <registratura@primarie.ro>',
+  subject: 'Adresa nr. 4521',
+  receivedAt: '2026-09-15T08:00:00.000Z',
+  ...over,
+});
+
+describe('digestSubject — emails waiting to be attributed', () => {
+  it('counts them on their own and next to the deadline counts', () => {
+    expect(digestSubject(0, 0, HOST, 1)).toBe('1 email de atribuit – implicarecivica.ro');
+    expect(digestSubject(0, 0, HOST, 3)).toBe('3 emailuri de atribuit – implicarecivica.ro');
+    expect(digestSubject(0, 0, HOST, 20)).toBe('20 de emailuri de atribuit – implicarecivica.ro');
+    expect(digestSubject(1, 0, HOST, 2)).toBe(
+      '1 cerere cu termen apropiat, 2 emailuri de atribuit – implicarecivica.ro',
+    );
+  });
+});
+
+describe('buildDigestEmail — emails waiting to be attributed', () => {
+  it('adds a section with the sender, the subject and a link to the emails page', () => {
+    const out = buildDigestEmail([], ctx, [review()]);
+    expect(out.html).toContain('De revizuit');
+    expect(out.html).toContain('registratura@primarie.ro');
+    expect(out.html).toContain('Adresa nr. 4521');
+    expect(out.html).toContain('https://implicarecivica.ro/emails');
+    expect(out.text).toContain('Adresa nr. 4521');
+    expect(out.text).toContain('https://implicarecivica.ro/emails');
+  });
+
+  it('omits the deadline table entirely when there are only emails to attribute', () => {
+    const out = buildDigestEmail([], ctx, [review()]);
+    expect(out.html).not.toContain('<table');
+    expect(out.subject).toBe('1 email de atribuit – implicarecivica.ro');
+  });
+
+  it('omits the section when there is nothing to attribute', () => {
+    const out = buildDigestEmail([notice('upcoming', 1)], ctx);
+    expect(out.html).not.toContain('De revizuit');
+    expect(out.text).not.toContain('De revizuit');
+  });
+
+  it('escapes the sender and the subject of an email', () => {
+    const out = buildDigestEmail([], ctx, [review({ fromEmail: '<b>x</b>@y.ro', subject: '"Adresă" & co' })]);
+    expect(out.html).toContain('&lt;b&gt;x&lt;/b&gt;@y.ro');
+    expect(out.html).toContain('&quot;Adresă&quot; &amp; co');
+    expect(out.html).not.toContain('<b>x</b>');
   });
 });
 
@@ -56,6 +107,18 @@ describe('buildDigestEmail', () => {
     expect((out.html.match(/<tr class="notice/g) ?? []).length).toBe(4);
     expect(out.text).toContain('https://implicarecivica.ro/dashboard');
     expect(out.text).toContain('Primăria Cluj');
+  });
+
+  /**
+   * The legal deadline is stored as the end of its day in UTC (`…T23:59:59.999Z`). Formatted in
+   * the runtime's local time, a deadline of 18 September reads as 19 September on any host at
+   * UTC+1 or later — so the date is formatted with `timeZone: 'UTC'`. This case fails under
+   * `TZ=Europe/Bucharest` if that option is dropped.
+   */
+  it('renders an end-of-day deadline as its own day, whatever the server time zone', () => {
+    const out = buildDigestEmail([notice('upcoming', 0, { deadline_date: '2026-09-18T23:59:59.999Z' })], ctx);
+    expect(out.html).toContain('18 septembrie 2026');
+    expect(out.html).not.toContain('19 septembrie 2026');
   });
 
   it('escapes user-provided strings in HTML but not in text', () => {

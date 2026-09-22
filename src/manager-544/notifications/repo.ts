@@ -20,6 +20,14 @@ export interface SentEntry {
   kind: NoticeKind;
 }
 
+/** A received email the pipeline could not attribute, waiting in "De revizuit". */
+export interface ReviewNotice {
+  emailId: string;
+  fromEmail: string;
+  subject: string;
+  receivedAt: string;
+}
+
 export interface NotificationsRepo {
   /** Profiles with notification_email = true that still have an auth email. */
   listOptedInUsers(): Promise<OptedInUser[]>;
@@ -29,12 +37,26 @@ export interface NotificationsRepo {
   listSentToday(userId: string, dateIso: string): Promise<SentEntry[]>;
   /** Record the pairs as notified on `dateIso`; duplicates are ignored. */
   markSent(userId: string, entries: SentEntry[], dateIso: string): Promise<void>;
+  /**
+   * Emails flagged for review that arrived at or after `sinceIso`. The arrival
+   * window IS the deduplication: there is no per-email sent-log, so an email is
+   * mentioned by the digest of the day it landed and not nagged about again.
+   */
+  listEmailsNeedingReview(userId: string, sinceIso: string): Promise<ReviewNotice[]>;
 }
 
 interface ProfileRow {
   id: string;
   display_name: string | null;
   notification_deadline_days: number;
+}
+
+interface ReviewRow {
+  id: string;
+  from_email: string;
+  subject: string;
+  received_at: string | null;
+  created_at: string;
 }
 
 interface SentRow {
@@ -72,6 +94,24 @@ export class SupabaseNotificationsRepo implements NotificationsRepo {
       .order('date_initiated', { ascending: true });
     if (error) throw error;
     return (data ?? []) as Request[];
+  }
+
+  async listEmailsNeedingReview(userId: string, sinceIso: string): Promise<ReviewNotice[]> {
+    const { data, error } = await this.sb
+      .from('emails')
+      .select('id, from_email, subject, received_at, created_at')
+      .eq('user_id', userId)
+      .eq('type', 'received')
+      .eq('needs_review', true)
+      .gte('created_at', sinceIso)
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    return ((data ?? []) as ReviewRow[]).map((r) => ({
+      emailId: r.id,
+      fromEmail: r.from_email,
+      subject: r.subject,
+      receivedAt: r.received_at ?? r.created_at,
+    }));
   }
 
   async listSentToday(userId: string, dateIso: string): Promise<SentEntry[]> {

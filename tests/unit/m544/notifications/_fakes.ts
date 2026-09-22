@@ -4,9 +4,10 @@
  * the repo test (records every query; answers come from a responder).
  */
 import { randomUUID } from 'node:crypto';
+import { endOfDay } from '../../../fixtures/legal-deadline-oracle';
 import type { Request } from '@m544/shared/types/request';
 import type { EmailSender, OutgoingEmail, SendResult } from '@m544/emails/send';
-import type { NotificationsRepo, OptedInUser, SentEntry } from '@m544/notifications/repo';
+import type { NotificationsRepo, OptedInUser, ReviewNotice, SentEntry } from '@m544/notifications/repo';
 
 const nowIso = () => new Date().toISOString();
 
@@ -24,18 +25,22 @@ export function req(partial: Partial<Request> & { user_id: string }): Request {
   };
 }
 
-/** ISO timestamp of local midnight `n` days after `from` (matches the deadline arithmetic). */
+/**
+ * A stored legal deadline `n` days after `from`'s UTC date, in the exact shape production
+ * writes: the end of that calendar day, encoded in UTC (`…T23:59:59.999Z`, see
+ * shared/utils/legal-days). Built at local midnight instead, the fixture would name the
+ * previous day under any positive UTC offset and the tests would depend on the machine's `TZ`.
+ */
 export function daysFrom(from: Date, n: number): string {
-  const d = new Date(from.getTime());
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() + n);
-  return d.toISOString();
+  return endOfDay(new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() + n)).toISOString().slice(0, 10));
 }
 
 export class FakeNotificationsRepo implements NotificationsRepo {
   users: OptedInUser[] = [];
   requests = new Map<string, Request[]>();
   sent = new Map<string, SentEntry[]>(); // key: `${userId}|${dateIso}`
+  reviews = new Map<string, ReviewNotice[]>();
+  reviewCalls: Array<{ userId: string; sinceIso: string }> = [];
   markSentCalls: Array<{ userId: string; entries: SentEntry[]; dateIso: string }> = [];
   /** Throw when listing requests for this user (error-path tests). */
   failFor: string | null = null;
@@ -55,6 +60,24 @@ export class FakeNotificationsRepo implements NotificationsRepo {
     const r = req(partial);
     this.requests.set(r.user_id, [...(this.requests.get(r.user_id) ?? []), r]);
     return r;
+  }
+
+  addReviewEmail(userId: string, over: Partial<ReviewNotice> = {}): ReviewNotice {
+    const n: ReviewNotice = {
+      emailId: over.emailId ?? randomUUID(),
+      fromEmail: 'registratura@primarie.ro',
+      subject: 'Adresa nr. 4521',
+      receivedAt: nowIso(),
+      ...over,
+    };
+    this.reviews.set(userId, [...(this.reviews.get(userId) ?? []), n]);
+    return n;
+  }
+
+  async listEmailsNeedingReview(userId: string, sinceIso: string) {
+    this.reviewCalls.push({ userId, sinceIso });
+    if (this.failFor === userId) throw new Error(`boom for ${userId}`);
+    return [...(this.reviews.get(userId) ?? [])];
   }
 
   async listOptedInUsers() {
@@ -124,6 +147,7 @@ class Builder implements PromiseLike<QueryResult> {
   }
   eq(c: string, v: unknown) { return this.f('eq', c, v); }
   neq(c: string, v: unknown) { return this.f('neq', c, v); }
+  gte(c: string, v: unknown) { return this.f('gte', c, v); }
   order(c: string, o?: unknown) { return this.f('order', c, o); }
   then<R1 = QueryResult, R2 = never>(
     onfulfilled?: ((v: QueryResult) => R1 | PromiseLike<R1>) | null,

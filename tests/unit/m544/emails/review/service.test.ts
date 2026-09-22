@@ -175,3 +175,60 @@ describe('reviewEmail - reclassify', () => {
     expect((await requests.getById('r1'))!.status).toBe('pending');
   });
 });
+
+describe('reviewEmail - assign with an explicit category', () => {
+  it('applies the category the user picked, not the one the classifier saved', async () => {
+    const { deps, requests } = world();
+    const r = await reviewEmail(
+      { emailId: 'e1', userId: 'u1', action: { action: 'assign', request_id: 'r1', category: 'amanate' } },
+      deps,
+    );
+    expect(r.ok && r.email).toMatchObject({ request_id: 'r1', category: 'amanate', needs_review: false });
+    const req = (await requests.getById('r1'))!;
+    expect(req.status).toBe('extension');
+    expect(req.extension_date).toBeTruthy();
+  });
+
+  it('records the correction as classification feedback', async () => {
+    const { deps, review } = world();
+    await reviewEmail(
+      { emailId: 'e1', userId: 'u1', action: { action: 'assign', request_id: 'r1', category: 'amanate' } },
+      deps,
+    );
+    expect(review.feedback).toEqual([
+      { email_id: 'e1', user_id: 'u1', previous_category: 'inregistrate', new_category: 'amanate', note: null },
+    ]);
+  });
+
+  it('records no feedback when the user confirms the classifier category', async () => {
+    const { deps, review } = world();
+    await reviewEmail(
+      { emailId: 'e1', userId: 'u1', action: { action: 'assign', request_id: 'r1', category: 'inregistrate' } },
+      deps,
+    );
+    expect(review.feedback).toEqual([]);
+  });
+
+  it('applies the category even when no analysis was ever saved', async () => {
+    const { deps, emails, requests } = world();
+    emails.seed({ id: 'e7', user_id: 'u1', category: null, registration_number: '99', received_at: RECEIVED_AT, ai_extracted_data: {} });
+    const r = await reviewEmail(
+      { emailId: 'e7', userId: 'u1', action: { action: 'assign', request_id: 'r1', category: 'inregistrate' } },
+      deps,
+    );
+    expect(r.ok && r.email).toMatchObject({ request_id: 'r1', category: 'inregistrate' });
+    const req = (await requests.getById('r1'))!;
+    expect(req.status).toBe('received');
+    expect(req.registration_number).toBe('99');
+  });
+
+  it('moves a registered request to answered when the user says the email is the answer', async () => {
+    const { deps, requests } = world();
+    await requests.update('r1', { status: 'received', date_received: RECEIVED_AT, registration_number: '4521' });
+    await reviewEmail(
+      { emailId: 'e1', userId: 'u1', action: { action: 'assign', request_id: 'r1', category: 'raspunse' } },
+      deps,
+    );
+    expect((await requests.getById('r1'))!.status).toBe('answered');
+  });
+});
