@@ -94,6 +94,32 @@ describe('extractTemplateQuestion', () => {
     );
   });
 
+  it('extrage întrebarea din formularea nouă', () => {
+    const corp = [
+      'Stimată doamnă/Stimate domn,',
+      '',
+      'Subsemnata Irina Bogdan, cu domiciliul în Str. Vampir 9, vă adresez următoarea solicitare de acces la informații publice în conformitate cu Legea nr. 544/2001 privind liberul acces la informațiile de interes public:',
+      '',
+      'Care este bugetul pe 2026?',
+      '',
+      'Aștept cu interes răspunsul dumneavoastră la adresa de email irina@example.ro.',
+    ].join('\n');
+    expect(extractTemplateQuestion(corp)).toBe('Care este bugetul pe 2026?');
+  });
+
+  it('extrage în continuare din formularea veche (cereri deja trimise)', () => {
+    const corp = [
+      'Stimate reprezentant al Primăriei,',
+      '',
+      'Subsemnatul Ion Popescu, cu datele de contact menționate mai sus, vă adresez următoarea solicitare de acces la informații publice în conformitate cu Legea nr. 544/2001 privind liberul acces la informațiile de interes public:',
+      '',
+      'Care este bugetul pe 2025?',
+      '',
+      'Aștept cu interes răspunsul dumneavoastră la adresa de email ion@example.ro și vă mulțumesc anticipat pentru cooperare.',
+    ].join('\n');
+    expect(extractTemplateQuestion(corp)).toBe('Care este bugetul pe 2025?');
+  });
+
   it('returns "" when nothing matches or input is empty', () => {
     expect(extractTemplateQuestion('Bună ziua. Mulțumesc.')).toBe('');
     expect(extractTemplateQuestion(null)).toBe('');
@@ -127,6 +153,26 @@ describe('extractKeyLines', () => {
     const text = 'Solicit informații privind registrul\nUnde se află registrul?';
     expect(extractKeyLines(text, { maxLines: 1 })).toBe('Solicit informații privind registrul');
     expect(extractKeyLines(text, { favorQuestions: true, maxLines: 1 })).toBe('Unde se află registrul?');
+  });
+
+  it('nu confundă linia de boilerplate cu întrebarea, în formularea nouă', () => {
+    // Fără ancora „…interes public:", extragerea cade pe scorul pe linii. Linia care începe cu
+    // „Subsemnata … cu domiciliul în …" trebuie penalizată, ca înainte cea cu „datele de contact".
+    // `maxLines: 1` e obligatoriu: cu implicitul 3 ar intra ambele linii, oricât de jos ar fi scorul.
+    // Linia de boilerplate trebuie luată întreagă — aşa cum e în şablon strânge singură 5 puncte
+    // (solicit + informa + „nr." − lungime), peste cele 3 ale întrebării. Fără penalizare, câştigă ea.
+    const boilerplate =
+      'Subsemnata Irina Bogdan, cu domiciliul în Str. Vampir 9, vă adresez următoarea solicitare de acces la informații publice în conformitate cu Legea nr. 544/2001 privind liberul acces la informațiile de interes public:';
+    expect(extractKeyLines(`${boilerplate}\nCare este bugetul pe 2026?`, { maxLines: 1 })).toBe(
+      'Care este bugetul pe 2026?',
+    );
+  });
+
+  it('penalizează şi formula de salut invariabilă', () => {
+    // Ambele linii au scor 0, deci fără penalizare ordinea stabilă a sortării ar da salutul.
+    expect(extractKeyLines('Stimată doamnă/Stimate domn,\nBugetul pe 2026.', { maxLines: 1 })).toBe(
+      'Bugetul pe 2026.',
+    );
   });
 
   it('returns "" for empty input', () => {

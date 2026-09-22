@@ -1,10 +1,17 @@
 /**
- * requests/email-template — the 544 request email body. The text must match the
- * legacy template byte for byte (it is what institutions receive and what
- * question extraction parses back).
+ * requests/email-template — the 544 request email body. The text is fixed byte for
+ * byte (it is what institutions receive and what question extraction parses back).
+ * Rewritten on 2026-09-22 after the testing report: gendered "Subsemnata", the
+ * usual "cu domiciliul în …", an invariable salutation and the thanks on their own
+ * line. Question extraction accepts both wordings — see question-extraction.test.ts.
  */
 import { describe, it, expect } from 'vitest';
-import { formatEmailBodyText, formatEmailBodyHtml, FIXED_SUBJECT } from '@m544/requests/email-template';
+import {
+  emailBodyLines,
+  formatEmailBodyText,
+  formatEmailBodyHtml,
+  FIXED_SUBJECT,
+} from '@m544/requests/email-template';
 
 const data = {
   solicitantName: 'Ion Popescu',
@@ -23,13 +30,15 @@ const EXPECTED_TEXT = [
   'Adresa: Str. Libertății nr. 4, Pitești',
   'Email: ion.popescu@implicarecivica.ro',
   '',
-  'Stimate reprezentant al Primăria Municipiului Pitești,',
+  'Stimată doamnă/Stimate domn,',
   '',
-  'Subsemnatul Ion Popescu, cu datele de contact menționate mai sus, vă adresez următoarea solicitare de acces la informații publice în conformitate cu Legea nr. 544/2001 privind liberul acces la informațiile de interes public:',
+  'Subsemnatul/Subsemnata Ion Popescu, cu domiciliul în Str. Libertății nr. 4, Pitești, vă adresez următoarea solicitare de acces la informații publice în conformitate cu Legea nr. 544/2001 privind liberul acces la informațiile de interes public:',
   '',
   QUESTION,
   '',
-  'Aștept cu interes răspunsul dumneavoastră la adresa de email ion.popescu@implicarecivica.ro și vă mulțumesc anticipat pentru cooperare.',
+  'Aștept cu interes răspunsul dumneavoastră la adresa de email ion.popescu@implicarecivica.ro.',
+  '',
+  'Vă mulțumesc anticipat pentru cooperare.',
   '',
   '',
   'Cu stimă,',
@@ -43,8 +52,42 @@ describe('FIXED_SUBJECT', () => {
 });
 
 describe('formatEmailBodyText', () => {
-  it('produces the exact legacy plain-text body', () => {
+  it('produces the exact plain-text body', () => {
     expect(formatEmailBodyText(QUESTION, data)).toBe(EXPECTED_TEXT);
+  });
+
+  it('foloseşte „Subsemnata" pentru o solicitantă', () => {
+    const text = formatEmailBodyText(QUESTION, { ...data, solicitantGender: 'f' as const });
+    expect(text).toContain('Subsemnata Ion Popescu, cu domiciliul în Str. Libertății nr. 4, Pitești,');
+    expect(text).not.toContain('Subsemnatul/Subsemnata');
+  });
+
+  it('foloseşte „Subsemnatul" pentru un solicitant', () => {
+    const text = formatEmailBodyText(QUESTION, { ...data, solicitantGender: 'm' as const });
+    expect(text).toContain('Subsemnatul Ion Popescu, cu domiciliul în');
+    expect(text).not.toContain('Subsemnatul/Subsemnata');
+  });
+
+  it('foloseşte forma dublă când genul lipseşte (conturi de dinainte de migrarea 019)', () => {
+    expect(formatEmailBodyText(QUESTION, { ...data, solicitantGender: null })).toContain(
+      'Subsemnatul/Subsemnata Ion Popescu,',
+    );
+  });
+
+  it('se adresează invariabil, fără acord cu numele instituţiei', () => {
+    const text = formatEmailBodyText(QUESTION, data);
+    expect(text).toContain('Stimată doamnă/Stimate domn,');
+    expect(text).not.toContain('Stimate reprezentant al');
+  });
+});
+
+describe('emailBodyLines', () => {
+  it('separă mulţumirile de propoziţia cu adresa de răspuns', () => {
+    const lines = emailBodyLines(QUESTION, data);
+    expect(lines.find((l) => l.includes('mulțumesc'))).toBe('Vă mulțumesc anticipat pentru cooperare.');
+    expect(
+      lines.some((l) => l.includes('Aștept cu interes răspunsul') && l.includes('mulțumesc')),
+    ).toBe(false);
   });
 });
 
