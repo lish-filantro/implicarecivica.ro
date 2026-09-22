@@ -11,13 +11,23 @@ const KEYWORD_PATTERNS = [/solicit/i, /cer/i, /informa/i, /răspuns/i, /\bnr\./i
 
 const PENALTY_PATTERNS = [
   /^(solicitant|adres[ăa]|email|telefon|cu st(?:ime|imă)|mulțumesc|cooperare)/i,
+  // Linia de boilerplate a şablonului, în ambele formulări: cea veche („cu datele de contact
+  // menţionate mai sus") şi cea de după 2026-09-22 („cu domiciliul în …"). Tiparul vechi rămâne
+  // cât timp există în DB cereri trimise cu el.
   /datele de contact/i,
+  /cu domiciliul în/i,
+  /^v[ăa] mulțumesc/i,
+  /^stimat[ăa] doamn[ăa]\/stimate domn/i,
 ];
 
 /** Standard template: "Solicitare:" header … blank line … "Aștept". */
 const TEMPLATE_PATTERN = /solicitare[^:\n]*:\s*\n+([\s\S]*?)(?:\n{2,}\s*(?:Aștept|Astept)\b)/i;
 
-/** Law 544/2001 long form: "…privind liberul acces la informațiile de interes public:" … closing formula. */
+/**
+ * Law 544/2001 long form: "…privind liberul acces la informațiile de interes public:" … closing formula.
+ * Neschimbat la reformularea din 2026-09-22: ambele ancore (deschiderea şi „Aștept") sunt şi în
+ * şablonul nou, deci extragerea principală merge pe ambele formulări.
+ */
 const LONG_FORM_PATTERN =
   /privind liberul acces la informațiile de interes public:[\s\S]*?\n([\s\S]*?)(?:\n\s*(?:Aștept|Astept|Cu stimă|Vă mulțumesc))/i;
 

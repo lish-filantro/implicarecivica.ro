@@ -9,6 +9,8 @@ const VALID: WizardFormData = {
   solicitantName: 'Ion Popescu',
   solicitantEmail: 'ion@mail.ro',
   solicitantAddress: 'Str. Victoriei 10',
+  // Nu e câmp de formular: vine din profil (migrarea 019) şi rămâne null până atunci.
+  solicitantGender: null,
   saveAddress: false,
   institutionName: 'Primăria Pitești',
   institutionEmail: 'registratura@primaria.ro',
@@ -55,6 +57,7 @@ describe('initialFormData', () => {
       solicitantName: '',
       solicitantEmail: '',
       solicitantAddress: '',
+      solicitantGender: null,
       saveAddress: false,
       institutionName: '',
       institutionEmail: '',
@@ -111,6 +114,18 @@ describe('useWizardForm', () => {
     expect(result.current.formData.solicitantName).toBe('Profile Name');
     expect(result.current.formData.solicitantEmail).toBe('');
     expect(result.current.formData.solicitantAddress).toBe('');
+  });
+
+  it('preia genul din profil, pentru acordul din textul cererii', () => {
+    const { result } = renderHook(() => useWizardForm());
+    act(() => result.current.initFormFromProfile({ display_name: 'Irina', gender: 'f' }));
+    expect(result.current.formData.solicitantGender).toBe('f');
+  });
+
+  it('lasă genul null pentru conturile de dinainte de migrarea 019', () => {
+    const { result } = renderHook(() => useWizardForm());
+    act(() => result.current.initFormFromProfile({ display_name: 'Irina' }));
+    expect(result.current.formData.solicitantGender).toBeNull();
   });
 
   it('seeds the institution from chat data', () => {

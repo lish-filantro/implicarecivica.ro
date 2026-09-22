@@ -15,6 +15,9 @@ export default function RegisterPage() {
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  // Genul nu e un câmp de profil oarecare: fără el cererea 544 scrie „Subsemnatul" şi pentru o
+  // femeie. Se cere o singură dată, aici, şi se propagă prin metadatele de înregistrare (019).
+  const [gender, setGender] = useState<'f' | 'm' | ''>('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -27,6 +30,11 @@ export default function RegisterPage() {
 
     if (!firstName.trim() || !lastName.trim()) {
       setError('Prenumele și numele sunt obligatorii.')
+      return
+    }
+
+    if (gender !== 'f' && gender !== 'm') {
+      setError('Selectează forma de adresare.')
       return
     }
 
@@ -50,6 +58,7 @@ export default function RegisterPage() {
         data: {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
+          gender,
         },
       },
     })
@@ -114,6 +123,23 @@ export default function RegisterPage() {
                   autoComplete="family-name"
                 />
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="gender">Formă de adresare</Label>
+              <select
+                id="gender"
+                value={gender}
+                onChange={(e) => setGender(e.target.value as 'f' | 'm' | '')}
+                required
+                className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+              >
+                <option value="">Alege…</option>
+                <option value="f">Doamnă — „Subsemnata”</option>
+                <option value="m">Domn — „Subsemnatul”</option>
+              </select>
+              <p className="text-xs text-muted-foreground">
+                Folosită doar pentru acordul gramatical din cererile trimise instituțiilor.
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email personal</Label>

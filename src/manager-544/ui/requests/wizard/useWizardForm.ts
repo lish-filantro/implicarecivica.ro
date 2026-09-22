@@ -22,6 +22,7 @@ export function initialFormData(chatData?: ChatData | null): WizardFormData {
     solicitantName: '',
     solicitantEmail: '',
     solicitantAddress: '',
+    solicitantGender: null,
     saveAddress: false,
     institutionName: chatData?.institutionName || '',
     institutionEmail: chatData?.institutionEmail || '',
@@ -44,6 +45,8 @@ export function useWizardForm(initialChatData?: ChatData | null) {
       solicitantName: prev.solicitantName || profile.display_name || '',
       solicitantEmail: profile.mailcow_email || '',
       solicitantAddress: prev.solicitantAddress || profile.address || '',
+      // Genul nu e editabil în wizard: vine numai din profil, deci se suprascrie, nu se completează.
+      solicitantGender: profile.gender ?? null,
     }));
   }, []);
 

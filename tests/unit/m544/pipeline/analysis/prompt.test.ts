@@ -99,3 +99,31 @@ describe('buildAnalysisUserMessage — PDF nativ', () => {
     expect(msg).not.toMatch(/PDF/);
   });
 });
+
+describe('buildAnalysisUserMessage — citatul numărului de înregistrare', () => {
+  // Cu PDF-ul citit direct, documentul nu mai face parte din textul analizat, deci garda
+  // anti-halucinaţie verifică numărul în `evidence`. Lăsat liber, modelul formula uneori
+  // citatul fără număr („conţinând doar confirmarea înregistrării") şi garda arunca un număr
+  // real — măsurat pe e2e: 3 din 3 rulări pe confirmarea din Set_5. Cererea explicită face
+  // citatul verificabil.
+  it('cere citatul verbatim al numărului când PDF-ul e ataşat', () => {
+    const msg = buildAnalysisUserMessage({
+      subject: 'Re: Cerere',
+      body: 'Vezi ataşat.',
+      fromEmail: 'reg@inst.ro',
+      pdf: new Uint8Array([1]),
+    });
+    expect(msg).toMatch(/evidence/);
+    expect(msg).toMatch(/număr.*înregistrare/i);
+  });
+
+  it('nu schimbă mesajul pe calea cu OCR, unde textul independent e deja în corpus', () => {
+    const msg = buildAnalysisUserMessage({
+      subject: 'Re: Cerere',
+      body: 'Vezi ataşat.',
+      fromEmail: 'reg@inst.ro',
+      ocrText: 'Nr. 1234/2026',
+    });
+    expect(msg).not.toMatch(/evidence/);
+  });
+});

@@ -46,6 +46,12 @@ export interface WizardFormData {
   solicitantName: string;
   solicitantEmail: string;
   solicitantAddress: string;
+  /**
+   * Pentru acordul lui „Subsemnatul/Subsemnata" din textul cererii. Nu e un câmp al formularului:
+   * vine din profil şi se cere o singură dată, la înregistrare. Lipseşte la conturile create
+   * înainte de migrarea 019, iar şablonul foloseşte atunci forma dublă.
+   */
+  solicitantGender?: 'f' | 'm' | null;
   saveAddress: boolean;
   institutionName: string;
   institutionEmail: string;
@@ -66,6 +72,7 @@ export interface WizardProfile {
   display_name?: string | null;
   mailcow_email?: string | null;
   address?: string | null;
+  gender?: 'f' | 'm' | null;
 }
 
 export type WizardStep = 1 | 2 | 3;

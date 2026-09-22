@@ -26,7 +26,7 @@ Se aplică implicit la **fiecare** task de mai jos.
   commit. Lipește output-ul real în raport; nu raporta „merge" fără să-l fi citit.
 - **Niciodată `git add -A` / `git add .`** — adaugă explicit fișierele listate în task.
 - **Un singur număr de migrare alocat în tot valul: `019`**, în Task 10. Niciun alt task nu creează
-  migrări. `018_conversation_handoff.sql` este **neaplicată** în DB; nu presupune că schema o include.
+  migrări. `018_conversation_handoff.sql` **este aplicată** (verificat în DB pe 2026-09-22).
 - **Convenții de testare:** un test per fișier sursă, în oglindă (`src/manager-544/x/y.ts` →
   `tests/unit/m544/x/y.test.ts`). Dependențele se **injectează**, nu se mock-uiesc cu `vi.mock`
   (singura excepție: `next/navigation`). Testele care randează pun `// @vitest-environment jsdom` pe
@@ -1466,7 +1466,7 @@ git commit -m "Profil: câmp de gen la înregistrare, pentru acordul din cereril
 
 - [ ] **Pasul 6: Semnalează owner-ului**
 
-Migrarea `019` trebuie aplicată manual, ca și `018`. Spune-i explicit în raport.
+Migrarea `019` trebuie aplicată manual. Spune-i explicit owner-ului în raport.
 
 ---
 
@@ -1905,7 +1905,7 @@ git commit -m "Admin: confirmare pe email la aprobarea contului"
 
 - [ ] `npm run check` pe arborele integrat
 - [ ] `npm run test:browser` o singură dată
-- [ ] Migrarea `019` semnalată owner-ului (împreună cu `018`, încă neaplicată)
+- [ ] Migrarea `019` semnalată owner-ului (`018` e deja aplicată)
 - [ ] Backfill-ul termenelor aplicat și verificat pe cererea din raport
 - [ ] Recitit raportul de testare punct cu punct, față de aplicația pornită
 

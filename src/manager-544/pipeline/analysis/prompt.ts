@@ -89,8 +89,15 @@ export function buildAnalysisUserMessage(input: AnalysisInput): string {
     parts.push(`\nConținut email:\n${input.body.slice(0, BODY_LIMIT)}`);
   }
   if (input.pdf) {
-    // Documentul e ataşat mesajului; îi spunem modelului să-l citească de acolo.
-    parts.push('\nRăspunsul instituției are un document PDF atașat acestui mesaj. Citește-l.');
+    // Documentul e ataşat mesajului, deci nu face parte din textul pe care garda
+    // anti-halucinaţie îl poate verifica: numărul de înregistrare se validează în `evidence`
+    // (vezi `toAnalysisResult`, `documentAttached`). Lăsat liber, modelul formula uneori
+    // citatul fără număr, iar garda arunca un număr real. Cererea stă aici, nu în promptul de
+    // sistem, ca să nu schimbe nimic pe calea cu OCR, unde corpusul are deja textul independent.
+    parts.push(
+      '\nRăspunsul instituției are un document PDF atașat acestui mesaj. Citește-l.' +
+        '\nDacă documentul are un număr de înregistrare, copiază în "evidence" rândul exact din document în care apare, cu numărul cu tot.',
+    );
   } else if (input.ocrText) {
     parts.push(`\nConținut PDF (OCR):\n${input.ocrText.slice(0, OCR_LIMIT)}`);
   }

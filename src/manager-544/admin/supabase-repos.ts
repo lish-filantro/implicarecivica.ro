@@ -98,6 +98,16 @@ export class SupabaseAdminUsersRepo implements AdminUsersRepo {
     return (data ?? []) as PendingProfile[];
   }
 
+  async getProfile(id: string): Promise<PendingProfile | null> {
+    const { data, error } = await this.sb
+      .from('profiles')
+      .select('id, first_name, last_name, display_name, created_at')
+      .eq('id', id)
+      .maybeSingle();
+    if (error) throw error;
+    return (data as PendingProfile | null) ?? null;
+  }
+
   async getAuthEmail(id: string): Promise<string | null> {
     const { data } = await this.sb.auth.admin.getUserById(id);
     return data?.user?.email ?? null;
