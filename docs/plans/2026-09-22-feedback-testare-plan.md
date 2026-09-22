@@ -562,6 +562,11 @@ recalculat, nu `14z`.
 
 ### Task 4: Răspunsurile necorelate ajung la revizuire manuală
 
+> **⛔ NU EXECUTA ACEST TASK.** Din 2026-09-22, owner-ul lucrează el la F4, în paralel. Niciun
+> agent nu are voie să atingă `src/manager-544/pipeline/process-email.ts`,
+> `src/manager-544/pipeline/matching/**` sau `src/manager-544/ui/emails/review/**`. Paşii de mai
+> jos rămân scrişi ca referinţă pentru analiza cauzei, nu ca sarcină de lucru.
+
 **Findings:** F4.
 
 **Files:**
