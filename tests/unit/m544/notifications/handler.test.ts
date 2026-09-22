@@ -57,6 +57,16 @@ describe('GET /api/cron/notify-deadlines', () => {
     expect(d.sender.sent).toHaveLength(1);
   });
 
+  it('reports the emails waiting to be attributed in the body and in the cron log', async () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const d = deps();
+    d.repo.addUser({ userId: 'u1' });
+    d.repo.addReviewEmail('u1');
+    const res = await createNotifyDeadlinesHandler(() => d)(get());
+    expect(await res.json()).toMatchObject({ success: true, emails_sent: 1, notices: 0, reviews: 1 });
+    expect(log.mock.calls[0][0]).toContain('reviews=1');
+  });
+
   it('500 generic when the deps factory throws (error boundary)', async () => {
     const res = await createNotifyDeadlinesHandler(() => {
       throw new Error('kaboom');

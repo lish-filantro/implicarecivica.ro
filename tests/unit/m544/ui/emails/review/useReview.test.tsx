@@ -21,6 +21,11 @@ describe('useReview', () => {
     expect(post).toHaveBeenLastCalledWith('e1', { action: 'assign', request_id: 'r1' });
 
     await act(async () => {
+      await result.current.assign('e1', 'r1', 'amanate');
+    });
+    expect(post).toHaveBeenLastCalledWith('e1', { action: 'assign', request_id: 'r1', category: 'amanate' });
+
+    await act(async () => {
       await result.current.reclassify('e1', 'amanate', '  nota  ');
     });
     expect(post).toHaveBeenLastCalledWith('e1', { action: 'reclassify', category: 'amanate', note: 'nota' });
@@ -35,7 +40,7 @@ describe('useReview', () => {
     });
     expect(post).toHaveBeenLastCalledWith('e1', { action: 'dismiss' });
 
-    expect(onUpdated).toHaveBeenCalledTimes(4);
+    expect(onUpdated).toHaveBeenCalledTimes(5);
     expect(onUpdated).toHaveBeenLastCalledWith(returned);
     expect(result.current.busy).toBe(false);
     expect(result.current.error).toBeNull();

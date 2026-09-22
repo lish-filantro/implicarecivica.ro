@@ -1,6 +1,5 @@
 /** pipeline/status — status transitions driven by classified emails, plus the overdue check. */
 export {
-  addDays,
   standardDeadline,
   extendedDeadline,
   refusalDeadline,

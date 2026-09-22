@@ -15,7 +15,7 @@ export function createNotifyDeadlinesHandler(getDeps: () => DigestDeps) {
     const summary = await sendDeadlineDigests(getDeps());
     console.log(
       `[Cron:notify-deadlines] users=${summary.users} emails_sent=${summary.emails_sent} ` +
-        `notices=${summary.notices} skipped=${summary.skipped} errors=${summary.errors}`,
+        `notices=${summary.notices} reviews=${summary.reviews} skipped=${summary.skipped} errors=${summary.errors}`,
     );
     return json({ success: true, ...summary, checked_at: new Date().toISOString() });
   }, 'cron/notify-deadlines');

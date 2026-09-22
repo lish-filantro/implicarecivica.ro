@@ -13,8 +13,15 @@ import {
 } from '@m544/requests/utils/session-stats';
 import type { RequestSessionWithRequests, SessionStatus } from '@m544/shared/types/session';
 
-const local = (y: number, m: number, d: number) => new Date(y, m - 1, d);
-const NOW = local(2026, 9, 8);
+/**
+ * `nearest_deadline` is a stored legal deadline: the end of a calendar day, encoded in UTC
+ * (see shared/utils/legal-days). Built at local midnight instead, the fixture would name the
+ * previous day under any positive UTC offset and the counts would depend on the machine's `TZ`.
+ */
+const deadlineOn = (y: number, m: number, d: number) =>
+  new Date(Date.UTC(y, m - 1, d, 23, 59, 59, 999)).toISOString();
+/** Midday, so that the Romanian calendar day of `now` is unambiguous in either time zone. */
+const NOW = new Date(Date.UTC(2026, 8, 8, 10));
 
 const session = (partial: Partial<RequestSessionWithRequests> = {}): RequestSessionWithRequests => ({
   id: 's1',
@@ -69,7 +76,7 @@ describe('getSessionDaysUntilDeadline / getSessionDeadlineUrgency', () => {
   });
 
   it('classifies critical (past), warning (<= 3 days) and normal', () => {
-    const at = (d: number) => ({ nearest_deadline: local(2026, 9, d).toISOString(), cached_status: 'in_progress' as const });
+    const at = (d: number) => ({ nearest_deadline: deadlineOn(2026, 9, d), cached_status: 'in_progress' as const });
     expect(getSessionDaysUntilDeadline(at(11), NOW)).toBe(3);
     expect(getSessionDeadlineUrgency(at(7), NOW)).toBe('critical');
     expect(getSessionDeadlineUrgency(at(11), NOW)).toBe('warning');
@@ -77,7 +84,7 @@ describe('getSessionDaysUntilDeadline / getSessionDeadlineUrgency', () => {
   });
 
   it('completed sessions have no urgency', () => {
-    const s = { nearest_deadline: local(2026, 9, 1).toISOString(), cached_status: 'completed' as const };
+    const s = { nearest_deadline: deadlineOn(2026, 9, 1), cached_status: 'completed' as const };
     expect(getSessionDeadlineUrgency(s, NOW)).toBeNull();
   });
 });

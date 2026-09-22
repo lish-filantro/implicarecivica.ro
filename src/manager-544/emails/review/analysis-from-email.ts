@@ -18,6 +18,20 @@ export const EMAIL_CATEGORIES: readonly EmailCategory[] = [
   'redirectionat',
 ];
 
+/**
+ * Categories a manual assignment can carry: they all describe something the
+ * institution did to a request we are tracking. 'irelevant' is excluded because
+ * it unlinks the email (that is the reclassify path), 'trimise' because it marks
+ * outgoing mail and the transition would be skipped anyway.
+ */
+export const ASSIGNABLE_CATEGORIES: readonly EmailCategory[] = [
+  'inregistrate',
+  'amanate',
+  'raspunse',
+  'intarziate',
+  'redirectionat',
+];
+
 export function isEmailCategory(value: unknown): value is EmailCategory {
   return typeof value === 'string' && (EMAIL_CATEGORIES as readonly string[]).includes(value);
 }

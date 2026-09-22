@@ -12,7 +12,7 @@ export const STEPS = [
   {
     step: "3",
     title: "Urmărești răspunsul",
-    desc: "Primești notificări și știi exact când expiră termenul legal de 10 zile lucrătoare.",
+    desc: "Primești notificări și știi exact când expiră termenul legal de 10 zile de la înregistrarea cererii.",
   },
 ]
 

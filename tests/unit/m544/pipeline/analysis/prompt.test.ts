@@ -77,3 +77,25 @@ describe('buildAnalysisUserMessage', () => {
     expect(msg).not.toContain('b'.repeat(3001));
   });
 });
+
+describe('buildAnalysisUserMessage — PDF nativ', () => {
+  it('anunţă modelul că PDF-ul e ataşat, în loc de text OCR', () => {
+    const msg = buildAnalysisUserMessage({
+      subject: 'Re: Cerere',
+      body: 'Vezi ataşat.',
+      fromEmail: 'contact@primarie.ro',
+      pdf: new Uint8Array([1, 2, 3]),
+    });
+    expect(msg).toContain('PDF');
+    expect(msg).not.toContain('(OCR)');
+  });
+
+  it('nu pomeneşte niciun PDF când nu există ataşament', () => {
+    const msg = buildAnalysisUserMessage({
+      subject: 'Re: Cerere',
+      body: 'Text simplu.',
+      fromEmail: 'contact@primarie.ro',
+    });
+    expect(msg).not.toMatch(/PDF/);
+  });
+});

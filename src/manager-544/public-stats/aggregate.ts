@@ -4,6 +4,7 @@
  * MIN_ROWS_FOR_STATS only the total is published.
  */
 import type { Request } from '@m544/shared/types/request';
+import { romanianDay } from '@m544/shared/utils/legal-days';
 
 export type StatRow = Pick<
   Request,
@@ -27,11 +28,31 @@ export const MIN_ROWS_FOR_STATS = 3;
 
 const DAY_MS = 86400000;
 
-/** UTC day number of a date / ISO string, or null when unparsable. */
-function dayNumber(value: string | undefined): number | null {
+/**
+ * Two kinds of date, read two different ways — the same distinction as in
+ * `requests/utils/deadlines` and `shared/utils/legal-days`:
+ *
+ *  - A stored deadline is not an instant but a calendar day encoded as the end of that day in
+ *    UTC, so it is read on the UTC date component.
+ *  - `response_received_date`, `date_sent`, `date_received` and `now` are real instants, so
+ *    their day is the day in the Romanian calendar. Read on the UTC day, an answer arriving at
+ *    22:30Z — already 01:30 the next morning in Romania — was counted as within a deadline that
+ *    had expired at midnight, and `answered_within_deadline_pct` overstated compliance. That
+ *    number is published on the institution pages as "Răspunsuri în termen".
+ */
+
+/** UTC day number of a stored deadline, or null when unparsable. */
+function storedDayNumber(value: string | undefined): number | null {
   if (!value) return null;
   const ms = new Date(value).getTime();
   return Number.isNaN(ms) ? null : Math.floor(ms / DAY_MS);
+}
+
+/** Romanian calendar day number of a real instant, or null when unparsable. */
+function instantDayNumber(value: string | undefined): number | null {
+  if (!value) return null;
+  if (Number.isNaN(new Date(value).getTime())) return null;
+  return Date.parse(`${romanianDay(value)}T00:00:00.000Z`) / DAY_MS;
 }
 
 function median(values: number[]): number | null {
@@ -42,7 +63,7 @@ function median(values: number[]): number | null {
 }
 
 function isOverdue(row: StatRow, today: number): boolean {
-  const deadline = dayNumber(row.extension_date ?? row.deadline_date);
+  const deadline = storedDayNumber(row.extension_date ?? row.deadline_date);
   return deadline !== null && deadline < today;
 }
 
@@ -50,7 +71,9 @@ export function aggregateInstitutionStats(rows: StatRow[], now: Date): Instituti
   const total = rows.length;
   if (total < MIN_ROWS_FOR_STATS) return { total, insufficient: true };
 
-  const today = Math.floor(now.getTime() / DAY_MS);
+  // `now` is an instant too. NaN for an unusable clock, as before: every `deadline < today`
+  // comparison is then false, so nothing is reported overdue on a broken clock.
+  const today = Number.isNaN(now.getTime()) ? Number.NaN : (instantDayNumber(now.toISOString()) as number);
   let answered = 0;
   let delayed = 0;
   let extension = 0;
@@ -61,10 +84,10 @@ export function aggregateInstitutionStats(rows: StatRow[], now: Date): Instituti
   for (const row of rows) {
     if (row.status === 'answered') {
       answered += 1;
-      const sent = dayNumber(row.date_sent) ?? dayNumber(row.date_received);
-      const received = dayNumber(row.response_received_date);
+      const sent = instantDayNumber(row.date_sent) ?? instantDayNumber(row.date_received);
+      const received = instantDayNumber(row.response_received_date);
       if (sent !== null && received !== null) daysToAnswer.push(Math.max(0, received - sent));
-      const deadline = dayNumber(row.extension_date ?? row.deadline_date);
+      const deadline = storedDayNumber(row.extension_date ?? row.deadline_date);
       if (received !== null && deadline !== null) {
         withDeadline += 1;
         if (received <= deadline) withinDeadline += 1;

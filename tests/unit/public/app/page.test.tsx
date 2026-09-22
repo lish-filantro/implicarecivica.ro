@@ -15,7 +15,7 @@ describe('Home page', () => {
       'id="de-ce-local"',
       'Ce construim',
       'Cum funcționează',
-      'termenul legal de 10 zile lucrătoare',
+      'termenul legal de 10 zile de la înregistrarea cererii',
       'Instituții publice',
       'E gratuit. E simplu. E dreptul tău.',
       '<footer',

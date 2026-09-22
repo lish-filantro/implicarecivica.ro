@@ -23,6 +23,16 @@ Colectate în timpul refactorului din 2026-09-08 și implementate în aceeași z
 7. **Feedback pe clasificare.** Buton „clasificarea e greșită" în detaliul emailului care corectează categoria și înregistrează cazul pentru îmbunătățirea promptului.
 8. **Termen legal corect.** Legea prevede 10 zile *lucrătoare* (și 30 la prelungire) de la înregistrare, nu calendaristice, iar interfața spune uneori „30 de zile". Un calendar de sărbători legale și un calcul pe zile lucrătoare.
 
+   > **⛔ ERATĂ 11.09.2026 — punctul 8 de mai sus este greșit.** Legea 544/2001 (art. 7) și
+   > Normele metodologice (HG 123/2002 art. 16, în forma dată de HG 478/2016 pct. 11) prevăd
+   > **zile calendaristice**, nu lucrătoare. Regula reală, din art. 16 alin. (2)-(3): termenul
+   > curge de la înregistrare, nu se numără nici ziua de început, nici ziua împlinirii
+   > (deci ultima zi este D + N + 1), iar dacă acea zi cade într-o zi nelucrătoare se
+   > prelungeşte până în prima zi lucrătoare. Calendarul de sărbători legale rămâne necesar —
+   > dar **numai** pentru rostogolirea ultimei zile, nu pentru numărat. Corectura, cu regula şi
+   > citatele: `src/manager-544/shared/utils/legal-days.ts`; cele 26 de cazuri cu date exacte:
+   > `tests/fixtures/legal-deadline-oracle.ts`.
+
 ## Chat și RAG
 
 9. **Extindere index instituții.** Corpusul de 86 de tipuri e bun pentru jurisdicție, dar șabloanele (primării, ISJ, DSP) nu au emailuri concrete; Haiku le caută pe web. Un tabel `institutii_locale` (UAT → email 544 verificat) alimentat din răspunsurile primite ar elimina căutarea web pentru instituțiile deja contactate.

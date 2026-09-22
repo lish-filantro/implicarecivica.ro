@@ -11,7 +11,7 @@ import type { Email } from '@m544/shared/types/email';
 import type { EmailCategory } from '@m544/shared/types/request';
 
 export type ReviewBody =
-  | { action: 'assign'; request_id: string }
+  | { action: 'assign'; request_id: string; category?: EmailCategory }
   | { action: 'reclassify'; category: EmailCategory; note?: string }
   | { action: 'dismiss' };
 
@@ -23,7 +23,7 @@ export interface UseReviewOptions {
 }
 
 export interface ReviewApi {
-  assign: (emailId: string, requestId: string) => Promise<Email | null>;
+  assign: (emailId: string, requestId: string, category?: EmailCategory) => Promise<Email | null>;
   reclassify: (emailId: string, category: EmailCategory, note?: string) => Promise<Email | null>;
   dismiss: (emailId: string) => Promise<Email | null>;
   busy: boolean;
@@ -65,7 +65,11 @@ export function useReview({ post = fetchReviewPost, onUpdated }: UseReviewOption
     [post, onUpdated],
   );
 
-  const assign = useCallback((emailId: string, requestId: string) => run(emailId, { action: 'assign', request_id: requestId }), [run]);
+  const assign = useCallback(
+    (emailId: string, requestId: string, category?: EmailCategory) =>
+      run(emailId, category ? { action: 'assign', request_id: requestId, category } : { action: 'assign', request_id: requestId }),
+    [run],
+  );
   const reclassify = useCallback(
     (emailId: string, category: EmailCategory, note?: string) =>
       run(emailId, note?.trim() ? { action: 'reclassify', category, note: note.trim() } : { action: 'reclassify', category }),

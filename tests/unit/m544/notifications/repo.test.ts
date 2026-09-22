@@ -40,6 +40,45 @@ describe('SupabaseNotificationsRepo', () => {
     expect(sb.queries[0].filters).toContainEqual({ op: 'neq', args: ['status', 'answered'] });
   });
 
+  it('listEmailsNeedingReview: received emails flagged for review since the window start', async () => {
+    const { sb, repo: r } = repo(() => ({
+      data: [
+        {
+          id: 'e1',
+          from_email: 'Registratura <registratura@primarie.ro>',
+          subject: 'Adresa nr. 4521',
+          received_at: '2026-09-08T05:00:00.000Z',
+          created_at: '2026-09-08T05:01:00.000Z',
+        },
+      ],
+      error: null,
+    }));
+    const rows = await r.listEmailsNeedingReview('u1', '2026-09-07T06:00:00.000Z');
+    expect(rows).toEqual([
+      {
+        emailId: 'e1',
+        fromEmail: 'Registratura <registratura@primarie.ro>',
+        subject: 'Adresa nr. 4521',
+        receivedAt: '2026-09-08T05:00:00.000Z',
+      },
+    ]);
+    expect(sb.queries[0].table).toBe('emails');
+    expect(sb.queries[0].filters).toContainEqual({ op: 'eq', args: ['user_id', 'u1'] });
+    expect(sb.queries[0].filters).toContainEqual({ op: 'eq', args: ['needs_review', true] });
+    expect(sb.queries[0].filters).toContainEqual({ op: 'eq', args: ['type', 'received'] });
+    expect(sb.queries[0].filters).toContainEqual({ op: 'gte', args: ['created_at', '2026-09-07T06:00:00.000Z'] });
+  });
+
+  it('listEmailsNeedingReview: falls back to created_at when the email has no received_at', async () => {
+    const { repo: r } = repo(() => ({
+      data: [{ id: 'e1', from_email: 'x@y.ro', subject: 'S', received_at: null, created_at: '2026-09-08T05:01:00.000Z' }],
+      error: null,
+    }));
+    expect((await r.listEmailsNeedingReview('u1', '2026-09-07T06:00:00.000Z'))[0].receivedAt).toBe(
+      '2026-09-08T05:01:00.000Z',
+    );
+  });
+
   it('listSentToday: filters by user and sent_on, maps to camelCase', async () => {
     const { sb, repo: r } = repo(() => ({ data: [{ request_id: 'r1', kind: 'overdue' }], error: null }));
     const rows = await r.listSentToday('u1', '2026-09-08');

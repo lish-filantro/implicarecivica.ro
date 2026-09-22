@@ -6,6 +6,7 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { extractEmail, stripAngleBrackets } from './addresses';
+import { decodeEncodedWords } from './mime-words';
 
 /** Keys the worker generates: `inbound/<timestamp>-<uuid>.eml` — never accept arbitrary paths. */
 const R2_KEY_PATTERN = /^inbound\/[A-Za-z0-9._-]+$/;
@@ -56,7 +57,8 @@ export function parseWorkerPayload(raw: unknown): ParsedPayload {
       from: p.from,
       from_email: extractEmail(p.from),
       to_email: extractEmail(p.to),
-      subject: p.subject?.trim() || DEFAULT_SUBJECT,
+      // Headerul ajunge aici exact cum l-a trimis instituţia, inclusiv `=?UTF-8?Q?...?=`.
+      subject: decodeEncodedWords(p.subject?.trim() ?? '') || DEFAULT_SUBJECT,
       message_id: messageId || randomUUID(),
       in_reply_to: p.in_reply_to ? stripAngleBrackets(p.in_reply_to) || undefined : undefined,
       references: p.references?.trim() || undefined,

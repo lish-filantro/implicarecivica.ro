@@ -33,7 +33,7 @@ Fluxul principal:
 
 1. Utilizatorul descrie problema în chat (STEP_1), Sonnet identifică instituția cu `rag_search` (index local peste `data/institutii/*.json`), găsește emailul oficial cu `web_search` și îl confirmă deschizând pagina oficială cu `web_fetch` (STEP_2). Adresa nu se prezintă niciodată fără o sursă oficială; adresele învățate din răspunsuri (`institutii_locale`) sunt doar indicii de verificat.
 2. Wizard-ul generează întrebări strategice (Haiku), utilizatorul le selectează, iar `POST /api/sessions/create` + `POST /api/emails/send` (Resend) trimit câte un email per întrebare, cu limită de 10/zi/instituție.
-3. Răspunsurile ajung prin Cloudflare Email Routing → worker → R2 → `POST /api/webhooks/cloudflare-email` → `pipeline/process-email`: OCR pe PDF, clasificare cu Claude Haiku (`inregistrate`, `amanate`, `raspunse`, `intarziate`, `redirectionat`, `irelevant`), potrivire (thread → număr de înregistrare → expeditor), tranziție de status și termene legale în **zile lucrătoare** (10, 30 cu prelungire, 5 pentru refuz; sărbătorile legale românești sunt excluse). Potrivirile incerte primesc `needs_review` și apar în folderul „De revizuit”, unde utilizatorul le asociază manual sau corectează categoria.
+3. Răspunsurile ajung prin Cloudflare Email Routing → worker → R2 → `POST /api/webhooks/cloudflare-email` → `pipeline/process-email`: OCR pe PDF, clasificare cu Claude Haiku (`inregistrate`, `amanate`, `raspunse`, `intarziate`, `redirectionat`, `irelevant`), potrivire (thread → număr de înregistrare → expeditor), tranziție de status și termene legale în **zile calendaristice**, calculate „pe zile libere" conform art. 16 alin. (2)-(3) din Normele metodologice (10 zile de la înregistrare, cel mult 30 în total la prelungire, 5 pentru refuz): nu se numără nici ziua înregistrării, nici ziua împlinirii, iar dacă ultima zi cade sâmbăta, duminica sau într-o sărbătoare legală românească, termenul se mută în prima zi lucrătoare. Potrivirile incerte primesc `needs_review` și apar în folderul „De revizuit”, unde utilizatorul le asociază manual sau corectează categoria.
 4. Două cron-uri Vercel (limita planului Hobby: 2, zilnice): `/api/cron/daily` la 02:00 UTC reconciliază emailurile rămase în R2 după un webhook eșuat, procesează emailurile în așteptare și marchează cererile depășite ca `delayed`; `/api/cron/notify-deadlines` la 06:00 trimite digest-ul de termene. Rutele individuale (`process-emails`, `check-deadlines`, `reconcile-inbound`) rămân apelabile manual cu același secret.
 
 ## Furnizori și variabile de mediu
@@ -60,6 +60,29 @@ npm run check                # tsc + eslint + teste unitare (~1 min)
 ```
 
 Testare: vezi `docs/testing.md`. Migrări DB: `supabase/migrations/README.md`.
+
+### Recalculul termenelor existente (o singură dată)
+
+`tools/backfill-legal-deadlines.ts` rescrie `deadline_date` / `extension_date` pentru toate
+cererile înregistrate, cu aritmetica legală corectată (zile calendaristice „pe zile libere",
+art. 16 din Normele metodologice — vezi `src/manager-544/shared/utils/legal-days.ts`). Rândurile
+scrise înainte de corectură au termene calculate în zile lucrătoare, cu până la ~4 zile peste
+termenul legal la 10 zile şi mai mult la prelungire. Aplicaţia nu le rescrie singură: termenul se
+scrie doar la înregistrare şi doar dacă e gol.
+
+Include şi cererile la care s-a răspuns: termenele lor nu sunt arhivă, ci intră în
+`answered_within_deadline_pct`, publicat pe paginile de instituţii ca „Răspunsuri în termen" —
+termene prea târzii fac instituţiile să pară mai conforme decât sunt. Dry-run-ul separă vizibil
+cele două categorii, ca să se vadă ce atinge obligaţii în curs şi ce atinge doar statistica.
+`status` nu se modifică niciodată.
+
+Se rulează o singură dată, după deploy. Fără argumente nu scrie nimic — doar raportează ce ar
+schimba; scrie numai cu `--apply`.
+
+```bash
+npx tsx tools/backfill-legal-deadlines.ts            # dry run: raportul modificărilor
+npx tsx tools/backfill-legal-deadlines.ts --apply    # aplică
+```
 
 ## Checklist de deploy
 

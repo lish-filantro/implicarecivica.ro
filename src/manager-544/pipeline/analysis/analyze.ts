@@ -66,15 +66,17 @@ function selectClient(deps: AnalyzeDeps): { client: AnalysisClient; label: strin
   return { client: createAnalysisClient({ provider, model: deps.model }), label: provider };
 }
 
-/** Classify one email (subject + body + OCR text) and extract its structured data. */
+/** Classify one email (subject + body + PDF or OCR text) and extract its structured data. */
 export async function analyzeEmailContent(input: AnalysisInput, deps: AnalyzeDeps = {}): Promise<AnalysisResult> {
   const { client, label } = selectClient(deps);
   const userMessage = buildAnalysisUserMessage(input);
 
-  const raw = await withRetry(() => client.complete(EMAIL_ANALYSIS_SYSTEM_PROMPT, userMessage), { sleep: deps.sleep });
+  const raw = await withRetry(() => client.complete(EMAIL_ANALYSIS_SYSTEM_PROMPT, userMessage, input.pdf), {
+    sleep: deps.sleep,
+  });
   if (raw.length === 0) {
     throw new Error(`Empty response from ${label} analysis`);
   }
 
-  return toAnalysisResult(parseAnalysisJson(raw), userMessage);
+  return toAnalysisResult(parseAnalysisJson(raw), userMessage, { documentAttached: Boolean(input.pdf) });
 }

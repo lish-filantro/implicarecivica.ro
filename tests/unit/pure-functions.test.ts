@@ -1,14 +1,16 @@
 /**
  * Unit Tests — Pure functions (zero API calls)
  *
- * Tests: normalizeSubject, extractEmailAddr, validateRegistrationNumber,
- *        htmlToText, addDays
+ * Tests: normalizeSubject, extractEmailAddr, validateRegistrationNumber, htmlToText
+ *
+ * Termenele legale nu se testează aici: aritmetica lor (zile calendaristice „pe zile libere",
+ * art. 16 alin. (2)-(3) din Normele metodologice) e acoperită de
+ * tests/unit/m544/shared/utils/legal-days.test.ts şi tests/unit/m544/pipeline/status/deadlines.test.ts.
  */
 import { describe, it, expect } from 'vitest';
 import { normalizeSubject, extractEmailAddr, extractRegNumberCore } from '@m544/pipeline/matching';
 import { validateRegistrationNumber } from '@m544/pipeline/analysis';
 import { htmlToText } from '@m544/shared/utils/html-to-text';
-import { addDays } from '@m544/pipeline/status';
 
 // ═══════════════════════════════════════════════════════════
 // normalizeSubject
@@ -214,41 +216,6 @@ describe('htmlToText', () => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// addDays
-// ═══════════════════════════════════════════════════════════
-describe('addDays', () => {
-  it('adds 10 days (standard deadline)', () => {
-    const result = addDays('2025-01-15T10:00:00Z', 10);
-    expect(new Date(result).getDate()).toBe(25);
-  });
-
-  it('adds 30 days (extension deadline)', () => {
-    const result = addDays('2025-01-01T00:00:00Z', 30);
-    const d = new Date(result);
-    expect(d.getMonth()).toBe(0); // January
-    expect(d.getDate()).toBe(31);
-  });
-
-  it('handles month overflow', () => {
-    const result = addDays('2025-01-25T00:00:00Z', 10);
-    const d = new Date(result);
-    expect(d.getMonth()).toBe(1); // February
-    expect(d.getDate()).toBe(4);
-  });
-
-  it('returns ISO string', () => {
-    const result = addDays('2025-06-01T12:00:00Z', 5);
-    expect(result).toMatch(/^\d{4}-\d{2}-\d{2}T/);
-  });
-
-  it('handles 0 days', () => {
-    const input = '2025-03-01T10:00:00Z';
-    const result = addDays(input, 0);
-    expect(new Date(result).getDate()).toBe(new Date(input).getDate());
-  });
-});
-
-// ═══════════════════════════════════════════════════════════
 // validateRegistrationNumber — edge cases
 // ═══════════════════════════════════════════════════════════
 describe('validateRegistrationNumber — edge cases', () => {
@@ -427,47 +394,6 @@ describe('htmlToText — edge cases', () => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// addDays — edge cases
-// ═══════════════════════════════════════════════════════════
-describe('addDays — edge cases', () => {
-  it('handles year overflow (Dec → Jan)', () => {
-    const result = addDays('2025-12-25T00:00:00Z', 10);
-    const d = new Date(result);
-    expect(d.getFullYear()).toBe(2026);
-    expect(d.getMonth()).toBe(0); // January
-    expect(d.getDate()).toBe(4);
-  });
-
-  it('handles Feb 28 non-leap year', () => {
-    const result = addDays('2025-02-25T00:00:00Z', 10);
-    const d = new Date(result);
-    expect(d.getMonth()).toBe(2); // March
-    expect(d.getDate()).toBe(7);
-  });
-
-  it('handles Feb 28 leap year (2024)', () => {
-    const result = addDays('2024-02-25T00:00:00Z', 10);
-    const d = new Date(result);
-    expect(d.getMonth()).toBe(2); // March
-    expect(d.getDate()).toBe(6); // 29 Feb + 6 March = 10 days
-  });
-
-  it('handles negative days', () => {
-    const result = addDays('2025-03-15T00:00:00Z', -5);
-    const d = new Date(result);
-    expect(d.getDate()).toBe(10);
-  });
-
-  it('handles large number of days (365)', () => {
-    const result = addDays('2025-01-01T00:00:00Z', 365);
-    const d = new Date(result);
-    expect(d.getFullYear()).toBe(2026);
-    expect(d.getMonth()).toBe(0);
-    expect(d.getDate()).toBe(1);
-  });
-});
-
-// ═══════════════════════════════════════════════════════════
 // AnalysisResult parsing — answer_summary validation
 // ═══════════════════════════════════════════════════════════
 describe('AnswerSummary type validation', () => {
@@ -508,35 +434,9 @@ describe('AnswerSummary type validation', () => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// Deadline calculation scenarios (Law 544/2001)
+// Effective deadline selection (extension_date vs deadline_date)
 // ═══════════════════════════════════════════════════════════
-describe('Deadline calculation — Law 544/2001 scenarios', () => {
-  it('standard deadline = date_received + 10 days', () => {
-    const dateReceived = '2025-03-01T10:00:00Z';
-    const deadline = addDays(dateReceived, 10);
-    const d = new Date(deadline);
-    expect(d.getDate()).toBe(11);
-    expect(d.getMonth()).toBe(2); // March
-  });
-
-  it('extension deadline = date_received + 30 days total', () => {
-    const dateReceived = '2025-03-01T10:00:00Z';
-    const extensionDeadline = addDays(dateReceived, 30);
-    const d = new Date(extensionDeadline);
-    expect(d.getDate()).toBe(31);
-    expect(d.getMonth()).toBe(2); // March
-  });
-
-  it('extension is 20 extra days on top of standard 10', () => {
-    const dateReceived = '2025-06-15T10:00:00Z';
-    const standardDeadline = new Date(addDays(dateReceived, 10));
-    const extensionDeadline = new Date(addDays(dateReceived, 30));
-
-    const diffMs = extensionDeadline.getTime() - standardDeadline.getTime();
-    const diffDays = diffMs / (1000 * 60 * 60 * 24);
-    expect(diffDays).toBe(20);
-  });
-
+describe('Effective deadline selection', () => {
   it('effective deadline prefers extension_date over deadline_date', () => {
     const req = {
       deadline_date: '2025-03-11T10:00:00Z',
@@ -556,9 +456,6 @@ describe('Deadline calculation — Law 544/2001 scenarios', () => {
   });
 });
 
-// ═══════════════════════════════════════════════════════════
-// Status Transition Logic
-// ═══════════════════════════════════════════════════════════
 describe('Status transitions (conceptual)', () => {
   const VALID_TRANSITIONS: Record<string, string[]> = {
     pending: ['received', 'extension', 'answered'],

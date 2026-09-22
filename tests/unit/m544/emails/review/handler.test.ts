@@ -81,6 +81,30 @@ describe('POST /api/emails/[id]/review', () => {
     expect((await emails.getById(EMAIL_ID))!.needs_review).toBe(true);
   });
 
+  it('400 when assign carries a category that cannot describe a linked email', async () => {
+    const { handler, emails } = build();
+    // 'irelevant' belongs to reclassify (it unlinks); 'trimise' is an outgoing category.
+    for (const category of ['irelevant', 'trimise', 'spam']) {
+      const res = await handler(post(EMAIL_ID, { action: 'assign', request_id: REQ_ID, category }), ctx(EMAIL_ID));
+      expect(res.status, category).toBe(400);
+    }
+    expect((await emails.getById(EMAIL_ID))!.request_id).toBeUndefined();
+  });
+
+  it('assign with a category: applies it and records the correction as feedback', async () => {
+    const { handler, requests, review } = build();
+    const res = await handler(
+      post(EMAIL_ID, { action: 'assign', request_id: REQ_ID, category: 'amanate' }),
+      ctx(EMAIL_ID),
+    );
+    expect(res.status).toBe(200);
+    expect((await res.json()).email).toMatchObject({ request_id: REQ_ID, category: 'amanate', needs_review: false });
+    expect((await requests.getById(REQ_ID))!.status).toBe('extension');
+    expect(review.feedback).toEqual([
+      { email_id: EMAIL_ID, user_id: 'u1', previous_category: 'inregistrate', new_category: 'amanate', note: null },
+    ]);
+  });
+
   it('404 for an unknown or malformed email id', async () => {
     const { handler } = build();
     const missing = '33333333-3333-4333-8333-333333333333';

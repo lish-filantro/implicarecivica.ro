@@ -71,7 +71,12 @@ export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModa
               <AlertTriangle className="h-4 w-4 text-activist-orange-600 dark:text-activist-orange-400 mt-0.5 flex-shrink-0" />
               <div className="text-xs text-activist-orange-800 dark:text-activist-orange-300 space-y-1">
                 <p>
-                  Se vor trimite <strong>{selectedQuestions.length} emailuri separate</strong> către{' '}
+                  Se vor trimite{' '}
+                  <strong>
+                    {selectedQuestions.length}{' '}
+                    {selectedQuestions.length === 1 ? 'email separat' : 'emailuri separate'}
+                  </strong>{' '}
+                  către{' '}
                   <strong>{formData.institutionEmail}</strong>
                 </p>
                 {selectedQuestions.length > 1 && (

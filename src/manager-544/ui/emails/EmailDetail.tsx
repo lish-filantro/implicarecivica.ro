@@ -1,12 +1,13 @@
 'use client';
 
-import { Mail, Reply, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { Link2, Mail, Reply, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Email } from '@m544/shared/types/email';
 import EmailAttachments from './EmailAttachments';
 import EmailDetailHeader from './EmailDetailHeader';
 import ReclassifyMenu from './review/ReclassifyMenu';
-import ReviewPanel, { type LoadOpenRequests } from './review/ReviewPanel';
+import AssignPanel, { type LoadAssignableRequests } from './review/AssignPanel';
 import { useReview, type ReviewPost } from './review/useReview';
 import { sanitizeEmailHtml } from './sanitize';
 
@@ -14,8 +15,8 @@ export interface EmailDetailProps {
   email: Email;
   /** Called with the refreshed email after a successful review action. */
   onUpdated?: (email: Email) => void;
-  /** Open requests for the "assign" select (default: browser query). */
-  loadOpenRequests?: LoadOpenRequests;
+  /** Requests for the session/question selects (default: browser query). */
+  loadRequests?: LoadAssignableRequests;
   /** Transport for the review API (default: fetch). */
   post?: ReviewPost;
 }
@@ -25,16 +26,18 @@ export function canReclassify(email: Email): boolean {
   return email.type === 'received' && email.processing_status === 'completed';
 }
 
-export default function EmailDetail({ email, onUpdated, loadOpenRequests, post }: EmailDetailProps) {
+export default function EmailDetail({ email, onUpdated, loadRequests, post }: EmailDetailProps) {
   const review = useReview({ post, onUpdated });
+  // A flagged email needs the panel now; on any other received email it stays
+  // one click away, so an inbox of correct matches is not three selects deep.
+  const [assignOpen, setAssignOpen] = useState(email.needs_review === true);
+  const canAssign = email.type === 'received';
 
   return (
     <div className="flex flex-col h-full animate-fade-in">
       <EmailDetailHeader email={email} />
 
-      {email.type === 'received' && email.needs_review && (
-        <ReviewPanel email={email} review={review} loadOpenRequests={loadOpenRequests} />
-      )}
+      {canAssign && assignOpen && <AssignPanel email={email} review={review} loadRequests={loadRequests} />}
 
       {/* Detail body */}
       <div className="flex-1 overflow-y-auto scrollbar-modern p-6">
@@ -55,6 +58,12 @@ export default function EmailDetail({ email, onUpdated, loadOpenRequests, post }
 
       {/* Detail footer */}
       <div className="px-6 py-3 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-3">
+        {canAssign && !assignOpen && (
+          <Button variant="outline" size="sm" className="gap-2" onClick={() => setAssignOpen(true)}>
+            <Link2 className="h-4 w-4" />
+            Atribuie unei cereri
+          </Button>
+        )}
         <Button variant="outline" size="sm" disabled className="gap-2 opacity-50">
           <Reply className="h-4 w-4" />
           Răspunde (în curând)

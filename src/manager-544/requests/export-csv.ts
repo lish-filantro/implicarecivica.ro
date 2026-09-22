@@ -31,13 +31,21 @@ function escapeCsvField(value: string): string {
   return value;
 }
 
-function formatDate(dateStr: string | undefined | null): string {
+function formatDate(dateStr: string | undefined | null, timeZone?: string): string {
   if (!dateStr) return '';
   try {
-    return new Date(dateStr).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return new Date(dateStr).toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone });
   } catch {
     return '';
   }
+}
+
+/**
+ * Termenul legal e stocat ca sfârşit de zi UTC (`…T23:59:59.999Z`), aşa că ziua lui se citeşte
+ * în UTC: exportul rulează în browser, iar la UTC+3 formatarea locală ar arăta ziua următoare.
+ */
+function formatDeadline(dateStr: string | undefined | null): string {
+  return formatDate(dateStr, 'UTC');
 }
 
 function flattenAnswer(answer: AnswerSummary | undefined | null): string {
@@ -66,7 +74,7 @@ function requestToRow(request: Request, now: Date): string {
     request.registration_number || '',
     formatDate(request.date_sent),
     formatDate(request.date_received || request.response_received_date),
-    formatDate(deadline),
+    formatDeadline(deadline),
     daysLeft !== null ? String(daysLeft) : '',
     flattenAnswer(request.answer_summary),
   ];

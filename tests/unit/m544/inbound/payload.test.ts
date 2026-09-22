@@ -62,6 +62,19 @@ describe('parseWorkerPayload', () => {
     expect(p.data.raw_size).toBe(12345);
   });
 
+  it('decodează subiectul encodat RFC 2047 (cazul din raportul de testare)', () => {
+    const result = parseWorkerPayload({
+      from: 'inarion-all@yahoo.com',
+      to: 'irina.bogdan@implicarecivica.ro',
+      subject: '=?UTF-8?Q?Re:_Cerere_informa=C8=9Bii_publice_-_Legea_544/2001?=',
+      r2_key: 'inbound/2026-09-17-test.eml',
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.data.subject).toBe('Re: Cerere informații publice - Legea 544/2001');
+    }
+  });
+
   it('returns the zod issues on invalid input', () => {
     const p = parseWorkerPayload({ from: 'x' });
     expect(p.ok).toBe(false);

@@ -10,6 +10,11 @@ interface RateLimitNoticeProps {
   exceedsLimit: boolean;
 }
 
+/** „1 cerere" / „N cereri" — acordul se rupea la o singură cerere („Ai selectat 1 cereri"). */
+export function cereriText(n: number): string {
+  return n === 1 ? '1 cerere' : `${n} cereri`;
+}
+
 /** The daily-limit banner of the preview modal (red when the selection exceeds what is left). */
 export function RateLimitNotice({ rateLimit, selectedCount, exceedsLimit }: RateLimitNoticeProps) {
   return (
@@ -29,7 +34,7 @@ export function RateLimitNotice({ rateLimit, selectedCount, exceedsLimit }: Rate
           : 'text-civic-blue-800 dark:text-civic-blue-300'
       }`}>
         <p>
-          Limita zilnică: <strong>{rateLimit.limit} cereri</strong> per instituție.
+          Limita zilnică: <strong>{cereriText(rateLimit.limit)}</strong> per instituție.
           {rateLimit.sent_today > 0 && (
             <> Azi ai trimis <strong>{rateLimit.sent_today}</strong>.</>
           )}
@@ -37,7 +42,7 @@ export function RateLimitNotice({ rateLimit, selectedCount, exceedsLimit }: Rate
         </p>
         {exceedsLimit && (
           <p className="font-semibold">
-            Ai selectat {selectedCount} cereri, dar mai poți trimite doar {rateLimit.remaining}.
+            Ai selectat {cereriText(selectedCount)}, dar mai poți trimite doar {rateLimit.remaining}.
             {rateLimit.remaining === 0
               ? ' Încearcă din nou mâine.'
               : ' Reduce numărul de cereri selectate.'}

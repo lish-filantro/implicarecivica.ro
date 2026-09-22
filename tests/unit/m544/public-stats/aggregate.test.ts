@@ -84,6 +84,30 @@ describe('aggregateInstitutionStats', () => {
     expect(aggregateInstitutionStats(rows, NOW).answered_within_deadline_pct).toBe(75);
   });
 
+  /**
+   * `response_received_date` is a real instant, so its day is the Romanian calendar day; the
+   * stored deadline is an encoded day read in UTC (see shared/utils/legal-days). An answer that
+   * lands at 22:30Z is already 01:30 the next morning in Romania, so it missed a deadline that
+   * expired at 24:00 — read on the UTC day, it was counted as "Răspunsuri în termen".
+   */
+  describe('the answer instant is read on the Romanian calendar day', () => {
+    const deadline = '2026-09-18T23:59:59.999Z';
+
+    it('counts an answer received after midnight in Romania as late', () => {
+      const late = answered('2026-09-08', '2026-09-18T22:30:00.000Z', deadline);
+      const out = aggregateInstitutionStats([late, late, late], NOW);
+      expect(out.answered_within_deadline_pct).toBe(0);
+      expect(out.median_days_to_answer).toBe(11);
+    });
+
+    it('still counts an answer from earlier the same evening as in time', () => {
+      const inTime = answered('2026-09-08', '2026-09-18T20:30:00.000Z', deadline); // 23:30 in Romania
+      const out = aggregateInstitutionStats([inTime, inTime, inTime], NOW);
+      expect(out.answered_within_deadline_pct).toBe(100);
+      expect(out.median_days_to_answer).toBe(10);
+    });
+  });
+
   it('median and pct are null when no request was answered', () => {
     const rows: StatRow[] = [
       { status: 'pending', date_sent: '2026-09-05', deadline_date: '2026-09-19' },

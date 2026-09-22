@@ -6,6 +6,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { processEmail, type ProcessDeps } from '@m544/pipeline/process-email';
 import { processPendingBatch } from '@m544/pipeline/batch';
 import type { AnalysisResult } from '@m544/pipeline/types';
+import type { AnalysisInput } from '@m544/pipeline/analysis';
 import { FakeEmailsRepo, FakeRequestsRepo, FakeStorageRepo } from '../_fakes/fake-repos';
 import { FakeInstitutionsRepo } from '../_fakes/fake-institutions-repo';
 
@@ -158,6 +159,19 @@ describe('processEmail — categories and matching outcomes', () => {
     expect(stored?.processing_status).toBe('completed');
   });
 
+  it('no candidate at all → flagged for review, so a relevant email is never lost silently', async () => {
+    const { deps, emails, requests } = makeDeps(analysis({ category: 'raspunse', registration_number: null }));
+    requests.seed({ user_id: USER, institution_email: 'reg@primaria.ro' });
+    const e = emails.seed({ user_id: USER, from_email: 'cabinet.primar@primaria.ro' });
+    const r = await processEmail(e.id, deps);
+    expect(r.success).toBe(true);
+    expect(r.matchedRequestId).toBeUndefined();
+    expect(r.needsReview).toBe(true);
+    const stored = await emails.getById(e.id);
+    expect(stored?.needs_review).toBe(true);
+    expect(stored?.processing_status).toBe('completed');
+  });
+
   it('auto-heals a missing registration number on the matched request', async () => {
     const { deps, emails, requests } = makeDeps(analysis({ category: 'raspunse', answer_summary: { type: 'text', content: 'ok' } }));
     const req = requests.seed({ user_id: USER, status: 'received', institution_email: 'reg@primaria.ro' });
@@ -270,5 +284,68 @@ describe('processPendingBatch', () => {
   it('returns processed 0 when nothing is pending', async () => {
     const { deps } = makeDeps();
     expect(await processPendingBatch(5, deps)).toEqual({ processed: 0, successful: 0, failed: 0, results: [] });
+  });
+});
+
+describe('processEmail — PDF-ul ajunge direct la model', () => {
+  /** Ca `makeDeps`, dar fără `deps.ocr`: fluxul implicit, fără OCR extern. */
+  function makeNativeDeps() {
+    const emails = new FakeEmailsRepo();
+    const requests = new FakeRequestsRepo();
+    const storage = new FakeStorageRepo();
+    const analyze = vi.fn(async (_input: AnalysisInput) => analysis());
+    const deps: ProcessDeps = { emails, requests, storage, analyze };
+    return { emails, requests, storage, analyze, deps };
+  }
+
+  it('trimite octeţii PDF-ului clasificării, fără niciun pas de OCR', async () => {
+    const { deps, emails, storage, analyze } = makeNativeDeps();
+    const bytes = new TextEncoder().encode('%PDF-1.4 raspuns');
+    const e = emails.seed({ user_id: USER, pdf_file_path: `${USER}/e9/doc.pdf` });
+    await storage.upload(`${USER}/e9/doc.pdf`, bytes, 'application/pdf');
+
+    const r = await processEmail(e.id, deps);
+
+    expect(r.success).toBe(true);
+    expect(analyze.mock.calls[0][0].pdf).toEqual(bytes);
+    expect(analyze.mock.calls[0][0].ocrText).toBeUndefined();
+  });
+
+  it('nu trimite niciun PDF când emailul n-are ataşament', async () => {
+    const { deps, emails, analyze } = makeNativeDeps();
+    const e = emails.seed({ user_id: USER });
+
+    await processEmail(e.id, deps);
+
+    expect(analyze.mock.calls[0][0].pdf).toBeUndefined();
+  });
+
+  it('clasifică pe subiect şi corp când fişierul lipseşte din storage, fără să blocheze emailul', async () => {
+    const { deps, emails, analyze } = makeNativeDeps();
+    const e = emails.seed({ user_id: USER, pdf_file_path: 'disparut/doc.pdf' });
+
+    const r = await processEmail(e.id, deps);
+
+    expect(r.success).toBe(true);
+    expect(analyze.mock.calls[0][0].pdf).toBeUndefined();
+  });
+
+  it('lasă emailul reluabil când analiza eşuează, în loc să-l marcheze completed', async () => {
+    // Regresia pe care o repară schimbarea: înainte, o limitare de rată la OCR era
+    // înghiţită, emailul se clasifica doar după subiect şi se marca `completed`.
+    const { deps, emails, storage } = makeNativeDeps();
+    const bytes = new TextEncoder().encode('%PDF-1.4');
+    const e = emails.seed({ user_id: USER, pdf_file_path: `${USER}/e8/doc.pdf` });
+    await storage.upload(`${USER}/e8/doc.pdf`, bytes, 'application/pdf');
+    deps.analyze = vi.fn(async () => {
+      throw Object.assign(new Error('Rate limit exceeded'), { status: 429 });
+    });
+
+    const r = await processEmail(e.id, deps);
+
+    expect(r.success).toBe(false);
+    const stored = await emails.getById(e.id);
+    expect(stored?.processing_status).toBe('pending');
+    expect(stored?.error_log).toMatch(/Rate limit/);
   });
 });

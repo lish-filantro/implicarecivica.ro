@@ -23,12 +23,24 @@ const stats: DashboardStats = {
 describe('DashboardHeader', () => {
   it('greets the user and shows the unread badge only when needed', () => {
     const { rerender } = render(<DashboardHeader userName="Ana" />);
-    expect(screen.getByText('Bine ai revenit, Ana!')).toBeTruthy();
-    expect(screen.queryByLabelText(/Notificari/)).toBeNull();
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('Bun venit, Ana!');
+    expect(screen.queryByLabelText(/Notific/)).toBeNull();
 
     rerender(<DashboardHeader userName="Ana" unreadNotifications={12} />);
-    expect(screen.getByLabelText('Notificari (12 necitite)')).toBeTruthy();
+    expect(screen.getByLabelText('Notificări (12 necitite)')).toBeTruthy();
     expect(screen.getByText('9+')).toBeTruthy();
+  });
+
+  it('duce la inbox când există emailuri necitite', () => {
+    render(<DashboardHeader userName="Irina" unreadNotifications={3} />);
+    const link = screen.getByRole('link', { name: /notificări/i });
+    expect(link.getAttribute('href')).toBe('/emails');
+    expect(link.textContent).toContain('3');
+  });
+
+  it('nu afişează nimic când nu există necitite', () => {
+    render(<DashboardHeader userName="Irina" unreadNotifications={0} />);
+    expect(screen.queryByRole('link', { name: /notificări/i })).toBeNull();
   });
 });
 

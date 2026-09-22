@@ -2,7 +2,8 @@
  * E2E Test — Delayed Response (Set_2_Delayed_Achizitii)
  *
  * Flow: confirmare → prelungire → răspuns final
- * Tests the extension deadline logic (10 → 30 BUSINESS days from registration, HG 123/2002 art. 16)
+ * Tests the extension deadline logic (10 → 30 de zile calendaristice de la înregistrare — plafon
+ * total, art. 7 alin. (1) din Lege / art. 16 alin. (1) lit. c) din Norme, HG 123/2002)
  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { getTestSupabase, TEST_USER_ID, TEST_INSTITUTION_EMAIL } from '../helpers/supabase-test-client';
@@ -10,7 +11,6 @@ import { ensureTestUserProfile, cleanupAllTestData, createTestSession, createSen
 import { injectAndProcess } from '../helpers/inject-email';
 import { getTestScenarios } from '../helpers/pdf-loader';
 import { standardDeadline, extendedDeadline } from '@m544/pipeline/status/deadlines';
-import { businessDaysBetween } from '@m544/shared/utils/business-days';
 
 const epoch = (iso: string) => new Date(iso).getTime();
 
@@ -51,7 +51,7 @@ describe(`E2E Delayed Response — ${scenario.setName}`, () => {
   const prelungire = scenario.pdfs.find((p) => ['amanare', 'notificare_prelungire'].includes(p.docType))!;
   const raspuns = scenario.pdfs.find((p) => ['raspuns_final', 'raspuns'].includes(p.docType))!;
 
-  it('Step 1: Confirmare → received + deadline 10 zile lucrătoare', async () => {
+  it('Step 1: Confirmare → received + termen de 10 zile', async () => {
     const result = await injectAndProcess({
       parentEmailId: sentEmailId,
       fromEmail: `Registratură <${TEST_INSTITUTION_EMAIL}>`,
@@ -70,13 +70,14 @@ describe(`E2E Delayed Response — ${scenario.setName}`, () => {
     expect(req!.registration_number).toBeTruthy();
     expect(req!.deadline_date).toBeTruthy();
 
-    // deadline_date = 10 business days after date_received (weekends + public holidays skipped)
+    // deadline_date = ultima zi a termenului de 10 zile de la înregistrare (art. 16 alin. (2)-(3)),
+    // stocată ca sfârşit de zi UTC
     expect(req!.date_received).toBeTruthy();
     expect(epoch(req!.deadline_date)).toBe(epoch(standardDeadline(new Date(req!.date_received).toISOString())));
-    expect(businessDaysBetween(req!.date_received, req!.deadline_date)).toBe(10);
+    expect(new Date(req!.deadline_date).getUTCHours()).toBe(23);
   }, 120_000);
 
-  it('Step 2: Prelungire → extension + deadline 30 zile lucrătoare', async () => {
+  it('Step 2: Prelungire → extension + 30 de zile', async () => {
     const result = await injectAndProcess({
       fromEmail: `Registratură <${TEST_INSTITUTION_EMAIL}>`,
       subject: `Re: ${scenario.subject}`,
@@ -93,9 +94,10 @@ describe(`E2E Delayed Response — ${scenario.setName}`, () => {
     expect(req!.status).toBe('extension');
     expect(req!.extension_date).toBeTruthy();
 
-    // extension_date = 30 business days after date_received; extension_days stores the total (30)
+    // extension_date = ultima zi a plafonului de 30 de zile de la înregistrare;
+    // extension_days stochează totalul (30), nu 20 în plus peste cele 10
     expect(epoch(req!.extension_date)).toBe(epoch(extendedDeadline(new Date(req!.date_received).toISOString())));
-    expect(businessDaysBetween(req!.date_received, req!.extension_date)).toBe(30);
+    expect(new Date(req!.extension_date).getUTCHours()).toBe(23);
     expect(req!.extension_days).toBe(30);
   }, 120_000);
 

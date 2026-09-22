@@ -7,7 +7,13 @@
  */
 
 export interface AnalysisClient {
-  complete(system: string, user: string): Promise<string>;
+  /**
+   * `pdf` sunt octeţii ataşamentului, când emailul are unul. Furnizorii care ştiu să
+   * citească documente îl trimit modelului ca atare (Claude: un bloc `document`, cu
+   * fiecare pagină dată şi ca imagine, şi ca text extras); ceilalţi îl ignoră, iar
+   * conţinutul PDF-ului le ajunge, dacă ajunge, prin `AnalysisInput.ocrText`.
+   */
+  complete(system: string, user: string, pdf?: Uint8Array): Promise<string>;
 }
 
 export const ANALYSIS_PROVIDERS = ['anthropic', 'mistral'] as const;

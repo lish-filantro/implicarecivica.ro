@@ -89,24 +89,44 @@ function redirectedTo(value: unknown, category: EmailCategory): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
+export interface ToAnalysisResultOptions {
+  /**
+   * Documentul a fost trimis ca ataşament, nu transcris în `fullText`.
+   *
+   * Garda anti-halucinaţie cere ca numărul de înregistrare să apară în textul analizat; cu
+   * PDF-ul citit direct de model, acel text nu mai conţine documentul, aşa că orice număr
+   * real ar fi respins. Atunci corpusul de verificare include şi `evidence` — rândul pe care
+   * modelul e obligat să-l copieze verbatim din document. E o dovadă mai slabă decât un OCR
+   * independent, dar prinde în continuare un număr inventat din nimic: ar trebui să apară şi
+   * în propriul citat. Pe calea cu OCR corpusul rămâne strict textul independent.
+   */
+  documentAttached?: boolean;
+}
+
 /**
  * Assemble the AnalysisResult from the parsed JSON.
  * `fullText` is the text the model saw; the registration number must appear in it.
  */
-export function toAnalysisResult(parsed: Record<string, unknown>, fullText: string): AnalysisResult {
+export function toAnalysisResult(
+  parsed: Record<string, unknown>,
+  fullText: string,
+  opts: ToAnalysisResultOptions = {},
+): AnalysisResult {
   const category = normalizeCategory(parsed.category);
   const candidate = typeof parsed.registration_number === 'string' ? parsed.registration_number : null;
+  const evidence = typeof parsed.evidence === 'string' ? parsed.evidence : '';
+  const corpus = opts.documentAttached ? `${fullText}\n${evidence}` : fullText;
 
   return {
     category,
-    registration_number: validateRegistrationNumber(candidate, fullText),
+    registration_number: validateRegistrationNumber(candidate, corpus),
     registration_date: optionalString(parsed.registration_date),
     response_date: optionalString(parsed.response_date),
     answer_summary: parseAnswerSummary(parsed.answer_summary),
     extension_days: optionalNumber(parsed.extension_days),
     extension_reason: optionalString(parsed.extension_reason),
     redirected_to: redirectedTo(parsed.redirected_to, category),
-    evidence: typeof parsed.evidence === 'string' ? parsed.evidence : '',
+    evidence,
     confidence: optionalNumber(parsed.confidence) ?? 0,
   };
 }
