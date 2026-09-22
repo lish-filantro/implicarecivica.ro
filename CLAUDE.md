@@ -32,6 +32,19 @@ Restul straturilor de testare (integration, e2e, smoke, browser) și ce servicii
 sunt în **[docs/testing.md](docs/testing.md)**. Citește-l înainte să scrii teste; are convențiile
 de nume, de fake-uri și regula „nu se mock-uiește cu `vi.mock`, se injectează dependențele".
 
+**`@testing-library/jest-dom` NU este instalat** și `tests/setup/test-env.ts` nu îl încarcă. Deci
+`toBeInTheDocument`, `toHaveAttribute` și `toHaveTextContent` nu există — dau `TypeError`. Nu
+instala pachetul ca să le folosești; scrie aserțiunile pe DOM direct, ca în testele existente
+(`tests/unit/public/components/home/*.test.tsx`):
+
+```ts
+expect(link.getAttribute('href')).toBe('/emails');
+expect(el.textContent).toContain('Bun venit');
+expect(screen.queryByRole('link', { name: /notificări/i })).toBeNull();
+```
+
+`next/link` se randează fără probleme în jsdom; nu are nevoie de mock.
+
 ## Git
 
 - **Niciodată `git add -A` / `git add .`** — adaugă explicit fișierele pe care le-ai modificat.
