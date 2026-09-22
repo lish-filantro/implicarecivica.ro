@@ -94,6 +94,19 @@ describe('PreviewModal', () => {
     expect(screen.queryByText(/Limita zilnică/)).toBeNull();
   });
 
+  it('foloseşte singularul pentru o singură cerere', async () => {
+    stubRateLimit(8);
+    render(createElement(PreviewModal, { wizard: wizardWith(1), onClose: vi.fn() }));
+    expect(screen.getByText(/Se vor trimite/).textContent).toContain('1 email separat');
+    expect(screen.queryByText(/emailuri separate/)).toBeNull();
+  });
+
+  it('foloseşte pluralul pentru mai multe', async () => {
+    stubRateLimit(8);
+    render(createElement(PreviewModal, { wizard: wizardWith(3), onClose: vi.fn() }));
+    expect(screen.getByText(/Se vor trimite/).textContent).toContain('3 emailuri separate');
+  });
+
   it('the Anulează button calls onClose', async () => {
     stubRateLimit(5);
     const onClose = vi.fn();

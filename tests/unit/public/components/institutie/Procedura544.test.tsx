@@ -34,14 +34,29 @@ describe('contactCereri', () => {
 });
 
 describe('Procedura544', () => {
-  it('renders department, mailto/tel links (digits only), address and the register CTA', () => {
+  it('renders department, the tel link (digits only), address and the CTA', () => {
     render(<Procedura544 inst={inst} />);
     expect(screen.getByText('Trimite o cerere 544')).toBeTruthy();
     expect(screen.getByText('Biroul de presă')).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'cereri@exemplu.ro' }).getAttribute('href')).toBe('mailto:cereri@exemplu.ro');
     expect(screen.getByRole('link', { name: '+40 (21) 111-2222' }).getAttribute('href')).toBe('tel:+40211112222');
     expect(screen.getByText('Str. Exemplu 1')).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'Trimite o cerere' }).getAttribute('href')).toBe('/register');
+  });
+
+  /**
+   * Raportul de testare: apăsarea pe „Trimite o cerere" deschidea clientul de email. Cauza era
+   * adresa instituţiei, randată ca `mailto:` imediat deasupra butonului — un click alăturat.
+   */
+  it('nu randează adresa instituţiei ca link mailto', () => {
+    const { container } = render(<Procedura544 inst={inst} />);
+    expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
+    expect(screen.getByText('cereri@exemplu.ro')).toBeTruthy();
+  });
+
+  it('trimite butonul în aplicaţie, nu către înregistrare', () => {
+    render(<Procedura544 inst={inst} />);
+    expect(screen.getByRole('link', { name: /trimite o cerere/i }).getAttribute('href')).toBe(
+      '/requests/add',
+    );
   });
 
   it('omits the optional rows when no contact data exists', () => {

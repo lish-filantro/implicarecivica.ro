@@ -16,7 +16,10 @@ const icon = 'w-4 h-4 text-gray-400 shrink-0'
 const contactLink =
   'flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300 hover:text-civic-blue-600 dark:hover:text-civic-blue-400 transition-colors'
 
-/** Sidebar card "Trimite o cerere 544": department, email, phone, address, register CTA. */
+/**
+ * Sidebar card "Trimite o cerere 544": department, email, phone, address and the CTA into the
+ * in-app request form (`/requests/add`; middleware sends anonymous visitors to login).
+ */
 export function Procedura544({ inst }: { inst: Institutie }) {
   const { departament, email, telefon, adresa } = contactCereri(inst)
   return (
@@ -35,8 +38,10 @@ export function Procedura544({ inst }: { inst: Institutie }) {
       )}
 
       <div className="space-y-2.5 mb-5">
+        {/* Adresa e text simplu, nu `mailto:` — stă lipită de butonul de mai jos, iar un tap
+            puţin deviat deschidea clientul de email în locul formularului din aplicaţie. */}
         {email && (
-          <a href={`mailto:${email}`} className={contactLink}>
+          <div className={`${contactLink} select-all cursor-text`}>
             <svg className={icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -46,7 +51,7 @@ export function Procedura544({ inst }: { inst: Institutie }) {
               />
             </svg>
             {email}
-          </a>
+          </div>
         )}
         {telefon && (
           <a href={`tel:${telefon.replace(/[^+\d]/g, '')}`} className={contactLink}>
@@ -83,7 +88,7 @@ export function Procedura544({ inst }: { inst: Institutie }) {
       </div>
 
       <Link
-        href="/register"
+        href="/requests/add"
         className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-civic-blue-500 text-white font-semibold rounded-lg hover:bg-civic-blue-600 transition-colors text-sm"
       >
         Trimite o cerere
