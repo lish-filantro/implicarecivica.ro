@@ -17,8 +17,11 @@ import { json, httpError, parseJsonBody, withErrorBoundary } from '@m544/shared/
 import { createServerClient } from '@m544/shared/db/clients';
 import { checkDailyLimit, SupabaseSentCounter, type SentCounter } from '@m544/shared/rate-limit';
 import type { Email } from '@m544/shared/types/email';
+import { SupabaseStorageRepo, type StorageRepo } from '@m544/shared/db/storage-repo';
+import { checkDeclaredAttachments, MAX_ATTACHMENTS_PER_QUESTION } from '@m544/requests/attachments';
 import { getResend } from './resend-client';
 import { SupabaseSendStore, type SendStore } from './store';
+import { loadAttachments } from './outgoing-attachments';
 
 export interface OutgoingEmail {
   from: string;
@@ -27,6 +30,8 @@ export interface OutgoingEmail {
   html: string;
   text?: string;
   headers: Record<string, string>;
+  /** Doar la cererile cu ataşamente; câmpul lipseşte altfel, ca payload-ul să rămână neschimbat. */
+  attachments?: Array<{ filename: string; content: Buffer; contentType: string }>;
 }
 
 export interface SendResult {
@@ -45,6 +50,8 @@ export interface SendEmailDeps<C extends AuthClient = SupabaseClient> {
   store: (sb: C) => SendStore;
   counter: (sb: C) => SentCounter;
   resend: EmailSender;
+  /** Storage pe clientul de SESIUNE, ca RLS să decidă ce fişiere poate trimite utilizatorul. */
+  attachmentStorage: (sb: C) => Pick<StorageRepo, 'download'>;
   now?: () => Date;
 }
 
@@ -54,6 +61,17 @@ const bodySchema = z.object({
   body: z.string().trim().min(1),
   request_id: z.string().uuid().nullish(),
   parent_email_id: z.string().uuid().nullish(),
+  attachments: z
+    .array(
+      z.object({
+        path: z.string().min(1),
+        name: z.string().min(1),
+        type: z.string().min(1),
+        size: z.number().int().nonnegative(),
+      }),
+    )
+    .max(MAX_ATTACHMENTS_PER_QUESTION)
+    .optional(),
 });
 
 export type SendEmailBody = z.infer<typeof bodySchema>;
@@ -73,7 +91,7 @@ export function createSendEmailHandler<C extends AuthClient>(getDeps: () => Send
 
     const parsed = await parseJsonBody(request, bodySchema);
     if (!parsed.ok) return parsed.response;
-    const { to, subject, body, request_id, parent_email_id } = parsed.data;
+    const { to, subject, body, request_id, parent_email_id, attachments = [] } = parsed.data;
 
     const store = deps.store(supabase);
     const identity = await store.getSenderIdentity(user.id);
@@ -88,12 +106,22 @@ export function createSendEmailHandler<C extends AuthClient>(getDeps: () => Send
       return httpError(429, `Limita zilnică de ${limit.limit} cereri către această adresă a fost atinsă.`);
     }
 
+    // Un ataşament lipsă sau fals opreşte emailul: nu trimitem niciodată, tăcut, o cerere fără
+    // fişierul pe care omul l-a ataşat.
+    const declaredError = checkDeclaredAttachments(user.id, attachments);
+    if (declaredError) return httpError(400, declaredError);
+    const loaded = await loadAttachments(attachments, deps.attachmentStorage(supabase));
+    if (!loaded.ok) return httpError(400, loaded.error);
+
     const sent = await deps.resend.send({
       from: `${identity.display_name || 'Utilizator'} <${identity.mailcow_email}>`,
       to: [to],
       subject,
       html: body,
       headers: request_id ? { 'X-Request-ID': request_id } : {},
+      ...(loaded.files.length
+        ? { attachments: loaded.files.map(({ filename, content, contentType }) => ({ filename, content, contentType })) }
+        : {}),
     });
     if (sent.error) {
       console.error('[emails/send] Resend error:', sent.error.message);
@@ -112,6 +140,7 @@ export function createSendEmailHandler<C extends AuthClient>(getDeps: () => Send
         to_email: to,
         subject,
         body,
+        ...(loaded.files.length ? { attachments: loaded.files.map((f) => f.meta) } : {}),
       });
     } catch (err) {
       console.error('[emails/send] DB error (email sent but not saved):', err instanceof Error ? err.message : err);
@@ -130,6 +159,7 @@ export function createSendEmailDeps(): SendEmailDeps {
     createClient: createServerClient,
     store: (sb) => new SupabaseSendStore(sb),
     counter: (sb) => new SupabaseSentCounter(sb),
+    attachmentStorage: (sb) => new SupabaseStorageRepo(sb),
     get resend() {
       return getResend().emails;
     },
