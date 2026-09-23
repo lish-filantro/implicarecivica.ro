@@ -100,4 +100,16 @@ describe('loadAttachments — numele fişierului (Final fix F2)', () => {
     expect(noExt.length).toBeLessThanOrEqual(150);
     expect(noExt.endsWith('.pdf')).toBe(true);
   });
+
+  // Limita e pe unităţi UTF-16 (`.length`), nu pe puncte de cod: un emoji ocupă două.
+  it('limitează un nume plin de emoji la 150 de unităţi UTF-16, fără să rupă un emoji în două', async () => {
+    const LONE_SURROGATE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
+    for (const declared of [`${'😀'.repeat(100)}.pdf`, `a${'📎'.repeat(100)}.pdf`, '🇷🇴'.repeat(80)]) {
+      const name = await nameFor(declared);
+      expect(name.length).toBeLessThanOrEqual(150);
+      expect(name.endsWith('.pdf')).toBe(true);
+      expect(name).not.toMatch(LONE_SURROGATE);
+    }
+    expect(await nameFor(`a${'📎'.repeat(100)}.pdf`)).toBe(`a${'📎'.repeat(72)}.pdf`);
+  });
 });

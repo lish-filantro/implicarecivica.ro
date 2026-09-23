@@ -126,7 +126,7 @@ export const MAX_ATTACHMENT_NAME_LENGTH = 150;
  * Server: numele cu care pleacă fişierul la instituţie şi rămâne pe rândul emailului. Numele vine
  * din cerere, deci poate fi orice: se curăţă (fără directoare şi caractere de control), primeşte
  * extensia tipului CITIT din octeţi — un PDF/HTML poliglot declarat „factura.html” pleacă drept
- * „factura.html.pdf” — şi se taie la 150 de caractere, păstrând extensia.
+ * „factura.html.pdf” — şi se taie la 150 de unităţi UTF-16, păstrând extensia.
  */
 export function outgoingFilename(declared: string, type: AllowedAttachmentType): string {
   const clean = safeFilename(declared);
@@ -134,7 +134,13 @@ export function outgoingFilename(declared: string, type: AllowedAttachmentType):
   const current = allowed.find((ext) => clean.toLowerCase().endsWith(ext));
   const ext = current ? clean.slice(clean.length - current.length) : allowed[0];
   const stem = current ? clean.slice(0, clean.length - current.length) : clean;
-  // Pe puncte de cod, nu pe unităţi UTF-16, ca tăietura să nu rupă un caracter în două.
-  const kept = Array.from(stem).slice(0, MAX_ATTACHMENT_NAME_LENGTH - ext.length).join('');
+  // Limita e pe unităţi UTF-16 (`.length`), dar tăietura merge din punct de cod în punct de cod,
+  // ca un emoji (pereche surogat) să nu rămână rupt în două.
+  const budget = MAX_ATTACHMENT_NAME_LENGTH - ext.length;
+  let kept = '';
+  for (const ch of stem) {
+    if (kept.length + ch.length > budget) break;
+    kept += ch;
+  }
   return `${kept}${ext}`;
 }
