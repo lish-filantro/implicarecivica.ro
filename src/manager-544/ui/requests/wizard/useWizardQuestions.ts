@@ -74,6 +74,8 @@ export function useWizardQuestions({ upload = uploadAttachment }: UseWizardQuest
 
   // Replaces the category's generated questions with the new texts; custom ones (and their selection) stay.
   // Generated questions start unselected: the user picks what to send (recommended at most 10 at once).
+  // The replaced ids leave the selection and the pending uploads too: a replaced question with a
+  // failed file would otherwise block the preview forever, with no row left to dismiss.
   const setQuestionsForCategory = useCallback((category: QuestionCategory, texts: string[]) => {
     const items: QuestionItem[] = texts.map((text) => ({
       id: nextId.current(),
@@ -82,8 +84,13 @@ export function useWizardQuestions({ upload = uploadAttachment }: UseWizardQuest
       isCustom: false,
       isEdited: false,
     }));
+    const replaced = questionsRef.current[category].filter((q) => !q.isCustom).map((q) => q.id);
     setQuestions((prev) => ({ ...prev, [category]: [...items, ...prev[category].filter((q) => q.isCustom)] }));
-  }, [setQuestions]);
+    if (replaced.length) {
+      setSelectedQuestionIds((prev) => withIds(prev, replaced, false));
+      for (const id of replaced) clearAttachments(id);
+    }
+  }, [setQuestions, clearAttachments]);
 
   const toggleQuestion = useCallback((id: string) => {
     setSelectedQuestionIds((prev) => withIds(prev, [id], !prev.has(id)));
@@ -141,10 +148,11 @@ export function useWizardQuestions({ upload = uploadAttachment }: UseWizardQuest
   // fără fişierul pe care omul crede că l-a ataşat. Contează doar întrebările bifate: una
   // deselectată nu pleacă, dar rândul ei eşuat rămâne şi blochează din nou dacă e rebifată.
   // Una bifată al cărei picker e doar ascuns (categorie strânsă, editare, pasul 1) blochează.
-  const hasBusyAttachments = useMemo(
-    () => Object.keys(pendingAttachments).some((id) => selectedQuestionIds.has(id)),
-    [pendingAttachments, selectedQuestionIds],
-  );
+  // Doar întrebările care încă există: un id rămas în urmă n-ar mai avea rând de scos.
+  const hasBusyAttachments = useMemo(() => {
+    const existing = new Set(CATEGORIES.flatMap((cat) => questions[cat.id].map((q) => q.id)));
+    return Object.keys(pendingAttachments).some((id) => selectedQuestionIds.has(id) && existing.has(id));
+  }, [pendingAttachments, selectedQuestionIds, questions]);
 
   const canProceedToStep3 = useMemo(
     () => selectedCount > 0 && !hasBusyAttachments,

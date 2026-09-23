@@ -400,4 +400,31 @@ describe('useWizardQuestions — ataşamente', () => {
     expect(hook.result.current.questions.A_FINANCIAR).toEqual([]);
     expect(hook.result.current.questionAttachments.pending[id]).toBeUndefined();
   });
+
+  it('regenerarea categoriei scoate întrebarea înlocuită din selecţie şi din aşteptare; previzualizarea se deblochează', async () => {
+    const { upload, calls } = controlledUpload();
+    const hook = renderHook(() => useWizardQuestions({ upload }));
+    act(() => hook.result.current.setQuestionsForCategory('A_FINANCIAR', ['generată']));
+    act(() => hook.result.current.addCustomQuestion('B_RESPONSABILITATE', 'a mea'));
+    const oldId = hook.result.current.questions.A_FINANCIAR[0].id;
+    act(() => hook.result.current.toggleQuestion(oldId));
+    let done!: Promise<void>;
+    act(() => {
+      done = hook.result.current.questionAttachments.add(oldId, [pdf('doc.pdf')]);
+    });
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await done;
+    });
+    expect(hook.result.current.selectedCount).toBe(2);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+
+    act(() => hook.result.current.setQuestionsForCategory('A_FINANCIAR', ['nouă']));
+
+    expect(hook.result.current.selectedQuestionIds.has(oldId)).toBe(false);
+    expect(hook.result.current.selectedCount).toBe(1);
+    expect(hook.result.current.questionAttachments.pending[oldId]).toBeUndefined();
+    expect(hook.result.current.hasBusyAttachments).toBe(false);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+  });
 });
