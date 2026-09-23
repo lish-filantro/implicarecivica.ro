@@ -82,4 +82,21 @@ describe('QuestionItem', () => {
     renderItem(CUSTOM);
     expect(screen.queryByTitle('Șterge')).toBeNull();
   });
+
+  it('arată „Ataşează" doar la întrebările selectate', () => {
+    const item = GENERATED;
+    const { rerender } = render(createElement(QuestionItem, { question: item, isSelected: false, onToggle: vi.fn(), onEdit: vi.fn() }));
+    expect(screen.queryByText('Atașează')).toBeNull();
+    rerender(
+      createElement(QuestionItem, {
+        question: item,
+        isSelected: true,
+        onToggle: vi.fn(),
+        onEdit: vi.fn(),
+        onAttachmentsChange: vi.fn(),
+        onAttachmentsBusy: vi.fn(),
+      }),
+    );
+    expect(screen.getByText('Atașează')).toBeTruthy();
+  });
 });

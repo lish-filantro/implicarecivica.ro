@@ -70,7 +70,15 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
           onAdd={(text) => wizard.addCustomQuestion(MANUAL_QUESTION_CATEGORY, text)}
           onEdit={wizard.editQuestion}
           onRemove={wizard.removeQuestion}
+          onAttachmentsChange={wizard.setQuestionAttachments}
+          onAttachmentsBusy={wizard.setAttachmentsBusy}
         />
+      )}
+
+      {wizard.hasBusyAttachments && wizard.selectedCount > 0 && (
+        <p className="text-xs text-activist-orange-600 dark:text-activist-orange-400 text-center">
+          Așteaptă încărcarea atașamentelor sau scoate fișierele cu eroare.
+        </p>
       )}
 
       <StickyActionBar

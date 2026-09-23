@@ -105,6 +105,7 @@ export function PreviewModal({ wizard, onClose, existingSessionId }: PreviewModa
                   total={selectedQuestions.length}
                   question={q.text}
                   formData={formData}
+                  attachments={q.attachments}
                 />
               ))}
             </div>

@@ -13,7 +13,7 @@ afterEach(cleanup);
 const q = (id: string, text: string): QuestionItem => ({ id, category: 'A_FINANCIAR', text, isCustom: true, isEdited: false });
 
 function setup(questions: QuestionItem[] = []) {
-  const handlers = { onAdd: vi.fn(), onEdit: vi.fn(), onRemove: vi.fn() };
+  const handlers = { onAdd: vi.fn(), onEdit: vi.fn(), onRemove: vi.fn(), onAttachmentsChange: vi.fn(), onAttachmentsBusy: vi.fn() };
   render(<FreeQuestionEditor questions={questions} {...handlers} />);
   return handlers;
 }
@@ -67,5 +67,20 @@ describe('FreeQuestionEditor', () => {
     fireEvent.change(screen.getByPlaceholderText('Scrie întrebarea ta...'), { target: { value: '  Câte sesizări ați primit?  ' } });
     fireEvent.click(screen.getByRole('button', { name: 'Adaugă' }));
     expect(onAdd).toHaveBeenCalledWith('Câte sesizări ați primit?');
+  });
+
+  it('are „Ataşează" pe fiecare întrebare şi raportează fişierele întrebării potrivite', () => {
+    const onAttachmentsChange = vi.fn();
+    render(
+      <FreeQuestionEditor
+        questions={[q('1', 'Prima'), q('2', 'A doua')]}
+        onAdd={vi.fn()}
+        onEdit={vi.fn()}
+        onRemove={vi.fn()}
+        onAttachmentsChange={onAttachmentsChange}
+        onAttachmentsBusy={vi.fn()}
+      />,
+    );
+    expect(screen.getAllByText('Atașează')).toHaveLength(2);
   });
 });

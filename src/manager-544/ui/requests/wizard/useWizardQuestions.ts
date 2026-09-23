@@ -116,9 +116,11 @@ export function useWizardQuestions() {
     return counts;
   }, [questions, selectedQuestionIds]);
 
+  const hasBusyAttachments = busyAttachmentIds.size > 0;
+
   const canProceedToStep3 = useMemo(
-    () => selectedCount > 0 && busyAttachmentIds.size === 0,
-    [selectedCount, busyAttachmentIds],
+    () => selectedCount > 0 && !hasBusyAttachments,
+    [selectedCount, hasBusyAttachments],
   );
 
   return {
@@ -133,6 +135,7 @@ export function useWizardQuestions() {
     removeQuestion,
     setQuestionAttachments,
     setAttachmentsBusy,
+    hasBusyAttachments,
     selectedCount,
     selectedCountByCategory,
     getSelectedQuestions,

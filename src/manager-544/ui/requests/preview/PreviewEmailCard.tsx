@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Mail } from 'lucide-react';
 import { formatEmailBodyText, FIXED_SUBJECT } from '@m544/requests/email-template';
+import { formatMb, type OutgoingAttachment } from '@m544/requests/attachments';
 import type { WizardFormData } from '../wizard/types';
 
 interface PreviewEmailCardProps {
@@ -10,9 +11,10 @@ interface PreviewEmailCardProps {
   total: number;
   question: string;
   formData: WizardFormData;
+  attachments?: OutgoingAttachment[];
 }
 
-export function PreviewEmailCard({ index, total, question, formData }: PreviewEmailCardProps) {
+export function PreviewEmailCard({ index, total, question, formData, attachments }: PreviewEmailCardProps) {
   const [isExpanded, setIsExpanded] = useState(index === 0);
 
   const emailBody = formatEmailBodyText(question, formData);
@@ -50,6 +52,17 @@ export function PreviewEmailCard({ index, total, question, formData }: PreviewEm
               <span className="font-semibold text-gray-500 dark:text-gray-400 w-14">Subiect:</span>
               <span className="text-gray-900 dark:text-white">{FIXED_SUBJECT}</span>
             </div>
+            {attachments && attachments.length > 0 && (
+              <div className="flex flex-col gap-0.5 pt-1">
+                {attachments.map((a) => (
+                  <div key={a.path} className="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400">
+                    <span aria-hidden="true">📎</span>
+                    <span className="truncate">{a.name}</span>
+                    <span className="text-gray-400">· {formatMb(a.size)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Email body */}
