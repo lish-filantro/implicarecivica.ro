@@ -18,6 +18,12 @@ import { login } from './helpers/login';
 test.describe.configure({ mode: 'serial' });
 
 const REG_NUMBER = `4521/${new Date().toISOString().slice(0, 10).split('-').reverse().join('.')}`;
+// Diacritics on purpose: Supabase Storage rejects such keys ("Invalid key"), so the stored path is
+// ASCII while the name the user and the institution see keeps its diacritics — on the outgoing
+// upload AND on the inbound save of the institution's copy.
+const ATTACHMENT_NAME = 'Dovadă răspuns.pdf';
+const ATTACHMENT_KEY = 'Dovada raspuns.pdf';
+const ASCII_PATH = /^[\x20-\x7e]+$/;
 const QUESTIONS = [
   'Care este valoarea totală a contractelor de reparații stradale încheiate în 2025?',
   'Care este calendarul lucrărilor de asfaltare planificate pentru 2026?',
@@ -63,8 +69,8 @@ test.describe('ciclul de viață al unei cereri', () => {
     }
     // one attachment, on the first question, travels the whole real path (Resend → Cloudflare → institution)
     const pdf = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n');
-    await page.locator('input[type="file"]').first().setInputFiles({ name: 'dovada.pdf', mimeType: 'application/pdf', buffer: pdf });
-    await expect(page.getByText('dovada.pdf')).toBeVisible();
+    await page.locator('input[type="file"]').first().setInputFiles({ name: ATTACHMENT_NAME, mimeType: 'application/pdf', buffer: pdf });
+    await expect(page.getByText(ATTACHMENT_NAME)).toBeVisible();
 
     await expect(page.getByText(/2\s+cereri selectate/)).toBeVisible();
     await page.getByRole('button', { name: /Previzualizare/ }).click();
@@ -85,8 +91,10 @@ test.describe('ciclul de viață al unei cereri', () => {
     // an unmatched lookup must fail loudly, not pass vacuously through `?.`
     expect(firstQuestionEmail, 'emailul primei întrebări').toBeDefined();
     expect(secondQuestionEmail, 'emailul celei de-a doua întrebări').toBeDefined();
-    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe(ATTACHMENT_NAME);
     expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
+    expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(ASCII_PATH);
+    expect(firstQuestionEmail!.attachments?.[0]?.path.endsWith(`/${ATTACHMENT_KEY}`)).toBe(true);
     expect(secondQuestionEmail!.attachments ?? []).toHaveLength(0);
     await expect(page.getByText(INSTITUTION_NAME).first()).toBeVisible();
   });
@@ -104,7 +112,9 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(firstQuestionEmail, 'emailul primei întrebări').toBeDefined();
     expect(secondQuestionEmail, 'emailul celei de-a doua întrebări').toBeDefined();
     expect(firstQuestionEmail!.attachments).toHaveLength(1);
-    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe(ATTACHMENT_NAME);
+    expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(ASCII_PATH);
+    expect(firstQuestionEmail!.attachments?.[0]?.path.endsWith(`/${ATTACHMENT_KEY}`)).toBe(true);
     expect(secondQuestionEmail!.attachments ?? []).toHaveLength(0);
   });
 
