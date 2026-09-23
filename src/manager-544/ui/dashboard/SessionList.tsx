@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import type { RequestSessionWithRequests } from '@m544/shared/types/session';
 import type { SessionStats } from '@m544/requests/utils/session-stats';
 import { SessionCard } from './SessionCard';
@@ -84,22 +85,22 @@ export function SessionList({
             </h3>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
               {statusFilter === 'all'
-                ? 'Creează prima cerere din chatbot pentru a începe procesul de solicitare a informațiilor publice'
+                ? 'Creează prima cerere: o scrii singur sau te ajută asistentul să găsești instituția și întrebările potrivite.'
                 : 'Încearcă un alt filtru pentru a vedea sesiunile tale'
               }
             </p>
             {statusFilter === 'all' && (
-              <button
-                className="mt-6 px-6 py-2.5 bg-activist-orange-500 hover:bg-activist-orange-600
+              <Link
+                href="/requests/start"
+                className="inline-block mt-6 px-6 py-2.5 bg-activist-orange-500 hover:bg-activist-orange-600
                          text-white font-bold uppercase tracking-wide
                          rounded-lg transition-all duration-200
                          hover:shadow-lg hover:scale-105
                          focus:outline-none focus:ring-2 focus:ring-activist-orange-500/50
                          active:scale-95"
-                onClick={() => {/* Navigate to chatbot */}}
               >
                 Creează Cerere
-              </button>
+              </Link>
             )}
           </div>
         </div>

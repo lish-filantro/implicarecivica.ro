@@ -33,10 +33,34 @@ describe('contactCereri', () => {
   });
 });
 
-describe('Procedura544', () => {
-  it('renders department, the tel link (digits only), address and the CTA', () => {
-    render(<Procedura544 inst={inst} />);
+describe('Procedura544 — contacte ascunse (starea implicită)', () => {
+  /**
+   * Datele de contact ale instituţiilor sunt incomplete: din 86 de intrări, 44 sunt şabloane
+   * per judeţ/localitate şi niciunul nu are adresă. Până la o listă verificată, cardul nu mai
+   * afişează nimic din ce ar putea fi greşit — rămân titlul şi butonul spre aplicaţie.
+   */
+  it('nu afişează emailul, telefonul, adresa sau departamentul', () => {
+    const { container } = render(<Procedura544 inst={inst} />);
     expect(screen.getByText('Trimite o cerere 544')).toBeTruthy();
+    expect(container.textContent).not.toContain('cereri@exemplu.ro');
+    expect(container.textContent).not.toContain('111-2222');
+    expect(container.textContent).not.toContain('Str. Exemplu 1');
+    expect(container.textContent).not.toContain('Biroul de presă');
+    expect(container.querySelector('a[href^="tel:"]')).toBeNull();
+    expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
+  });
+
+  it('duce butonul la alegerea de la începutul unei cereri noi', () => {
+    render(<Procedura544 inst={inst} />);
+    expect(screen.getByRole('link', { name: /trimite o cerere/i }).getAttribute('href')).toBe(
+      '/requests/start',
+    );
+  });
+});
+
+describe('Procedura544 — contacte afişate (la reactivare)', () => {
+  it('renders department, the tel link (digits only), address and the CTA', () => {
+    render(<Procedura544 inst={inst} afiseazaContacte />);
     expect(screen.getByText('Biroul de presă')).toBeTruthy();
     expect(screen.getByRole('link', { name: '+40 (21) 111-2222' }).getAttribute('href')).toBe('tel:+40211112222');
     expect(screen.getByText('Str. Exemplu 1')).toBeTruthy();
@@ -47,20 +71,13 @@ describe('Procedura544', () => {
    * adresa instituţiei, randată ca `mailto:` imediat deasupra butonului — un click alăturat.
    */
   it('nu randează adresa instituţiei ca link mailto', () => {
-    const { container } = render(<Procedura544 inst={inst} />);
+    const { container } = render(<Procedura544 inst={inst} afiseazaContacte />);
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
     expect(screen.getByText('cereri@exemplu.ro')).toBeTruthy();
   });
 
-  it('trimite butonul în aplicaţie, nu către înregistrare', () => {
-    render(<Procedura544 inst={inst} />);
-    expect(screen.getByRole('link', { name: /trimite o cerere/i }).getAttribute('href')).toBe(
-      '/requests/add',
-    );
-  });
-
   it('omits the optional rows when no contact data exists', () => {
-    render(<Procedura544 inst={{ ...inst, sediu: undefined, procedura_544: undefined }} />);
+    render(<Procedura544 inst={{ ...inst, sediu: undefined, procedura_544: undefined }} afiseazaContacte />);
     expect(screen.getAllByRole('link')).toHaveLength(1);
     expect(screen.queryByText(/Departament responsabil/)).toBeNull();
   });

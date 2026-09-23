@@ -1,6 +1,7 @@
 /**
  * Authentication through the real UI: protected pages redirect to /login,
- * the login form signs the citizen in, admin pages stay closed to non-admins.
+ * the login form signs the citizen in (landing on the dashboard when no page
+ * was requested), admin pages stay closed to non-admins.
  */
 import { test, expect } from '@playwright/test';
 import { CITIZEN } from './helpers/accounts';
@@ -17,6 +18,11 @@ test.describe('autentificare', () => {
     await login(page, CITIZEN, '/dashboard');
     await expect(page).toHaveURL(/\/dashboard/);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  });
+
+  test('login fără destinație ajunge pe panou, nu în chat', async ({ page }) => {
+    await login(page, CITIZEN, '');
+    await expect(page).toHaveURL(/\/dashboard$/);
   });
 
   test('parola greșită afișează eroare și rămâne pe /login', async ({ page }) => {

@@ -34,6 +34,12 @@ export function perCategory<T>(make: () => T): Record<QuestionCategory, T> {
   };
 }
 
+/**
+ * The bucket the free editor (manual path, no chat) files its questions under. The category is
+ * only an ordering key for getSelectedQuestions; preview and sending use nothing but the text.
+ */
+export const MANUAL_QUESTION_CATEGORY: QuestionCategory = 'A_FINANCIAR';
+
 export interface QuestionItem {
   id: string;
   category: QuestionCategory;

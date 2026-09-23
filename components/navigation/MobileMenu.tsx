@@ -6,10 +6,18 @@ import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-interface NavItem {
+export interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
+  /** Other sections that belong to this entry (highlighted as active there too). */
+  activeFor?: string[];
+}
+
+const isUnder = (pathname: string, base: string) => pathname === base || pathname.startsWith(base + '/');
+
+export function isNavItemActive(item: NavItem, pathname: string): boolean {
+  return [item.href, ...(item.activeFor ?? [])].some((base) => isUnder(pathname, base));
 }
 
 interface MobileMenuProps {
@@ -70,12 +78,13 @@ export function MobileMenu({ items }: MobileMenuProps) {
                         animate-slide-in">
           <nav className="px-4 py-3 space-y-1">
             {items.map((item) => {
-              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+              const isActive = isNavItemActive(item, pathname);
               const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                              transition-colors duration-200
                              ${isActive

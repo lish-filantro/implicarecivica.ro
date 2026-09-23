@@ -107,6 +107,70 @@ describe('StepSelectQuestions', () => {
     expect(hook.result.current.currentStep).toBe(1);
   });
 
+  it('manual path: a free editor instead of the A–E categories, and no generation', () => {
+    const fetchQuestions = vi.fn(async () => ['nu trebuie generată']);
+    const fetchSet = vi.fn(async () => ({ categories: { A_FINANCIAR: [], B_RESPONSABILITATE: [], C_PLANIFICARE: [], D_MONITORIZARE: [], E_CONFORMITATE: [] }, model: '' }));
+    let wizardRef: ReturnType<typeof useRequestWizard> | null = null;
+    function Manual() {
+      const wizard = useRequestWizard({ initialStep: 2 });
+      wizardRef = wizard;
+      const questionGen = useQuestionGeneration({
+        source: null,
+        preloaded: null,
+        problemContext: null,
+        institutionName: null,
+        onCategoryReady: wizard.setQuestionsForCategory,
+        fetchQuestions,
+        fetchSet,
+      });
+      return createElement(StepSelectQuestions, { wizard, questionGen, fromChat: false });
+    }
+    render(createElement(Manual));
+
+    // the heading and intro fit a blank page: nothing to "select" yet
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe('Întrebările tale');
+    expect(screen.getByText(/Adaugă întrebările pe care dorești să le trimiți instituției\./)).toBeTruthy();
+    expect(screen.getByText(/Recomandăm cel mult 10 întrebări trimise odată/)).toBeTruthy();
+    // no category accordions (they were the empty 0/0 screen) and nothing generated
+    expect(screen.queryByRole('button', { name: /^A\. Financiar/ })).toBeNull();
+    expect(screen.queryByText('0/0')).toBeNull();
+    expect(fetchQuestions).not.toHaveBeenCalled();
+    expect(fetchSet).not.toHaveBeenCalled();
+
+    const add = (text: string) => {
+      act(() => { fireEvent.click(screen.getByRole('button', { name: /Adaugă întrebare/ })); });
+      act(() => { fireEvent.change(screen.getByPlaceholderText('Scrie întrebarea ta...'), { target: { value: text } }); });
+      act(() => { fireEvent.click(screen.getByRole('button', { name: 'Adaugă' })); });
+    };
+    add('Care este bugetul?');
+    add('Cine a semnat contractul?');
+    add('Întrebare de șters');
+
+    expect(screen.getByText('3')).toBeTruthy();
+    act(() => { fireEvent.click(screen.getByRole('button', { name: 'Șterge întrebarea 3' })); });
+    act(() => {
+      fireEvent.change(screen.getByRole('textbox', { name: 'Întrebarea 1' }), { target: { value: 'Care este bugetul pe 2026?' } });
+    });
+
+    // preview and sending read the same state as before: selected questions, in the order written
+    expect(wizardRef!.getSelectedQuestions().map((q) => q.text)).toEqual(['Care este bugetul pe 2026?', 'Cine a semnat contractul?']);
+    const preview = screen.getByRole('button', { name: /Previzualizare/ });
+    expect((preview as HTMLButtonElement).disabled).toBe(false);
+    act(() => { fireEvent.click(preview); });
+    expect(wizardRef!.currentStep).toBe(3);
+  });
+
+  it('chat path: the categories stay and the free editor is not shown', () => {
+    const wizard = renderHook(() => useRequestWizard()).result.current;
+    const questionGen = renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: null, fetchQuestions: async () => [] }),
+    ).result.current;
+    render(createElement(StepSelectQuestions, { wizard, questionGen, fromChat: true }));
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe('Selectează întrebările');
+    expect(screen.getByRole('button', { name: /^A\. Financiar/ })).toBeTruthy();
+    expect(screen.queryByText(/Încă nu ai adăugat nicio întrebare/)).toBeNull();
+  });
+
   it('shows the step-1 recap with "Modifică" when entered from the chat', () => {
     const hook = renderHook(() =>
       useRequestWizard({

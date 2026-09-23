@@ -6,6 +6,7 @@ import { RequestRow } from '@m544/ui/dashboard/RequestRow';
 import { SessionRequestItem } from '@m544/ui/dashboard/SessionRequestItem';
 import { SessionDetailModal } from '@m544/ui/dashboard/SessionDetailModal';
 import { daysFromNow, makeRequest, makeSession } from './_fixtures';
+import { romanianDay } from '@m544/shared/utils/legal-days';
 
 const push = vi.fn();
 vi.mock('next/navigation', () => ({
@@ -14,10 +15,16 @@ vi.mock('next/navigation', () => ({
 }));
 
 // Relative to the real clock: the components use the one-argument deadline helpers.
+//
+// Un termen stocat nu e un moment, ci o zi calendaristică codată ca sfârşit de zi UTC
+// (`…T23:59:59.999Z`), iar „azi" e ziua din calendarul românesc. Varianta veche dădea ca termen
+// un moment („acum ± N zile"); între miezul nopţii în România şi miezul nopţii UTC, acel moment
+// cădea pe ziua UTC anterioară şi testul număra o zi în plus — pica numai noaptea.
 const inDays = (days: number) => {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return d.toISOString();
+  const today = romanianDay(new Date().toISOString());
+  const day = new Date(`${today}T00:00:00.000Z`);
+  day.setUTCDate(day.getUTCDate() + days);
+  return `${day.toISOString().slice(0, 10)}T23:59:59.999Z`;
 };
 
 describe('SessionCard', () => {
