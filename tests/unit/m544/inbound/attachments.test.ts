@@ -50,24 +50,19 @@ describe('saveAttachments', () => {
     warn.mockRestore();
   });
 
-  it('continues after an upload failure', async () => {
+  // Un atașament sărit ar fi dispărut definitiv: emailul brut se şterge din R2 după inserare.
+  it('throws on an upload failure so the raw email stays in R2 for a retry', async () => {
     const storage = new FakeStorageRepo();
-    storage.upload = vi
-      .fn()
-      .mockRejectedValueOnce(new Error('boom'))
-      .mockImplementation(async (p: string, b: Uint8Array, t: string) => {
-        storage.files.set(p, { bytes: b, contentType: t });
-      });
-    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const saved = await saveAttachments(
-      [
-        { filename: 'a.pdf', mimeType: 'application/pdf', content: bytes(1) },
-        { filename: 'b.pdf', mimeType: 'application/pdf', content: bytes(1) },
-      ],
-      { ownerPrefix: 'u', emailId: 'e', storage },
-    );
-    expect(saved.map((s) => s.name)).toEqual(['b.pdf']);
-    error.mockRestore();
+    storage.upload = vi.fn().mockRejectedValueOnce(new Error('boom'));
+    await expect(
+      saveAttachments(
+        [
+          { filename: 'Răspuns.pdf', mimeType: 'application/pdf', content: bytes(1) },
+          { filename: 'b.pdf', mimeType: 'application/pdf', content: bytes(1) },
+        ],
+        { ownerPrefix: 'u', emailId: 'e', storage },
+      ),
+    ).rejects.toMatchObject({ name: 'AttachmentUploadError', filename: 'Răspuns.pdf' });
   });
 
   it('sanitizes file names and de-duplicates collisions', async () => {

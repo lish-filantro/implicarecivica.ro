@@ -69,6 +69,18 @@ describe('user email flow', () => {
     expect(lines[0]).toMatch(/^\[warn\] inbound\.no_user to=ion\.popescu@implicarecivica\.ro/);
   });
 
+  it('attachment upload failure: throws, no row stored, raw kept in R2 for the reconcile cron', async () => {
+    const { deps, emails, profiles, storage, deleted, processed, runAfter } = makeDeps();
+    profiles.seed({ id: 'u1', mailcow_email: RECIPIENT });
+    storage.upload = vi.fn().mockRejectedValue(new Error('storage down'));
+
+    await expect(ingestEnvelope(envelope(), deps)).rejects.toMatchObject({ name: 'AttachmentUploadError' });
+    expect([...emails.rows.values()].filter((e) => e.type === 'received')).toHaveLength(0);
+    await runAfter();
+    expect(deleted).toEqual([]);
+    expect(processed).toEqual([]);
+  });
+
   it('duplicate: no second row, raw deleted after', async () => {
     const { deps, emails, profiles, deleted, runAfter } = makeDeps();
     profiles.seed({ id: 'u1', mailcow_email: RECIPIENT });

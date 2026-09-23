@@ -63,6 +63,14 @@ expect(screen.queryByRole('link', { name: /notificări/i })).toBeNull();
   **este aplicată** (verificat pe 2026-09-22: coloana `conversations.handoff` există). Nu
   presupune nimic despre o migrare nouă până nu o verifici — interoghează coloana.
 
+## Storage (Supabase)
+
+Cheile obiectelor din storage se construiesc **doar** prin `storageKeyName`
+([`src/manager-544/shared/utils/storage-key.ts`](src/manager-544/shared/utils/storage-key.ts)).
+Supabase respinge cheile cu diacritice („Invalid key") şi cu `%`; un nume de fişier folosit direct
+ca cheie a pierdut, fără nicio eroare vizibilă, atașamentele primite de la instituţii. Numele afişat
+păstrează diacriticele — doar cheia e ASCII.
+
 ## Termenele Legii 544/2001
 
 Sunt **zile calendaristice** calculate „pe zile libere", **nu zile lucrătoare** (Norme metodologice
