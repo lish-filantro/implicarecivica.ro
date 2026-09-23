@@ -8,6 +8,11 @@ export type StatusMessageData = { type: 'success' | 'error'; text: string };
 
 export interface SettingsForm {
   displayName: string;
+  /**
+   * Pentru „Subsemnata/Subsemnatul” din cererile 544. Conturile de dinainte de migrarea 019 nu
+   * l-au completat la înregistrare, deci aici e singurul loc unde îl pot alege. '' = neales.
+   */
+  gender: 'f' | 'm' | '';
   notificationEmail: boolean;
   notificationDays: number;
   theme: 'light' | 'dark' | 'system';
@@ -31,6 +36,7 @@ export function useProfileSettings(user: { email?: string } | null | undefined, 
   const [message, setMessage] = useState<StatusMessageData | null>(null);
   const [form, setForm] = useState<SettingsForm>({
     displayName: '',
+    gender: '',
     notificationEmail: true,
     notificationDays: 3,
     theme: 'system',
@@ -44,6 +50,7 @@ export function useProfileSettings(user: { email?: string } | null | undefined, 
           setProfile(p);
           setForm({
             displayName: p.display_name || '',
+            gender: p.gender ?? '',
             notificationEmail: p.notification_email,
             notificationDays: p.notification_deadline_days,
             theme: p.theme,
@@ -71,6 +78,7 @@ export function useProfileSettings(user: { email?: string } | null | undefined, 
     try {
       const updated = await deps.updateProfile({
         display_name: form.displayName.trim() || null,
+        gender: form.gender || null,
         notification_email: form.notificationEmail,
         notification_deadline_days: form.notificationDays,
         theme: form.theme,

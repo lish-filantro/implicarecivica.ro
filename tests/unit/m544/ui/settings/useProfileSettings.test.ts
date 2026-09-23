@@ -37,6 +37,7 @@ describe('useProfileSettings', () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.form).toEqual({
       displayName: 'Ion',
+      gender: '',
       notificationEmail: false,
       notificationDays: 5,
       theme: 'dark',
@@ -65,6 +66,7 @@ describe('useProfileSettings', () => {
 
     act(() => {
       result.current.setField('displayName', '  Ionel  ');
+      result.current.setField('gender', 'f');
       result.current.setField('notificationEmail', true);
       result.current.setField('notificationDays', 2);
       result.current.setField('theme', 'light');
@@ -73,12 +75,24 @@ describe('useProfileSettings', () => {
 
     expect(d.updateProfile).toHaveBeenCalledWith({
       display_name: 'Ionel',
+      gender: 'f',
       notification_email: true,
       notification_deadline_days: 2,
       theme: 'light',
     });
     expect(result.current.message).toEqual({ type: 'success', text: 'Setarile au fost salvate.' });
     expect(result.current.saving).toBe(false);
+  });
+
+  // Conturile de dinainte de 019 au genul NULL; aici îl pot alege, iar „nealeasă” rămâne NULL.
+  it('loads a saved gender and sends null when none is chosen', async () => {
+    const d = deps({ getProfile: vi.fn(async () => ({ ...profile, gender: 'm' as const })) });
+    const { result } = renderHook(() => useProfileSettings(user, d));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.form.gender).toBe('m');
+    act(() => result.current.setField('gender', ''));
+    await act(() => result.current.save());
+    expect(d.updateProfile).toHaveBeenCalledWith(expect.objectContaining({ gender: null }));
   });
 
   it('save sends null for an empty display name', async () => {

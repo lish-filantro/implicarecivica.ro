@@ -22,6 +22,7 @@ export interface Profile {
 
 export interface ProfileUpdate {
   display_name?: string | null;
+  gender?: 'f' | 'm' | null;
   address?: string | null;
   avatar_url?: string | null;
   notification_email?: boolean;

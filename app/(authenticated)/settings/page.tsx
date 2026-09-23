@@ -34,6 +34,8 @@ export default function SettingsPage() {
         <ProfileSection
           displayName={form.displayName}
           onDisplayNameChange={(value) => setField('displayName', value)}
+          gender={form.gender}
+          onGenderChange={(value) => setField('gender', value)}
           email={user?.email || ''}
         />
         <NotificationsSection form={form} setField={setField} />

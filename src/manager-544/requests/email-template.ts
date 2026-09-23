@@ -15,7 +15,6 @@ export interface EmailTemplateData {
   solicitantName: string;
   solicitantAddress: string;
   solicitantEmail: string;
-  institutionName: string;
   /** Pentru acordul lui „Subsemnatul/Subsemnata". Lipseşte la conturile de dinainte de 019. */
   solicitantGender?: 'f' | 'm' | null;
 }
