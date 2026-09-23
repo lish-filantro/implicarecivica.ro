@@ -7,6 +7,7 @@ import { QuestionCategoryList } from '../questions/QuestionCategoryList';
 import { FreeQuestionEditor } from '../questions/FreeQuestionEditor';
 import { StickyActionBar } from './StickyActionBar';
 import { WizardSummaryCard } from './WizardSummaryCard';
+import { AttachmentsBusyHint } from './AttachmentsBusyHint';
 import { CATEGORY_IDS, MANUAL_QUESTION_CATEGORY, RECOMMENDED_MAX_SELECTED } from './types';
 
 interface StepSelectQuestionsProps {
@@ -75,11 +76,7 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
         />
       )}
 
-      {wizard.hasBusyAttachments && wizard.selectedCount > 0 && (
-        <p className="text-xs text-activist-orange-600 dark:text-activist-orange-400 text-center">
-          Așteaptă încărcarea atașamentelor sau scoate fișierele cu eroare.
-        </p>
-      )}
+      <AttachmentsBusyHint show={wizard.hasBusyAttachments && wizard.selectedCount > 0} />
 
       <StickyActionBar
         selectedCount={wizard.selectedCount}
