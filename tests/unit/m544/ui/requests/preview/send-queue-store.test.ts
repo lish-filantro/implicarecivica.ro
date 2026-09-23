@@ -140,6 +140,21 @@ describe('send-queue-store', () => {
     expect(s.failures).toEqual([{ question: 'Cine răspunde?', error: expect.stringContaining('doc.pdf') }]);
   });
 
+  it('un răspuns de eroare care nu e JSON (ex. gateway timeout) cade pe mesajul generic', async () => {
+    const { fetchFn } = fakeFetch({
+      '/api/sessions/create': twoRequests,
+      '/api/emails/send': () => new Response('<html>Gateway Timeout</html>', { status: 504 }),
+    });
+    await startSend(INPUT, { fetch: fetchFn, sleep: async () => {}, markHandoffSession: async () => {} });
+    const s = getSendQueueState();
+    expect(s.status).toBe('done');
+    expect(s.sent).toBe(0);
+    expect(s.failures).toEqual([
+      { question: 'Care e bugetul?', error: 'Eroare 504' },
+      { question: 'Cine răspunde?', error: 'Eroare 504' },
+    ]);
+  });
+
   it('useSendQueueState re-renders subscribers', async () => {
     const { result } = renderHook(() => useSendQueueState());
     expect(result.current.status).toBe('idle');
