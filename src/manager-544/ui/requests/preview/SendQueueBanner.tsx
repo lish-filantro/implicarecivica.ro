@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { Loader2, CheckCircle2, AlertTriangle, X, Clock } from 'lucide-react';
-import { dismissSendQueue, useSendQueueState } from './send-queue-store';
+import { dismissSendQueue, retryFailedSends, useSendQueueState } from './send-queue-store';
 
 /** How long the "done" state stays on screen before the banner hides itself. */
 export const DONE_VISIBLE_MS = 20_000;
@@ -11,18 +11,22 @@ export const DONE_VISIBLE_MS = 20_000;
  * Progress of the background send, visible on every authenticated page (mounted
  * in the authenticated layout): counter, bar and countdown while sending; a link
  * to the dashboard when done; the error otherwise. Hidden when idle.
+ *
+ * With failures the done state stays until closed: it carries the list of what did not leave
+ * and the retry button, and hiding it after 20 s would take both away mid-read.
  */
 export function SendQueueBanner() {
   const s = useSendQueueState();
 
   useEffect(() => {
-    if (s.status !== 'done') return;
+    if (s.status !== 'done' || s.failures.length > 0) return;
     const timer = setTimeout(dismissSendQueue, DONE_VISIBLE_MS);
     return () => clearTimeout(timer);
-  }, [s.status, s.finishedAt]);
+  }, [s.status, s.finishedAt, s.failures.length]);
 
   if (s.status === 'idle') return null;
 
+  const retryable = s.failures.filter((f) => f.retryable).length;
   const percent = s.total > 0 ? Math.round((s.sent / s.total) * 100) : 0;
 
   return (
@@ -89,6 +93,15 @@ export function SendQueueBanner() {
                     </li>
                   ))}
                 </ul>
+                {retryable > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => void retryFailedSends()}
+                    className="mt-2 mr-3 inline-flex items-center rounded-md bg-civic-blue-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-civic-blue-700"
+                  >
+                    {retryable === 1 ? 'Reîncearcă cererea' : `Reîncearcă cele ${retryable} cereri`}
+                  </button>
+                )}
               </>
             )}
             <a href="/dashboard" className="text-civic-blue-600 dark:text-civic-blue-400 hover:underline">

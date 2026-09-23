@@ -2,9 +2,13 @@
 
 import { useSyncExternalStore } from 'react';
 import { markHandoffSession as defaultMarkHandoffSession } from '@m544/chat/queries.client';
-import { buildSessionRequest, buildEmailRequest, type SendQueueInput } from './send-requests';
+import { buildSessionRequest, type SendQueueInput } from './send-requests';
+import { postJson, sendOne, type SendFailure } from './send-one';
+import { holdUnloadGuard } from './unload-guard';
+import type { QuestionItem, WizardFormData } from '../wizard/types';
 
 export { buildSessionRequest, buildEmailRequest, type SendQueueInput } from './send-requests';
+export type { SendFailure } from './send-one';
 
 /**
  * The send queue lives outside React so closing the preview modal or leaving the
@@ -31,7 +35,7 @@ export interface SendQueueState {
   sessionId: string | null;
   finishedAt: number | null;
   /** Questions whose email failed to send, with the reason (Task 6). */
-  failures: Array<{ question: string; error: string }>;
+  failures: SendFailure[];
 }
 
 export interface SendQueueDeps {
@@ -64,9 +68,15 @@ const IDLE: SendQueueState = {
 };
 
 let state: SendQueueState = IDLE;
+/** What a retry needs and the banner does not show: the form and the question behind each request. */
+let retryContext: {
+  formData: WizardFormData;
+  questions: Map<string, QuestionItem>;
+  /** The run's own fetch/sleep: the banner's button calls retry without deps. */
+  deps: SendQueueDeps;
+} | null = null;
 const listeners = new Set<() => void>();
 let countdownTimer: ReturnType<typeof setInterval> | null = null;
-let unloadGuard: ((e: BeforeUnloadEvent) => void) | null = null;
 
 function emit(): void {
   for (const listener of listeners) listener();
@@ -94,6 +104,7 @@ export function useSendQueueState(): SendQueueState {
 /** Clears a finished (done/error) queue, e.g. from the banner's close button. No-op while sending. */
 export function dismissSendQueue(): void {
   if (state.status === 'sending') return;
+  retryContext = null;
   setState(IDLE);
 }
 
@@ -101,22 +112,11 @@ export function dismissSendQueue(): void {
 export function resetSendQueue(): void {
   stopCountdown();
   holdUnloadGuard(false);
+  retryContext = null;
   state = IDLE;
   emit();
 }
 
-function holdUnloadGuard(on: boolean): void {
-  if (typeof window === 'undefined') return;
-  if (on && !unloadGuard) {
-    unloadGuard = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-    window.addEventListener('beforeunload', unloadGuard);
-  } else if (!on && unloadGuard) {
-    window.removeEventListener('beforeunload', unloadGuard);
-    unloadGuard = null;
-  }
-}
 
 function stopCountdown(): void {
   if (countdownTimer) clearInterval(countdownTimer);
@@ -140,23 +140,12 @@ function startCountdown(seconds: number): void {
 const defaultFetch: typeof fetch = (...args) => fetch(...args);
 const defaultSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
-function postJson(fetchFn: typeof fetch, url: string, body: unknown): Promise<Response> {
-  return fetchFn(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-}
 
-/**
- * Un corp care nu e JSON (ex. pagina HTML a unui 504) vine de la platformă, nu de la ruta noastră:
- * funcţia poate să fi fost oprită DUPĂ ce emailul a plecat, deci omul trebuie să verifice înainte
- * să retrimită. Erorile JSON sunt ale rutei şi îşi păstrează mesajul.
- */
-async function readError(response: Response): Promise<string> {
-  try {
-    const data: { error?: string } = await response.json();
-    return data.error || `Eroare ${response.status}`;
-  } catch {
-    const why = response.status === 504 ? 'serverul nu a răspuns la timp' : 'răspuns neașteptat de la server';
-    return `Eroare ${response.status} — ${why}; verifică în dashboard dacă cererea a plecat.`;
-  }
+async function pauseBetweenEmails(sleep: (ms: number) => Promise<void>): Promise<void> {
+  startCountdown(SEND_DELAY_SECONDS);
+  await sleep(SEND_DELAY_MS);
+  stopCountdown();
+  setState({ secondsLeft: null });
 }
 
 /**
@@ -204,31 +193,25 @@ export async function startSend(input: SendQueueInput, deps: SendQueueDeps = {})
       }
     }
 
+    retryContext = {
+      formData,
+      questions: new Map(requests.map((r, i) => [r.id, selectedQuestions[i]])),
+      deps,
+    };
+
     let sentCount = 0;
-    const failures: SendQueueState['failures'] = [];
+    const failures: SendFailure[] = [];
     for (let i = 0; i < requests.length; i++) {
-      const emailResponse = await postJson(
-        fetchFn,
-        '/api/emails/send',
-        buildEmailRequest(selectedQuestions[i], formData, requests[i].id),
-      );
-      if (!emailResponse.ok) {
-        // Nu doar în consolă: omul trebuie să afle ce cerere n-a plecat şi de ce.
-        const error = await readError(emailResponse);
-        console.error(`Failed to send email ${i + 1}:`, error);
-        failures.push({ question: selectedQuestions[i].text, error });
+      const failure = await sendOne(fetchFn, selectedQuestions[i], formData, requests[i].id, String(i + 1));
+      if (failure) {
+        failures.push(failure);
         setState({ failures: [...failures] });
       } else {
         sentCount++;
       }
       setState({ sent: sentCount, total: requests.length });
 
-      if (i < requests.length - 1) {
-        startCountdown(SEND_DELAY_SECONDS);
-        await sleep(SEND_DELAY_MS);
-        stopCountdown();
-        setState({ secondsLeft: null });
-      }
+      if (i < requests.length - 1) await pauseBetweenEmails(sleep);
     }
 
     holdUnloadGuard(false);
@@ -241,4 +224,41 @@ export async function startSend(input: SendQueueInput, deps: SendQueueDeps = {})
     setState({ status: 'error', error: error instanceof Error ? error.message : 'Eroare la trimitere', secondsLeft: null });
     return false;
   }
+}
+
+/**
+ * Re-sends the emails of a finished queue that are known not to have left (`retryable`), on the
+ * draft requests created the first time — no second request row, same 30 s pause. Failures that
+ * may have been sent stay listed, untouched. Resolves false when there is nothing to retry.
+ */
+export async function retryFailedSends(deps: SendQueueDeps = {}): Promise<boolean> {
+  const context = retryContext;
+  const toRetry = state.failures.filter((f) => f.retryable);
+  if (state.status !== 'done' || !context || toRetry.length === 0) return false;
+  const fetchFn = deps.fetch ?? context.deps.fetch ?? defaultFetch;
+  const sleep = deps.sleep ?? context.deps.sleep ?? defaultSleep;
+
+  const failures = state.failures.filter((f) => !f.retryable);
+  setState({ status: 'sending', failures: [...failures], finishedAt: null });
+  holdUnloadGuard(true);
+
+  let sentCount = state.sent;
+  for (let i = 0; i < toRetry.length; i++) {
+    const question = context.questions.get(toRetry[i].requestId);
+    const failure = question
+      ? await sendOne(fetchFn, question, context.formData, toRetry[i].requestId, `retry ${i + 1}`)
+      : { ...toRetry[i], retryable: false };
+    if (failure) {
+      failures.push(failure);
+      setState({ failures: [...failures] });
+    } else {
+      sentCount++;
+      setState({ sent: sentCount });
+    }
+    if (i < toRetry.length - 1) await pauseBetweenEmails(sleep);
+  }
+
+  holdUnloadGuard(false);
+  setState({ status: 'done', secondsLeft: null, finishedAt: Date.now() });
+  return true;
 }
