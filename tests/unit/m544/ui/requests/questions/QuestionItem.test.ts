@@ -93,8 +93,7 @@ describe('QuestionItem', () => {
         isSelected: true,
         onToggle: vi.fn(),
         onEdit: vi.fn(),
-        onAttachmentsChange: vi.fn(),
-        onAttachmentsBusy: vi.fn(),
+        attachmentsApi: { pending: {}, add: vi.fn(async () => {}), retry: vi.fn(async () => {}), dismiss: vi.fn(), remove: vi.fn() },
       }),
     );
     expect(screen.getByText('Atașează')).toBeTruthy();

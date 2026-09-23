@@ -30,8 +30,7 @@ export function QuestionCategoryList({ wizard, isCategoryLoading }: QuestionCate
           onEdit={wizard.editQuestion}
           onAddCustom={(text) => wizard.addCustomQuestion(cat.id, text)}
           onRemove={wizard.removeQuestion}
-          onAttachmentsChange={wizard.setQuestionAttachments}
-          onAttachmentsBusy={wizard.setAttachmentsBusy}
+          attachmentsApi={wizard.questionAttachments}
         />
       ))}
     </div>

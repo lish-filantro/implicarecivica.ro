@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { QuestionItem } from './QuestionItem';
 import { AddCustomQuestion } from './AddCustomQuestion';
 import type { CategoryMeta, QuestionItem as QuestionItemType } from '../wizard/types';
-import type { OutgoingAttachment } from '@m544/requests/attachments';
+import type { QuestionAttachmentsApi } from '../wizard/useQuestionAttachments';
 
 interface QuestionCategoryProps {
   category: CategoryMeta;
@@ -20,8 +20,7 @@ interface QuestionCategoryProps {
   onEdit: (id: string, text: string) => void;
   onAddCustom: (text: string) => void;
   onRemove: (id: string) => void;
-  onAttachmentsChange?: (id: string, next: OutgoingAttachment[]) => void;
-  onAttachmentsBusy?: (id: string, busy: boolean) => void;
+  attachmentsApi?: QuestionAttachmentsApi;
 }
 
 export function QuestionCategory({
@@ -36,8 +35,7 @@ export function QuestionCategory({
   onEdit,
   onAddCustom,
   onRemove,
-  onAttachmentsChange,
-  onAttachmentsBusy,
+  attachmentsApi,
 }: QuestionCategoryProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -127,8 +125,7 @@ export function QuestionCategory({
                   onToggle={() => onToggle(q.id)}
                   onEdit={(text) => onEdit(q.id, text)}
                   onRemove={q.isCustom ? () => onRemove(q.id) : undefined}
-                  onAttachmentsChange={onAttachmentsChange ? (next) => onAttachmentsChange(q.id, next) : undefined}
-                  onAttachmentsBusy={onAttachmentsBusy ? (busy) => onAttachmentsBusy(q.id, busy) : undefined}
+                  attachmentsApi={attachmentsApi}
                 />
               ))}
             </div>

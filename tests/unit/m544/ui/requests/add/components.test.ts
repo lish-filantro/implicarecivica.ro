@@ -50,6 +50,9 @@ describe('RateLimitInfo', () => {
 describe('AddRequestsQuestions — hint-ul de ataşamente (Fix round 1)', () => {
   // /requests/add foloseşte acelaşi AttachmentsBusyHint ca StepSelectQuestions: fără el, butonul
   // de previzualizare se dezactivează din cauza unui ataşament fără nicio explicaţie vizibilă.
+  // Un tip refuzat intră direct ca rând eşuat, fără nicio încărcare: cel mai scurt drum spre „ocupat".
+  const DOCX = () => new File(['x'], 'a.docx', { type: 'application/msword' });
+
   function questionGen() {
     return renderHook(() =>
       useQuestionGeneration({ problemContext: null, institutionName: null, fetchQuestions: async () => [] }),
@@ -66,7 +69,9 @@ describe('AddRequestsQuestions — hint-ul de ataşamente (Fix round 1)', () => 
     const hook = renderHook(() => useRequestWizard());
     act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
     const id = hook.result.current.getSelectedQuestions()[0].id;
-    act(() => hook.result.current.setAttachmentsBusy(id, true));
+    act(() => {
+      void hook.result.current.questionAttachments.add(id, [DOCX()]);
+    });
 
     render(
       createElement(AddRequestsQuestions, {
@@ -80,12 +85,15 @@ describe('AddRequestsQuestions — hint-ul de ataşamente (Fix round 1)', () => 
     expect((screen.getByRole('button', { name: /Previzualizare/ }) as HTMLButtonElement).disabled).toBe(true);
   });
 
-  it('scoţând întrebarea ocupată, hint-ul dispare şi previzualizarea se deblochează', () => {
+  it('scoţând fişierul eşuat, hint-ul dispare şi previzualizarea se deblochează', () => {
     const hook = renderHook(() => useRequestWizard());
     act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
     const id = hook.result.current.getSelectedQuestions()[0].id;
-    act(() => hook.result.current.setAttachmentsBusy(id, true));
-    act(() => hook.result.current.setAttachmentsBusy(id, false));
+    act(() => {
+      void hook.result.current.questionAttachments.add(id, [DOCX()]);
+    });
+    const [refused] = hook.result.current.questionAttachments.pending[id];
+    act(() => hook.result.current.questionAttachments.dismiss(id, refused.key));
 
     render(
       createElement(AddRequestsQuestions, {

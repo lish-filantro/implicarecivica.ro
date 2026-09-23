@@ -3,17 +3,16 @@
 import React from 'react';
 import { Trash2 } from 'lucide-react';
 import { AddCustomQuestion } from './AddCustomQuestion';
-import { AttachmentPicker } from '../attachments/AttachmentPicker';
+import { QuestionAttachmentPicker } from '../attachments/AttachmentPicker';
 import type { QuestionItem } from '../wizard/types';
-import type { OutgoingAttachment } from '@m544/requests/attachments';
+import type { QuestionAttachmentsApi } from '../wizard/useQuestionAttachments';
 
 interface FreeQuestionEditorProps {
   questions: QuestionItem[];
   onAdd: (text: string) => void;
   onEdit: (id: string, text: string) => void;
   onRemove: (id: string) => void;
-  onAttachmentsChange: (id: string, next: OutgoingAttachment[]) => void;
-  onAttachmentsBusy: (id: string, busy: boolean) => void;
+  attachmentsApi: QuestionAttachmentsApi;
 }
 
 /**
@@ -27,8 +26,7 @@ export function FreeQuestionEditor({
   onAdd,
   onEdit,
   onRemove,
-  onAttachmentsChange,
-  onAttachmentsBusy,
+  attachmentsApi,
 }: FreeQuestionEditorProps) {
   // A question emptied and left would go out as an empty request: drop it instead.
   const handleBlur = (q: QuestionItem) => {
@@ -70,11 +68,7 @@ export function FreeQuestionEditor({
                 </button>
               </div>
               <div className="pl-8 sm:pl-9">
-                <AttachmentPicker
-                  attachments={q.attachments ?? []}
-                  onChange={(next) => onAttachmentsChange(q.id, next)}
-                  onBusyChange={(busy) => onAttachmentsBusy(q.id, busy)}
-                />
+                <QuestionAttachmentPicker question={q} api={attachmentsApi} />
               </div>
             </li>
           ))}

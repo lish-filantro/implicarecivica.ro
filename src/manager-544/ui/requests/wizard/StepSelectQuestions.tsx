@@ -71,8 +71,7 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
           onAdd={(text) => wizard.addCustomQuestion(MANUAL_QUESTION_CATEGORY, text)}
           onEdit={wizard.editQuestion}
           onRemove={wizard.removeQuestion}
-          onAttachmentsChange={wizard.setQuestionAttachments}
-          onAttachmentsBusy={wizard.setAttachmentsBusy}
+          attachmentsApi={wizard.questionAttachments}
         />
       )}
 

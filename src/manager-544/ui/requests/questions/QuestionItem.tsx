@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { Pencil, X, Check, RotateCcw } from 'lucide-react';
-import { AttachmentPicker } from '../attachments/AttachmentPicker';
+import { QuestionAttachmentPicker } from '../attachments/AttachmentPicker';
 import type { QuestionItem as QuestionItemType } from '../wizard/types';
-import type { OutgoingAttachment } from '@m544/requests/attachments';
+import type { QuestionAttachmentsApi } from '../wizard/useQuestionAttachments';
 
 interface QuestionItemProps {
   question: QuestionItemType;
@@ -13,8 +13,7 @@ interface QuestionItemProps {
   onEdit: (newText: string) => void;
   onRemove?: () => void;
   /** Ataşamentele contează doar pentru ce pleacă efectiv: apar doar la întrebările bifate. */
-  onAttachmentsChange?: (next: OutgoingAttachment[]) => void;
-  onAttachmentsBusy?: (busy: boolean) => void;
+  attachmentsApi?: QuestionAttachmentsApi;
 }
 
 export function QuestionItem({
@@ -23,8 +22,7 @@ export function QuestionItem({
   onToggle,
   onEdit,
   onRemove,
-  onAttachmentsChange,
-  onAttachmentsBusy,
+  attachmentsApi,
 }: QuestionItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(question.text);
@@ -137,13 +135,9 @@ export function QuestionItem({
         </div>
       </div>
       {/* Ataşamentele contează doar pentru ce pleacă efectiv: doar la întrebarea bifată. */}
-      {isSelected && onAttachmentsChange && onAttachmentsBusy && (
+      {isSelected && attachmentsApi && (
         <div className="pl-[52px] pb-2">
-          <AttachmentPicker
-            attachments={question.attachments ?? []}
-            onChange={onAttachmentsChange}
-            onBusyChange={onAttachmentsBusy}
-          />
+          <QuestionAttachmentPicker question={question} api={attachmentsApi} />
         </div>
       )}
     </div>
