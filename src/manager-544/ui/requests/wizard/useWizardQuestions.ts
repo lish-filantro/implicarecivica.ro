@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo, useRef } from 'react';
 import { CATEGORIES, perCategory } from './types';
 import type { QuestionCategory, QuestionItem } from './types';
+import type { OutgoingAttachment } from '@m544/requests/attachments';
 
 /**
  * Ids unique per hook instance (counter) and across instances (random token).
@@ -37,6 +38,9 @@ function withIds(prev: Set<string>, ids: string[], add: boolean): Set<string> {
 export function useWizardQuestions() {
   const [questions, setQuestions] = useState<QuestionMap>(() => perCategory<QuestionItem[]>(() => []));
   const [selectedQuestionIds, setSelectedQuestionIds] = useState<Set<string>>(new Set());
+  // Întrebările cu un fişier în curs de încărcare sau eşuat; cât timp există, nu se trece la
+  // previzualizare — altfel ar pleca o cerere fără fişierul pe care omul crede că l-a ataşat.
+  const [busyAttachmentIds, setBusyAttachmentIds] = useState<Set<string>>(new Set());
   const nextId = useRef(createQuestionIdGenerator());
 
   // Replaces the category's generated questions with the new texts; custom ones (and their selection) stay.
@@ -80,6 +84,15 @@ export function useWizardQuestions() {
   const removeQuestion = useCallback((id: string) => {
     setQuestions((prev) => mapAll(prev, (items) => items.filter((q) => q.id !== id)));
     setSelectedQuestionIds((prev) => withIds(prev, [id], false));
+    setBusyAttachmentIds((prev) => withIds(prev, [id], false));
+  }, []);
+
+  const setQuestionAttachments = useCallback((id: string, attachments: OutgoingAttachment[]) => {
+    setQuestions((prev) => mapAll(prev, (items) => items.map((q) => (q.id === id ? { ...q, attachments } : q))));
+  }, []);
+
+  const setAttachmentsBusy = useCallback((id: string, busy: boolean) => {
+    setBusyAttachmentIds((prev) => withIds(prev, [id], busy));
   }, []);
 
   const selectedCount = useMemo(() => selectedQuestionIds.size, [selectedQuestionIds]);
@@ -103,7 +116,10 @@ export function useWizardQuestions() {
     return counts;
   }, [questions, selectedQuestionIds]);
 
-  const canProceedToStep3 = useMemo(() => selectedCount > 0, [selectedCount]);
+  const canProceedToStep3 = useMemo(
+    () => selectedCount > 0 && busyAttachmentIds.size === 0,
+    [selectedCount, busyAttachmentIds],
+  );
 
   return {
     questions,
@@ -115,6 +131,8 @@ export function useWizardQuestions() {
     editQuestion,
     addCustomQuestion,
     removeQuestion,
+    setQuestionAttachments,
+    setAttachmentsBusy,
     selectedCount,
     selectedCountByCategory,
     getSelectedQuestions,

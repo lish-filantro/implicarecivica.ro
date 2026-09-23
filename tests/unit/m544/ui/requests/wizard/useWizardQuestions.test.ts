@@ -154,3 +154,36 @@ describe('useWizardQuestions', () => {
     expect(result.current.getSelectedQuestions().map((q) => q.text)).toEqual(['a2', 'e1']);
   });
 });
+
+describe('useWizardQuestions — ataşamente', () => {
+  const ATT = { path: 'u1/outgoing/id1/doc.pdf', name: 'doc.pdf', type: 'application/pdf', size: 8 };
+
+  it('ataşează fişierele la întrebarea potrivită şi le păstrează în selecţie', () => {
+    const { result } = renderHook(() => useWizardQuestions());
+    act(() => result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
+    const id = result.current.getSelectedQuestions()[0].id;
+    act(() => result.current.setQuestionAttachments(id, [ATT]));
+    expect(result.current.getSelectedQuestions()[0].attachments).toEqual([ATT]);
+  });
+
+  it('blochează previzualizarea cât timp o întrebare are un fişier ocupat (Review Focus 4)', () => {
+    const { result } = renderHook(() => useWizardQuestions());
+    act(() => result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
+    const id = result.current.getSelectedQuestions()[0].id;
+    expect(result.current.canProceedToStep3).toBe(true);
+    act(() => result.current.setAttachmentsBusy(id, true));
+    expect(result.current.canProceedToStep3).toBe(false);
+    act(() => result.current.setAttachmentsBusy(id, false));
+    expect(result.current.canProceedToStep3).toBe(true);
+  });
+
+  it('eliberează blocarea când întrebarea ocupată e ştearsă', () => {
+    const { result } = renderHook(() => useWizardQuestions());
+    act(() => result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
+    const id = result.current.getSelectedQuestions()[0].id;
+    act(() => result.current.setAttachmentsBusy(id, true));
+    act(() => result.current.addCustomQuestion('A_FINANCIAR', 'Altă întrebare'));
+    act(() => result.current.removeQuestion(id));
+    expect(result.current.canProceedToStep3).toBe(true);
+  });
+});
