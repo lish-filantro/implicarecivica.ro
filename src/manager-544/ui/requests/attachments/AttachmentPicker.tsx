@@ -34,35 +34,57 @@ export function AttachmentPicker({ attachments, onChange, onBusyChange, upload =
   // Ultima listă cunoscută: încărcările durează, iar între timp părintele poate re-randa.
   const latest = useRef(attachments);
   latest.current = attachments;
+  // Oglinda sincronă a lui `pending`, pentru bugetul din `onFiles`: `pending` din closure-ul unei
+  // selecţii anterioare poate fi învechit dacă o încărcare se termină cât timp o altă selecţie
+  // e încă în buclă — starea din React nu se actualizează sincron.
+  const pendingRef = useRef<Pending[]>([]);
+  const updatePending = (fn: (p: Pending[]) => Pending[]) => {
+    pendingRef.current = fn(pendingRef.current);
+    setPending(pendingRef.current);
+  };
 
   const busy = pending.length > 0;
+  // `onBusyChange` ţinut într-un ref: un părinte fără `useCallback` creează o funcţie nouă la
+  // fiecare randare, iar efectul de mai jos nu trebuie să retrigger-uiască pentru asta.
+  const onBusyRef = useRef(onBusyChange);
+  onBusyRef.current = onBusyChange;
+
   useEffect(() => {
-    onBusyChange?.(busy);
-  }, [busy, onBusyChange]);
+    onBusyRef.current?.(busy);
+  }, [busy]);
+
+  // Cleanup separat, doar la demontare: dacă întrebarea e ascunsă (ex. deselectată în chat) cât
+  // timp are un fişier eşuat, „ocupat” trebuie eliberat — altfel butonul de previzualizare rămâne
+  // blocat fără nicio cauză vizibilă.
+  useEffect(() => {
+    return () => {
+      onBusyRef.current?.(false);
+    };
+  }, []);
 
   const runUpload = async (key: string, file: File) => {
-    setPending((p) => p.map((x) => (x.key === key ? { ...x, status: 'uploading', error: undefined } : x)));
+    updatePending((p) => p.map((x) => (x.key === key ? { ...x, status: 'uploading', error: undefined } : x)));
     try {
       const att = await upload(file);
       latest.current = [...latest.current, att];
       onChange(latest.current);
-      setPending((p) => p.filter((x) => x.key !== key));
+      updatePending((p) => p.filter((x) => x.key !== key));
     } catch (err) {
       const error = err instanceof Error ? err.message : 'Încărcarea a eșuat.';
-      setPending((p) => p.map((x) => (x.key === key ? { ...x, status: 'error', error, file } : x)));
+      updatePending((p) => p.map((x) => (x.key === key ? { ...x, status: 'error', error, file } : x)));
     }
   };
 
   const onFiles = async (files: FileList | File[] | null) => {
     for (const file of Array.from(files ?? [])) {
       const key = `p${++pendingSeq}`;
-      const inFlight = pending.filter((x) => x.status === 'uploading' && x.file).map((x) => ({ size: x.file!.size }));
+      const inFlight = pendingRef.current.filter((x) => x.status === 'uploading' && x.file).map((x) => ({ size: x.file!.size }));
       const reason = checkNewAttachment([...latest.current, ...inFlight], file);
       if (reason) {
-        setPending((p) => [...p, { key, name: file.name, status: 'error', error: reason }]);
+        updatePending((p) => [...p, { key, name: file.name, status: 'error', error: reason }]);
         continue;
       }
-      setPending((p) => [...p, { key, name: file.name, status: 'uploading', file }]);
+      updatePending((p) => [...p, { key, name: file.name, status: 'uploading', file }]);
       await runUpload(key, file);
     }
   };
@@ -109,7 +131,7 @@ export function AttachmentPicker({ attachments, onChange, onBusyChange, upload =
             <button
               type="button"
               aria-label={`Elimină ${p.name}`}
-              onClick={() => setPending((all) => all.filter((x) => x.key !== p.key))}
+              onClick={() => updatePending((all) => all.filter((x) => x.key !== p.key))}
               className="p-0.5 text-gray-400 hover:text-protest-red-600 shrink-0"
             >
               <X className="h-3.5 w-3.5" />
