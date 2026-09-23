@@ -78,11 +78,13 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(requests.every((r) => r.status === 'pending' && r.institution_email === INSTITUTION.platformEmail)).toBe(true);
     const sent = await listEmails(CITIZEN.id, 'sent', startedAt);
     expect(sent).toHaveLength(2);
-    // sends go out one by one in question order, so sent[0] is the first question's email —
-    // the only one carrying the attachment, and it must have actually been uploaded
-    expect(sent[0].attachments?.[0]?.name).toBe('dovada.pdf');
-    expect(sent[0].attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
-    expect(sent[1].attachments ?? []).toHaveLength(0);
+    // identify each email by the question it actually carries (not by index/order), so a bug
+    // that attaches the file to the wrong question's email would fail this
+    const firstQuestionEmail = sent.find((e) => (e.body ?? '').includes(QUESTIONS[0]));
+    const secondQuestionEmail = sent.find((e) => (e.body ?? '').includes(QUESTIONS[1]));
+    expect(firstQuestionEmail?.attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(firstQuestionEmail?.attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
+    expect(secondQuestionEmail?.attachments ?? []).toHaveLength(0);
     await expect(page.getByText(INSTITUTION_NAME).first()).toBeVisible();
   });
 
@@ -91,9 +93,13 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(inbox.map((e) => e.to_email)).toEqual([INSTITUTION.platformEmail, INSTITUTION.platformEmail]);
     expect(inbox[0].from_email).toBe(CITIZEN.platformEmail);
     expect(inbox[0].body ?? '').toContain('544');
-    // Exact unul dintre cele două emailuri poartă ataşamentul — cel al primei întrebări.
-    const withAttachment = inbox.filter((e) => (e.attachments ?? []).some((a) => a.name.endsWith('.pdf')));
-    expect(withAttachment).toHaveLength(1);
+    // identify by the question text each email actually carries, not by count/index — a bug that
+    // attaches the file to the wrong question's email must fail this
+    const firstQuestionEmail = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[0]));
+    const secondQuestionEmail = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[1]));
+    expect(firstQuestionEmail?.attachments).toHaveLength(1);
+    expect(firstQuestionEmail?.attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(secondQuestionEmail?.attachments ?? []).toHaveLength(0);
   });
 
   test('confirmarea de înregistrare ambiguă ajunge în „De revizuit” și e asociată din UI', async ({ page }) => {
