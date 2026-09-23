@@ -7,10 +7,12 @@
  * Spec: docs/plans/2026-09-23-atasamente-design.md
  */
 import { safeFilename } from '@m544/inbound/webhook/attachments';
+import { storageKeyName } from '@m544/shared/utils/storage-key';
 
 export interface OutgoingAttachment {
-  /** `<uid>/outgoing/<id>/<nume>` — primul segment e folderul RLS al bucket-ului. */
+  /** `<uid>/outgoing/<id>/<cheie ASCII>` — primul segment e folderul RLS al bucket-ului. */
   path: string;
+  /** Numele afişat, cu diacritice; cu el pleacă fişierul la instituţie. */
   name: string;
   /** Pe client: MIME-ul declarat de browser. Pe server se înlocuieşte cu tipul citit din octeţi. */
   type: string;
@@ -35,9 +37,13 @@ export function outgoingPrefix(userId: string): string {
   return `${userId}/outgoing/`;
 }
 
-/** `safeFilename` taie directoarele, deci un nume ca `../../x.pdf` nu poate ieşi din folder. */
+/**
+ * `safeFilename` taie directoarele, deci un nume ca `../../x.pdf` nu poate ieşi din folder;
+ * `storageKeyName` face cheia ASCII, fiindcă storage-ul respinge diacriticele şi `%`. Numele
+ * afişat (`OutgoingAttachment.name`) rămâne cel original.
+ */
 export function outgoingPath(userId: string, id: string, filename: string): string {
-  return `${outgoingPrefix(userId)}${id}/${safeFilename(filename)}`;
+  return `${outgoingPrefix(userId)}${id}/${storageKeyName(safeFilename(filename))}`;
 }
 
 function isAllowedType(type: string): type is AllowedAttachmentType {
@@ -69,7 +75,7 @@ export function checkNewAttachment(
 
 /**
  * Caractere care nu apar niciodată într-o cale construită de `outgoingPath` (id-ul e un UUID, iar
- * numele trece prin `safeFilename`), dar pe care un strat de mai jos le-ar putea decoda sau
+ * numele trece prin `storageKeyName`), dar pe care un strat de mai jos le-ar putea decoda sau
  * interpreta: `%` (codare URL), `\` (separator pe alte sisteme), `?` şi `#` (query/fragment).
  * Apărare în adâncime peste RLS-ul bucket-ului.
  */

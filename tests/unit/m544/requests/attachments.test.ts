@@ -26,8 +26,22 @@ const att = (over: Partial<OutgoingAttachment> = {}): OutgoingAttachment => ({
 
 describe('outgoingPath', () => {
   it('pune fişierul sub folderul RLS al utilizatorului', () => {
-    expect(outgoingPath('u1', 'id1', 'Răspuns 544.pdf')).toBe('u1/outgoing/id1/Răspuns 544.pdf');
+    expect(outgoingPath('u1', 'id1', 'doc.pdf')).toBe('u1/outgoing/id1/doc.pdf');
   });
+
+  // Storage respinge cheile cu diacritice („Invalid key”) şi cu `%`: cheia e ASCII.
+  it('dă o cale ASCII unui nume cu diacritice', () => {
+    expect(outgoingPath('u1', 'id1', 'Răspuns 544.pdf')).toBe('u1/outgoing/id1/Raspuns 544.pdf');
+    expect(outgoingPath('u1', 'id1', '50%.pdf')).toBe('u1/outgoing/id1/50.pdf');
+  });
+
+  it.each(['Factura #3.pdf', 'ce?.pdf', '50%.pdf', 'Dovadă răspuns.pdf'])(
+    'o cale construită pentru „%s” trece de checkDeclaredAttachments (acceptat la urcare = acceptat la trimitere)',
+    (name) => {
+      const path = outgoingPath('u1', 'id1', name);
+      expect(checkDeclaredAttachments('u1', [att({ path, name })])).toBeNull();
+    },
+  );
 
   it('nu lasă numele să iasă din folder (Review Focus 2)', () => {
     const p = outgoingPath('u1', 'id1', '../../u2/outgoing/x/evil.pdf');
