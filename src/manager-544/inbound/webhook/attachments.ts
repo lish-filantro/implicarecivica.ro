@@ -1,7 +1,13 @@
 /**
  * Persist parsed MIME attachments to the attachments bucket.
  * Paths: `<ownerPrefix>/<emailId>/<storage key>`. Oversized files are skipped,
- * upload failures are logged and skipped, names are sanitized and de-duplicated.
+ * names are sanitized and de-duplicated.
+ *
+ * An upload failure THROWS instead of being skipped. Skipping stored the email without the
+ * file — often the institution's actual answer — and then the raw MIME was deleted from R2, so
+ * the file was gone for good. Throwing happens before the row is inserted: the webhook answers
+ * 5xx, the raw email stays in R2 and the reconcile cron retries it (every 6 h, for 7 days, then
+ * it is reported as stale and kept for a human). Oversize stays a skip: a retry cannot fix it.
  *
  * The display `name` keeps the sender's spelling (diacritics included); the object key goes
  * through `storageKeyName`, because Supabase Storage rejects non-ASCII keys ("Invalid key") and
@@ -49,6 +55,13 @@ function uniqueName(name: string, taken: Set<string>): string {
   }
 }
 
+export class AttachmentUploadError extends Error {
+  constructor(readonly filename: string, readonly cause: unknown) {
+    super(`Attachment upload failed for ${filename}: ${cause instanceof Error ? cause.message : String(cause)}`);
+    this.name = 'AttachmentUploadError';
+  }
+}
+
 export async function saveAttachments(
   attachments: ParsedAttachment[],
   deps: SaveAttachmentsDeps,
@@ -72,7 +85,7 @@ export async function saveAttachments(
       takenKeys.add(key);
       saved.push({ name, type: att.mimeType, size, path });
     } catch (err) {
-      console.error(`[Attachments] Upload failed for ${name}:`, err instanceof Error ? err.message : err);
+      throw new AttachmentUploadError(name, err);
     }
   }
   return saved;

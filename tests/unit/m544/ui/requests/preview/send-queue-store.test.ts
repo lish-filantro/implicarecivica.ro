@@ -8,6 +8,7 @@ import {
   useSendQueueState,
   dismissSendQueue,
   resetSendQueue,
+  retryFailedSends,
   SEND_DELAY_MS,
   type SendQueueInput,
 } from '@m544/ui/requests/preview/send-queue-store';
@@ -137,7 +138,9 @@ describe('send-queue-store', () => {
     const s = getSendQueueState();
     expect(s.status).toBe('done');
     expect(s.sent).toBe(2);
-    expect(s.failures).toEqual([{ question: 'Cine răspunde?', error: expect.stringContaining('doc.pdf') }]);
+    expect(s.failures).toEqual([
+      { question: 'Cine răspunde?', error: expect.stringContaining('doc.pdf'), retryable: false, requestId: 'r2' },
+    ]);
   });
 
   // Un 504 al platformei poate veni DUPĂ ce emailul a plecat: omul trebuie să ştie să verifice.
@@ -151,9 +154,65 @@ describe('send-queue-store', () => {
     expect(s.status).toBe('done');
     expect(s.sent).toBe(0);
     expect(s.failures).toEqual([
-      { question: 'Care e bugetul?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.' },
-      { question: 'Cine răspunde?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.' },
+      { question: 'Care e bugetul?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.', retryable: false, requestId: 'r1' },
+      { question: 'Cine răspunde?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.', retryable: false, requestId: 'r2' },
     ]);
+  });
+
+  // Înainte, o conexiune ruptă oprea toată coada, iar banner-ul sugera redeschiderea
+  // previzualizării — adică încă un rând de cereri pentru aceleaşi întrebări.
+  it('o conexiune ruptă la un email nu opreşte coada şi nu se oferă la retrimitere', async () => {
+    let emailCall = 0;
+    const fetchFn = vi.fn(async (url: string) => {
+      if (url === '/api/sessions/create') return twoRequests();
+      if (++emailCall === 1) throw new TypeError('Failed to fetch');
+      return okSend();
+    }) as unknown as typeof fetch;
+    await startSend(INPUT, { fetch: fetchFn, sleep: async () => {}, markHandoffSession: async () => {} });
+    const s = getSendQueueState();
+    expect(s).toMatchObject({ status: 'done', sent: 1, total: 2 });
+    expect(s.failures).toEqual([
+      { question: 'Care e bugetul?', error: expect.stringContaining('verifică în dashboard'), retryable: false, requestId: 'r1' },
+    ]);
+    expect(await retryFailedSends({ fetch: fetchFn, sleep: async () => {} })).toBe(false);
+  });
+
+  it('un 500 care nu e refuzul Resend (poate veni după trimitere) nu se retrimite', async () => {
+    const { fetchFn } = fakeFetch({
+      '/api/sessions/create': () => json(200, { requests: [{ id: 'r1' }] }),
+      '/api/emails/send': () => json(500, { error: 'Eroare internă' }),
+    });
+    await startSend({ ...INPUT, selectedQuestions: [Q[0]] }, { fetch: fetchFn, sleep: async () => {} });
+    expect(getSendQueueState().failures[0].retryable).toBe(false);
+  });
+
+  it('retrimite doar ce sigur n-a plecat, pe aceeaşi cerere, fără să creeze altele', async () => {
+    const three: SendQueueInput = {
+      ...INPUT,
+      selectedQuestions: [...Q, { id: 'c', category: 'A_FINANCIAR', text: 'Câte contracte?', isCustom: true, isEdited: false }],
+    };
+    let emailCall = 0;
+    const bodies: Array<{ request_id?: string }> = [];
+    const fetchFn = vi.fn(async (url: string, init?: RequestInit) => {
+      if (url === '/api/sessions/create') return json(200, { requests: [{ id: 'r1' }, { id: 'r2' }, { id: 'r3' }] });
+      bodies.push(JSON.parse(String(init?.body)));
+      emailCall++;
+      if (emailCall === 1) return json(500, { error: 'Eroare la trimitere: rate limited' });
+      if (emailCall === 2) return new Response('<html>timeout</html>', { status: 504 });
+      return okSend();
+    }) as unknown as typeof fetch;
+
+    await startSend(three, { fetch: fetchFn, sleep: async () => {}, markHandoffSession: async () => {} });
+    expect(getSendQueueState()).toMatchObject({ sent: 1, total: 3 });
+    expect(getSendQueueState().failures.map((f) => f.retryable)).toEqual([true, false]);
+
+    expect(await retryFailedSends({ fetch: fetchFn, sleep: async () => {} })).toBe(true);
+    const s = getSendQueueState();
+    expect(s).toMatchObject({ status: 'done', sent: 2, total: 3 });
+    expect(s.failures).toEqual([expect.objectContaining({ question: 'Cine răspunde?', retryable: false })]);
+    expect(bodies.at(-1)?.request_id).toBe('r1');
+    expect(fetchFn).toHaveBeenCalledTimes(1 + 3 + 1);
+    expect(await retryFailedSends({ fetch: fetchFn, sleep: async () => {} })).toBe(false);
   });
 
   it('useSendQueueState re-renders subscribers', async () => {

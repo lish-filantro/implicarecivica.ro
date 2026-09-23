@@ -120,4 +120,45 @@ describe('SendQueueBanner', () => {
     expect(screen.getByText(/2 din 3/)).toBeTruthy();
     expect(screen.getByText(/nu mai e disponibil/)).toBeTruthy();
   });
+
+  // Cu eşecuri banner-ul rămâne: lista şi butonul de retrimitere nu dispar în timp ce omul citeşte.
+  it('cu o cerere refuzată de Resend: rămâne deschis, oferă retrimiterea şi o duce la capăt', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    let emailCall = 0;
+    const fetchFn = vi.fn(async (url: string) =>
+      url === '/api/emails/send'
+        ? ++emailCall === 1
+          ? json(500, { error: 'Eroare la trimitere: rate limited' })
+          : json(200, { success: true })
+        : json(200, { requests: [{ id: 'r1' }] }),
+    ) as unknown as typeof fetch;
+    render(<SendQueueBanner />);
+    await act(async () => {
+      await startSend({ selectedQuestions: [Q[0]], formData: FORM, conversationId: null }, { fetch: fetchFn, sleep: async () => {} });
+    });
+    await act(async () => {
+      vi.advanceTimersByTime(DONE_VISIBLE_MS + 10);
+    });
+    const retry = screen.getByRole('button', { name: 'Reîncearcă cererea' });
+    await act(async () => {
+      fireEvent.click(retry);
+      await vi.waitFor(() => expect(getSendQueueState().status).toBe('done'));
+    });
+    expect(getSendQueueState()).toMatchObject({ sent: 1, failures: [] });
+    expect(screen.getByText(/Cererea a fost trimisă/)).toBeTruthy();
+  });
+
+  it('nu oferă retrimiterea când cererea poate să fi plecat (504)', async () => {
+    const fetchFn = vi.fn(async (url: string) =>
+      url === '/api/emails/send'
+        ? new Response('<html>timeout</html>', { status: 504 })
+        : json(200, { requests: [{ id: 'r1' }] }),
+    ) as unknown as typeof fetch;
+    render(<SendQueueBanner />);
+    await act(async () => {
+      await startSend({ selectedQuestions: [Q[0]], formData: FORM, conversationId: null }, { fetch: fetchFn, sleep: async () => {} });
+    });
+    expect(screen.getByText(/verifică în dashboard/)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /Reîncearcă/ })).toBeNull();
+  });
 });

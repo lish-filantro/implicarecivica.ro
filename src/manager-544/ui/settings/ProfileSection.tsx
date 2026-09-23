@@ -5,10 +5,18 @@ import { User } from 'lucide-react';
 interface ProfileSectionProps {
   displayName: string;
   onDisplayNameChange: (value: string) => void;
+  gender: 'f' | 'm' | '';
+  onGenderChange: (value: 'f' | 'm' | '') => void;
   email: string;
 }
 
-export default function ProfileSection({ displayName, onDisplayNameChange, email }: ProfileSectionProps) {
+export default function ProfileSection({
+  displayName,
+  onDisplayNameChange,
+  gender,
+  onGenderChange,
+  email,
+}: ProfileSectionProps) {
   return (
     <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
       <div className="flex items-center gap-3 mb-6">
@@ -32,6 +40,27 @@ export default function ProfileSection({ displayName, onDisplayNameChange, email
                        bg-white dark:bg-gray-900 text-gray-900 dark:text-white
                        focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50"
           />
+        </div>
+
+        <div>
+          <label htmlFor="settings-gender" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Formă de adresare
+          </label>
+          <select
+            id="settings-gender"
+            value={gender}
+            onChange={(e) => onGenderChange(e.target.value as 'f' | 'm' | '')}
+            className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700
+                       bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-civic-blue-500/50"
+          >
+            <option value="">Nealeasă — „Subsemnatul/Subsemnata”</option>
+            <option value="f">Doamnă — „Subsemnata”</option>
+            <option value="m">Domn — „Subsemnatul”</option>
+          </select>
+          <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
+            Se folosește doar la acordul gramatical din cererile 544.
+          </p>
         </div>
 
         <div>
