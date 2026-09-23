@@ -268,6 +268,14 @@ describe('POST /api/emails/send — ataşamente', () => {
     expect(resend.sent).toEqual([]);
   });
 
+  it('peste 5 fişiere, omul primeşte mesajul în română, nu eroarea schemei', async () => {
+    const { handler, resend } = build({ files: { [ATT.path]: PDF } });
+    const res = await handler(post({ ...valid, attachments: Array.from({ length: 6 }, () => ATT) }));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toBe('Cel mult 5 fișiere pe întrebare.');
+    expect(resend.sent).toEqual([]);
+  });
+
   it('fără ataşamente, payload-ul şi rândul rămân exact ca înainte', async () => {
     const { handler, sb, resend } = build();
     await handler(post(valid));

@@ -18,7 +18,7 @@ import { createServerClient } from '@m544/shared/db/clients';
 import { checkDailyLimit, SupabaseSentCounter, type SentCounter } from '@m544/shared/rate-limit';
 import type { Email } from '@m544/shared/types/email';
 import { SupabaseStorageRepo, type StorageRepo } from '@m544/shared/db/storage-repo';
-import { checkDeclaredAttachments, MAX_ATTACHMENTS_PER_QUESTION } from '@m544/requests/attachments';
+import { checkDeclaredAttachments } from '@m544/requests/attachments';
 import { getResend } from './resend-client';
 import { SupabaseSendStore, type SendStore } from './store';
 import { loadAttachments } from './outgoing-attachments';
@@ -55,6 +55,8 @@ export interface SendEmailDeps<C extends AuthClient = SupabaseClient> {
   now?: () => Date;
 }
 
+const MAX_DECLARED_ATTACHMENTS = 50;
+
 const bodySchema = z.object({
   to: z.string().trim().email(),
   subject: z.string().trim().min(1),
@@ -70,7 +72,8 @@ const bodySchema = z.object({
         size: z.number().int().nonnegative(),
       }),
     )
-    .max(MAX_ATTACHMENTS_PER_QUESTION)
+    // Doar o limită anti-abuz: limita reală (5) o dă checkDeclaredAttachments, cu mesajul în română.
+    .max(MAX_DECLARED_ATTACHMENTS)
     .optional(),
 });
 
