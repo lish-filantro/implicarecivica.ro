@@ -1,9 +1,15 @@
 /**
  * Persist parsed MIME attachments to the attachments bucket.
- * Paths: `<ownerPrefix>/<emailId>/<safe filename>`. Oversized files are skipped,
+ * Paths: `<ownerPrefix>/<emailId>/<storage key>`. Oversized files are skipped,
  * upload failures are logged and skipped, names are sanitized and de-duplicated.
+ *
+ * The display `name` keeps the sender's spelling (diacritics included); the object key goes
+ * through `storageKeyName`, because Supabase Storage rejects non-ASCII keys ("Invalid key") and
+ * `%` — a reply carrying `Răspuns.pdf` used to lose its PDF. Both are de-duplicated separately:
+ * `Răspuns.pdf` and `Raspuns.pdf` in one email are two names and must be two objects.
  */
 import type { StorageRepo } from '@m544/shared/db/storage-repo';
+import { storageKeyName } from '@m544/shared/utils/storage-key';
 import type { ParsedAttachment } from './mime';
 
 export const MAX_ATTACHMENT_BYTES = 50 * 1024 * 1024;
@@ -49,6 +55,7 @@ export async function saveAttachments(
 ): Promise<SavedAttachment[]> {
   const saved: SavedAttachment[] = [];
   const taken = new Set<string>();
+  const takenKeys = new Set<string>();
 
   for (const att of attachments) {
     const size = att.content.byteLength;
@@ -57,10 +64,12 @@ export async function saveAttachments(
       continue;
     }
     const name = uniqueName(safeFilename(att.filename), taken);
-    const path = `${deps.ownerPrefix}/${deps.emailId}/${name}`;
+    const key = uniqueName(storageKeyName(name), takenKeys);
+    const path = `${deps.ownerPrefix}/${deps.emailId}/${key}`;
     try {
       await deps.storage.upload(path, att.content, att.mimeType);
       taken.add(name);
+      takenKeys.add(key);
       saved.push({ name, type: att.mimeType, size, path });
     } catch (err) {
       console.error(`[Attachments] Upload failed for ${name}:`, err instanceof Error ? err.message : err);

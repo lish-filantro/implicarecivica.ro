@@ -81,6 +81,42 @@ describe('saveAttachments', () => {
     );
     expect(saved.map((s) => s.path)).toEqual(['u/e/x.pdf', 'u/e/x (2).pdf']);
   });
+
+  // Supabase Storage respinge cheile cu diacritice („Invalid key”): calea e ASCII, numele afişat nu.
+  it('a diacritic name gets an ASCII path and keeps its display name', async () => {
+    const storage = new FakeStorageRepo();
+    const saved = await saveAttachments(
+      [{ filename: 'Răspuns 544 ştampilă.pdf', mimeType: 'application/pdf', content: bytes(2) }],
+      { ownerPrefix: 'u', emailId: 'e', storage },
+    );
+    expect(saved).toEqual([
+      { name: 'Răspuns 544 ştampilă.pdf', type: 'application/pdf', size: 2, path: 'u/e/Raspuns 544 stampila.pdf' },
+    ]);
+    expect([...storage.files.keys()]).toEqual(['u/e/Raspuns 544 stampila.pdf']);
+  });
+
+  it('two display names that map to the same key get distinct paths and keep their names', async () => {
+    const storage = new FakeStorageRepo();
+    const saved = await saveAttachments(
+      [
+        { filename: 'Răspuns.pdf', mimeType: 'application/pdf', content: bytes(1) },
+        { filename: 'Raspuns.pdf', mimeType: 'application/pdf', content: bytes(2) },
+      ],
+      { ownerPrefix: 'u', emailId: 'e', storage },
+    );
+    expect(saved.map((s) => s.name)).toEqual(['Răspuns.pdf', 'Raspuns.pdf']);
+    expect(saved.map((s) => s.path)).toEqual(['u/e/Raspuns.pdf', 'u/e/Raspuns (2).pdf']);
+    expect(storage.files.size).toBe(2);
+  });
+
+  it('removes % from the key (storage answers "Bad Request")', async () => {
+    const storage = new FakeStorageRepo();
+    const saved = await saveAttachments(
+      [{ filename: '50%.pdf', mimeType: 'application/pdf', content: bytes(1) }],
+      { ownerPrefix: 'u', emailId: 'e', storage },
+    );
+    expect(saved[0]).toMatchObject({ name: '50%.pdf', path: 'u/e/50.pdf' });
+  });
 });
 
 describe('pickPdfPath', () => {

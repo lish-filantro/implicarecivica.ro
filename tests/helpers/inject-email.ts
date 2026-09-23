@@ -9,6 +9,7 @@
  * This tests the full pipeline: OCR → Classification → Matching → Status Update
  */
 import { randomUUID } from 'crypto';
+import { storageKeyName } from '@m544/shared/utils/storage-key';
 import { getTestSupabase, TEST_USER_ID, TEST_CITIZEN_EMAIL } from './supabase-test-client';
 
 export interface InjectEmailOpts {
@@ -41,10 +42,12 @@ export async function injectEmail(opts: InjectEmailOpts): Promise<InjectResult> 
   const supabase = getTestSupabase();
   const emailId = randomUUID();
   let storagePath: string | null = null;
+  const fileName = opts.pdfFileName || 'document.pdf';
 
-  // 1. Upload PDF to Supabase Storage (if provided)
+  // 1. Upload PDF to Supabase Storage (if provided). Like the webhook: the key is ASCII-safe
+  // (storage rejects diacritics and `%`), the display name in `attachments` is not touched.
   if (opts.pdfBytes) {
-    storagePath = `${TEST_USER_ID}/${emailId}/${opts.pdfFileName || 'document.pdf'}`;
+    storagePath = `${TEST_USER_ID}/${emailId}/${storageKeyName(fileName)}`;
     const { error: uploadError } = await supabase.storage
       .from('email-attachments')
       .upload(storagePath, opts.pdfBytes, {
@@ -73,7 +76,7 @@ export async function injectEmail(opts: InjectEmailOpts): Promise<InjectResult> 
     is_read: false,
     received_at: new Date().toISOString(),
     attachments: storagePath
-      ? [{ name: opts.pdfFileName || 'document.pdf', type: 'application/pdf', path: storagePath }]
+      ? [{ name: fileName, type: 'application/pdf', path: storagePath }]
       : [],
   });
 
