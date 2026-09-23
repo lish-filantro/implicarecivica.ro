@@ -140,7 +140,8 @@ describe('send-queue-store', () => {
     expect(s.failures).toEqual([{ question: 'Cine răspunde?', error: expect.stringContaining('doc.pdf') }]);
   });
 
-  it('un răspuns de eroare care nu e JSON (ex. gateway timeout) cade pe mesajul generic', async () => {
+  // Un 504 al platformei poate veni DUPĂ ce emailul a plecat: omul trebuie să ştie să verifice.
+  it('un răspuns de eroare care nu e JSON (ex. gateway timeout) spune să verifici dacă cererea a plecat', async () => {
     const { fetchFn } = fakeFetch({
       '/api/sessions/create': twoRequests,
       '/api/emails/send': () => new Response('<html>Gateway Timeout</html>', { status: 504 }),
@@ -150,8 +151,8 @@ describe('send-queue-store', () => {
     expect(s.status).toBe('done');
     expect(s.sent).toBe(0);
     expect(s.failures).toEqual([
-      { question: 'Care e bugetul?', error: 'Eroare 504' },
-      { question: 'Cine răspunde?', error: 'Eroare 504' },
+      { question: 'Care e bugetul?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.' },
+      { question: 'Cine răspunde?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.' },
     ]);
   });
 

@@ -144,12 +144,18 @@ function postJson(fetchFn: typeof fetch, url: string, body: unknown): Promise<Re
   return fetchFn(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 }
 
+/**
+ * Un corp care nu e JSON (ex. pagina HTML a unui 504) vine de la platformă, nu de la ruta noastră:
+ * funcţia poate să fi fost oprită DUPĂ ce emailul a plecat, deci omul trebuie să verifice înainte
+ * să retrimită. Erorile JSON sunt ale rutei şi îşi păstrează mesajul.
+ */
 async function readError(response: Response): Promise<string> {
   try {
     const data: { error?: string } = await response.json();
     return data.error || `Eroare ${response.status}`;
   } catch {
-    return `Eroare ${response.status}`;
+    const why = response.status === 504 ? 'serverul nu a răspuns la timp' : 'răspuns neașteptat de la server';
+    return `Eroare ${response.status} — ${why}; verifică în dashboard dacă cererea a plecat.`;
   }
 }
 
