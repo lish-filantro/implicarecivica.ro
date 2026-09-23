@@ -7,9 +7,12 @@
  */
 import type { StorageRepo } from '@m544/shared/db/storage-repo';
 import {
+  fileTooBigMessage,
   MAX_ATTACHMENT_FILE_BYTES,
   MAX_ATTACHMENTS_BYTES_PER_QUESTION,
+  outgoingFilename,
   sniffAttachmentType,
+  totalTooBigMessage,
   type AllowedAttachmentType,
   type OutgoingAttachment,
 } from '@m544/requests/attachments';
@@ -35,17 +38,18 @@ export async function loadAttachments(
     if (!bytes) return { ok: false, error: `Fișierul „${a.name}” nu mai e disponibil. Atașează-l din nou.` };
 
     total += bytes.byteLength;
-    if (bytes.byteLength > MAX_ATTACHMENT_FILE_BYTES || total > MAX_ATTACHMENTS_BYTES_PER_QUESTION) {
-      return { ok: false, error: `„${a.name}” depășește limita de mărime.` };
-    }
+    if (bytes.byteLength > MAX_ATTACHMENT_FILE_BYTES) return { ok: false, error: fileTooBigMessage(a.name, bytes.byteLength) };
+    if (total > MAX_ATTACHMENTS_BYTES_PER_QUESTION) return { ok: false, error: totalTooBigMessage(total) };
     const contentType = sniffAttachmentType(bytes);
     if (!contentType) return { ok: false, error: `„${a.name}” nu e o imagine JPEG, PNG, WebP sau un PDF.` };
 
+    // Acelaşi nume la instituţie şi pe rândul emailului — curăţat pe server, nu cel declarat.
+    const name = outgoingFilename(a.name, contentType);
     files.push({
-      filename: a.name,
+      filename: name,
       content: Buffer.from(bytes),
       contentType,
-      meta: { path: a.path, name: a.name, type: contentType, size: bytes.byteLength },
+      meta: { path: a.path, name, type: contentType, size: bytes.byteLength },
     });
   }
   return { ok: true, files };

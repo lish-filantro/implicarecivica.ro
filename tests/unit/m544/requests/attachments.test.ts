@@ -81,6 +81,22 @@ describe('checkDeclaredAttachments', () => {
     expect(checkDeclaredAttachments('u1', [att({ path: 'u1/outgoing/id1/raport..final.pdf' })])).toBeNull();
   });
 
+  it.each([
+    ['%', 'u1/outgoing/id1/%2e%2e/doc.pdf'],
+    ['\\', 'u1/outgoing/id1\\..\\doc.pdf'],
+    ['?', 'u1/outgoing/id1/doc.pdf?x=1'],
+    ['#', 'u1/outgoing/id1/doc.pdf#x'],
+    ['un segment gol', 'u1/outgoing//doc.pdf'],
+  ])('refuză o cale cu %s (apărare în adâncime)', (_label, path) => {
+    expect(checkDeclaredAttachments('u1', [att({ path })])).toMatch(/nepermis/);
+  });
+
+  it('mesajele pun numele între ghilimele româneşti închise corect', () => {
+    expect(checkDeclaredAttachments('u1', [att({ path: 'u2/outgoing/id1/doc.pdf' })])).toBe('Fișier nepermis: „doc.pdf”.');
+    expect(checkNewAttachment([], { name: 'a.docx', type: 'application/msword', size: 10 })).toMatch(/^„a\.docx” nu e acceptat/);
+    expect(checkNewAttachment([], { name: 'mare.pdf', type: 'application/pdf', size: 11 * MB })).toMatch(/^„mare\.pdf” are 11,0 MB/);
+  });
+
   it('refuză mai mult de 5 fişiere şi peste 20 MB declaraţi', () => {
     expect(checkDeclaredAttachments('u1', Array.from({ length: 6 }, () => att({ size: 1 })))).toMatch(/Cel mult 5/);
     expect(checkDeclaredAttachments('u1', [att({ size: 15 * MB }), att({ size: 6 * MB })])).toMatch(/pe întrebare/);
