@@ -30,6 +30,8 @@ export interface SendQueueState {
   /** The session the requests belong to (existing or just created), once known. */
   sessionId: string | null;
   finishedAt: number | null;
+  /** Questions whose email failed to send, with the reason (Task 6). */
+  failures: Array<{ question: string; error: string }>;
 }
 
 export interface SendQueueDeps {
@@ -58,6 +60,7 @@ const IDLE: SendQueueState = {
   institutionEmail: '',
   sessionId: null,
   finishedAt: null,
+  failures: [],
 };
 
 let state: SendQueueState = IDLE;
@@ -142,6 +145,21 @@ function postJson(fetchFn: typeof fetch, url: string, body: unknown): Promise<Re
 }
 
 /**
+ * Un corp care nu e JSON (ex. pagina HTML a unui 504) vine de la platformă, nu de la ruta noastră:
+ * funcţia poate să fi fost oprită DUPĂ ce emailul a plecat, deci omul trebuie să verifice înainte
+ * să retrimită. Erorile JSON sunt ale rutei şi îşi păstrează mesajul.
+ */
+async function readError(response: Response): Promise<string> {
+  try {
+    const data: { error?: string } = await response.json();
+    return data.error || `Eroare ${response.status}`;
+  } catch {
+    const why = response.status === 504 ? 'serverul nu a răspuns la timp' : 'răspuns neașteptat de la server';
+    return `Eroare ${response.status} — ${why}; verifică în dashboard dacă cererea a plecat.`;
+  }
+}
+
+/**
  * Creates the requests (new session or add to an existing one), links a new
  * session to the conversation's hand-off, then sends the emails sequentially.
  * Resolves to true when every step ran (individual email failures are logged and
@@ -187,14 +205,19 @@ export async function startSend(input: SendQueueInput, deps: SendQueueDeps = {})
     }
 
     let sentCount = 0;
+    const failures: SendQueueState['failures'] = [];
     for (let i = 0; i < requests.length; i++) {
       const emailResponse = await postJson(
         fetchFn,
         '/api/emails/send',
-        buildEmailRequest(selectedQuestions[i].text, formData, requests[i].id),
+        buildEmailRequest(selectedQuestions[i], formData, requests[i].id),
       );
       if (!emailResponse.ok) {
-        console.error(`Failed to send email ${i + 1}:`, await emailResponse.text());
+        // Nu doar în consolă: omul trebuie să afle ce cerere n-a plecat şi de ce.
+        const error = await readError(emailResponse);
+        console.error(`Failed to send email ${i + 1}:`, error);
+        failures.push({ question: selectedQuestions[i].text, error });
+        setState({ failures: [...failures] });
       } else {
         sentCount++;
       }

@@ -37,6 +37,7 @@ interface Scenario {
   ownsRequest?: boolean;
   insert?: QueryResult;
   resend?: ReturnType<typeof sender>;
+  files?: Record<string, Uint8Array>;
 }
 
 function build(s: Scenario = {}) {
@@ -61,6 +62,7 @@ function build(s: Scenario = {}) {
     store: (c) => new SupabaseSendStore(c),
     counter: (c) => new SupabaseSentCounter(c),
     resend,
+    attachmentStorage: () => ({ download: async (p: string) => s.files?.[p] ?? null }),
   };
   return { handler: createSendEmailHandler(() => deps), sb, resend };
 }
@@ -225,5 +227,60 @@ describe('POST /api/emails/send', () => {
         { op: 'eq', args: ['user_id', 'u1'] },
       ]),
     );
+  });
+});
+
+describe('POST /api/emails/send — ataşamente', () => {
+  const PDF = new TextEncoder().encode('%PDF-1.4 test');
+  const ATT = { path: 'u1/outgoing/id1/doc.pdf', name: 'doc.pdf', type: 'application/pdf', size: PDF.byteLength };
+
+  it('trimite fişierul prin Resend şi îl salvează cu calea pe rândul emailului', async () => {
+    const { handler, sb, resend } = build({ files: { [ATT.path]: PDF } });
+    const res = await handler(post({ ...valid, attachments: [ATT] }));
+    expect(res.status).toBe(200);
+
+    expect(resend.sent[0].attachments).toEqual([
+      { filename: 'doc.pdf', content: Buffer.from(PDF), contentType: 'application/pdf' },
+    ]);
+    const insert = sb.queries.find((q) => q.table === 'emails' && q.op === 'insert')!;
+    expect((insert.payload as { attachments: unknown }).attachments).toEqual([ATT]);
+  });
+
+  it('nu trimite nimic când fişierul e în folderul altcuiva', async () => {
+    const { handler, resend } = build({ files: { 'u2/outgoing/id1/doc.pdf': PDF } });
+    const res = await handler(post({ ...valid, attachments: [{ ...ATT, path: 'u2/outgoing/id1/doc.pdf' }] }));
+    expect(res.status).toBe(400);
+    expect(resend.sent).toEqual([]);
+  });
+
+  it('nu trimite nimic când fişierul nu mai există — şi spune care', async () => {
+    const { handler, resend } = build({ files: {} });
+    const res = await handler(post({ ...valid, attachments: [ATT] }));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toContain('doc.pdf');
+    expect(resend.sent).toEqual([]);
+  });
+
+  it('nu trimite nimic când octeţii nu sunt ai unui PDF sau ai unei imagini', async () => {
+    const { handler, resend } = build({ files: { [ATT.path]: new TextEncoder().encode('MZ\x90\0') } });
+    const res = await handler(post({ ...valid, attachments: [ATT] }));
+    expect(res.status).toBe(400);
+    expect(resend.sent).toEqual([]);
+  });
+
+  it('peste 5 fişiere, omul primeşte mesajul în română, nu eroarea schemei', async () => {
+    const { handler, resend } = build({ files: { [ATT.path]: PDF } });
+    const res = await handler(post({ ...valid, attachments: Array.from({ length: 6 }, () => ATT) }));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toBe('Cel mult 5 fișiere pe întrebare.');
+    expect(resend.sent).toEqual([]);
+  });
+
+  it('fără ataşamente, payload-ul şi rândul rămân exact ca înainte', async () => {
+    const { handler, sb, resend } = build();
+    await handler(post(valid));
+    expect(resend.sent[0]).not.toHaveProperty('attachments');
+    const insert = sb.queries.find((q) => q.table === 'emails' && q.op === 'insert')!;
+    expect(insert.payload).not.toHaveProperty('attachments');
   });
 });

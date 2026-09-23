@@ -15,6 +15,7 @@ export interface SentEmailRow {
   to_email: string;
   subject: string;
   body: string;
+  attachments?: Array<{ path: string; name: string; type: string; size: number }>;
 }
 
 export interface SendStore {

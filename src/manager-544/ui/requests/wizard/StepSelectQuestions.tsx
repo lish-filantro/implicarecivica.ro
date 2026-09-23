@@ -7,6 +7,7 @@ import { QuestionCategoryList } from '../questions/QuestionCategoryList';
 import { FreeQuestionEditor } from '../questions/FreeQuestionEditor';
 import { StickyActionBar } from './StickyActionBar';
 import { WizardSummaryCard } from './WizardSummaryCard';
+import { AttachmentsBusyHint } from './AttachmentsBusyHint';
 import { CATEGORY_IDS, MANUAL_QUESTION_CATEGORY, RECOMMENDED_MAX_SELECTED } from './types';
 
 interface StepSelectQuestionsProps {
@@ -70,8 +71,11 @@ export function StepSelectQuestions({ wizard, questionGen, fromChat, summary }: 
           onAdd={(text) => wizard.addCustomQuestion(MANUAL_QUESTION_CATEGORY, text)}
           onEdit={wizard.editQuestion}
           onRemove={wizard.removeQuestion}
+          attachmentsApi={wizard.questionAttachments}
         />
       )}
+
+      <AttachmentsBusyHint show={wizard.hasBusyAttachments && wizard.selectedCount > 0} />
 
       <StickyActionBar
         selectedCount={wizard.selectedCount}

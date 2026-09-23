@@ -24,7 +24,7 @@ Instituția e un utilizator obișnuit al platformei: emailurile trimise de cetă
 
 - `01-auth.spec.ts` — redirecționare la login, autentificare (fără destinație → panou), parolă greșită, admin refuzat.
 - `02-chat.spec.ts` — asistentul pe Anthropic real: STEP_1, rezumat, STEP_2 cu cardul instituției, „Pregătește cererile” → wizardul precompletat (pasul 2 cu setul de întrebări sau pasul 1 cu datele instituției; cere migrarea 018), răspunsul standard la mesaje în afara subiectului.
-- `03-request-lifecycle.spec.ts` — „Cerere nouă” → „Știu instituția și întrebările” → wizard cu 2 întrebări scrise în editorul liber → trimitere → sosire la instituție → confirmare ambiguă → „De revizuit” → asociere din UI → răspuns final potrivit după numărul de înregistrare → corectarea unei clasificări. Serial, ~8 minute.
+- `03-request-lifecycle.spec.ts` — „Cerere nouă” → „Știu instituția și întrebările” → wizard cu 2 întrebări scrise în editorul liber, cu un PDF atașat la prima → trimitere → sosire la instituție cu atașamentul pe drumul real (Resend → Cloudflare → webhook) → confirmare ambiguă → „De revizuit” → asociere din UI → răspuns final potrivit după numărul de înregistrare → corectarea unei clasificări. Serial, ~8 minute.
 - `04-pages.spec.ts` — emailuri, setări, feedback, pagina publică cu date deschise.
 
 ## Servicii atinse

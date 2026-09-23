@@ -156,4 +156,18 @@ describe('PreviewEmailCard', () => {
     render(createElement(PreviewEmailCard, { index: 1, total: 2, question: 'Care e bugetul?', formData: FORM }));
     expect(screen.queryByText(/Care e bugetul\?/)).toBeNull();
   });
+
+  it('arată fişierele care pleacă cu emailul', () => {
+    render(
+      createElement(PreviewEmailCard, {
+        index: 0,
+        total: 1,
+        question: 'Bugetul?',
+        formData: FORM,
+        attachments: [{ path: 'u1/outgoing/x/groapa.jpg', name: 'groapa.jpg', type: 'image/jpeg', size: 2 * 1024 * 1024 }],
+      }),
+    );
+    expect(screen.getByText('groapa.jpg')).toBeTruthy();
+    expect(screen.getByText(/2,0 MB/)).toBeTruthy();
+  });
 });

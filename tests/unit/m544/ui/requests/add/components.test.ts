@@ -1,9 +1,12 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach } from 'vitest';
 import { createElement } from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, renderHook, act } from '@testing-library/react';
 import { SessionInfoCard } from '@m544/ui/requests/add/SessionInfoCard';
 import { RateLimitInfo } from '@m544/ui/requests/add/RateLimitInfo';
+import { AddRequestsQuestions } from '@m544/ui/requests/add/AddRequestsQuestions';
+import { useRequestWizard } from '@m544/ui/requests/wizard/useRequestWizard';
+import { useQuestionGeneration } from '@m544/ui/requests/wizard/useQuestionGeneration';
 
 afterEach(cleanup);
 
@@ -41,5 +44,66 @@ describe('RateLimitInfo', () => {
     expect(screen.getByText(/Azi ai trimis/)).toBeTruthy();
     expect(screen.getByText(/Încearcă din nou mâine/)).toBeTruthy();
     expect(container.firstElementChild?.className).toContain('bg-protest-red-50');
+  });
+});
+
+describe('AddRequestsQuestions — hint-ul de ataşamente (Fix round 1)', () => {
+  // /requests/add foloseşte acelaşi AttachmentsBusyHint ca StepSelectQuestions: fără el, butonul
+  // de previzualizare se dezactivează din cauza unui ataşament fără nicio explicaţie vizibilă.
+  // Un tip refuzat intră direct ca rând eşuat, fără nicio încărcare: cel mai scurt drum spre „ocupat".
+  const DOCX = () => new File(['x'], 'a.docx', { type: 'application/msword' });
+
+  function questionGen() {
+    return renderHook(() =>
+      useQuestionGeneration({ problemContext: null, institutionName: null, fetchQuestions: async () => [] }),
+    ).result.current;
+  }
+
+  it('nu arată hint-ul fără niciun ataşament ocupat', () => {
+    const wizard = renderHook(() => useRequestWizard()).result.current;
+    render(createElement(AddRequestsQuestions, { wizard, questionGen: questionGen(), rateLimit: null, onBack: () => {} }));
+    expect(screen.queryByText(/Așteaptă încărcarea atașamentelor/)).toBeNull();
+  });
+
+  it('arată hint-ul şi dezactivează previzualizarea cât timp o întrebare selectată are un ataşament ocupat', () => {
+    const hook = renderHook(() => useRequestWizard());
+    act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
+    const id = hook.result.current.getSelectedQuestions()[0].id;
+    act(() => {
+      void hook.result.current.questionAttachments.add(id, [DOCX()]);
+    });
+
+    render(
+      createElement(AddRequestsQuestions, {
+        wizard: hook.result.current,
+        questionGen: questionGen(),
+        rateLimit: null,
+        onBack: () => {},
+      }),
+    );
+    expect(screen.getByText(/Așteaptă încărcarea atașamentelor sau scoate fișierele cu eroare\./)).toBeTruthy();
+    expect((screen.getByRole('button', { name: /Previzualizare/ }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('scoţând fişierul eşuat, hint-ul dispare şi previzualizarea se deblochează', () => {
+    const hook = renderHook(() => useRequestWizard());
+    act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
+    const id = hook.result.current.getSelectedQuestions()[0].id;
+    act(() => {
+      void hook.result.current.questionAttachments.add(id, [DOCX()]);
+    });
+    const [refused] = hook.result.current.questionAttachments.pending[id];
+    act(() => hook.result.current.questionAttachments.dismiss(id, refused.key));
+
+    render(
+      createElement(AddRequestsQuestions, {
+        wizard: hook.result.current,
+        questionGen: questionGen(),
+        rateLimit: null,
+        onBack: () => {},
+      }),
+    );
+    expect(screen.queryByText(/Așteaptă încărcarea atașamentelor/)).toBeNull();
+    expect((screen.getByRole('button', { name: /Previzualizare/ }) as HTMLButtonElement).disabled).toBe(false);
   });
 });

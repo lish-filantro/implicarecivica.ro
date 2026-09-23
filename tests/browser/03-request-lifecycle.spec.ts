@@ -18,6 +18,12 @@ import { login } from './helpers/login';
 test.describe.configure({ mode: 'serial' });
 
 const REG_NUMBER = `4521/${new Date().toISOString().slice(0, 10).split('-').reverse().join('.')}`;
+// Diacritics on purpose: Supabase Storage rejects such keys ("Invalid key"), so the stored path is
+// ASCII while the name the user and the institution see keeps its diacritics — on the outgoing
+// upload AND on the inbound save of the institution's copy.
+const ATTACHMENT_NAME = 'Dovadă răspuns.pdf';
+const ATTACHMENT_KEY = 'Dovada raspuns.pdf';
+const ASCII_PATH = /^[\x20-\x7e]+$/;
 const QUESTIONS = [
   'Care este valoarea totală a contractelor de reparații stradale încheiate în 2025?',
   'Care este calendarul lucrărilor de asfaltare planificate pentru 2026?',
@@ -44,7 +50,7 @@ test.describe('ciclul de viață al unei cereri', () => {
     await page.getByRole('link', { name: /Știu instituția și întrebările/ }).click();
     await expect(page).toHaveURL(/\/requests\/new/);
 
-    await expect(page.getByText('Date cerere')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Date cerere' })).toBeVisible();
     await page.getByPlaceholder('Ion Popescu').fill(CITIZEN.displayName);
     await page.getByPlaceholder(/Str\. Victoriei/).fill('Strada Lalelelor nr. 5, Pitești, Argeș');
     await page.getByPlaceholder('ex: Transparența cheltuielilor publice').fill('Test browser: reparații stradale');
@@ -61,6 +67,11 @@ test.describe('ciclul de viață al unei cereri', () => {
       await page.getByRole('button', { name: 'Adaugă', exact: true }).click();
       await expect(page.getByRole('textbox', { name: `Întrebarea ${i + 1}` })).toHaveValue(q);
     }
+    // one attachment, on the first question, travels the whole real path (Resend → Cloudflare → institution)
+    const pdf = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n');
+    await page.locator('input[type="file"]').first().setInputFiles({ name: ATTACHMENT_NAME, mimeType: 'application/pdf', buffer: pdf });
+    await expect(page.getByText(ATTACHMENT_NAME)).toBeVisible();
+
     await expect(page.getByText(/2\s+cereri selectate/)).toBeVisible();
     await page.getByRole('button', { name: /Previzualizare/ }).click();
 
@@ -73,6 +84,18 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(requests.every((r) => r.status === 'pending' && r.institution_email === INSTITUTION.platformEmail)).toBe(true);
     const sent = await listEmails(CITIZEN.id, 'sent', startedAt);
     expect(sent).toHaveLength(2);
+    // identify each email by the question it actually carries (not by index/order), so a bug
+    // that attaches the file to the wrong question's email would fail this
+    const firstQuestionEmail = sent.find((e) => (e.body ?? '').includes(QUESTIONS[0]));
+    const secondQuestionEmail = sent.find((e) => (e.body ?? '').includes(QUESTIONS[1]));
+    // an unmatched lookup must fail loudly, not pass vacuously through `?.`
+    expect(firstQuestionEmail, 'emailul primei întrebări').toBeDefined();
+    expect(secondQuestionEmail, 'emailul celei de-a doua întrebări').toBeDefined();
+    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe(ATTACHMENT_NAME);
+    expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
+    expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(ASCII_PATH);
+    expect(firstQuestionEmail!.attachments?.[0]?.path.endsWith(`/${ATTACHMENT_KEY}`)).toBe(true);
+    expect(secondQuestionEmail!.attachments ?? []).toHaveLength(0);
     await expect(page.getByText(INSTITUTION_NAME).first()).toBeVisible();
   });
 
@@ -81,6 +104,18 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(inbox.map((e) => e.to_email)).toEqual([INSTITUTION.platformEmail, INSTITUTION.platformEmail]);
     expect(inbox[0].from_email).toBe(CITIZEN.platformEmail);
     expect(inbox[0].body ?? '').toContain('544');
+    // identify by the question text each email actually carries, not by count/index — a bug that
+    // attaches the file to the wrong question's email must fail this
+    const firstQuestionEmail = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[0]));
+    const secondQuestionEmail = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[1]));
+    // an unmatched lookup must fail loudly, not pass vacuously through `?.`
+    expect(firstQuestionEmail, 'emailul primei întrebări').toBeDefined();
+    expect(secondQuestionEmail, 'emailul celei de-a doua întrebări').toBeDefined();
+    expect(firstQuestionEmail!.attachments).toHaveLength(1);
+    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe(ATTACHMENT_NAME);
+    expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(ASCII_PATH);
+    expect(firstQuestionEmail!.attachments?.[0]?.path.endsWith(`/${ATTACHMENT_KEY}`)).toBe(true);
+    expect(secondQuestionEmail!.attachments ?? []).toHaveLength(0);
   });
 
   test('confirmarea de înregistrare ambiguă ajunge în „De revizuit” și e asociată din UI', async ({ page }) => {

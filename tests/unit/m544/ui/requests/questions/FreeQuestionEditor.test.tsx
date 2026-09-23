@@ -10,10 +10,12 @@ import type { QuestionItem } from '@m544/ui/requests/wizard/types';
 
 afterEach(cleanup);
 
+const fakeAttachmentsApi = () => ({ pending: {}, add: vi.fn(async () => {}), retry: vi.fn(async () => {}), dismiss: vi.fn(), remove: vi.fn() });
+
 const q = (id: string, text: string): QuestionItem => ({ id, category: 'A_FINANCIAR', text, isCustom: true, isEdited: false });
 
 function setup(questions: QuestionItem[] = []) {
-  const handlers = { onAdd: vi.fn(), onEdit: vi.fn(), onRemove: vi.fn() };
+  const handlers = { onAdd: vi.fn(), onEdit: vi.fn(), onRemove: vi.fn(), attachmentsApi: fakeAttachmentsApi() };
   render(<FreeQuestionEditor questions={questions} {...handlers} />);
   return handlers;
 }
@@ -67,5 +69,13 @@ describe('FreeQuestionEditor', () => {
     fireEvent.change(screen.getByPlaceholderText('Scrie întrebarea ta...'), { target: { value: '  Câte sesizări ați primit?  ' } });
     fireEvent.click(screen.getByRole('button', { name: 'Adaugă' }));
     expect(onAdd).toHaveBeenCalledWith('Câte sesizări ați primit?');
+  });
+
+  it('are „Ataşează" pe fiecare întrebare şi trimite fişierele la întrebarea potrivită', () => {
+    const { attachmentsApi } = setup([q('1', 'Prima'), q('2', 'A doua')]);
+    expect(screen.getAllByText('Atașează')).toHaveLength(2);
+    const file = new File(['%PDF'], 'doc.pdf', { type: 'application/pdf' });
+    fireEvent.change(document.querySelectorAll('input[type="file"]')[1], { target: { files: [file] } });
+    expect(attachmentsApi.add).toHaveBeenCalledWith('2', [file]);
   });
 });

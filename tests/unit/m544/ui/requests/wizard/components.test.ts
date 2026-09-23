@@ -5,6 +5,7 @@ import { render, screen, fireEvent, cleanup, renderHook, act, waitFor } from '@t
 import { StickyActionBar } from '@m544/ui/requests/wizard/StickyActionBar';
 import { StepperBar } from '@m544/ui/requests/wizard/StepperBar';
 import { StepSelectQuestions } from '@m544/ui/requests/wizard/StepSelectQuestions';
+import { AttachmentsBusyHint } from '@m544/ui/requests/wizard/AttachmentsBusyHint';
 import { useRequestWizard } from '@m544/ui/requests/wizard/useRequestWizard';
 import { useQuestionGeneration } from '@m544/ui/requests/wizard/useQuestionGeneration';
 
@@ -46,6 +47,18 @@ describe('StickyActionBar', () => {
   it('shows the remaining daily limit when provided', () => {
     render(createElement(StickyActionBar, { ...base, dailyLimitInfo: { remaining: 4 } }));
     expect(screen.getByText('Limită: 4 cereri rămase azi')).toBeTruthy();
+  });
+});
+
+describe('AttachmentsBusyHint (Fix round 1: sursă unică, folosită şi din /requests/add)', () => {
+  it('nu randează nimic cât timp show e fals', () => {
+    const { container } = render(createElement(AttachmentsBusyHint, { show: false }));
+    expect(container.textContent).toBe('');
+  });
+
+  it('arată textul explicativ când show e adevărat', () => {
+    render(createElement(AttachmentsBusyHint, { show: true }));
+    expect(screen.getByText('Așteaptă încărcarea atașamentelor sau scoate fișierele cu eroare.')).toBeTruthy();
   });
 });
 

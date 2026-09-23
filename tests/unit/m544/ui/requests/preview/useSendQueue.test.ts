@@ -90,10 +90,20 @@ describe('buildSessionRequest / buildEmailRequest', () => {
   });
 
   it('builds the email payload with the HTML body', () => {
-    const req = buildEmailRequest('Care e bugetul?', FORM, 'r1');
+    const req = buildEmailRequest(Q[0], FORM, 'r1');
     expect(req).toMatchObject({ to: 'registratura@primaria.ro', subject: FIXED_SUBJECT, request_id: 'r1' });
     expect(req.body).toContain('Care e bugetul?');
     expect(req.body).toContain('Ion Popescu');
+  });
+
+  it('pune ataşamentele întrebării în corpul trimiterii', () => {
+    const ATT = { path: 'u1/outgoing/x/doc.pdf', name: 'doc.pdf', type: 'application/pdf', size: 8 };
+    const body = buildEmailRequest({ ...INPUT.selectedQuestions[0], attachments: [ATT] }, INPUT.formData, 'r1');
+    expect(body.attachments).toEqual([ATT]);
+  });
+
+  it('fără ataşamente, corpul nu are câmpul', () => {
+    expect(buildEmailRequest(INPUT.selectedQuestions[0], INPUT.formData, 'r1')).not.toHaveProperty('attachments');
   });
 });
 
@@ -216,7 +226,7 @@ describe('useSendQueue', () => {
     let n = 0;
     const { fetchFn } = fakeFetch({
       '/api/sessions/create': () => json(200, { requests: [{ id: 'r1' }, { id: 'r2' }] }),
-      '/api/emails/send': () => (++n === 1 ? new Response('smtp down', { status: 500 }) : okSend({})),
+      '/api/emails/send': () => (++n === 1 ? json(500, { error: 'smtp down' }) : okSend({})),
     });
     const { result } = renderHook(() => useSendQueue(INPUT, { fetch: fetchFn, sleep: async () => {} }));
     await act(async () => result.current.sendAll());

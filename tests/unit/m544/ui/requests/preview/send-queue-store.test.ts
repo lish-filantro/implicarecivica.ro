@@ -120,6 +120,42 @@ describe('send-queue-store', () => {
     expect(getSendQueueState().status).toBe('idle');
   });
 
+  it('trimite restul întrebărilor când una eşuează şi reţine motivul (Review Focus 3)', async () => {
+    const three: SendQueueInput = {
+      ...INPUT,
+      selectedQuestions: [...Q, { id: 'c', category: 'A_FINANCIAR', text: 'Câte contracte?', isCustom: true, isEdited: false }],
+    };
+    let emailCall = 0;
+    const { fetchFn } = fakeFetch({
+      '/api/sessions/create': () => json(200, { session: { id: 'S9' }, requests: [{ id: 'r1' }, { id: 'r2' }, { id: 'r3' }] }),
+      '/api/emails/send': () =>
+        ++emailCall === 2
+          ? json(400, { error: 'Fișierul „doc.pdf” nu mai e disponibil. Atașează-l din nou.' })
+          : json(200, { success: true }),
+    });
+    await startSend(three, { fetch: fetchFn, sleep: async () => {}, markHandoffSession: async () => {} });
+    const s = getSendQueueState();
+    expect(s.status).toBe('done');
+    expect(s.sent).toBe(2);
+    expect(s.failures).toEqual([{ question: 'Cine răspunde?', error: expect.stringContaining('doc.pdf') }]);
+  });
+
+  // Un 504 al platformei poate veni DUPĂ ce emailul a plecat: omul trebuie să ştie să verifice.
+  it('un răspuns de eroare care nu e JSON (ex. gateway timeout) spune să verifici dacă cererea a plecat', async () => {
+    const { fetchFn } = fakeFetch({
+      '/api/sessions/create': twoRequests,
+      '/api/emails/send': () => new Response('<html>Gateway Timeout</html>', { status: 504 }),
+    });
+    await startSend(INPUT, { fetch: fetchFn, sleep: async () => {}, markHandoffSession: async () => {} });
+    const s = getSendQueueState();
+    expect(s.status).toBe('done');
+    expect(s.sent).toBe(0);
+    expect(s.failures).toEqual([
+      { question: 'Care e bugetul?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.' },
+      { question: 'Cine răspunde?', error: 'Eroare 504 — serverul nu a răspuns la timp; verifică în dashboard dacă cererea a plecat.' },
+    ]);
+  });
+
   it('useSendQueueState re-renders subscribers', async () => {
     const { result } = renderHook(() => useSendQueueState());
     expect(result.current.status).toBe('idle');

@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useWizardQuestions, createQuestionIdGenerator } from '@m544/ui/requests/wizard/useWizardQuestions';
 import { CATEGORY_IDS } from '@m544/ui/requests/wizard/types';
+import type { OutgoingAttachment } from '@m544/requests/attachments';
 
 function setup() {
   return renderHook(() => useWizardQuestions());
@@ -152,5 +153,278 @@ describe('useWizardQuestions', () => {
       result.current.toggleQuestion(result.current.questions.E_CONFORMITATE[0].id);
     });
     expect(result.current.getSelectedQuestions().map((q) => q.text)).toEqual(['a2', 'e1']);
+  });
+});
+
+describe('useWizardQuestions — ataşamente', () => {
+  // Starea încărcărilor (în curs / eşuate) stă în hook, pe id-ul întrebării, nu în picker: picker-ul
+  // se demontează la lucruri obişnuite (categorie strânsă, editare, pasul 1, deselectare), iar un
+  // fişier în zbor sau eşuat nu are voie să dispară odată cu el (spec §4.3, §4.4).
+  const pdf = (name = 'doc.pdf', size?: number) => {
+    const f = new File([new TextEncoder().encode('%PDF-1.4')], name, { type: 'application/pdf' });
+    if (size !== undefined) Object.defineProperty(f, 'size', { value: size, configurable: true });
+    return f;
+  };
+  const toAtt = (f: File): OutgoingAttachment => ({ path: `u1/outgoing/${f.name}/${f.name}`, name: f.name, type: f.type, size: f.size });
+
+  /** Încărcări controlate din test: fiecare apel aşteaptă până e rezolvat sau respins explicit. */
+  function controlledUpload() {
+    const calls: Array<{ file: File; resolve: () => void; reject: (e: Error) => void }> = [];
+    const upload = vi.fn(
+      (file: File) =>
+        new Promise<OutgoingAttachment>((resolve, reject) => {
+          calls.push({ file, resolve: () => resolve(toAtt(file)), reject });
+        }),
+    );
+    return { upload, calls };
+  }
+
+  function withQuestion(upload: (f: File) => Promise<OutgoingAttachment>) {
+    const hook = renderHook(() => useWizardQuestions({ upload }));
+    act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Care e bugetul?'));
+    const id = hook.result.current.getSelectedQuestions()[0].id;
+    const question = () => hook.result.current.questions.A_FINANCIAR.find((q) => q.id === id)!;
+    const pending = () => hook.result.current.questionAttachments.pending[id] ?? [];
+    const add = (files: File[]) => {
+      let done!: Promise<void>;
+      act(() => {
+        done = hook.result.current.questionAttachments.add(id, files);
+      });
+      return done;
+    };
+    return { hook, id, question, pending, add };
+  }
+
+  it('cât timp un fişier se încarcă, previzualizarea e blocată; după, e pe întrebare şi se deblochează', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, question, pending, add } = withQuestion(upload);
+    const done = add([pdf('dovada.pdf')]);
+    expect(pending().map((p) => p.status)).toEqual(['uploading']);
+    expect(hook.result.current.hasBusyAttachments).toBe(true);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+    await act(async () => {
+      calls[0].resolve();
+      await done;
+    });
+    expect(question().attachments?.map((a) => a.name)).toEqual(['dovada.pdf']);
+    expect(pending()).toEqual([]);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+  });
+
+  it('refuză un tip neacceptat fără să-l urce, şi blochează până e scos', async () => {
+    const { upload } = controlledUpload();
+    const { hook, id, pending, add } = withQuestion(upload);
+    await act(async () => {
+      await add([new File(['x'], 'a.docx', { type: 'application/msword' })]);
+    });
+    expect(upload).not.toHaveBeenCalled();
+    expect(pending()).toMatchObject([{ status: 'error', error: expect.stringMatching(/nu e acceptat/) }]);
+    expect(pending()[0].file).toBeUndefined();
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+    act(() => hook.result.current.questionAttachments.dismiss(id, pending()[0].key));
+    expect(pending()).toEqual([]);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+  });
+
+  it('un fişier eşuat la urcare rămâne şi blochează până e scos', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, id, pending, add } = withQuestion(upload);
+    const done = add([pdf('doc.pdf')]);
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await done;
+    });
+    expect(pending()).toMatchObject([{ status: 'error', error: 'rețea', name: 'doc.pdf' }]);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+    act(() => hook.result.current.questionAttachments.dismiss(id, pending()[0].key));
+    expect(pending()).toEqual([]);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+  });
+
+  it('o întrebare deselectată cu un fişier eşuat nu blochează; rebifată, blochează din nou şi rândul e tot acolo', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, id, pending, add } = withQuestion(upload);
+    act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Altă întrebare'));
+    const done = add([pdf('doc.pdf')]);
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await done;
+    });
+    act(() => hook.result.current.toggleQuestion(id));
+    expect(hook.result.current.hasBusyAttachments).toBe(false);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+    act(() => hook.result.current.toggleQuestion(id));
+    expect(hook.result.current.hasBusyAttachments).toBe(true);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+    expect(pending()).toMatchObject([{ status: 'error', name: 'doc.pdf' }]);
+  });
+
+  it('o încărcare care se termină după ce omul a adăugat alt fişier le păstrează pe AMBELE', async () => {
+    const { upload, calls } = controlledUpload();
+    const { question, add } = withQuestion(upload);
+    const first = add([pdf('lent.pdf')]);
+    const second = add([pdf('rapid.pdf')]);
+    await act(async () => {
+      calls[1].resolve();
+      await second;
+    });
+    expect(question().attachments?.map((a) => a.name)).toEqual(['rapid.pdf']);
+    await act(async () => {
+      calls[0].resolve();
+      await first;
+    });
+    expect(question().attachments?.map((a) => a.name)).toEqual(['rapid.pdf', 'lent.pdf']);
+  });
+
+  it('scoaterea unui fişier urcat nu atinge unul care se încarcă între timp', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, id, question, add } = withQuestion(upload);
+    const a = add([pdf('vechi.pdf')]);
+    await act(async () => {
+      calls[0].resolve();
+      await a;
+    });
+    const b = add([pdf('nou.pdf')]);
+    act(() => hook.result.current.questionAttachments.remove(id, question().attachments![0].path));
+    await act(async () => {
+      calls[1].resolve();
+      await b;
+    });
+    expect(question().attachments?.map((x) => x.name)).toEqual(['nou.pdf']);
+  });
+
+  it('limitează la 5 fişiere pe o singură selecţie', async () => {
+    const upload = vi.fn(async (f: File) => toAtt(f));
+    const { question, pending, add } = withQuestion(upload);
+    await act(async () => {
+      await add([1, 2, 3, 4, 5, 6].map((n) => pdf(`f${n}.pdf`)));
+    });
+    expect(upload).toHaveBeenCalledTimes(5);
+    expect(question().attachments).toHaveLength(5);
+    expect(pending()).toMatchObject([{ name: 'f6.pdf', status: 'error', error: expect.stringMatching(/Cel mult 5/) }]);
+  });
+
+  it('limitează suma la 20 MB pe o singură selecţie', async () => {
+    const MB = 1024 * 1024;
+    const upload = vi.fn(async (f: File) => toAtt(f));
+    const { question, pending, add } = withQuestion(upload);
+    await act(async () => {
+      await add([pdf('a.pdf', 8 * MB), pdf('b.pdf', 8 * MB), pdf('c.pdf', 8 * MB)]);
+    });
+    expect(upload).toHaveBeenCalledTimes(2);
+    expect(question().attachments?.map((a) => a.name)).toEqual(['a.pdf', 'b.pdf']);
+    expect(pending()).toMatchObject([{ name: 'c.pdf', error: expect.stringMatching(/Împreună/) }]);
+  });
+
+  it('bugetul numără fişierele încă în zbor, din selecţii separate', () => {
+    const { upload } = controlledUpload();
+    const { pending, add } = withQuestion(upload);
+    for (const n of [1, 2, 3, 4, 5, 6]) void add([pdf(`f${n}.pdf`)]);
+    expect(upload).toHaveBeenCalledTimes(5);
+    expect(pending().at(-1)).toMatchObject({ name: 'f6.pdf', status: 'error', error: expect.stringMatching(/Cel mult 5/) });
+  });
+
+  it('„Reîncearcă" verifică din nou bugetul', async () => {
+    const MB = 1024 * 1024;
+    const { upload, calls } = controlledUpload();
+    const { hook, id, question, pending, add } = withQuestion(upload);
+    const failing = add([pdf('mare.pdf', 9 * MB)]);
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await failing;
+    });
+    // Cât timp „mare.pdf" e eşuat, omul adaugă alte două de 8 MB: încap, fiindcă cel eşuat nu contează.
+    for (const name of ['a.pdf', 'b.pdf']) {
+      const p = add([pdf(name, 8 * MB)]);
+      await act(async () => {
+        calls.at(-1)!.resolve();
+        await p;
+      });
+    }
+    expect(question().attachments).toHaveLength(2);
+    const callsBefore = upload.mock.calls.length;
+    await act(async () => {
+      await hook.result.current.questionAttachments.retry(id, pending()[0].key);
+    });
+    expect(upload.mock.calls.length).toBe(callsBefore);
+    expect(pending()).toMatchObject([{ name: 'mare.pdf', status: 'error', error: expect.stringMatching(/Împreună/) }]);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+  });
+
+  it('„Reîncearcă" după o eroare de reţea urcă fişierul', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, id, question, pending, add } = withQuestion(upload);
+    const p = add([pdf('doc.pdf')]);
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await p;
+    });
+    let r!: Promise<void>;
+    act(() => {
+      r = hook.result.current.questionAttachments.retry(id, pending()[0].key);
+    });
+    expect(pending()).toMatchObject([{ status: 'uploading' }]);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+    await act(async () => {
+      calls[1].resolve();
+      await r;
+    });
+    expect(pending()).toEqual([]);
+    expect(question().attachments?.map((a) => a.name)).toEqual(['doc.pdf']);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+  });
+
+  it('ştergerea întrebării îi curăţă fişierele în aşteptare şi eliberează blocarea', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, id, add } = withQuestion(upload);
+    const p = add([pdf('doc.pdf')]);
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await p;
+    });
+    act(() => hook.result.current.addCustomQuestion('A_FINANCIAR', 'Altă întrebare'));
+    act(() => hook.result.current.removeQuestion(id));
+    expect(hook.result.current.questionAttachments.pending[id]).toBeUndefined();
+    expect(hook.result.current.canProceedToStep3).toBe(true);
+  });
+
+  it('o încărcare care se termină după ştergerea întrebării nu o readuce', async () => {
+    const { upload, calls } = controlledUpload();
+    const { hook, id, add } = withQuestion(upload);
+    const p = add([pdf('doc.pdf')]);
+    act(() => hook.result.current.removeQuestion(id));
+    await act(async () => {
+      calls[0].resolve();
+      await p;
+    });
+    expect(hook.result.current.questions.A_FINANCIAR).toEqual([]);
+    expect(hook.result.current.questionAttachments.pending[id]).toBeUndefined();
+  });
+
+  it('regenerarea categoriei scoate întrebarea înlocuită din selecţie şi din aşteptare; previzualizarea se deblochează', async () => {
+    const { upload, calls } = controlledUpload();
+    const hook = renderHook(() => useWizardQuestions({ upload }));
+    act(() => hook.result.current.setQuestionsForCategory('A_FINANCIAR', ['generată']));
+    act(() => hook.result.current.addCustomQuestion('B_RESPONSABILITATE', 'a mea'));
+    const oldId = hook.result.current.questions.A_FINANCIAR[0].id;
+    act(() => hook.result.current.toggleQuestion(oldId));
+    let done!: Promise<void>;
+    act(() => {
+      done = hook.result.current.questionAttachments.add(oldId, [pdf('doc.pdf')]);
+    });
+    await act(async () => {
+      calls[0].reject(new Error('rețea'));
+      await done;
+    });
+    expect(hook.result.current.selectedCount).toBe(2);
+    expect(hook.result.current.canProceedToStep3).toBe(false);
+
+    act(() => hook.result.current.setQuestionsForCategory('A_FINANCIAR', ['nouă']));
+
+    expect(hook.result.current.selectedQuestionIds.has(oldId)).toBe(false);
+    expect(hook.result.current.selectedCount).toBe(1);
+    expect(hook.result.current.questionAttachments.pending[oldId]).toBeUndefined();
+    expect(hook.result.current.hasBusyAttachments).toBe(false);
+    expect(hook.result.current.canProceedToStep3).toBe(true);
   });
 });

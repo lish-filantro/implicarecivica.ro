@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { QuestionItem } from './QuestionItem';
 import { AddCustomQuestion } from './AddCustomQuestion';
 import type { CategoryMeta, QuestionItem as QuestionItemType } from '../wizard/types';
+import type { QuestionAttachmentsApi } from '../wizard/useQuestionAttachments';
 
 interface QuestionCategoryProps {
   category: CategoryMeta;
@@ -19,6 +20,7 @@ interface QuestionCategoryProps {
   onEdit: (id: string, text: string) => void;
   onAddCustom: (text: string) => void;
   onRemove: (id: string) => void;
+  attachmentsApi?: QuestionAttachmentsApi;
 }
 
 export function QuestionCategory({
@@ -33,6 +35,7 @@ export function QuestionCategory({
   onEdit,
   onAddCustom,
   onRemove,
+  attachmentsApi,
 }: QuestionCategoryProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -122,6 +125,7 @@ export function QuestionCategory({
                   onToggle={() => onToggle(q.id)}
                   onEdit={(text) => onEdit(q.id, text)}
                   onRemove={q.isCustom ? () => onRemove(q.id) : undefined}
+                  attachmentsApi={attachmentsApi}
                 />
               ))}
             </div>

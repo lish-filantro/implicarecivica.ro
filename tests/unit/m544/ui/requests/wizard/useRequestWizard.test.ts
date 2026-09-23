@@ -19,6 +19,8 @@ const EXPECTED_KEYS = [
   'editQuestion',
   'addCustomQuestion',
   'removeQuestion',
+  'questionAttachments',
+  'hasBusyAttachments',
   'selectedCount',
   'selectedCountByCategory',
   'getSelectedQuestions',

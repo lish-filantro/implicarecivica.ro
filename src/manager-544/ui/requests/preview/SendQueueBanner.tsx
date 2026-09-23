@@ -61,12 +61,36 @@ export function SendQueueBanner() {
 
       {s.status === 'done' && (
         <div className="flex items-start gap-2">
-          <CheckCircle2 className="h-5 w-5 text-grassroots-green-600 shrink-0 mt-0.5" />
+          {s.failures.length === 0 ? (
+            <CheckCircle2 className="h-5 w-5 text-grassroots-green-600 shrink-0 mt-0.5" />
+          ) : (
+            <AlertTriangle className="h-5 w-5 text-protest-red-600 shrink-0 mt-0.5" />
+          )}
           <div className="text-sm text-gray-800 dark:text-gray-200 mr-auto">
-            <p>
-              {s.sent === 1 ? 'Cererea a fost trimisă' : `Toate cele ${s.sent} cereri au fost trimise`} către{' '}
-              <strong>{s.institutionName}</strong>.
-            </p>
+            {s.failures.length === 0 ? (
+              <p>
+                {s.sent === 1 ? 'Cererea a fost trimisă' : `Toate cele ${s.sent} cereri au fost trimise`} către{' '}
+                <strong>{s.institutionName}</strong>.
+              </p>
+            ) : (
+              <>
+                <p>
+                  <strong>
+                    {s.sent} din {s.total}
+                  </strong>{' '}
+                  cereri au fost trimise către <strong>{s.institutionName}</strong>. Nu au plecat:
+                </p>
+                <ul className="list-disc pl-4 mt-1 space-y-0.5 text-xs text-gray-600 dark:text-gray-400">
+                  {s.failures.map((f, i) => (
+                    <li key={i}>
+                      <span className="font-medium">{f.question.slice(0, 60)}</span>
+                      {' — '}
+                      <span className="text-protest-red-700 dark:text-protest-red-300">{f.error}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
             <a href="/dashboard" className="text-civic-blue-600 dark:text-civic-blue-400 hover:underline">
               Vezi în dashboard
             </a>

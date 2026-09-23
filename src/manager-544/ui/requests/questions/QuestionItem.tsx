@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { Pencil, X, Check, RotateCcw } from 'lucide-react';
+import { QuestionAttachmentPicker } from '../attachments/AttachmentPicker';
 import type { QuestionItem as QuestionItemType } from '../wizard/types';
+import type { QuestionAttachmentsApi } from '../wizard/useQuestionAttachments';
 
 interface QuestionItemProps {
   question: QuestionItemType;
@@ -10,9 +12,18 @@ interface QuestionItemProps {
   onToggle: () => void;
   onEdit: (newText: string) => void;
   onRemove?: () => void;
+  /** Ataşamentele contează doar pentru ce pleacă efectiv: apar doar la întrebările bifate. */
+  attachmentsApi?: QuestionAttachmentsApi;
 }
 
-export function QuestionItem({ question, isSelected, onToggle, onEdit, onRemove }: QuestionItemProps) {
+export function QuestionItem({
+  question,
+  isSelected,
+  onToggle,
+  onEdit,
+  onRemove,
+  attachmentsApi,
+}: QuestionItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(question.text);
 
@@ -76,51 +87,59 @@ export function QuestionItem({ question, isSelected, onToggle, onEdit, onRemove 
   }
 
   return (
-    <div className="group flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-      {/* Checkbox - min 44px touch target */}
-      <div className="flex items-center justify-center min-w-[44px] min-h-[44px] -m-2">
-        <input
-          type="checkbox"
-          checked={isSelected}
-          onChange={onToggle}
-          className="h-5 w-5 text-civic-blue-600 focus:ring-civic-blue-500 border-gray-300 dark:border-gray-600 rounded cursor-pointer"
-        />
-      </div>
+    <div>
+      <div className="group flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+        {/* Checkbox - min 44px touch target */}
+        <div className="flex items-center justify-center min-w-[44px] min-h-[44px] -m-2">
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={onToggle}
+            className="h-5 w-5 text-civic-blue-600 focus:ring-civic-blue-500 border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+          />
+        </div>
 
-      {/* Question text */}
-      <p
-        className={`flex-1 text-sm leading-relaxed cursor-pointer select-none ${
-          isSelected
-            ? 'text-gray-900 dark:text-white'
-            : 'text-gray-500 dark:text-gray-400'
-        } ${question.isEdited ? 'italic' : ''}`}
-        onClick={onToggle}
-      >
-        {question.text}
-        {question.isEdited && (
-          <span className="ml-1 text-xs text-civic-blue-500">(editat)</span>
-        )}
-      </p>
-
-      {/* Actions */}
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button
-          onClick={handleStartEdit}
-          className="p-1.5 text-gray-400 hover:text-civic-blue-600 rounded transition-colors"
-          title="Editează"
+        {/* Question text */}
+        <p
+          className={`flex-1 text-sm leading-relaxed cursor-pointer select-none ${
+            isSelected
+              ? 'text-gray-900 dark:text-white'
+              : 'text-gray-500 dark:text-gray-400'
+          } ${question.isEdited ? 'italic' : ''}`}
+          onClick={onToggle}
         >
-          <Pencil className="h-3.5 w-3.5" />
-        </button>
-        {question.isCustom && onRemove && (
+          {question.text}
+          {question.isEdited && (
+            <span className="ml-1 text-xs text-civic-blue-500">(editat)</span>
+          )}
+        </p>
+
+        {/* Actions */}
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
-            onClick={onRemove}
-            className="p-1.5 text-gray-400 hover:text-protest-red-600 rounded transition-colors"
-            title="Șterge"
+            onClick={handleStartEdit}
+            className="p-1.5 text-gray-400 hover:text-civic-blue-600 rounded transition-colors"
+            title="Editează"
           >
-            <X className="h-3.5 w-3.5" />
+            <Pencil className="h-3.5 w-3.5" />
           </button>
-        )}
+          {question.isCustom && onRemove && (
+            <button
+              onClick={onRemove}
+              className="p-1.5 text-gray-400 hover:text-protest-red-600 rounded transition-colors"
+              title="Șterge"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
       </div>
+      {/* Ataşamentele contează doar pentru ce pleacă efectiv: doar la întrebarea bifată. */}
+      {isSelected && attachmentsApi && (
+        <div className="pl-[52px] pb-2">
+          <QuestionAttachmentPicker question={question} api={attachmentsApi} />
+        </div>
+      )}
     </div>
   );
 }
