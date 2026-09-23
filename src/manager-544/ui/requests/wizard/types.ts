@@ -4,6 +4,7 @@
  */
 
 import type { QuestionCategory } from '@m544/shared/types/questions';
+import type { OutgoingAttachment } from '@m544/requests/attachments';
 
 export type { QuestionCategory };
 
@@ -46,6 +47,8 @@ export interface QuestionItem {
   text: string;
   isCustom: boolean;
   isEdited: boolean;
+  /** Fişiere urcate deja în storage, care pleacă ataşate la emailul acestei întrebări. */
+  attachments?: OutgoingAttachment[];
 }
 
 export interface WizardFormData {

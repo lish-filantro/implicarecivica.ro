@@ -20,7 +20,7 @@ export interface Email {
   to_email: string;
   subject: string;
   body?: string | null;
-  attachments?: { name: string; size: number; type: string }[];
+  attachments?: { name: string; size: number; type: string; path?: string }[];
 
   // File storage
   pdf_file_path?: string | null;
