@@ -82,9 +82,12 @@ test.describe('ciclul de viață al unei cereri', () => {
     // that attaches the file to the wrong question's email would fail this
     const firstQuestionEmail = sent.find((e) => (e.body ?? '').includes(QUESTIONS[0]));
     const secondQuestionEmail = sent.find((e) => (e.body ?? '').includes(QUESTIONS[1]));
-    expect(firstQuestionEmail?.attachments?.[0]?.name).toBe('dovada.pdf');
-    expect(firstQuestionEmail?.attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
-    expect(secondQuestionEmail?.attachments ?? []).toHaveLength(0);
+    // an unmatched lookup must fail loudly, not pass vacuously through `?.`
+    expect(firstQuestionEmail, 'emailul primei întrebări').toBeDefined();
+    expect(secondQuestionEmail, 'emailul celei de-a doua întrebări').toBeDefined();
+    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(firstQuestionEmail!.attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
+    expect(secondQuestionEmail!.attachments ?? []).toHaveLength(0);
     await expect(page.getByText(INSTITUTION_NAME).first()).toBeVisible();
   });
 
@@ -97,9 +100,12 @@ test.describe('ciclul de viață al unei cereri', () => {
     // attaches the file to the wrong question's email must fail this
     const firstQuestionEmail = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[0]));
     const secondQuestionEmail = inbox.find((e) => (e.body ?? '').includes(QUESTIONS[1]));
-    expect(firstQuestionEmail?.attachments).toHaveLength(1);
-    expect(firstQuestionEmail?.attachments?.[0]?.name).toBe('dovada.pdf');
-    expect(secondQuestionEmail?.attachments ?? []).toHaveLength(0);
+    // an unmatched lookup must fail loudly, not pass vacuously through `?.`
+    expect(firstQuestionEmail, 'emailul primei întrebări').toBeDefined();
+    expect(secondQuestionEmail, 'emailul celei de-a doua întrebări').toBeDefined();
+    expect(firstQuestionEmail!.attachments).toHaveLength(1);
+    expect(firstQuestionEmail!.attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(secondQuestionEmail!.attachments ?? []).toHaveLength(0);
   });
 
   test('confirmarea de înregistrare ambiguă ajunge în „De revizuit” și e asociată din UI', async ({ page }) => {
