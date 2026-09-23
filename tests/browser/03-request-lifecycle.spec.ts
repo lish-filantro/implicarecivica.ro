@@ -61,6 +61,11 @@ test.describe('ciclul de viață al unei cereri', () => {
       await page.getByRole('button', { name: 'Adaugă', exact: true }).click();
       await expect(page.getByRole('textbox', { name: `Întrebarea ${i + 1}` })).toHaveValue(q);
     }
+    // one attachment, on the first question, travels the whole real path (Resend → Cloudflare → institution)
+    const pdf = Buffer.from('%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n');
+    await page.locator('input[type="file"]').first().setInputFiles({ name: 'dovada.pdf', mimeType: 'application/pdf', buffer: pdf });
+    await expect(page.getByText('dovada.pdf')).toBeVisible();
+
     await expect(page.getByText(/2\s+cereri selectate/)).toBeVisible();
     await page.getByRole('button', { name: /Previzualizare/ }).click();
 
@@ -73,6 +78,11 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(requests.every((r) => r.status === 'pending' && r.institution_email === INSTITUTION.platformEmail)).toBe(true);
     const sent = await listEmails(CITIZEN.id, 'sent', startedAt);
     expect(sent).toHaveLength(2);
+    // sends go out one by one in question order, so sent[0] is the first question's email —
+    // the only one carrying the attachment, and it must have actually been uploaded
+    expect(sent[0].attachments?.[0]?.name).toBe('dovada.pdf');
+    expect(sent[0].attachments?.[0]?.path).toMatch(new RegExp(`^${CITIZEN.id}/outgoing/`));
+    expect(sent[1].attachments ?? []).toHaveLength(0);
     await expect(page.getByText(INSTITUTION_NAME).first()).toBeVisible();
   });
 
@@ -81,6 +91,9 @@ test.describe('ciclul de viață al unei cereri', () => {
     expect(inbox.map((e) => e.to_email)).toEqual([INSTITUTION.platformEmail, INSTITUTION.platformEmail]);
     expect(inbox[0].from_email).toBe(CITIZEN.platformEmail);
     expect(inbox[0].body ?? '').toContain('544');
+    // Exact unul dintre cele două emailuri poartă ataşamentul — cel al primei întrebări.
+    const withAttachment = inbox.filter((e) => (e.attachments ?? []).some((a) => a.name.endsWith('.pdf')));
+    expect(withAttachment).toHaveLength(1);
   });
 
   test('confirmarea de înregistrare ambiguă ajunge în „De revizuit” și e asociată din UI', async ({ page }) => {

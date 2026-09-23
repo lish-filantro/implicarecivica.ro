@@ -49,9 +49,19 @@ export async function cleanupAccountData(account: TestAccount): Promise<void> {
   const { data: files } = await sb.storage.from('email-attachments').list(account.id, { limit: 100 });
   const folders = (files ?? []).map((f) => f.name);
   for (const folder of folders) {
-    const { data: inner } = await sb.storage.from('email-attachments').list(`${account.id}/${folder}`, { limit: 100 });
-    const paths = (inner ?? []).map((f) => `${account.id}/${folder}/${f.name}`);
-    if (paths.length) await sb.storage.from('email-attachments').remove(paths);
+    const prefix = `${account.id}/${folder}`;
+    const { data: inner } = await sb.storage.from('email-attachments').list(prefix, { limit: 100 });
+    const innerEntries = inner ?? [];
+    // `outgoing` has no files of its own, only per-request subfolders (`<uid>/outgoing/<id>/<file>`) —
+    // an entry with no `id` from the storage API is itself a folder, not a leaf file.
+    const subfolders = folder === 'outgoing' ? innerEntries.filter((f) => f.id === null).map((f) => f.name) : [];
+    const leafPaths = (folder === 'outgoing' ? innerEntries.filter((f) => f.id !== null) : innerEntries).map((f) => `${prefix}/${f.name}`);
+    if (leafPaths.length) await sb.storage.from('email-attachments').remove(leafPaths);
+    for (const sub of subfolders) {
+      const { data: deeper } = await sb.storage.from('email-attachments').list(`${prefix}/${sub}`, { limit: 100 });
+      const paths = (deeper ?? []).map((f) => `${prefix}/${sub}/${f.name}`);
+      if (paths.length) await sb.storage.from('email-attachments').remove(paths);
+    }
   }
 }
 
@@ -89,12 +99,15 @@ export interface EmailRow {
   needs_review: boolean | null;
   request_id: string | null;
   created_at: string;
+  attachments: Array<{ name: string; size: number; type: string; path: string }> | null;
 }
 
 export async function listEmails(userId: string, type: 'sent' | 'received', since: string): Promise<EmailRow[]> {
   const { data, error } = await db()
     .from('emails')
-    .select('id, user_id, type, message_id, from_email, to_email, subject, body, category, registration_number, processing_status, needs_review, request_id, created_at')
+    .select(
+      'id, user_id, type, message_id, from_email, to_email, subject, body, category, registration_number, processing_status, needs_review, request_id, created_at, attachments',
+    )
     .eq('user_id', userId)
     .eq('type', type)
     .gte('created_at', since)
