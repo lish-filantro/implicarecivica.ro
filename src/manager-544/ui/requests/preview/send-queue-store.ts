@@ -30,6 +30,8 @@ export interface SendQueueState {
   /** The session the requests belong to (existing or just created), once known. */
   sessionId: string | null;
   finishedAt: number | null;
+  /** Questions whose email failed to send, with the reason (Task 6). */
+  failures: Array<{ question: string; error: string }>;
 }
 
 export interface SendQueueDeps {
@@ -58,6 +60,7 @@ const IDLE: SendQueueState = {
   institutionEmail: '',
   sessionId: null,
   finishedAt: null,
+  failures: [],
 };
 
 let state: SendQueueState = IDLE;
@@ -141,6 +144,15 @@ function postJson(fetchFn: typeof fetch, url: string, body: unknown): Promise<Re
   return fetchFn(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 }
 
+async function readError(response: Response): Promise<string> {
+  try {
+    const data: { error?: string } = await response.json();
+    return data.error || `Eroare ${response.status}`;
+  } catch {
+    return `Eroare ${response.status}`;
+  }
+}
+
 /**
  * Creates the requests (new session or add to an existing one), links a new
  * session to the conversation's hand-off, then sends the emails sequentially.
@@ -187,14 +199,19 @@ export async function startSend(input: SendQueueInput, deps: SendQueueDeps = {})
     }
 
     let sentCount = 0;
+    const failures: SendQueueState['failures'] = [];
     for (let i = 0; i < requests.length; i++) {
       const emailResponse = await postJson(
         fetchFn,
         '/api/emails/send',
-        buildEmailRequest(selectedQuestions[i].text, formData, requests[i].id),
+        buildEmailRequest(selectedQuestions[i], formData, requests[i].id),
       );
       if (!emailResponse.ok) {
-        console.error(`Failed to send email ${i + 1}:`, await emailResponse.text());
+        // Nu doar în consolă: omul trebuie să afle ce cerere n-a plecat şi de ce.
+        const error = await readError(emailResponse);
+        console.error(`Failed to send email ${i + 1}:`, error);
+        failures.push({ question: selectedQuestions[i].text, error });
+        setState({ failures: [...failures] });
       } else {
         sentCount++;
       }

@@ -92,4 +92,32 @@ describe('SendQueueBanner', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Închide' }));
     expect(screen.queryByRole('status')).toBeNull();
   });
+
+  it('spune ce n-a plecat şi de ce', async () => {
+    const form: WizardFormData = {
+      solicitantName: 'Ion Popescu', solicitantEmail: 'ion@mail.ro', solicitantAddress: 'Str. Victoriei 10',
+      saveAddress: false, institutionName: 'Primăria Pitești', institutionEmail: 'registratura@primaria.ro', sessionName: 'T',
+    };
+    const questions: QuestionItem[] = ['Unu?', 'Doi?', 'Trei?'].map((text, i) => ({
+      id: `q${i}`, category: 'A_FINANCIAR', text, isCustom: true, isEdited: false,
+    }));
+    let emailCall = 0;
+    const fetchFn = vi.fn(async (url: string) =>
+      url === '/api/emails/send'
+        ? ++emailCall === 2
+          ? json(400, { error: 'Fișierul „doc.pdf” nu mai e disponibil. Atașează-l din nou.' })
+          : json(200, { success: true })
+        : json(200, { session: { id: 'S9' }, requests: [{ id: 'r1' }, { id: 'r2' }, { id: 'r3' }] }),
+    ) as unknown as typeof fetch;
+
+    render(<SendQueueBanner />);
+    await act(async () => {
+      await startSend(
+        { selectedQuestions: questions, formData: form, conversationId: null },
+        { fetch: fetchFn, sleep: async () => {} },
+      );
+    });
+    expect(screen.getByText(/2 din 3/)).toBeTruthy();
+    expect(screen.getByText(/nu mai e disponibil/)).toBeTruthy();
+  });
 });

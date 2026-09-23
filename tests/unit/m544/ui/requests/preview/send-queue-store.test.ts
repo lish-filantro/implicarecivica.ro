@@ -120,6 +120,26 @@ describe('send-queue-store', () => {
     expect(getSendQueueState().status).toBe('idle');
   });
 
+  it('trimite restul întrebărilor când una eşuează şi reţine motivul (Review Focus 3)', async () => {
+    const three: SendQueueInput = {
+      ...INPUT,
+      selectedQuestions: [...Q, { id: 'c', category: 'A_FINANCIAR', text: 'Câte contracte?', isCustom: true, isEdited: false }],
+    };
+    let emailCall = 0;
+    const { fetchFn } = fakeFetch({
+      '/api/sessions/create': () => json(200, { session: { id: 'S9' }, requests: [{ id: 'r1' }, { id: 'r2' }, { id: 'r3' }] }),
+      '/api/emails/send': () =>
+        ++emailCall === 2
+          ? json(400, { error: 'Fișierul „doc.pdf” nu mai e disponibil. Atașează-l din nou.' })
+          : json(200, { success: true }),
+    });
+    await startSend(three, { fetch: fetchFn, sleep: async () => {}, markHandoffSession: async () => {} });
+    const s = getSendQueueState();
+    expect(s.status).toBe('done');
+    expect(s.sent).toBe(2);
+    expect(s.failures).toEqual([{ question: 'Cine răspunde?', error: expect.stringContaining('doc.pdf') }]);
+  });
+
   it('useSendQueueState re-renders subscribers', async () => {
     const { result } = renderHook(() => useSendQueueState());
     expect(result.current.status).toBe('idle');

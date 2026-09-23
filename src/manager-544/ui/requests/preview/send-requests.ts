@@ -34,11 +34,12 @@ export function buildSessionRequest(input: SendQueueInput): { url: string; body:
 }
 
 /** Step 2 of the send: the body of one /api/emails/send call. */
-export function buildEmailRequest(question: string, formData: WizardFormData, requestId: string) {
+export function buildEmailRequest(question: QuestionItem, formData: WizardFormData, requestId: string) {
   return {
     to: formData.institutionEmail,
     subject: FIXED_SUBJECT,
-    body: formatEmailBodyHtml(question, formData),
+    body: formatEmailBodyHtml(question.text, formData),
     request_id: requestId,
+    ...(question.attachments?.length ? { attachments: question.attachments } : {}),
   };
 }
