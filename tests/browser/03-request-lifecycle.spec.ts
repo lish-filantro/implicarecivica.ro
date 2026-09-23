@@ -44,7 +44,7 @@ test.describe('ciclul de viață al unei cereri', () => {
     await page.getByRole('link', { name: /Știu instituția și întrebările/ }).click();
     await expect(page).toHaveURL(/\/requests\/new/);
 
-    await expect(page.getByText('Date cerere')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Date cerere' })).toBeVisible();
     await page.getByPlaceholder('Ion Popescu').fill(CITIZEN.displayName);
     await page.getByPlaceholder(/Str\. Victoriei/).fill('Strada Lalelelor nr. 5, Pitești, Argeș');
     await page.getByPlaceholder('ex: Transparența cheltuielilor publice').fill('Test browser: reparații stradale');
